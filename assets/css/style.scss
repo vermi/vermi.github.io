@@ -1,0 +1,48 @@
+---
+---
+
+@import "{{ site.theme }}";
+
+/* Site navigation */
+.site-navigation {
+  margin: 10px 0;
+  text-align: center;
+  font-size: 16px;
+}
+
+.site-navigation a {
+  color: #f0e7d5;
+  text-decoration: none;
+  padding: 0 10px;
+  transition: color 0.3s ease;
+}
+
+.site-navigation a:hover {
+  color: #e8d985;
+  text-decoration: underline;
+}
+
+/* Footer styling */
+footer {
+  margin-top: 40px;
+  clear: both;
+}
+
+footer .credits {
+  display: block;
+  line-height: 1.5;
+  font-size: 14px;
+  color: #aaa;
+  margin-bottom: 10px;
+}
+
+footer .credits.left {
+  float: none;
+  text-align: center;
+}
+
+footer .credits.right {
+  float: none;
+  text-align: center;
+  margin-top: 5px;
+}
