@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Digital Detective</title>
+    <title>The Teapot Trail</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
@@ -31,6 +31,17 @@
             background-color: #1f2937; /* bg-gray-800 */
             border-left: 4px solid #3b82f6; /* border-blue-500 */
         }
+        .flag-box {
+            background-color: #1f2937;
+            border-left: 4px solid #22c55e; /* border-green-500 */
+        }
+        .scroll-area {
+            max-height: 78vh;
+            overflow-y: auto;
+        }
+        .scroll-area::-webkit-scrollbar { width: 8px; }
+        .scroll-area::-webkit-scrollbar-track { background: #1f2937; }
+        .scroll-area::-webkit-scrollbar-thumb { background-color: #4b5563; border-radius: 10px; }
     </style>
 </head>
 <body class="bg-gray-900 text-white flex flex-col h-screen">
@@ -38,156 +49,358 @@
     <!-- Slide Container -->
     <main id="slide-container" class="flex-grow flex items-center justify-center p-4 sm:p-8">
 
-        <!-- SLIDE 1: Title -->
-        <div class="slide active w-full max-w-4xl h-full flex-col items-center justify-center text-center" data-slide="1">
-            <div class="slide-content">
-                <h1 class="text-5xl md:text-7xl font-bold text-blue-400">The Digital Detective</h1>
-                <p class="mt-4 text-2xl md:text-3xl text-gray-300">An Introduction to OSINT</p>
-                <p class="mt-8 text-lg text-gray-400">Cybersecurity Mini-Lab</p>
+        <!-- Slide 1: Title -->
+        <section class="slide active items-center justify-center text-center">
+            <div class="slide-content max-w-3xl">
+                <div class="text-7xl mb-6">🫖</div>
+                <h1 class="text-4xl sm:text-6xl font-bold mb-4">The Teapot Trail</h1>
+                <p class="text-xl sm:text-2xl text-blue-400 mb-6">An Introduction to OSINT</p>
+                <p class="text-gray-400">Cybersecurity Mini-Lab &middot; CYBS 0189</p>
             </div>
-        </div>
+        </section>
 
-        <!-- SLIDE 2: What is OSINT? -->
-        <div class="slide w-full max-w-4xl h-full flex-col items-center justify-center text-center" data-slide="2">
-            <div class="slide-content">
-                <h2 class="text-4xl md:text-5xl font-bold mb-6">What is OSINT?</h2>
-                <p class="text-xl md:text-2xl text-gray-300 mb-4">OSINT stands for <span class="text-blue-400 font-semibold">Open-Source Intelligence</span>.</p>
-                <p class="text-lg text-gray-400 max-w-2xl mx-auto">It's the practice of collecting and analyzing information from <span class="font-semibold">publicly available sources</span> to create actionable intelligence. It's not hacking; it's advanced searching and analysis.</p>
-                <div class="mt-8 text-6xl">🕵️‍♂️</div>
-            </div>
-        </div>
-
-        <!-- SLIDE 3: Why Does OSINT Matter? -->
-        <div class="slide w-full max-w-4xl h-full flex-col items-center justify-center text-center" data-slide="3">
-            <div class="slide-content">
-                <h2 class="text-4xl md:text-5xl font-bold mb-8">Why Does It Matter?</h2>
-                <div class="flex flex-col md:flex-row gap-8 text-left">
-                    <div class="bg-gray-800 p-6 rounded-lg flex-1">
-                        <h3 class="text-2xl font-bold text-green-400 mb-3">The "Good Guys"</h3>
-                        <p class="text-gray-300">Cybersecurity defenders use OSINT to find their own company's weaknesses before attackers do. Journalists use it for investigations. Researchers use it to gather data.</p>
-                    </div>
-                    <div class="bg-gray-800 p-6 rounded-lg flex-1">
-                        <h3 class="text-2xl font-bold text-red-400 mb-3">The "Bad Guys"</h3>
-                        <p class="text-gray-300">Attackers use OSINT for reconnaissance—the first step in any attack. They look for employee names, software versions, and other clues to plan their approach.</p>
-                    </div>
+        <!-- Slide 2: What is OSINT? -->
+        <section class="slide items-center justify-center">
+            <div class="slide-content max-w-3xl">
+                <h2 class="text-3xl sm:text-4xl font-bold mb-6">What is OSINT?</h2>
+                <p class="text-lg text-gray-300 mb-4">
+                    OSINT stands for <strong class="text-white">Open-Source Intelligence</strong>.
+                </p>
+                <p class="text-lg text-gray-300 mb-6">
+                    It is the practice of collecting and analyzing information from publicly
+                    available sources to produce actionable intelligence. It is not hacking.
+                    Every source you touch today is a public record that anyone may read.
+                </p>
+                <div class="clue-box p-4 rounded-r-lg">
+                    <p class="text-gray-300">
+                        <strong class="text-blue-400">The key idea:</strong> nobody has to break
+                        anything for information to leak. Most of it was published on purpose,
+                        by someone who did not think about how it would look years later.
+                    </p>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <!-- SLIDE 4: The OSINT Mindset -->
-        <div class="slide w-full max-w-4xl h-full flex-col items-center justify-center text-center" data-slide="4">
-            <div class="slide-content">
-                <h2 class="text-4xl md:text-5xl font-bold mb-6">The OSINT Mindset</h2>
-                <p class="text-xl md:text-2xl text-gray-300 mb-8">It's more than just searching. It's about...</p>
-                <ul class="text-lg text-gray-400 space-y-4 max-w-lg mx-auto text-left">
-                    <li><span class="text-blue-400 mr-2">✓</span> Asking the right questions.</li>
-                    <li><span class="text-blue-400 mr-2">✓</span> Being curious and persistent.</li>
-                    <li><span class="text-blue-400 mr-2">✓</span> Connecting seemingly unrelated dots.</li>
-                    <li><span class="text-blue-400 mr-2">✓</span> Following a trail of digital breadcrumbs.</li>
+        <!-- Slide 3: Why it matters -->
+        <section class="slide items-center justify-center">
+            <div class="slide-content max-w-4xl">
+                <h2 class="text-3xl sm:text-4xl font-bold mb-8 text-center">Why Does It Matter?</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-gray-800 rounded-lg p-6">
+                        <h3 class="text-xl font-bold text-blue-400 mb-3">Defenders</h3>
+                        <p class="text-gray-300">
+                            Security teams run OSINT against their own organization to find what
+                            they are leaking &mdash; forgotten servers, exposed documents, stale
+                            contact info &mdash; before an attacker finds it first.
+                        </p>
+                    </div>
+                    <div class="bg-gray-800 rounded-lg p-6">
+                        <h3 class="text-xl font-bold text-red-400 mb-3">Attackers</h3>
+                        <p class="text-gray-300">
+                            Reconnaissance is step one of any attack. Names, email formats,
+                            software versions, and old infrastructure all help an attacker plan
+                            before they ever send a single packet.
+                        </p>
+                    </div>
+                </div>
+                <p class="text-center text-gray-400 mt-6">
+                    Same sources. Same techniques. The difference is authorization and intent.
+                </p>
+            </div>
+        </section>
+
+        <!-- Slide 4: The Challenge -->
+        <section class="slide items-center justify-center">
+            <div class="slide-content max-w-3xl text-center">
+                <h2 class="text-3xl sm:text-4xl font-bold mb-6">The Challenge</h2>
+                <p class="text-lg text-gray-300 mb-6">
+                    You will follow a trail through three stages. Each stage hands you the clue
+                    you need for the next one, so they must be solved in order.
+                </p>
+                <div class="clue-box p-5 rounded-r-lg text-left mb-6">
+                    <p class="text-gray-300 mb-2"><strong class="text-blue-400">It starts with a question:</strong></p>
+                    <p class="text-gray-300">
+                        A web server replies to your request with the status code
+                        <code class="bg-gray-900 px-2 py-1 rounded text-yellow-300">418 I'm a teapot</code>.
+                    </p>
+                    <p class="text-gray-300 mt-3">Is that a real internet standard, or is someone messing with you?</p>
+                </div>
+                <p class="text-gray-400">Work on your own. Everything you need is in a browser. Roughly 5 minutes per stage.</p>
+            </div>
+        </section>
+
+        <!-- Slide 5: Stage 1 -->
+        <section class="slide items-center justify-center">
+            <div class="slide-content max-w-3xl">
+                <p class="text-blue-400 font-bold mb-2">STAGE 1 &middot; FROZEN RECORDS</p>
+                <h2 class="text-3xl sm:text-4xl font-bold mb-6">Who Decides What 418 Means?</h2>
+                <p class="text-lg text-gray-300 mb-4">
+                    HTTP status codes are not invented by whoever feels like it. One organization
+                    keeps the official list, and that list is public.
+                </p>
+                <p class="text-lg text-gray-300 mb-4">
+                    Go to the official registry and find the row for status code <strong>418</strong>.
+                </p>
+                <p class="text-gray-400 mb-4">
+                    Start here:
+                    <a class="text-blue-400 underline break-all" href="https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml" target="_blank" rel="noopener">iana.org/assignments/http-status-codes/http-status-codes.xhtml</a>
+                </p>
+
+                <button id="clue1Btn" onclick="revealClue('clue1', 'clue1Btn')" class="bg-gray-700 hover:bg-gray-600 text-gray-200 text-sm py-2 px-4 rounded-lg transition-colors mb-3">Click to reveal clue...</button>
+                <div id="clue1" class="clue-box p-4 rounded-r-lg hidden mb-4">
+                    <p class="text-gray-300">
+                        <strong class="text-blue-400">Clue:</strong> Use your browser's find function
+                        (Ctrl+F or Cmd+F) and search the page for <code class="bg-gray-900 px-1 rounded">418</code>.
+                        Read the Description column, then look at the Reference column next to it.
+                    </p>
+                </div>
+
+                <div class="bg-gray-800 border border-gray-700 p-4 rounded-lg">
+                    <p class="text-gray-300"><strong class="text-yellow-300">Your Flag:</strong> What does the official registry list as the description for status code 418?</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 6: Stage 2 -->
+        <section class="slide items-center justify-center">
+            <div class="slide-content max-w-3xl">
+                <p class="text-blue-400 font-bold mb-2">STAGE 2 &middot; THE ARCHIVE</p>
+                <h2 class="text-3xl sm:text-4xl font-bold mb-6">Follow the Author</h2>
+                <p class="text-lg text-gray-300 mb-4">
+                    The registry pointed you at RFC 9110, which explains that 418 was a joke from
+                    an earlier document: <strong>RFC 2324</strong>, published on 1 April 1998.
+                </p>
+                <p class="text-lg text-gray-300 mb-4">
+                    Open RFC 2324 and scroll to the very end, to the section titled
+                    <strong>"Author's Address"</strong>. It lists the author's email address.
+                    Try visiting that email's domain in your browser.
+                </p>
+                <p class="text-gray-400 mb-4">
+                    Start here:
+                    <a class="text-blue-400 underline break-all" href="https://www.rfc-editor.org/rfc/rfc2324.txt" target="_blank" rel="noopener">rfc-editor.org/rfc/rfc2324.txt</a>
+                </p>
+
+                <button id="clue2Btn" onclick="revealClue('clue2', 'clue2Btn')" class="bg-gray-700 hover:bg-gray-600 text-gray-200 text-sm py-2 px-4 rounded-lg transition-colors mb-3">Click to reveal clue...</button>
+                <div id="clue2" class="clue-box p-4 rounded-r-lg hidden mb-4">
+                    <p class="text-gray-300 mb-2">
+                        <strong class="text-blue-400">Clue:</strong> That domain is dead. It does not
+                        load, because the company behind it no longer exists under that name. A dead
+                        site is not a gone site &mdash; use the Wayback Machine to read it anyway.
+                    </p>
+                    <p class="text-gray-300">
+                        Use this exact snapshot from 2004:
+                        <a class="text-blue-400 underline break-all" href="http://web.archive.org/web/20041231090129/http://www.parc.xerox.com/" target="_blank" rel="noopener">web.archive.org/web/20041231090129/http://www.parc.xerox.com/</a>
+                    </p>
+                </div>
+
+                <div class="bg-gray-800 border border-gray-700 p-4 rounded-lg">
+                    <p class="text-gray-300"><strong class="text-yellow-300">Your Flag:</strong> What was the full name of the research organization that owned that dead domain?</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 7: Stage 3 -->
+        <section class="slide items-center justify-center">
+            <div class="slide-content max-w-3xl">
+                <p class="text-blue-400 font-bold mb-2">STAGE 3 &middot; HIDDEN IN THE FILE</p>
+                <h2 class="text-3xl sm:text-4xl font-bold mb-6">What the Document Admits</h2>
+                <p class="text-lg text-gray-300 mb-4">
+                    That same author still publishes his talks online. One of them is a
+                    presentation on the history of HTTP, saved as a PDF.
+                </p>
+                <p class="text-lg text-gray-300 mb-4">
+                    A file contains more than what you can see on the page. Inspect this
+                    document's <strong>metadata</strong> and read what software produced it.
+                </p>
+                <p class="text-gray-400 mb-4">
+                    The document:
+                    <a class="text-blue-400 underline break-all" href="https://larrymasinter.net/071203-HTTPbis.pdf" target="_blank" rel="noopener">larrymasinter.net/071203-HTTPbis.pdf</a>
+                </p>
+
+                <button id="clue3Btn" onclick="revealClue('clue3', 'clue3Btn')" class="bg-gray-700 hover:bg-gray-600 text-gray-200 text-sm py-2 px-4 rounded-lg transition-colors mb-3">Click to reveal clue...</button>
+                <div id="clue3" class="clue-box p-4 rounded-r-lg hidden mb-4">
+                    <p class="text-gray-300 mb-2">
+                        <strong class="text-blue-400">Clue:</strong> Paste the PDF's link into the
+                        <em>"Or enter a URL"</em> box at
+                        <a class="text-blue-400 underline break-all" href="https://extractmetadata.com/" target="_blank" rel="noopener">extractmetadata.com</a>,
+                        then look for the field named <strong>Producer</strong>.
+                    </p>
+                    <p class="text-gray-300">
+                        No-tool alternative: open the PDF in <strong>Firefox</strong>, click the
+                        <strong>&raquo;</strong> button on the toolbar, and choose
+                        <strong>Document Properties</strong>. Chrome cannot show you this.
+                    </p>
+                </div>
+
+                <div class="bg-gray-800 border border-gray-700 p-4 rounded-lg">
+                    <p class="text-gray-300"><strong class="text-yellow-300">Your Flag:</strong> What software and version is listed as the PDF's Producer?</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Slide 8: Debrief 1 -->
+        <section class="slide items-center justify-center">
+            <div class="slide-content max-w-3xl">
+                <p class="text-gray-400 font-bold mb-2">DEBRIEF &middot; STAGE 1</p>
+                <h2 class="text-3xl font-bold mb-6">A Joke That Became Permanent</h2>
+                <div class="flag-box p-5 rounded-r-lg mb-6">
+                    <p class="text-sm text-gray-400 mb-1">Flag 1</p>
+                    <p class="text-2xl font-bold text-green-400">(Unused)</p>
+                </div>
+                <p class="text-gray-300 mb-4">
+                    The official IANA registry lists 418 as <strong>(Unused)</strong> and points to
+                    RFC 9110, which explains why:
+                </p>
+                <div class="bg-gray-800 p-4 rounded-lg border border-gray-700 mb-4">
+                    <p class="text-gray-300 italic">
+                        "[RFC2324] was an April 1 RFC that lampooned the various ways HTTP was
+                        abused; one such abuse was the definition of an application-specific 418
+                        status code, which has been deployed as a joke often enough for the code to
+                        be unusable for any future use."
+                    </p>
+                </div>
+                <p class="text-gray-300">
+                    <strong class="text-blue-400">The lesson:</strong> a registry is a primary
+                    source. Instead of trusting what people say online, you went to the
+                    organization that actually decides &mdash; and got a better answer than the memes.
+                </p>
+            </div>
+        </section>
+
+        <!-- Slide 9: Debrief 2 -->
+        <section class="slide items-center justify-center">
+            <div class="slide-content max-w-3xl">
+                <p class="text-gray-400 font-bold mb-2">DEBRIEF &middot; STAGE 2</p>
+                <h2 class="text-3xl font-bold mb-6">Dead Domain, Living Memory</h2>
+                <div class="flag-box p-5 rounded-r-lg mb-6">
+                    <p class="text-sm text-gray-400 mb-1">Flag 2</p>
+                    <p class="text-2xl font-bold text-green-400">Palo Alto Research Center</p>
+                </div>
+                <p class="text-gray-300 mb-4">
+                    RFC 2324 lists the author as Larry Masinter at
+                    <code class="bg-gray-900 px-2 py-1 rounded text-yellow-300">masinter@parc.xerox.com</code>.
+                    Xerox PARC invented the laser printer, the graphical desktop, and Ethernet.
+                    That domain has been dead for years &mdash; and the site is still perfectly readable.
+                </p>
+                <p class="text-gray-300">
+                    <strong class="text-blue-400">The lesson:</strong> taking something offline does
+                    not remove it. Anything a company published, an employee posted, or a student
+                    put on a profile may still be sitting in an archive that nobody can edit.
+                    Assume the internet keeps a copy.
+                </p>
+            </div>
+        </section>
+
+        <!-- Slide 10: Debrief 3 -->
+        <section class="slide items-center justify-center">
+            <div class="slide-content max-w-3xl scroll-area">
+                <p class="text-gray-400 font-bold mb-2">DEBRIEF &middot; STAGE 3</p>
+                <h2 class="text-3xl font-bold mb-6">Files Talk Too Much</h2>
+                <div class="flag-box p-5 rounded-r-lg mb-6">
+                    <p class="text-sm text-gray-400 mb-1">Flag 3</p>
+                    <p class="text-2xl font-bold text-green-400">Acrobat Distiller 8.1.0 (Windows)</p>
+                </div>
+                <p class="text-gray-300 mb-4">Nothing on the visible page said any of this:</p>
+                <div class="bg-gray-800 p-4 rounded-lg border border-gray-700 mb-4 font-mono text-sm">
+                    <p class="text-gray-400">Title:&nbsp;&nbsp;&nbsp; <span class="text-gray-200">HTTP: how we got here and where we should go</span></p>
+                    <p class="text-gray-400">Author:&nbsp;&nbsp; <span class="text-gray-200">Larry Masinter</span></p>
+                    <p class="text-gray-400">Creator:&nbsp; <span class="text-gray-200">Acrobat PDFMaker 8.1 for PowerPoint</span></p>
+                    <p class="text-gray-400">Producer: <span class="text-gray-200">Acrobat Distiller 8.1.0 (Windows)</span></p>
+                    <p class="text-gray-400">Created:&nbsp; <span class="text-gray-200">2007-12-03</span></p>
+                </div>
+                <p class="text-gray-300 mb-4">Read that like an attacker. In four lines the file gave up:</p>
+                <ul class="text-gray-300 space-y-2 mb-4">
+                    <li><span class="text-blue-400 mr-2">&#9658;</span>Who wrote it, by name.</li>
+                    <li><span class="text-blue-400 mr-2">&#9658;</span>That the "PDF" was really a PowerPoint deck.</li>
+                    <li><span class="text-blue-400 mr-2">&#9658;</span>The operating system it was built on: Windows.</li>
+                    <li><span class="text-blue-400 mr-2">&#9658;</span>An exact software version &mdash; and old versions have published vulnerabilities anyone can look up.</li>
                 </ul>
+                <p class="text-gray-300">
+                    <strong class="text-blue-400">The lesson:</strong> this is called version
+                    disclosure, and it is a real finding on real penetration tests. Every document
+                    an organization posts is a small confession about the software it runs.
+                </p>
             </div>
-        </div>
+        </section>
 
-        <!-- SLIDE 5: The Challenge -->
-        <div class="slide w-full max-w-4xl h-full flex-col items-center justify-center text-center" data-slide="5">
-            <div class="slide-content">
-                <h2 class="text-4xl md:text-5xl font-bold mb-6">The Challenge</h2>
-                <p class="text-xl text-gray-300 max-w-2xl mx-auto mb-6">You will work in teams to solve a 3-stage OSINT challenge. The answer from each stage is required to solve the next.</p>
-                <p class="text-lg text-gray-400 font-semibold">Work together to find all three flags!</p>
-                <p class="mt-8 text-lg text-gray-300">Are you ready?</p>
-            </div>
-        </div>
-
-        <!-- SLIDE 6: Stage 1 Clue -->
-        <div class="slide w-full max-w-4xl h-full flex-col items-center justify-center" data-slide="6">
-            <div class="slide-content w-full">
-                <h2 class="text-4xl font-bold text-center mb-6">Stage 1: Identify the Target</h2>
-                <div class="clue-box p-6 rounded-lg text-left w-full">
-                    <p class="text-lg text-gray-300 mb-4">Analysts often begin by identifying what's most popular. Your first task is to find a specific webpage that ranks software development tools (IDEs) based on how often their download pages are searched.</p>
-                    <hr class="my-4 border-gray-600">
-                    <p class="text-xl font-bold text-white">Your Flag: According to this index, what is the #2 most popular IDE?</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- SLIDE 7: Stage 2 Clue -->
-        <div class="slide w-full max-w-4xl h-full flex-col items-center justify-center" data-slide="7">
-            <div class="slide-content w-full">
-                <h2 class="text-4xl font-bold text-center mb-6">Stage 2: Find the Person</h2>
-                <div class="clue-box p-6 rounded-lg text-left w-full">
-                    <p class="text-lg text-gray-300 mb-4">Now that you have identified the target IDE, your next task is to locate its open source project and find the person managing its monthly development sprints.</p>
-                    <div id="clue-reveal-2" class="cursor-pointer text-gray-400 hover:text-white mt-2 font-light italic" onclick="revealClue('clue-2', 'clue-reveal-2')">
-                        Click to reveal clue...
+        <!-- Slide 11: What you just did -->
+        <section class="slide items-center justify-center">
+            <div class="slide-content max-w-4xl">
+                <h2 class="text-3xl sm:text-4xl font-bold mb-8 text-center">What You Just Did</h2>
+                <div class="grid md:grid-cols-3 gap-5 mb-8">
+                    <div class="bg-gray-800 rounded-lg p-5">
+                        <p class="text-blue-400 font-bold mb-2">Stage 1</p>
+                        <p class="text-white font-semibold mb-2">Primary sources</p>
+                        <p class="text-gray-400 text-sm">Went to the authority that decides, instead of trusting secondhand claims.</p>
                     </div>
-                    <p id="clue-2" class="font-semibold text-blue-300 hidden mt-2">Clue: The author of the "Iteration Plan" is the likely suspect.</p>
-                    <hr class="my-4 border-gray-600">
-                    <p class="text-xl font-bold text-white">Your Flag: What is the full name (not username) of the current sprint planner?</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- SLIDE 8: Stage 3 Clue -->
-        <div class="slide w-full max-w-4xl h-full flex-col items-center justify-center" data-slide="8">
-            <div class="slide-content w-full">
-                <h2 class="text-4xl font-bold text-center mb-6">Stage 3: Find the Contact</h2>
-                <div class="clue-box p-6 rounded-lg text-left w-full">
-                    <p class="text-lg text-gray-300 mb-4">Professional email addresses are often listed in public records, especially for technical standards related to a project.</p>
-                    <div id="clue-reveal-3" class="cursor-pointer text-gray-400 hover:text-white mt-2 font-light italic" onclick="revealClue('clue-3', 'clue-reveal-3')">
-                        Click to reveal clue...
+                    <div class="bg-gray-800 rounded-lg p-5">
+                        <p class="text-blue-400 font-bold mb-2">Stage 2</p>
+                        <p class="text-white font-semibold mb-2">Historical archives</p>
+                        <p class="text-gray-400 text-sm">Recovered a site that has not existed for years, because deleting is not erasing.</p>
                     </div>
-                    <p id="clue-3" class="font-semibold text-blue-300 hidden mt-2">Clue: You may need to look for technical registrations or standards documents related to the project to find an official point of contact.</p>
-                    <hr class="my-4 border-gray-600">
-                    <p class="text-xl font-bold text-white">Your Flag: Find the sprint planner's publicly listed work email address.</p>
-                </div>
-            </div>
-        </div>
-        
-        <!-- SLIDE 9: Debrief & Result 1 -->
-        <div class="slide w-full max-w-4xl h-full flex-col items-center justify-center text-center" data-slide="9">
-            <div class="slide-content">
-                <h2 class="text-4xl md:text-5xl font-bold mb-6">Mission Debrief & Results</h2>
-                <div class="text-left bg-gray-800 p-6 rounded-lg max-w-2xl mx-auto space-y-4">
-                    <div>
-                        <h3 class="text-xl font-bold text-green-400">Flag 1: VS Code</h3>
-                        <p class="text-sm text-gray-400 mt-1">A search for "IDE ranking" leads to the PYPL index, which lists VS Code at #2.</p>
+                    <div class="bg-gray-800 rounded-lg p-5">
+                        <p class="text-blue-400 font-bold mb-2">Stage 3</p>
+                        <p class="text-white font-semibold mb-2">File metadata</p>
+                        <p class="text-gray-400 text-sm">Pulled software, platform, and authorship out of a file's hidden properties.</p>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <!-- SLIDE 10: Debrief & Result 2 -->
-        <div class="slide w-full max-w-4xl h-full flex-col items-center justify-center text-center" data-slide="10">
-             <div class="slide-content">
-                <h2 class="text-4xl md:text-5xl font-bold mb-6">Mission Debrief & Results</h2>
-                <div class="text-left bg-gray-800 p-6 rounded-lg max-w-2xl mx-auto space-y-4">
-                    <div>
-                        <h3 class="text-xl font-bold text-green-400">Flag 2: Kai Maetzel</h3>
-                        <p class="text-sm text-gray-400 mt-1">Searching for the "VS Code open source project" leads to GitHub. In the 'Issues' tab, searching for "Iteration Plan" reveals the author, `kieferrm` (Kai Maetzel).</p>
-                    </div>
+                <div class="clue-box p-5 rounded-r-lg">
+                    <p class="text-gray-300">
+                        You did not break into anything. Every record you touched was published
+                        deliberately by someone who never imagined a stranger stringing them
+                        together years later. That is what makes OSINT powerful &mdash; and what
+                        makes it worth thinking about before you post.
+                    </p>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <!-- SLIDE 11: Debrief & Result 3 -->
-        <div class="slide w-full max-w-4xl h-full flex-col items-center justify-center text-center" data-slide="11">
-             <div class="slide-content">
-                <h2 class="text-4xl md:text-5xl font-bold mb-6">Mission Debrief & Results</h2>
-                <div class="text-left bg-gray-800 p-6 rounded-lg max-w-2xl mx-auto space-y-4">
-                    <div>
-                        <h3 class="text-xl font-bold text-green-400">Flag 3: kamaet@microsoft.com</h3>
-                        <p class="text-sm text-gray-400 mt-1">An advanced search for `"Kai Maetzel" vscode contact` or `"vscode" technical registration` leads to the IANA page for the `vscode` URI scheme, which lists his email.</p>
-                    </div>
+        <!-- Slide 12: Ethics -->
+        <section class="slide items-center justify-center">
+            <div class="slide-content max-w-3xl">
+                <h2 class="text-3xl sm:text-4xl font-bold mb-6">Before You Try This Yourself</h2>
+                <p class="text-lg text-gray-300 mb-6">
+                    Every source in this lab was a professional public record: a standards
+                    document, a defunct company's homepage, and a conference talk the author
+                    posted himself. That boundary was chosen on purpose.
+                </p>
+                <div class="bg-gray-800 rounded-lg p-5 mb-4 border-l-4 border-green-500">
+                    <p class="text-green-400 font-bold mb-2">Reasonable</p>
+                    <p class="text-gray-300">Researching your own footprint, or an organization you have written permission to test.</p>
                 </div>
+                <div class="bg-gray-800 rounded-lg p-5 mb-6 border-l-4 border-red-500">
+                    <p class="text-red-400 font-bold mb-2">Not reasonable</p>
+                    <p class="text-gray-300">Compiling information about a classmate, an ex, or any private individual. Legal to read does not mean acceptable to collect.</p>
+                </div>
+                <p class="text-gray-400">
+                    The techniques are identical either way. Authorization is the entire difference,
+                    and it is the part that keeps you employable.
+                </p>
             </div>
-        </div>
+        </section>
+
+        <!-- Slide 13: Close -->
+        <section class="slide items-center justify-center text-center">
+            <div class="slide-content max-w-2xl">
+                <div class="text-6xl mb-6">&#9749;</div>
+                <h2 class="text-3xl sm:text-4xl font-bold mb-6">Trail Complete</h2>
+                <p class="text-lg text-gray-300 mb-4">
+                    One joke status code led to a 1998 standards document, a company that no
+                    longer exists, and the version number of software from 2007.
+                </p>
+                <p class="text-gray-400">
+                    That is reconnaissance. Every trail starts with one loose thread.
+                </p>
+            </div>
+        </section>
 
     </main>
 
     <!-- Navigation -->
-    <footer class="flex-shrink-0 w-full p-4 bg-gray-800/50">
-        <div class="max-w-4xl mx-auto flex justify-between items-center">
+    <footer class="flex-shrink-0 p-4">
+        <div class="max-w-4xl mx-auto flex items-center justify-between">
             <button id="prevBtn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed">Previous</button>
-            <div id="slide-counter" class="text-gray-400 text-sm">Slide 1 / 11</div>
+            <div id="slide-counter" class="text-gray-400 text-sm">Slide 1 / 13</div>
             <button id="nextBtn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition-colors">Next</button>
         </div>
     </footer>
@@ -243,7 +456,5 @@
             document.getElementById(buttonId).style.display = 'none';
         }
     </script>
-
 </body>
 </html>
-
