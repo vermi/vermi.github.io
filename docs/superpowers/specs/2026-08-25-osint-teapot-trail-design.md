@@ -70,10 +70,23 @@ Masinter's own site hosts his talk on the history of HTTP. Inspect its propertie
 |-------|------|-------|
 | 1 | iana.org | Plain web page |
 | 2 | rfc-editor.org, web.archive.org | Plain web pages |
-| 3 | Firefox PDF viewer → Document Properties | Built in, no install |
+| 3 | extractmetadata.com | Accepts a remote URL; no download/upload step |
 
-Metadata fallback: any online PDF metadata viewer. Chrome's built-in viewer does
-not reliably expose Producer, so Firefox is the documented path.
+Stage 3 documents two independent paths, deliberately:
+
+1. **Primary (browser-agnostic):** <https://extractmetadata.com/> — paste the PDF
+   URL into the "Or enter a URL:" field. Works in any browser.
+2. **Fallback (no third party):** Firefox's built-in PDF viewer → Document
+   Properties. Chrome and Edge have no Document Properties dialog at all, so
+   Firefox is the only native-browser option.
+
+Two paths because a third-party tool going offline is exactly the failure mode that
+killed the previous version of this lab. Either path can die without breaking Stage 3.
+
+**Unverified:** extractmetadata.com renders results via JavaScript polling, so its
+output could not be confirmed from the command line — only that it is reachable,
+exposes a `userfile_url` field, and lists PDF support. Click through it once with
+the Stage 3 URL before teaching.
 
 ## Durability
 
