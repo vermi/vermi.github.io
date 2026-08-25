@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Digital Detective</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow: hidden; /* Prevent scrollbars */
+        }
+        .slide {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .slide.active {
+            display: flex;
+            opacity: 1;
+        }
+        .slide-content {
+            animation: fadeIn 0.6s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .clue-box {
+            background-color: #1f2937; /* bg-gray-800 */
+            border-left: 4px solid #3b82f6; /* border-blue-500 */
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white flex flex-col h-screen">
+
+    <!-- Slide Container -->
+    <main id="slide-container" class="flex-grow flex items-center justify-center p-4 sm:p-8">
+
+        <!-- SLIDE 1: Title -->
+        <div class="slide active w-full max-w-4xl h-full flex-col items-center justify-center text-center" data-slide="1">
+            <div class="slide-content">
+                <h1 class="text-5xl md:text-7xl font-bold text-blue-400">The Digital Detective</h1>
+                <p class="mt-4 text-2xl md:text-3xl text-gray-300">An Introduction to OSINT</p>
+                <p class="mt-8 text-lg text-gray-400">Cybersecurity Mini-Lab</p>
+            </div>
+        </div>
+
+        <!-- SLIDE 2: What is OSINT? -->
+        <div class="slide w-full max-w-4xl h-full flex-col items-center justify-center text-center" data-slide="2">
+            <div class="slide-content">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">What is OSINT?</h2>
+                <p class="text-xl md:text-2xl text-gray-300 mb-4">OSINT stands for <span class="text-blue-400 font-semibold">Open-Source Intelligence</span>.</p>
+                <p class="text-lg text-gray-400 max-w-2xl mx-auto">It's the practice of collecting and analyzing information from <span class="font-semibold">publicly available sources</span> to create actionable intelligence. It's not hacking; it's advanced searching and analysis.</p>
+                <div class="mt-8 text-6xl">🕵️‍♂️</div>
+            </div>
+        </div>
+
+        <!-- SLIDE 3: Why Does OSINT Matter? -->
+        <div class="slide w-full max-w-4xl h-full flex-col items-center justify-center text-center" data-slide="3">
+            <div class="slide-content">
+                <h2 class="text-4xl md:text-5xl font-bold mb-8">Why Does It Matter?</h2>
+                <div class="flex flex-col md:flex-row gap-8 text-left">
+                    <div class="bg-gray-800 p-6 rounded-lg flex-1">
+                        <h3 class="text-2xl font-bold text-green-400 mb-3">The "Good Guys"</h3>
+                        <p class="text-gray-300">Cybersecurity defenders use OSINT to find their own company's weaknesses before attackers do. Journalists use it for investigations. Researchers use it to gather data.</p>
+                    </div>
+                    <div class="bg-gray-800 p-6 rounded-lg flex-1">
+                        <h3 class="text-2xl font-bold text-red-400 mb-3">The "Bad Guys"</h3>
+                        <p class="text-gray-300">Attackers use OSINT for reconnaissance—the first step in any attack. They look for employee names, software versions, and other clues to plan their approach.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 4: The OSINT Mindset -->
+        <div class="slide w-full max-w-4xl h-full flex-col items-center justify-center text-center" data-slide="4">
+            <div class="slide-content">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">The OSINT Mindset</h2>
+                <p class="text-xl md:text-2xl text-gray-300 mb-8">It's more than just searching. It's about...</p>
+                <ul class="text-lg text-gray-400 space-y-4 max-w-lg mx-auto text-left">
+                    <li><span class="text-blue-400 mr-2">✓</span> Asking the right questions.</li>
+                    <li><span class="text-blue-400 mr-2">✓</span> Being curious and persistent.</li>
+                    <li><span class="text-blue-400 mr-2">✓</span> Connecting seemingly unrelated dots.</li>
+                    <li><span class="text-blue-400 mr-2">✓</span> Following a trail of digital breadcrumbs.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- SLIDE 5: The Challenge -->
+        <div class="slide w-full max-w-4xl h-full flex-col items-center justify-center text-center" data-slide="5">
+            <div class="slide-content">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">The Challenge</h2>
+                <p class="text-xl text-gray-300 max-w-2xl mx-auto mb-6">You will work in teams to solve a 3-stage OSINT challenge. The answer from each stage is required to solve the next.</p>
+                <p class="text-lg text-gray-400 font-semibold">Work together to find all three flags!</p>
+                <p class="mt-8 text-lg text-gray-300">Are you ready?</p>
+            </div>
+        </div>
+
+        <!-- SLIDE 6: Stage 1 Clue -->
+        <div class="slide w-full max-w-4xl h-full flex-col items-center justify-center" data-slide="6">
+            <div class="slide-content w-full">
+                <h2 class="text-4xl font-bold text-center mb-6">Stage 1: Identify the Target</h2>
+                <div class="clue-box p-6 rounded-lg text-left w-full">
+                    <p class="text-lg text-gray-300 mb-4">Analysts often begin by identifying what's most popular. Your first task is to find a specific webpage that ranks software development tools (IDEs) based on how often their download pages are searched.</p>
+                    <hr class="my-4 border-gray-600">
+                    <p class="text-xl font-bold text-white">Your Flag: According to this index, what is the #2 most popular IDE?</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 7: Stage 2 Clue -->
+        <div class="slide w-full max-w-4xl h-full flex-col items-center justify-center" data-slide="7">
+            <div class="slide-content w-full">
+                <h2 class="text-4xl font-bold text-center mb-6">Stage 2: Find the Person</h2>
+                <div class="clue-box p-6 rounded-lg text-left w-full">
+                    <p class="text-lg text-gray-300 mb-4">Now that you have identified the target IDE, your next task is to locate its open source project and find the person managing its monthly development sprints.</p>
+                    <div id="clue-reveal-2" class="cursor-pointer text-gray-400 hover:text-white mt-2 font-light italic" onclick="revealClue('clue-2', 'clue-reveal-2')">
+                        Click to reveal clue...
+                    </div>
+                    <p id="clue-2" class="font-semibold text-blue-300 hidden mt-2">Clue: The author of the "Iteration Plan" is the likely suspect.</p>
+                    <hr class="my-4 border-gray-600">
+                    <p class="text-xl font-bold text-white">Your Flag: What is the full name (not username) of the current sprint planner?</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 8: Stage 3 Clue -->
+        <div class="slide w-full max-w-4xl h-full flex-col items-center justify-center" data-slide="8">
+            <div class="slide-content w-full">
+                <h2 class="text-4xl font-bold text-center mb-6">Stage 3: Find the Contact</h2>
+                <div class="clue-box p-6 rounded-lg text-left w-full">
+                    <p class="text-lg text-gray-300 mb-4">Professional email addresses are often listed in public records, especially for technical standards related to a project.</p>
+                    <div id="clue-reveal-3" class="cursor-pointer text-gray-400 hover:text-white mt-2 font-light italic" onclick="revealClue('clue-3', 'clue-reveal-3')">
+                        Click to reveal clue...
+                    </div>
+                    <p id="clue-3" class="font-semibold text-blue-300 hidden mt-2">Clue: You may need to look for technical registrations or standards documents related to the project to find an official point of contact.</p>
+                    <hr class="my-4 border-gray-600">
+                    <p class="text-xl font-bold text-white">Your Flag: Find the sprint planner's publicly listed work email address.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- SLIDE 9: Debrief & Result 1 -->
+        <div class="slide w-full max-w-4xl h-full flex-col items-center justify-center text-center" data-slide="9">
+            <div class="slide-content">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">Mission Debrief & Results</h2>
+                <div class="text-left bg-gray-800 p-6 rounded-lg max-w-2xl mx-auto space-y-4">
+                    <div>
+                        <h3 class="text-xl font-bold text-green-400">Flag 1: VS Code</h3>
+                        <p class="text-sm text-gray-400 mt-1">A search for "IDE ranking" leads to the PYPL index, which lists VS Code at #2.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 10: Debrief & Result 2 -->
+        <div class="slide w-full max-w-4xl h-full flex-col items-center justify-center text-center" data-slide="10">
+             <div class="slide-content">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">Mission Debrief & Results</h2>
+                <div class="text-left bg-gray-800 p-6 rounded-lg max-w-2xl mx-auto space-y-4">
+                    <div>
+                        <h3 class="text-xl font-bold text-green-400">Flag 2: Kai Maetzel</h3>
+                        <p class="text-sm text-gray-400 mt-1">Searching for the "VS Code open source project" leads to GitHub. In the 'Issues' tab, searching for "Iteration Plan" reveals the author, `kieferrm` (Kai Maetzel).</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SLIDE 11: Debrief & Result 3 -->
+        <div class="slide w-full max-w-4xl h-full flex-col items-center justify-center text-center" data-slide="11">
+             <div class="slide-content">
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">Mission Debrief & Results</h2>
+                <div class="text-left bg-gray-800 p-6 rounded-lg max-w-2xl mx-auto space-y-4">
+                    <div>
+                        <h3 class="text-xl font-bold text-green-400">Flag 3: kamaet@microsoft.com</h3>
+                        <p class="text-sm text-gray-400 mt-1">An advanced search for `"Kai Maetzel" vscode contact` or `"vscode" technical registration` leads to the IANA page for the `vscode` URI scheme, which lists his email.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Navigation -->
+    <footer class="flex-shrink-0 w-full p-4 bg-gray-800/50">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
+            <button id="prevBtn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed">Previous</button>
+            <div id="slide-counter" class="text-gray-400 text-sm">Slide 1 / 11</div>
+            <button id="nextBtn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition-colors">Next</button>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const slideCounter = document.getElementById('slide-counter');
+            let currentSlide = 0;
+            const totalSlides = slides.length;
+
+            function showSlide(index) {
+                slides.forEach((slide, i) => {
+                    slide.classList.toggle('active', i === index);
+                });
+                currentSlide = index;
+                updateControls();
+            }
+
+            function updateControls() {
+                prevBtn.disabled = currentSlide === 0;
+                nextBtn.disabled = currentSlide === totalSlides - 1;
+                slideCounter.textContent = `Slide ${currentSlide + 1} / ${totalSlides}`;
+            }
+
+            prevBtn.addEventListener('click', () => {
+                if (currentSlide > 0) {
+                    showSlide(currentSlide - 1);
+                }
+            });
+
+            nextBtn.addEventListener('click', () => {
+                if (currentSlide < totalSlides - 1) {
+                    showSlide(currentSlide + 1);
+                }
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight') {
+                    nextBtn.click();
+                } else if (e.key === 'ArrowLeft') {
+                    prevBtn.click();
+                }
+            });
+
+            showSlide(0);
+        });
+
+        function revealClue(clueId, buttonId) {
+            document.getElementById(clueId).classList.remove('hidden');
+            document.getElementById(buttonId).style.display = 'none';
+        }
+    </script>
+
+</body>
+</html>
+

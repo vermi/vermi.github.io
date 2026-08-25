@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CompTIA Security+ Ch. 10: Cloud and Virtualization Security</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #18181b; /* True Dark Grey (zinc-900) */
+            color: #e4e4e7; /* Light text */
+            overflow: hidden; /* Prevent scrolling the whole page */
+        }
+        .slide {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 80px; /* Space for navigation */
+            overflow-y: auto; /* Allow individual slides to scroll if content overflows */
+        }
+        .slide.active {
+            display: block;
+            opacity: 1;
+        }
+        /* Custom scrollbar for webkit browsers */
+        .slide::-webkit-scrollbar {
+            width: 8px;
+        }
+        .slide::-webkit-scrollbar-track {
+            background: #27272a;
+        }
+        .slide::-webkit-scrollbar-thumb {
+            background-color: #52525b;
+            border-radius: 10px;
+            border: 2px solid #27272a;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div id="presentation-container" class="relative w-full h-screen">
+
+        <!-- Slide 1: Title -->
+        <div class="slide active p-6 md:p-12">
+            <div class="w-full h-full flex items-center justify-center">
+                <div class="text-center max-w-4xl mx-auto">
+                    <h1 class="text-4xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-500 mb-4">CompTIA Security+ Chapter 10</h1>
+                    <h2 class="text-2xl md:text-4xl font-bold text-gray-300 mb-8">Cloud and Virtualization Security</h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Learning Objectives -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center text-gray-300">Learning Objectives</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-teal-400 mb-2">☁️ Differentiate Cloud Models</h3>
+                        <p class="text-gray-400">Compare and contrast cloud service models (IaaS, PaaS, SaaS) and deployment models (Public, Private, Hybrid, Community).</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-teal-400 mb-2">🤝 Understand the Shared Responsibility Model</h3>
+                        <p class="text-gray-400">Explain how security responsibilities are divided between cloud providers and customers.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-teal-400 mb-2">👻 Identify Virtualization & Cloud-Specific Risks</h3>
+                        <p class="text-gray-400">Describe threats like VM escape, resource reuse, and issues related to data sovereignty.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-teal-400 mb-2">🛡️ Implement Cloud Security Controls</h3>
+                        <p class="text-gray-400">Learn about hardening cloud infrastructure with tools like Security Groups, VPCs, and CASBs.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Cloud Service Models -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Cloud Service Models</h2>
+                <div class="grid md:grid-cols-3 gap-6 text-center">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-teal-400 mb-3">Infrastructure as a Service (IaaS)</h3>
+                        <p class="text-gray-400">The provider offers fundamental building blocks: virtual servers, storage, and networking. You manage the OS, applications, and data.</p>
+                        <p class="text-xs text-gray-500 mt-2">Example: Amazon EC2, Microsoft Azure VMs</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-teal-400 mb-3">Platform as a Service (PaaS)</h3>
+                        <p class="text-gray-400">The provider manages the hardware and OS. You deploy and manage your applications on their platform.</p>
+                        <p class="text-xs text-gray-500 mt-2">Example: AWS Lambda (Serverless), Heroku</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-teal-400 mb-3">Software as a Service (SaaS)</h3>
+                        <p class="text-gray-400">The provider manages everything. You simply use the software, typically through a web browser.</p>
+                        <p class="text-xs text-gray-500 mt-2">Example: Google Workspace, Office 365</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 4: Cloud Deployment Models -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Cloud Deployment Models</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-teal-400 mb-2">Public Cloud</h3>
+                        <p class="text-gray-400">Resources are owned and operated by a third-party provider and shared among multiple tenants over the internet.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-teal-400 mb-2">Private Cloud</h3>
+                        <p class="text-gray-400">Cloud infrastructure is operated exclusively for a single organization. It can be managed internally or by a third party.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-teal-400 mb-2">Hybrid Cloud</h3>
+                        <p class="text-gray-400">A composition of two or more distinct cloud infrastructures (private, community, or public) that remain unique entities but are bound together.</p>
+                    </div>
+                     <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-teal-400 mb-2">Community Cloud</h3>
+                        <p class="text-gray-400">Infrastructure is provisioned for exclusive use by a specific community of consumers from organizations that have shared concerns.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Shared Responsibility Model -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-gray-300">The Shared Responsibility Model</h2>
+                <p class="text-lg text-gray-400 mb-6">Security in the cloud is a partnership. The provider is responsible FOR the cloud, while the customer is responsible FOR what they do IN the cloud.</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
+                     <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-lg font-semibold text-teal-400">IaaS</h3>
+                        <p class="text-sm text-gray-400 mt-2"><strong>Provider:</strong> Secures the physical datacenter, hardware, and hypervisor.<br><strong>You:</strong> Secure the OS, applications, network configuration, and data.</p>
+                    </div>
+                     <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-lg font-semibold text-teal-400">PaaS</h3>
+                        <p class="text-sm text-gray-400 mt-2"><strong>Provider:</strong> Secures everything up to the OS/runtime.<br><strong>You:</strong> Secure your application code and data.</p>
+                    </div>
+                     <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-lg font-semibold text-teal-400">SaaS</h3>
+                        <p class="text-sm text-gray-400 mt-2"><strong>Provider:</strong> Secures almost everything.<br><strong>You:</strong> Responsible for user access control and the data you put into the service.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 6: Think-Pair-Share Responsibility -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-gray-300">🤔 Think-Pair-Share: Shared Responsibility</h2>
+                <div class="bg-yellow-900/20 border border-yellow-500/30 rounded-lg p-5 text-left mb-6">
+                    <h3 class="text-xl font-semibold text-yellow-300 mb-3 text-center">Scenario: A Misconfigured S3 Bucket</h3>
+                    <p class="text-yellow-200">A company uses Amazon S3 (an IaaS/object storage service) to store customer data. A developer accidentally configures the S3 bucket to be publicly readable by anyone on the internet, leading to a massive data breach.</p>
+                </div>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5 text-left">
+                    <h3 class="text-xl font-semibold text-gray-300 mb-3 text-center">Your Task (5 minutes)</h3>
+                    <ul class="space-y-2 text-gray-400 list-decimal list-inside">
+                        <li>According to the Shared Responsibility Model for IaaS, who is at fault for this breach: the company or Amazon?</li>
+                        <li>What specific security control failed here?</li>
+                        <li>What is one tool or process that could have prevented this misconfiguration?</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Virtualization Concepts -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Virtualization Concepts</h2>
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-teal-400 mb-2">Hypervisor</h3>
+                        <p class="text-gray-400">The software that creates and runs virtual machines (VMs). <strong>Type 1</strong> (bare-metal) runs directly on hardware. <strong>Type 2</strong> (hosted) runs as an app on an OS.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-teal-400 mb-2">Containerization</h3>
+                        <p class="text-gray-400">Application-level virtualization (e.g., Docker). Packages an app and its dependencies into a container, which runs on a shared OS kernel. More lightweight than VMs.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Virtualization & Cloud Risks -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Virtualization & Cloud-Specific Risks</h2>
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-teal-400 mb-2">VM Escape</h3>
+                        <p class="text-gray-400">An attacker breaks out of a guest VM and gains access to the host hypervisor or other VMs. This is a critical, high-impact vulnerability.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-teal-400 mb-2">Resource Reuse</h3>
+                        <p class="text-gray-400">The cloud provider fails to properly wipe data from a de-provisioned resource (like a storage volume), and that data is exposed to the next customer who is assigned that resource.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5 col-span-1 md:col-span-2">
+                        <h3 class="text-xl font-semibold text-teal-400 mb-2">Data Sovereignty</h3>
+                        <p class="text-gray-400">A legal principle stating that data is subject to the laws of the country in which it is located. Storing data in a global cloud provider's datacenter in a different country can create complex legal and compliance challenges.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Hardening Cloud Infrastructure -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Hardening Cloud Infrastructure</h2>
+                 <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-teal-400 mb-2">Security Groups / Network ACLs</h3>
+                        <p class="text-gray-400">Act as virtual firewalls for your instances to control inbound and outbound traffic. A fundamental network security control in the cloud.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-teal-400 mb-2">Virtual Private Cloud (VPC)</h3>
+                        <p class="text-gray-400">A logically isolated section of the cloud where you can launch resources in a virtual network that you define, including public and private subnets.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-teal-400 mb-2">Cloud Access Security Broker (CASB)</h3>
+                        <p class="text-gray-400">An intermediary that sits between users and cloud services to enforce security policies, monitor activity, and prevent data loss across multiple cloud platforms.</p>
+                    </div>
+                     <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-teal-400 mb-2">Infrastructure as Code (IaC)</h3>
+                        <p class="text-gray-400">The process of managing and provisioning infrastructure through machine-readable definition files (code), rather than manual configuration. Enables consistent, repeatable, and secure deployments.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Summary -->
+        <div class="slide p-6 md:p-12">
+            <div class="w-full h-full flex items-center justify-center">
+                <div class="max-w-4xl mx-auto">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center text-gray-300 border-b-2 border-gray-600 pb-4">Chapter Summary</h2>
+                    <div class="space-y-4">
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold text-teal-400 mb-2">Cloud is a Model, Not a Place</h3>
+                            <p class="text-gray-400">Understand the key characteristics (on-demand, scalable) and the different service (IaaS, PaaS, SaaS) and deployment (Public, Private) models.</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold text-teal-400 mb-2">Security is a Partnership</h3>
+                            <p class="text-gray-400">The Shared Responsibility Model is a critical concept. You are always responsible for your data, your user access, and your configurations.</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold text-teal-400 mb-2">Virtualization Introduces New Risks</h3>
+                            <p class="text-gray-400">Threats like VM escape are high-impact and unique to virtualized environments. Proper configuration and patching of the hypervisor is the provider's top priority.</p>
+                        </div>
+                        <div class="bg-red-900/50 border border-red-500/50 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold text-red-300 mb-2">🚨 Bottom Line</h3>
+                            <p class="text-gray-300">The cloud offers incredible flexibility, but its complexity can lead to simple misconfigurations that have massive security consequences. Always operate with a defense-in-depth mindset.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div id="navigation" class="fixed bottom-0 left-0 right-0 h-20 bg-zinc-900/80 backdrop-blur-sm border-t border-zinc-700 flex items-center justify-center px-6">
+        <div class="w-full max-w-4xl flex items-center justify-between">
+            <button id="prevBtn" class="bg-zinc-700 text-white font-bold py-2 px-4 rounded-md hover:bg-zinc-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">Previous</button>
+            <div class="flex-grow mx-4">
+                 <div class="w-full bg-zinc-700 rounded-full h-2.5">
+                    <div id="progressBar" class="bg-teal-600 h-2.5 rounded-full" style="width: 0%"></div>
+                </div>
+            </div>
+            <button id="nextBtn" class="bg-teal-700 text-white font-bold py-2 px-4 rounded-md hover:bg-teal-600 transition-colors">Next</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const progressBar = document.getElementById('progressBar');
+            let currentSlide = 0;
+            const totalSlides = slides.length;
+
+            function showSlide(index) {
+                const activeSlide = document.querySelector('.slide.active');
+                if (activeSlide) activeSlide.classList.remove('active');
+                slides[index].classList.add('active');
+                const progressPercentage = ((index + 1) / totalSlides) * 100;
+                progressBar.style.width = `${progressPercentage}%`;
+                prevBtn.disabled = index === 0;
+                nextBtn.disabled = index === totalSlides - 1;
+                nextBtn.textContent = index === totalSlides - 1 ? 'Finish' : 'Next';
+            }
+
+            nextBtn.addEventListener('click', () => {
+                if (currentSlide < totalSlides - 1) {
+                    currentSlide++;
+                    showSlide(currentSlide);
+                }
+            });
+
+            prevBtn.addEventListener('click', () => {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    showSlide(currentSlide);
+                }
+            });
+            
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight' && !nextBtn.disabled) {
+                    nextBtn.click();
+                } else if (e.key === 'ArrowLeft' && !prevBtn.disabled) {
+                    prevBtn.click();
+                }
+            });
+
+            showSlide(currentSlide);
+        });
+    </script>
+</body>
+</html>
+

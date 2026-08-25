@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CompTIA Security+ Ch. 12: Network Security</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #18181b;
+        }
+        .slide {
+            display: none;
+            min-height: 100vh;
+            padding-bottom: 120px;
+        }
+        .slide.active {
+            display: flex;
+        }
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(to right, #14b8a6, #0d9488);
+            transition: width 0.3s ease;
+            z-index: 1000;
+        }
+        .nav-button {
+            transition: all 0.2s;
+        }
+        .nav-button:hover {
+            transform: scale(1.05);
+        }
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        ul li:before {
+            content: "▸";
+            color: #14b8a6;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.5em;
+            margin-left: 0;
+        }
+    </style>
+</head>
+<body class="bg-zinc-900 text-gray-100">
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Slide 1: Title -->
+    <div class="slide active flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto text-center">
+            <h1 class="text-7xl font-bold mb-6 bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent">
+                Network Security
+            </h1>
+            <h2 class="text-4xl text-gray-300 mb-8">CompTIA Security+ Chapter 12</h2>
+            <div class="w-32 h-1 bg-gradient-to-r from-teal-400 to-cyan-400 mx-auto mb-8"></div>
+            <p class="text-2xl text-gray-400">Securing Network Infrastructure and Communications</p>
+        </div>
+    </div>
+
+    <!-- Slide 2: Chapter Overview -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-teal-400">Chapter Overview</h2>
+            <div class="grid grid-cols-2 gap-6 text-xl">
+                <div class="bg-zinc-800 p-6 rounded-lg border-l-4 border-teal-500">
+                    <h3 class="text-2xl font-bold mb-3 text-teal-300">Network Design</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Segmentation & Zero Trust</li>
+                        <li>Network Access Control</li>
+                        <li>VPNs & Secure Protocols</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-6 rounded-lg border-l-4 border-cyan-500">
+                    <h3 class="text-2xl font-bold mb-3 text-cyan-300">Security Appliances</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Firewalls & IDS/IPS</li>
+                        <li>Proxy Servers & Load Balancers</li>
+                        <li>DLP & Security Monitoring</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-6 rounded-lg border-l-4 border-teal-500">
+                    <h3 class="text-2xl font-bold mb-3 text-teal-300">Network Attacks</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>On-Path & DNS Attacks</li>
+                        <li>DDoS & Amplification</li>
+                        <li>Credential Replay</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-6 rounded-lg border-l-4 border-cyan-500">
+                    <h3 class="text-2xl font-bold mb-3 text-cyan-300">Advanced Concepts</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Deception Technology</li>
+                        <li>Software-Defined Networking</li>
+                        <li>File Integrity Monitoring</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 3: Network Security Design -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-teal-400">Network Security Design</h2>
+            <div class="space-y-5 text-xl">
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-teal-300">Attack Surface Management</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Minimize exposed services and entry points</li>
+                        <li>Strategic device placement based on trust levels</li>
+                        <li>Balance between security and operational requirements</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-cyan-300">Security Zones</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><span class="font-semibold text-teal-400">Trusted:</span> Internal network with authorized users</li>
+                        <li><span class="font-semibold text-teal-400">Untrusted:</span> External networks (Internet)</li>
+                        <li><span class="font-semibold text-teal-400">Restricted:</span> High-value assets requiring extra protection</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-teal-300">Connectivity & Failure Modes</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><span class="font-semibold text-teal-400">Fail-open:</span> Allows traffic when security fails (availability priority)</li>
+                        <li><span class="font-semibold text-teal-400">Fail-closed:</span> Blocks traffic when security fails (security priority)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 4: Network Segmentation -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-teal-400">Network Segmentation</h2>
+            <div class="space-y-5 text-xl">
+                <div class="bg-gradient-to-r from-teal-900 to-cyan-900 p-5 rounded-lg border border-teal-500">
+                    <p class="text-xl font-semibold text-teal-300 mb-2">Core Principle:</p>
+                    <p class="text-gray-200">Divide networks into smaller segments to contain breaches and control traffic flow</p>
+                </div>
+                <div class="grid grid-cols-2 gap-5">
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-teal-300">VLANs</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Logical separation at Layer 2</li>
+                            <li>Segment by department or function</li>
+                            <li>Requires Layer 3 for inter-VLAN routing</li>
+                            <li>Cost-effective segmentation</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-cyan-300">Screened Subnet (DMZ)</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Buffer between trusted/untrusted networks</li>
+                            <li>Hosts public-facing services</li>
+                            <li>Protected by two firewalls</li>
+                            <li>Limits internal exposure</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-teal-300">Physical vs. Logical Isolation</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><span class="font-semibold text-teal-400">Physical:</span> Air-gapped networks, separate hardware (highest security)</li>
+                        <li><span class="font-semibold text-teal-400">Logical:</span> VLANs, subnets, access controls (flexible, cost-effective)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 5: Zero Trust Architecture -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-teal-400">Zero Trust Architecture</h2>
+            <div class="bg-gradient-to-r from-teal-900 to-cyan-900 p-5 rounded-lg border border-teal-500 mb-5">
+                <p class="text-2xl font-semibold text-center text-teal-300">"Never Trust, Always Verify"</p>
+            </div>
+            <div class="grid grid-cols-2 gap-5 text-xl mb-5">
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-teal-500">
+                    <h3 class="text-2xl font-bold mb-3 text-teal-300">Control Plane</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><span class="font-semibold text-teal-400">Adaptive Identity:</span> Continuous authentication</li>
+                        <li><span class="font-semibold text-teal-400">Threat Scope Reduction:</span> Limit blast radius</li>
+                        <li><span class="font-semibold text-teal-400">Policy-Driven Access:</span> Dynamic decisions</li>
+                        <li><span class="font-semibold text-teal-400">Policy Engines:</span> Centralized control</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-cyan-500">
+                    <h3 class="text-2xl font-bold mb-3 text-cyan-300">Data Plane</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><span class="font-semibold text-cyan-400">Subjects/Systems:</span> Users and devices</li>
+                        <li><span class="font-semibold text-cyan-400">Policy Enforcement Points:</span> Gateways</li>
+                        <li><span class="font-semibold text-cyan-400">Implicit Trust Zones:</span> Microsegmentation</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="bg-teal-900 p-4 rounded-lg border border-teal-500">
+                <p class="text-lg text-gray-200"><span class="font-bold text-teal-300">2025 Adoption:</span> 60% of organizations use Zero Trust ($34.50B market). Federal agencies mandated by executive order.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 6: Network Access Control (NAC) -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-teal-400">Network Access Control (NAC)</h2>
+            <div class="space-y-5 text-xl">
+                <div class="bg-gradient-to-r from-teal-900 to-cyan-900 p-5 rounded-lg border border-teal-500">
+                    <p class="text-xl font-semibold text-teal-300 mb-2">Purpose:</p>
+                    <p class="text-gray-200">Control device access based on identity, posture, and compliance</p>
+                </div>
+                <div class="grid grid-cols-2 gap-5">
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-teal-300">802.1X Authentication</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li><span class="font-semibold text-teal-400">Supplicant:</span> Device requesting access</li>
+                            <li><span class="font-semibold text-teal-400">Authenticator:</span> Switch/AP enforcing access</li>
+                            <li><span class="font-semibold text-teal-400">Auth Server:</span> RADIUS validation</li>
+                            <li>Port-based access control</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-cyan-300">NAC Capabilities</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Device posture assessment</li>
+                            <li>Health checks (patches, AV)</li>
+                            <li>Quarantine non-compliant devices</li>
+                            <li>Dynamic VLAN assignment</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-teal-300">EAP Methods</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><span class="font-semibold text-teal-400">EAP-TLS:</span> Certificate-based (most secure)</li>
+                        <li><span class="font-semibold text-teal-400">EAP-TTLS/PEAP:</span> Tunneled with server cert</li>
+                        <li><span class="font-semibold text-teal-400">EAP-FAST:</span> Cisco proprietary with PACs</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 7: Port Security Part 1 -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-teal-400">Port Security Mechanisms (Part 1)</h2>
+            <div class="space-y-5 text-xl">
+                <div class="grid grid-cols-2 gap-5">
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-teal-300">MAC Filtering</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Limit allowed MAC addresses per port</li>
+                            <li>Static, dynamic, or sticky learning</li>
+                            <li>Violation modes: protect, restrict, shutdown</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-cyan-300">DHCP Snooping</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Prevents rogue DHCP servers</li>
+                            <li>Builds binding table (MAC-IP-VLAN-port)</li>
+                            <li>Foundation for other security features</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-5">
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-teal-300">Loop Prevention</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li><span class="font-semibold text-teal-400">STP/RSTP:</span> Spanning Tree Protocol</li>
+                            <li><span class="font-semibold text-teal-400">BPDU Guard:</span> Disables ports receiving BPDUs</li>
+                            <li>Prevents switching loops and storms</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-cyan-300">Broadcast Storm Prevention</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Rate limiting on broadcast/multicast</li>
+                            <li>Storm control thresholds</li>
+                            <li>Protects network performance</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 8: Port Security Part 2 -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-teal-400">Port Security Mechanisms (Part 2)</h2>
+            <div class="space-y-5 text-xl">
+                <div class="bg-zinc-800 p-6 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-4 text-teal-300">Dynamic ARP Inspection (DAI)</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Validates ARP packets against DHCP snooping table</li>
+                        <li>Prevents ARP spoofing attacks</li>
+                        <li>Drops invalid ARP responses</li>
+                        <li>Protects against man-in-the-middle attacks</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-6 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-4 text-cyan-300">IP Source Guard</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Filters traffic based on DHCP snooping binding</li>
+                        <li>Prevents IP address spoofing</li>
+                        <li>Works at Layer 2 to verify source IP</li>
+                        <li>Drops packets with invalid IP-MAC bindings</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 9: VPNs -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-teal-400">Virtual Private Networks (VPNs)</h2>
+            <div class="space-y-5 text-xl">
+                <div class="bg-gradient-to-r from-teal-900 to-cyan-900 p-5 rounded-lg border border-teal-500">
+                    <p class="text-xl font-semibold text-teal-300 mb-2">Purpose:</p>
+                    <p class="text-gray-200">Create secure, encrypted tunnels over untrusted networks</p>
+                </div>
+                <div class="grid grid-cols-2 gap-5">
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-teal-300">IPSec VPN</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Network layer (Layer 3) encryption</li>
+                            <li><span class="font-semibold text-teal-400">Transport:</span> Encrypts payload only</li>
+                            <li><span class="font-semibold text-teal-400">Tunnel:</span> Encrypts entire packet</li>
+                            <li>Ideal for site-to-site connections</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-cyan-300">TLS/SSL VPN</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Application layer encryption</li>
+                            <li>Browser-based or client-based</li>
+                            <li>More firewall-friendly (port 443)</li>
+                            <li>Easier remote user deployment</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-5">
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-teal-300">Split-Tunnel</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Only corporate traffic through VPN</li>
+                            <li>Better performance, lower security</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-cyan-300">Full-Tunnel</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>All traffic routed through VPN</li>
+                            <li>Higher security, potential performance impact</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 10: Network Appliances -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-teal-400">Network Security Appliances</h2>
+            <div class="space-y-5 text-xl">
+                <div class="grid grid-cols-2 gap-5">
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-teal-300">Jump Server</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Secure access point to critical systems</li>
+                            <li>Centralized authentication and logging</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-cyan-300">Load Balancer</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Distributes traffic across servers</li>
+                            <li>High availability and SSL offloading</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-5">
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-teal-300">Proxy Server</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li><span class="font-semibold text-teal-400">Forward:</span> Client-side filtering</li>
+                            <li><span class="font-semibold text-teal-400">Reverse:</span> Server-side protection</li>
+                            <li>Content filtering and caching</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-cyan-300">Web Filter</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>URL filtering and categorization</li>
+                            <li>Blocks malicious sites</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-teal-300">Data Loss Prevention (DLP)</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Monitors sensitive data in motion, at rest, in use</li>
+                        <li>Can block, quarantine, or alert on violations</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 11: IDS/IPS -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-teal-400">Intrusion Detection & Prevention</h2>
+            <div class="space-y-5 text-xl">
+                <div class="grid grid-cols-2 gap-5">
+                    <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-teal-500">
+                        <h3 class="text-2xl font-bold mb-3 text-teal-300">IDS (Detection)</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Passive monitoring and alerting</li>
+                            <li>Out-of-band deployment</li>
+                            <li>No network performance impact</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-cyan-500">
+                        <h3 class="text-2xl font-bold mb-3 text-cyan-300">IPS (Prevention)</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Active blocking and prevention</li>
+                            <li>Inline deployment</li>
+                            <li>Can drop malicious packets</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-teal-300">Detection Methods</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><span class="font-semibold text-teal-400">Signature-based:</span> Match known threats (low false positives)</li>
+                        <li><span class="font-semibold text-teal-400">Anomaly-based:</span> Behavioral analysis (detects zero-days)</li>
+                        <li><span class="font-semibold text-teal-400">Heuristic:</span> Rules-based suspicious behavior</li>
+                    </ul>
+                </div>
+                <div class="grid grid-cols-2 gap-5">
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-teal-300">NIDS/NIPS</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Network-based deployment</li>
+                            <li>Monitors network segments</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-cyan-300">HIDS/HIPS</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Host-based agent deployment</li>
+                            <li>Can see encrypted traffic</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 12: Firewalls -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-teal-400">Firewall Technologies</h2>
+            <div class="space-y-5 text-xl">
+                <div class="grid grid-cols-2 gap-5">
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-teal-300">Packet Filtering</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Layer 3/4 filtering (IP, port, protocol)</li>
+                            <li>Stateless (ACLs) or stateful</li>
+                            <li>Fast but limited inspection</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-cyan-300">Stateful Inspection</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Tracks connection state</li>
+                            <li>Validates packets in session context</li>
+                            <li>More secure than stateless</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-teal-300">Web Application Firewall (WAF)</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Layer 7 (application layer) protection</li>
+                        <li>Protects against OWASP Top 10 (SQLi, XSS, CSRF)</li>
+                        <li>HTTP/HTTPS request inspection</li>
+                    </ul>
+                </div>
+                <div class="grid grid-cols-2 gap-5">
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-teal-300">UTM</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>All-in-one security appliance</li>
+                            <li>FW + IPS + AV + filter + VPN</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-cyan-300">NGFW</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Deep packet inspection (DPI)</li>
+                            <li>Application & identity awareness</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 13: Secure Protocols -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-teal-400">Secure Network Protocols</h2>
+            <div class="space-y-5 text-xl">
+                <div class="grid grid-cols-3 gap-5">
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-xl font-bold mb-3 text-teal-300">Web & Transfer</h3>
+                        <ul class="space-y-2 text-gray-300 text-base">
+                            <li><span class="font-semibold text-teal-400">HTTPS:</span> HTTP + TLS (443)</li>
+                            <li><span class="font-semibold text-teal-400">SSH:</span> Secure Shell (22)</li>
+                            <li><span class="font-semibold text-teal-400">SFTP:</span> SSH File Transfer</li>
+                            <li><span class="font-semibold text-teal-400">FTPS:</span> FTP + TLS (990)</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-xl font-bold mb-3 text-cyan-300">Email & Directory</h3>
+                        <ul class="space-y-2 text-gray-300 text-base">
+                            <li><span class="font-semibold text-cyan-400">IMAPS:</span> IMAP + TLS (993)</li>
+                            <li><span class="font-semibold text-cyan-400">POP3S:</span> POP3 + TLS (995)</li>
+                            <li><span class="font-semibold text-cyan-400">SMTPS:</span> SMTP + TLS (465/587)</li>
+                            <li><span class="font-semibold text-cyan-400">LDAPS:</span> LDAP + TLS (636)</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-xl font-bold mb-3 text-teal-300">Voice & Mgmt</h3>
+                        <ul class="space-y-2 text-gray-300 text-base">
+                            <li><span class="font-semibold text-teal-400">SRTP:</span> Secure RTP (VoIP)</li>
+                            <li><span class="font-semibold text-teal-400">SNMPv3:</span> Secure SNMP</li>
+                            <li><span class="font-semibold text-teal-400">DNSSEC:</span> DNS validation</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="bg-teal-900 p-4 rounded-lg border border-teal-500">
+                    <p class="text-lg text-gray-200"><span class="font-bold text-teal-300">Security Note:</span> Always prefer encrypted variants over plaintext. Disable legacy protocols (Telnet, FTP, HTTP).</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 14: Email Security -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-teal-400">Email Security Mechanisms</h2>
+            <div class="space-y-5 text-xl">
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-teal-300">SPF (Sender Policy Framework)</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>DNS TXT record listing authorized mail servers</li>
+                        <li>Prevents sender address forgery</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-cyan-300">DKIM (DomainKeys Identified Mail)</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Cryptographic signing of email messages</li>
+                        <li>Verifies message integrity and authenticity</li>
+                        <li>Public key in DNS, private key signs messages</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-teal-300">DMARC (Domain-based Message Authentication)</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Policy framework built on SPF and DKIM</li>
+                        <li>Policies: none (monitor), quarantine, reject</li>
+                        <li>Critical for preventing phishing and spoofing</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 15: DNS Security -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-teal-400">DNS Security</h2>
+            <div class="space-y-5 text-xl">
+                <div class="grid grid-cols-2 gap-5">
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-teal-300">DNSSEC</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Cryptographic validation of DNS responses</li>
+                            <li>Chain of trust from root to domain</li>
+                            <li>Prevents DNS cache poisoning</li>
+                            <li>Uses digital signatures (RRSIG)</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-cyan-300">DNS Filtering</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Block access to malicious domains</li>
+                            <li>Content categorization</li>
+                            <li>Protects against phishing/malware</li>
+                            <li>DNS sinkhole for threats</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-teal-300">DNS over HTTPS (DoH) / DNS over TLS (DoT)</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Encrypts DNS queries to prevent eavesdropping</li>
+                        <li>DoH uses HTTPS (443), DoT uses port 853</li>
+                        <li>Can bypass corporate DNS filtering (security concern)</li>
+                    </ul>
+                </div>
+                <div class="bg-teal-900 p-4 rounded-lg border border-teal-500">
+                    <p class="text-lg text-gray-200"><span class="font-bold text-teal-300">2024 Threat:</span> "Sitting Ducks" DNS hijacking compromised 70,000 domains via DNS misconfigurations.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 16: On-Path Attacks -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-teal-400">On-Path Attacks (MITM)</h2>
+            <div class="space-y-5 text-xl">
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-teal-300">Attack Methods</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Attacker intercepts communication between two parties</li>
+                        <li>Can eavesdrop, modify, or inject data</li>
+                        <li><span class="font-semibold text-teal-400">ARP Spoofing:</span> Poison ARP cache to redirect traffic</li>
+                        <li><span class="font-semibold text-teal-400">SSL Stripping:</span> Downgrade HTTPS to HTTP</li>
+                        <li><span class="font-semibold text-teal-400">Rogue Access Point:</span> Fake Wi-Fi to capture traffic</li>
+                    </ul>
+                </div>
+                <div class="bg-teal-900 p-4 rounded-lg border border-teal-500">
+                    <p class="text-lg text-gray-200"><span class="font-bold text-teal-300">2024 Example:</span> Researchers demonstrated SSL stripping on Tesla charging stations, intercepting payment credentials.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-cyan-300">Mitigations</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Use HTTPS with HSTS, implement certificate pinning</li>
+                        <li>Enable Dynamic ARP Inspection and port security</li>
+                        <li>Educate users about rogue access points</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 17: DNS Attacks -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-teal-400">DNS Attacks</h2>
+            <div class="space-y-5 text-xl">
+                <div class="grid grid-cols-2 gap-5">
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-teal-300">DNS Hijacking</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Compromise DNS server configuration</li>
+                            <li>Redirect users to malicious sites</li>
+                            <li>Can be at router, ISP, or registrar level</li>
+                            <li>Difficult to detect by end users</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-cyan-300">DNS Poisoning</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Inject false DNS records into cache</li>
+                            <li>Exploits vulnerabilities in resolvers</li>
+                            <li>Kaminsky attack (cache poisoning)</li>
+                            <li>DNSSEC prevents this attack</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-teal-300">Mitigations</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Deploy DNSSEC for cryptographic validation</li>
+                        <li>Monitor DNS traffic for anomalies</li>
+                        <li>Use reputable DNS services</li>
+                        <li>Implement DNS filtering and logging</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 18: DDoS Attacks -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-teal-400">DDoS Attacks</h2>
+            <div class="space-y-5 text-xl">
+                <div class="bg-gradient-to-r from-teal-900 to-cyan-900 p-4 rounded-lg border border-teal-500">
+                    <p class="text-xl font-semibold text-teal-300 mb-2">Objective:</p>
+                    <p class="text-gray-200">Overwhelm target resources to deny service to legitimate users</p>
+                </div>
+                <div class="grid grid-cols-2 gap-5">
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-teal-300">Amplification Attacks</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Exploit protocols with large responses</li>
+                            <li><span class="font-semibold text-teal-400">DNS:</span> 28-54x amplification</li>
+                            <li><span class="font-semibold text-teal-400">NTP:</span> Up to 556x amplification</li>
+                            <li><span class="font-semibold text-teal-400">Memcached:</span> Up to 51,000x</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-cyan-300">Reflection Attacks</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Spoof victim's IP as source</li>
+                            <li>Reflectors send responses to victim</li>
+                            <li>Obscures attacker's identity</li>
+                            <li>Often combined with amplification</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-teal-300">Other DDoS Types</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><span class="font-semibold text-teal-400">Volumetric:</span> Flood bandwidth (UDP/ICMP floods)</li>
+                        <li><span class="font-semibold text-teal-400">Protocol:</span> Exhaust connection state (SYN flood)</li>
+                        <li><span class="font-semibold text-teal-400">Application Layer:</span> Target services (HTTP floods, Slowloris)</li>
+                    </ul>
+                </div>
+                <div class="bg-red-900 p-4 rounded-lg border border-red-500">
+                    <p class="text-base text-gray-200"><span class="font-bold text-red-300">2025:</span> Q1 had 20.5M DDoS attacks (+358% YoY), peak 6.5 Tbps. Avg cost: $234K/incident.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 19: DDoS Mitigations -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-teal-400">DDoS Mitigation Strategies</h2>
+            <div class="space-y-5 text-xl">
+                <div class="grid grid-cols-2 gap-5">
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-teal-300">Network Defenses</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Rate limiting and traffic shaping</li>
+                            <li>Ingress/egress filtering (BCP 38)</li>
+                            <li>BGP FlowSpec for dynamic filtering</li>
+                            <li>Anycast network distribution</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-cyan-300">Infrastructure Hardening</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Over-provision bandwidth/capacity</li>
+                            <li>Geographically distributed servers</li>
+                            <li>Use CDNs for content delivery</li>
+                            <li>Implement auto-scaling</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-teal-300">Cloud-Based DDoS Protection</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Scrubbing centers filter attack traffic</li>
+                        <li>Massive capacity to absorb volumetric attacks</li>
+                        <li>Examples: Cloudflare, Akamai, AWS Shield, Azure DDoS Protection</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 20: Credential Replay Attacks -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-teal-400">Credential Replay Attacks</h2>
+            <div class="space-y-5 text-xl">
+                <div class="bg-gradient-to-r from-teal-900 to-cyan-900 p-4 rounded-lg border border-teal-500">
+                    <p class="text-xl font-semibold text-teal-300 mb-2">Attack Method:</p>
+                    <p class="text-gray-200">Capture and reuse valid credentials for unauthorized access</p>
+                </div>
+                <div class="grid grid-cols-2 gap-5">
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-teal-300">Common Scenarios</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li><span class="font-semibold text-teal-400">Session Hijacking:</span> Steal tokens/cookies</li>
+                            <li><span class="font-semibold text-teal-400">Kerberos Replay:</span> Reuse tickets</li>
+                            <li><span class="font-semibold text-teal-400">Pass-the-Hash:</span> Use hash without cracking</li>
+                            <li><span class="font-semibold text-teal-400">Pass-the-Ticket:</span> Reuse Kerberos tickets</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-cyan-300">Mitigations</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li><span class="font-semibold text-cyan-400">Encryption:</span> TLS/SSL for all auth traffic</li>
+                            <li><span class="font-semibold text-cyan-400">Timestamps:</span> Time-based validation</li>
+                            <li><span class="font-semibold text-cyan-400">Nonces:</span> One-time use tokens</li>
+                            <li><span class="font-semibold text-cyan-400">Short TTLs:</span> Expire sessions quickly</li>
+                            <li><span class="font-semibold text-cyan-400">MFA:</span> Multi-factor authentication</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 21: Think-Pair-Share Activity -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-6 text-center bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent">Think-Pair-Share Activity</h2>
+            <div class="bg-gradient-to-r from-teal-900 to-cyan-900 p-6 rounded-lg border-2 border-teal-500 mb-5">
+                <h3 class="text-2xl font-bold mb-3 text-teal-300 text-center">Network Security Design Scenario</h3>
+                <p class="text-lg text-gray-200 leading-relaxed">
+                    Your company is launching a new e-commerce platform handling customer payments and sensitive personal information. Architecture includes:
+                </p>
+                <ul class="text-lg text-gray-200 mt-3 space-y-1">
+                    <li>Public-facing web servers</li>
+                    <li>Application servers processing transactions</li>
+                    <li>Database servers with customer data</li>
+                    <li>Administrative systems for management</li>
+                </ul>
+            </div>
+            <div class="space-y-4 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h4 class="text-xl font-bold mb-2 text-teal-400">Think (2 minutes):</h4>
+                    <p class="text-gray-300">What network security controls and segmentation strategies would you implement?</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h4 class="text-xl font-bold mb-2 text-cyan-400">Pair (3 minutes):</h4>
+                    <p class="text-gray-300">Discuss your designs with a partner. Compare approaches and identify strengths/vulnerabilities.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h4 class="text-xl font-bold mb-2 text-teal-400">Share (5 minutes):</h4>
+                    <p class="text-gray-300">Share your best combined design with the class.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 22: Deception Technology Part 1 -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-teal-400">Deception Technology (Part 1)</h2>
+            <div class="space-y-5 text-xl">
+                <div class="bg-gradient-to-r from-teal-900 to-cyan-900 p-4 rounded-lg border border-teal-500">
+                    <p class="text-xl font-semibold text-teal-300 mb-2">Purpose:</p>
+                    <p class="text-gray-200">Deploy decoy systems to detect, deflect, and gather intelligence on attackers</p>
+                </div>
+                <div class="grid grid-cols-2 gap-5">
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-teal-300">Honeypots</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Decoy systems mimicking real servers</li>
+                            <li><span class="font-semibold text-teal-400">Low-interaction:</span> Simulated services</li>
+                            <li><span class="font-semibold text-teal-400">High-interaction:</span> Full OS and apps</li>
+                            <li>No legitimate reason to access them</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-cyan-300">Honeynets</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Network of interconnected honeypots</li>
+                            <li>Simulates complete enterprise network</li>
+                            <li>Observes lateral movement patterns</li>
+                            <li>Provides richer intelligence</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 23: Deception Technology Part 2 -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-teal-400">Deception Technology (Part 2)</h2>
+            <div class="space-y-5 text-xl">
+                <div class="grid grid-cols-2 gap-5">
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-teal-300">Honeyfiles</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Decoy files with enticing names</li>
+                            <li>Monitor for unauthorized access</li>
+                            <li>Examples: "passwords.xlsx", "customer_data.db"</li>
+                            <li>Immediate alert when accessed</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-cyan-300">Honeytokens</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Fake credentials embedded in systems</li>
+                            <li>Canary tokens, fake API keys</li>
+                            <li>Alert when used anywhere</li>
+                            <li>Very low false positive rate</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-teal-300">Benefits</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Early warning system for breaches</li>
+                        <li>Gather threat intelligence and TTPs</li>
+                        <li>Waste attacker time and resources</li>
+                        <li>Legal evidence collection</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 24: Software-Defined Networking Part 1 -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-teal-400">Software-Defined Networking (Part 1)</h2>
+            <div class="space-y-5 text-xl">
+                <div class="bg-gradient-to-r from-teal-900 to-cyan-900 p-4 rounded-lg border border-teal-500">
+                    <p class="text-xl font-semibold text-teal-300 mb-2">Core Concept:</p>
+                    <p class="text-gray-200">Separate control plane from data plane for centralized management</p>
+                </div>
+                <div class="grid grid-cols-2 gap-5">
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-teal-300">SDN Architecture</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li><span class="font-semibold text-teal-400">Application Layer:</span> Business logic</li>
+                            <li><span class="font-semibold text-teal-400">Control Layer:</span> SDN controller (brain)</li>
+                            <li><span class="font-semibold text-teal-400">Infrastructure:</span> Physical devices</li>
+                            <li>APIs enable layer communication</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-cyan-300">Security Benefits</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Centralized security policy enforcement</li>
+                            <li>Dynamic microsegmentation</li>
+                            <li>Automated threat response</li>
+                            <li>Better visibility and monitoring</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 25: Software-Defined Networking Part 2 -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-teal-400">SD-WAN and SASE</h2>
+            <div class="space-y-5 text-xl">
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-teal-300">SD-WAN (Software-Defined WAN)</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Applies SDN principles to WAN connections</li>
+                        <li>Intelligent routing across multiple links (MPLS, broadband, LTE)</li>
+                        <li>Application-aware path selection</li>
+                        <li>Built-in encryption and security</li>
+                        <li>Cloud-first architecture for distributed enterprises</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-cyan-300">SASE (Secure Access Service Edge)</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Converges SD-WAN and network security</li>
+                        <li>Includes CASB, FWaaS, SWG, ZTNA</li>
+                        <li>Cloud-native architecture</li>
+                        <li>Delivers security at the edge, close to users</li>
+                        <li>Ideal for remote workforce and cloud adoption</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 26: High Availability Design -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-teal-400">High Availability Architecture</h2>
+            <div class="space-y-5 text-xl">
+                <div class="bg-gradient-to-r from-teal-900 to-cyan-900 p-4 rounded-lg border border-teal-500">
+                    <p class="text-xl font-semibold text-teal-300 mb-2">Goal:</p>
+                    <p class="text-gray-200">Ensure continuous operation through redundancy and fault tolerance</p>
+                </div>
+                <div class="grid grid-cols-2 gap-5">
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-teal-300">Redundancy Strategies</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li><span class="font-semibold text-teal-400">Active-Active:</span> All nodes process traffic</li>
+                            <li><span class="font-semibold text-teal-400">Active-Passive:</span> Standby on failure</li>
+                            <li><span class="font-semibold text-teal-400">Geographic Diversity:</span> Multiple locations</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-cyan-300">Key Components</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Redundant power (UPS, generators)</li>
+                            <li>Multiple ISP connections</li>
+                            <li>Clustered servers/databases</li>
+                            <li>RAID for storage</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-teal-300">Availability Metrics</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><span class="font-semibold text-teal-400">99.9% (Three nines):</span> ~8.7 hours downtime/year</li>
+                        <li><span class="font-semibold text-teal-400">99.99% (Four nines):</span> ~52 minutes downtime/year</li>
+                        <li><span class="font-semibold text-teal-400">99.999% (Five nines):</span> ~5 minutes downtime/year</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 27: File Integrity Monitoring -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-teal-400">File Integrity Monitoring (FIM)</h2>
+            <div class="space-y-5 text-xl">
+                <div class="bg-gradient-to-r from-teal-900 to-cyan-900 p-4 rounded-lg border border-teal-500">
+                    <p class="text-xl font-semibold text-teal-300 mb-2">Purpose:</p>
+                    <p class="text-gray-200">Detect unauthorized changes to critical files by monitoring attributes and contents</p>
+                </div>
+                <div class="grid grid-cols-2 gap-5">
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-teal-300">How FIM Works</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Create baseline of file hashes</li>
+                            <li>Periodically scan and compare</li>
+                            <li>Alert on discrepancies</li>
+                            <li>Uses cryptographic hashes (SHA-256)</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-cyan-300">Critical Files to Monitor</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>System binaries and libraries</li>
+                            <li>Configuration files</li>
+                            <li>Authentication databases</li>
+                            <li>Web application code</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-5">
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-teal-300">Use Cases</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Detect malware modifications</li>
+                            <li>Compliance (PCI DSS, NIST)</li>
+                            <li>Forensic investigation</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-cyan-300">Popular Tools</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Tripwire, AIDE</li>
+                            <li>OSSEC, Wazuh</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 28: Best Practices Part 1 -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-teal-400">Network Security Best Practices (Part 1)</h2>
+            <div class="space-y-5 text-xl">
+                <div class="grid grid-cols-2 gap-5">
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-teal-300">Defense in Depth</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Multiple layers of security controls</li>
+                            <li>No single point of failure</li>
+                            <li>Assume breach mentality</li>
+                            <li>Complementary controls at each layer</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-cyan-300">Least Privilege</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Grant minimum necessary access</li>
+                            <li>Apply to users, processes, systems</li>
+                            <li>Network micro-segmentation</li>
+                            <li>Regular access reviews</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-5">
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-teal-300">Network Monitoring</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Continuous traffic analysis</li>
+                            <li>Centralized logging (SIEM)</li>
+                            <li>Network flow analysis (NetFlow)</li>
+                            <li>Baseline normal behavior</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-cyan-300">Configuration Management</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Harden network devices</li>
+                            <li>Disable unused services/ports</li>
+                            <li>Keep firmware updated</li>
+                            <li>Configuration backups</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 29: Best Practices Part 2 -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-teal-400">Network Security Best Practices (Part 2)</h2>
+            <div class="space-y-5 text-xl">
+                <div class="bg-zinc-800 p-6 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-teal-300">Security Operations</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Regular vulnerability scanning and penetration testing</li>
+                        <li>Incident response plan with defined procedures</li>
+                        <li>Change management process</li>
+                        <li>Security awareness training for network operations staff</li>
+                        <li>Threat intelligence integration</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-6 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-cyan-300">Continuous Improvement</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Regular security assessments and audits</li>
+                        <li>Stay current with emerging threats</li>
+                        <li>Update security controls as needed</li>
+                        <li>Learn from security incidents</li>
+                        <li>Participate in threat intelligence sharing</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 30: Summary -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-center bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent">Chapter 12 Summary</h2>
+            <div class="grid grid-cols-2 gap-5 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-xl font-bold mb-3 text-teal-300">Key Concepts</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Network segmentation strategies</li>
+                        <li>Zero Trust Architecture</li>
+                        <li>NAC and 802.1X</li>
+                        <li>VPNs and secure protocols</li>
+                        <li>Security appliances</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-xl font-bold mb-3 text-cyan-300">Threats & Defenses</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>On-path and SSL stripping</li>
+                        <li>DNS hijacking/poisoning</li>
+                        <li>DDoS and mitigation</li>
+                        <li>Credential replay</li>
+                        <li>Deception technology</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-xl font-bold mb-3 text-teal-300">Advanced Topics</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Software-Defined Networking</li>
+                        <li>SD-WAN and SASE</li>
+                        <li>High availability design</li>
+                        <li>File Integrity Monitoring</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-xl font-bold mb-3 text-cyan-300">Best Practices</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Defense in depth</li>
+                        <li>Least privilege</li>
+                        <li>Continuous monitoring</li>
+                        <li>Configuration management</li>
+                        <li>Regular testing and updates</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="bg-gradient-to-r from-teal-900 to-cyan-900 p-5 rounded-lg border border-teal-500 mt-5">
+                <p class="text-xl font-semibold text-center text-teal-300">Network security is the foundation of protecting organizational assets. Implement layered defenses, embrace Zero Trust, and continuously monitor for threats.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="fixed bottom-8 left-1/2 transform -translate-x-1/2 flex gap-4 z-50">
+        <button id="prevBtn" class="nav-button bg-teal-600 hover:bg-teal-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg">
+            ← Previous
+        </button>
+        <div class="bg-zinc-800 text-white font-semibold py-3 px-6 rounded-lg shadow-lg">
+            <span id="slideNumber">1</span> / <span id="totalSlides">30</span>
+        </div>
+        <button id="nextBtn" class="nav-button bg-teal-600 hover:bg-teal-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg">
+            Next →
+        </button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const progressBar = document.getElementById('progressBar');
+        const slideNumber = document.getElementById('slideNumber');
+        const totalSlidesSpan = document.getElementById('totalSlides');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        totalSlidesSpan.textContent = totalSlides;
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+            slideNumber.textContent = currentSlide + 1;
+
+            const progress = ((currentSlide + 1) / totalSlides) * 100;
+            progressBar.style.width = progress + '%';
+        }
+
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
+
+        function prevSlide() {
+            showSlide(currentSlide - 1);
+        }
+
+        prevBtn.addEventListener('click', prevSlide);
+        nextBtn.addEventListener('click', nextSlide);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') prevSlide();
+            if (e.key === 'ArrowRight') nextSlide();
+        });
+
+        // Initialize
+        showSlide(0);
+    </script>
+</body>
+</html>

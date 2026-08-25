@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CompTIA Security+ Ch. 11: Endpoint Security</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #18181b; /* True Dark Grey (zinc-900) */
+            color: #e4e4e7; /* Light text */
+            overflow: hidden; /* Prevent scrolling the whole page */
+        }
+        .slide {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 80px; /* Space for navigation */
+            overflow-y: auto; /* Allow individual slides to scroll if content overflows */
+        }
+        .slide.active {
+            display: block;
+            opacity: 1;
+        }
+        /* Custom scrollbar for webkit browsers */
+        .slide::-webkit-scrollbar {
+            width: 8px;
+        }
+        .slide::-webkit-scrollbar-track {
+            background: #27272a;
+        }
+        .slide::-webkit-scrollbar-thumb {
+            background-color: #52525b;
+            border-radius: 10px;
+            border: 2px solid #27272a;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div id="presentation-container" class="relative w-full h-screen">
+
+        <!-- Slide 1: Title -->
+        <div class="slide active p-6 md:p-12">
+            <div class="w-full h-full flex items-center justify-center">
+                <div class="text-center max-w-4xl mx-auto">
+                    <h1 class="text-4xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-violet-500 mb-4">CompTIA Security+ Chapter 11</h1>
+                    <h2 class="text-2xl md:text-4xl font-bold text-gray-300 mb-8">Endpoint Security</h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Learning Objectives -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center text-gray-300">Learning Objectives</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">🖥️ Understand Endpoint Vulnerabilities</h3>
+                        <p class="text-gray-400">Identify operating system and hardware vulnerabilities including firmware risks, legacy hardware, and misconfigurations.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">🛡️ Implement Endpoint Protection</h3>
+                        <p class="text-gray-400">Deploy boot integrity measures, endpoint security tools (EDR/XDR, antivirus, DLP), and network defenses.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">🔧 Apply Hardening Techniques</h3>
+                        <p class="text-gray-400">Use configuration management, patching, encryption, and system hardening to reduce attack surfaces.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">🤖 Secure Specialized Systems</h3>
+                        <p class="text-gray-400">Protect embedded systems, IoT devices, SCADA/ICS infrastructure with appropriate security controls.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Operating System Vulnerabilities -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Operating System Vulnerabilities</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">OS Vulnerabilities</h3>
+                        <p class="text-gray-400">Software flaws in the OS itself can be exploited by attackers, driving the need for regular patching and minimizing exposed services.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">Default Configurations</h3>
+                        <p class="text-gray-400">Default passwords and insecure settings create easy attack paths. Security baselines help avoid these issues.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">Misconfigurations</h3>
+                        <p class="text-gray-400">Human error leads to security gaps. Configuration management tools with mandatory access controls help prevent configuration-based vulnerabilities.</p>
+                    </div>
+                    <div class="bg-purple-900/20 border border-purple-500/30 rounded-lg p-4">
+                        <p class="text-sm text-purple-200">💡 <strong>Key Insight:</strong> The attack footprint is the number of services exposed that can potentially be targeted. Minimize it through hardening!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Hardware Vulnerabilities -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Hardware Vulnerabilities</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">Firmware Risks</h3>
+                        <p class="text-gray-400">Firmware is embedded software that allows devices to function. It may be difficult to update and can persist through OS reinstallation.</p>
+                        <p class="text-sm text-gray-500 mt-2">Example: MoonBounce UEFI malware (2022)</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">End-of-Life Hardware</h3>
+                        <p class="text-gray-400">Devices past their support lifecycle receive no security updates, requiring compensating controls to mitigate risks.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5 col-span-1 md:col-span-2">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">🚨 Real-World Example: MoonBounce (2022)</h3>
+                        <p class="text-gray-400">APT41 deployed a UEFI firmware rootkit that persisted in SPI flash memory on the motherboard. It survived disk formatting and OS reinstallation, making it nearly impossible to remove without firmware flashing or hardware replacement.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Preserving Boot Integrity -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Preserving Boot Integrity</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">Secure Boot</h3>
+                        <p class="text-gray-400">UEFI feature that ensures the system boots using only software trusted by the OEM. Uses a signature database to validate firmware and bootloader components.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">Measured Boot</h3>
+                        <p class="text-gray-400">Hashes each boot component (firmware, bootloader, drivers) and stores measurements in the TPM. Enables boot attestation for remote verification.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">Hardware Root of Trust</h3>
+                        <p class="text-gray-400">Contains cryptographic keys that secure the boot process. The system inherently trusts this component. TPM chips are a common implementation.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">Boot Attestation</h3>
+                        <p class="text-gray-400">Remote validation of boot measurements against known good states. Allows access control and quarantine based on boot integrity.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Cryptographic Tools -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Cryptographic Security Tools</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">Trusted Platform Module (TPM)</h3>
+                        <p class="text-gray-400 mb-3">Built-in chip providing:</p>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li><strong>Remote attestation:</strong> Verify hardware/software configs</li>
+                            <li><strong>Binding:</strong> Encrypt data</li>
+                            <li><strong>Sealing:</strong> Encrypt data with state requirements</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">Hardware Security Module (HSM)</h3>
+                        <p class="text-gray-400">External devices/cards that create, store, and manage digital keys for cryptographic functions. Used in high-security environments, often FIPS 140 certified.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">Key Management System (KMS)</h3>
+                        <p class="text-gray-400">Centrally stores keys and certificates, enforces policies. Cloud providers often offer KMS as a service.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">Secure Enclave</h3>
+                        <p class="text-gray-400">Isolated secure element (e.g., Apple's Secure Enclave) providing hardware key management isolated from the main CPU.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Endpoint Security Tools - Antivirus/Antimalware -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Antivirus & Antimalware</h2>
+                <div class="space-y-4">
+                    <p class="text-lg text-gray-400 text-center">Detection methods used by antimalware tools:</p>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold text-purple-400 mb-2">Signature-Based Detection</h3>
+                            <p class="text-gray-400">Uses hash or pattern matching to identify known malware. Limited by polymorphic malware that changes with each installation.</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold text-purple-400 mb-2">Heuristic/Behavior-Based</h3>
+                            <p class="text-gray-400">Matches malicious actions to profiles of unwanted activities. Can identify new malware based on behavior.</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold text-purple-400 mb-2">AI/ML Systems</h3>
+                            <p class="text-gray-400">Leverage large datasets to identify malware using advanced analytics combining multiple detection techniques.</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold text-purple-400 mb-2">Sandboxing</h3>
+                            <p class="text-gray-400">Isolated environment to run and observe suspicious code safely. All actions are documented for analysis.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: EDR and XDR -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Endpoint & Extended Detection and Response</h2>
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">EDR (Endpoint Detection & Response)</h3>
+                        <p class="text-gray-400 mb-3">Combines endpoint monitoring with network and log analysis to:</p>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>Collect, correlate, and analyze events</li>
+                            <li>Search and investigate security data</li>
+                            <li>Detect anomalies and IoCs automatically</li>
+                            <li>Enable rapid incident response</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">XDR (Extended Detection & Response)</h3>
+                        <p class="text-gray-400 mb-3">Broader than EDR, considering:</p>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>Cloud services and platforms</li>
+                            <li>Email and collaboration tools</li>
+                            <li>Network infrastructure</li>
+                            <li>Uses AI/ML for detection and response</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="bg-purple-900/20 border border-purple-500/30 rounded-lg p-4">
+                    <p class="text-sm text-purple-200">🔍 <strong>Why EDR/XDR?</strong> Traditional antivirus can't keep up with modern threats like ransomware that exceed signature-based detection capabilities.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Data Loss Prevention -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Data Loss Prevention (DLP)</h2>
+                <div class="space-y-4">
+                    <p class="text-lg text-gray-400 text-center mb-4">Protects organizational data from theft and inadvertent exposure</p>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold text-purple-400 mb-2">Data Classification</h3>
+                            <p class="text-gray-400">Identify which data should be protected based on sensitivity and value to the organization.</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold text-purple-400 mb-2">Policy Enforcement</h3>
+                            <p class="text-gray-400">Manage data according to organizational standards, preventing unauthorized sharing or exfiltration.</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold text-purple-400 mb-2">Monitoring & Reporting</h3>
+                            <p class="text-gray-400">Track user behaviors to identify questionable activities or common mistakes like overly broad file permissions.</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold text-purple-400 mb-2">Protection Mechanisms</h3>
+                            <p class="text-gray-400">May include encryption, tokenization, or data wiping when data leaves protected zones.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Network Defenses -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Network Defense Technologies</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">Host-Based Firewall</h3>
+                        <p class="text-gray-400">Blocks or allows traffic based on applications, services, ports, or protocols. Built into most modern OSes and enabled by default.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">Host Intrusion Prevention (HIPS)</h3>
+                        <p class="text-gray-400">Analyzes traffic before services process it. Can actively block malicious traffic, including complex attacks spread across multiple packets.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5 col-span-1 md:col-span-2">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">⚠️ Deployment Consideration</h3>
+                        <p class="text-gray-400">HIPS can cause outages if misconfigured or if legitimate traffic is misidentified as malicious. HIDS (detection-only) has lower risk but can't block in real-time. Plan carefully and test thoroughly!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Hardening Techniques -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">System Hardening Techniques</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">Disabling Ports & Protocols</h3>
+                        <p class="text-gray-400">Only enable services and ports that must be available. Reduces attack surface by eliminating unnecessary exposure points.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">Default Password Changes</h3>
+                        <p class="text-gray-400">Change all default passwords immediately. Default credentials are publicly documented and create significant risk.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">Remove Unnecessary Software</h3>
+                        <p class="text-gray-400">Uninstall unneeded applications to reduce patching burden and eliminate potential vulnerabilities.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">Network Segmentation (VLANs)</h3>
+                        <p class="text-gray-400">Isolate different trust levels, user groups, or device types (e.g., IoT devices) on separate VLANs.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Configuration Management & Baselines -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Configuration Management & Baselines</h2>
+                <div class="space-y-4">
+                    <p class="text-lg text-gray-400 text-center">Baseline Life Cycle:</p>
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold text-purple-400 mb-2">1️⃣ Establish</h3>
+                            <p class="text-gray-400">Use industry standards (e.g., CIS Benchmarks) and modify to fit organizational needs.</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold text-purple-400 mb-2">2️⃣ Deploy</h3>
+                            <p class="text-gray-400">Use central management tools to apply baselines across systems at scale.</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold text-purple-400 mb-2">3️⃣ Maintain</h3>
+                            <p class="text-gray-400">Use enforcement tools to ensure configurations stay compliant and adjust baselines as needed.</p>
+                        </div>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5 mt-4">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">Configuration Enforcement</h3>
+                        <p class="text-gray-400">Not just monitoring—actively makes changes to ensure systems remain in their desired secure state.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 13: OS Hardening Tools -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Operating System Hardening Tools</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">Windows Group Policy</h3>
+                        <p class="text-gray-400 mb-3">Defines settings through Group Policy Objects (GPOs):</p>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>Password policies and account controls</li>
+                            <li>Software installation restrictions</li>
+                            <li>Security settings enforcement</li>
+                            <li>Applied locally or via Active Directory</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">SELinux (Security-Enhanced Linux)</h3>
+                        <p class="text-gray-400 mb-3">Linux kernel security module providing:</p>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>Mandatory Access Control (MAC)</li>
+                            <li>User, file, service, network layer enforcement</li>
+                            <li>Least privilege security implementations</li>
+                            <li>Role-based access controls</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="bg-purple-900/20 border border-purple-500/30 rounded-lg p-4 mt-6">
+                    <p class="text-sm text-purple-200">📚 <strong>Resources:</strong> Microsoft Security Compliance Toolkit and CIS Benchmarks provide baseline configurations and tools for assessment.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 14: Patch Management -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Patch Management</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">Why Patch?</h3>
+                        <p class="text-gray-400">Removes known vulnerabilities and reduces the window of time that exploits can be used against systems.</p>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold text-purple-400 mb-2">Enterprise Solutions</h3>
+                            <p class="text-gray-400">Tools like Microsoft Configuration Manager or third-party patch management systems handle OS and application updates at scale.</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold text-purple-400 mb-2">Key Features</h3>
+                            <p class="text-gray-400">Reporting, scheduling, blocking problematic updates, and forcing installation of critical patches.</p>
+                        </div>
+                    </div>
+                    <div class="bg-red-900/20 border border-red-500/30 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold text-red-300 mb-2">⚖️ The Patching Dilemma</h3>
+                        <p class="text-red-200 text-sm">Patches can introduce new issues. Organizations often delay patches for testing, but this leaves systems vulnerable. Balance the risk of patching against the risk of exploitation.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 15: Encryption -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Drive & Media Encryption</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">Full-Disk Encryption (FDE)</h3>
+                        <p class="text-gray-400">Encrypts the entire disk with a single key. Transparent encryption makes it invisible to users during normal operation.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">Volume Encryption</h3>
+                        <p class="text-gray-400">Encrypts specific volumes/filesystems, allowing different trust levels for different partitions.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">Self-Encrypting Drives (SED)</h3>
+                        <p class="text-gray-400">Hardware-level encryption implemented in drive firmware. Requires key to boot, provided manually or via hardware token.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">⚠️ Key Management</h3>
+                        <p class="text-gray-400">Lost encryption keys = unrecoverable data. Balance security with key recovery procedures.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 16: Embedded Systems & RTOS -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Embedded Systems & RTOS</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">What Are Embedded Systems?</h3>
+                        <p class="text-gray-400">Computer systems built into other devices (appliances, vehicles, industrial machinery). Often run customized or real-time operating systems.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">Real-Time Operating Systems (RTOS)</h3>
+                        <p class="text-gray-400">Prioritizes processing data immediately as it arrives, minimizing response time variance. Critical for industrial processes requiring quick responses.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">Security Constraints</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>Limited compute power, memory, storage</li>
+                            <li>May lack network connectivity</li>
+                            <li>Authentication may not be possible/desirable</li>
+                            <li>Often rely on implied trust (physical access = authorized)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 17: SCADA and ICS -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">SCADA & Industrial Control Systems</h2>
+                <div class="space-y-4">
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold text-purple-400 mb-2">SCADA Systems</h3>
+                            <p class="text-gray-400">Supervisory Control and Data Acquisition. Large-scale systems that control power, water, and industrial processes across wide areas.</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold text-purple-400 mb-2">ICS Components</h3>
+                            <p class="text-gray-400">Industrial Control Systems use PLCs (Programmable Logic Controllers) and RTUs (Remote Telemetry Units) to control equipment and collect sensor data.</p>
+                        </div>
+                    </div>
+                    <div class="bg-red-900/20 border border-red-500/30 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-red-300 mb-2">🚨 Real-World Attack: Colonial Pipeline (2021)</h3>
+                        <p class="text-red-200">DarkSide ransomware hit IT systems. To prevent spread to OT/SCADA systems, operators shut down the entire pipeline, disrupting fuel supplies across the East Coast. The company paid $4.4M ransom. <strong>Lesson:</strong> IT/OT integration creates new attack paths.</p>
+                    </div>
+                    <div class="bg-purple-900/20 border border-purple-500/30 rounded-lg p-4">
+                        <p class="text-sm text-purple-200">🔒 <strong>Security Approach:</strong> Isolate and protect ICS/SCADA systems. Network segmentation is critical. Many systems weren't designed with security in mind.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 18: Internet of Things (IoT) -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Internet of Things (IoT) Security</h2>
+                <div class="space-y-4">
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold text-purple-400 mb-2">Poor Security Practices</h3>
+                            <p class="text-gray-400 text-sm">Weak defaults, exposed services, no encryption, weak authentication, embedded credentials.</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold text-purple-400 mb-2">Short Support Lifespans</h3>
+                            <p class="text-gray-400 text-sm">Devices may never receive patches, leaving them vulnerable throughout their deployment.</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold text-purple-400 mb-2">Data Privacy Issues</h3>
+                            <p class="text-gray-400 text-sm">Vendor data handling, ownership concerns, sharing with third parties without awareness.</p>
+                        </div>
+                    </div>
+                    <div class="bg-red-900/20 border border-red-500/30 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-red-300 mb-2">💥 Real-World Attack: Mirai Botnet (2016)</h3>
+                        <p class="text-red-200">Infected IoT devices (IP cameras, routers) using default passwords. Launched 1Tbps DDoS attack against DNS provider Dyn, taking down major websites including Twitter, Netflix, Reddit. <strong>Lesson:</strong> Change default credentials immediately!</p>
+                    </div>
+                    <div class="bg-yellow-900/20 border border-yellow-500/30 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-yellow-300 mb-2">⚠️ Fitness Tracker Incident (2018)</h3>
+                        <p class="text-yellow-200">Strava heatmap exposed military base locations and patrol routes in Iraq, Afghanistan, and Syria. Aggregated GPS data from fitness trackers revealed secret facilities and movement patterns. U.S. military banned GPS tracking apps in sensitive areas.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 19: Think-Pair-Share Activity -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-gray-300">🤔 Think-Pair-Share: Securing Embedded Devices</h2>
+                <div class="bg-yellow-900/20 border border-yellow-500/30 rounded-lg p-5 text-left mb-6">
+                    <h3 class="text-xl font-semibold text-yellow-300 mb-3 text-center">Scenario: Smart Building Security Nightmare</h3>
+                    <p class="text-yellow-200">Your company just moved into a new "smart building" with IoT-connected HVAC systems, smart locks, surveillance cameras, and occupancy sensors. The facilities manager proudly announces everything is networked for remote management. As the security professional, you're immediately concerned.</p>
+                </div>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5 text-left">
+                    <h3 class="text-xl font-semibold text-gray-300 mb-3 text-center">Your Task (7 minutes)</h3>
+                    <ol class="space-y-3 text-gray-400 list-decimal list-inside">
+                        <li><strong>Think (2 min):</strong> Identify 3 specific security risks posed by these IoT devices.</li>
+                        <li><strong>Pair (3 min):</strong> Discuss with a partner: What hardening techniques from today's chapter could mitigate these risks?</li>
+                        <li><strong>Share (2 min):</strong> Present one key security control you would implement first and why.</li>
+                    </ol>
+                </div>
+                <div class="bg-purple-900/20 border border-purple-500/30 rounded-lg p-4 mt-4 text-left">
+                    <p class="text-sm text-purple-200">💡 <strong>Hint:</strong> Consider network segmentation, default credentials, patch management, and physical access controls.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 20: Asset Management Life Cycle -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Asset Management Life Cycle</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">Acquisition & Procurement</h3>
+                        <p class="text-gray-400">Security assessment during purchase. Ensure assets have appropriate controls and vendor practices align with needs.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">Assignment & Accounting</h3>
+                        <p class="text-gray-400">Track ownership and classification. Add to inventory systems. Critical for incident response and operations.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">Monitoring & Asset Tracking</h3>
+                        <p class="text-gray-400">Maintain inventory through regular enumeration. Update management tools with asset information.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">Disposal & Decommissioning</h3>
+                        <p class="text-gray-400">Remove from service and inventory. Ensure sensitive data is properly sanitized or destroyed.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 21: Sanitization & Disposal -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Data Sanitization & Media Disposal</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">Wiping/Clearing</h3>
+                        <p class="text-gray-400 mb-3">Overwrite data multiple times with 1s/0s. Considerations:</p>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>Tools like DBAN for magnetic media</li>
+                            <li>SSDs: Use Secure Erase command (wear-leveling issue)</li>
+                            <li>Data remanence risk with flash media</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">Destruction</h3>
+                        <p class="text-gray-400 mb-3">Physical destruction ensures no recovery:</p>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>Shredding, pulverizing, incinerating</li>
+                            <li>Degaussing for magnetic media</li>
+                            <li>Third-party vendors with certification</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">Encryption as Sanitization</h3>
+                        <p class="text-gray-400">FDE + key disposal is effective sanitization. Destroy the key, data becomes unrecoverable.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">Certification & Retention</h3>
+                        <p class="text-gray-400">Document disposal process. Consider retention policies and legal holds before disposal.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 22: Real-World Ransomware Impact -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Real-World Impact: Ransomware 2024-2025</h2>
+                <div class="space-y-4">
+                    <div class="bg-red-900/20 border border-red-500/30 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-red-300 mb-2">Change Healthcare Attack (Feb 2024)</h3>
+                        <p class="text-red-200">BlackCat/ALPHV ransomware affected 100+ million people. Attackers exploited Citrix portal without MFA. Total cost exceeded $2.4 billion. Spent 9 days in network before deploying ransomware.</p>
+                    </div>
+                    <div class="bg-red-900/20 border border-red-500/30 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-red-300 mb-2">Statistics & Trends</h3>
+                        <ul class="text-red-200 text-sm list-disc list-inside space-y-1">
+                            <li>5,263 attacks in 2024 (highest ever recorded)</li>
+                            <li>Average ransom payment: $2.73M (nearly doubled)</li>
+                            <li>90% of organizations targeted</li>
+                            <li>Attackers now exploit IoT devices and unconventional entry points</li>
+                        </ul>
+                    </div>
+                    <div class="bg-purple-900/20 border border-purple-500/30 rounded-lg p-4">
+                        <p class="text-sm text-purple-200">🛡️ <strong>Defense Strategy:</strong> EDR/XDR tools, patching, MFA everywhere, network segmentation, endpoint hardening, and regular backups!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 23: Summary -->
+        <div class="slide p-6 md:p-12">
+            <div class="w-full h-full flex items-center justify-center">
+                <div class="max-w-4xl mx-auto">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center text-gray-300 border-b-2 border-gray-600 pb-4">Chapter Summary</h2>
+                    <div class="space-y-4">
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold text-purple-400 mb-2">Endpoints Are Your Largest Attack Surface</h3>
+                            <p class="text-gray-400">OS and hardware vulnerabilities, misconfigurations, and default settings create risks. Boot integrity, encryption, and hardening reduce exposure.</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold text-purple-400 mb-2">Layered Defense is Essential</h3>
+                            <p class="text-gray-400">Combine antivirus, EDR/XDR, DLP, firewalls, HIPS, patching, and configuration management for comprehensive protection.</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold text-purple-400 mb-2">Specialized Systems Need Special Attention</h3>
+                            <p class="text-gray-400">IoT, embedded systems, SCADA/ICS have unique constraints. Network segmentation and isolation are critical controls.</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold text-purple-400 mb-2">Life Cycle Management Matters</h3>
+                            <p class="text-gray-400">From acquisition to disposal, proper asset management prevents data breaches and supports security operations.</p>
+                        </div>
+                        <div class="bg-red-900/50 border border-red-500/50 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold text-red-300 mb-2">🚨 Bottom Line</h3>
+                            <p class="text-gray-300">Endpoints outnumber servers and network devices. They face the widest variety of threats. Strong endpoint security is foundational to organizational defense.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div id="navigation" class="fixed bottom-0 left-0 right-0 h-20 bg-zinc-900/80 backdrop-blur-sm border-t border-zinc-700 flex items-center justify-center px-6">
+        <div class="w-full max-w-4xl flex items-center justify-between">
+            <button id="prevBtn" class="bg-zinc-700 text-white font-bold py-2 px-4 rounded-md hover:bg-zinc-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">Previous</button>
+            <div class="flex-grow mx-4">
+                 <div class="w-full bg-zinc-700 rounded-full h-2.5">
+                    <div id="progressBar" class="bg-purple-600 h-2.5 rounded-full" style="width: 0%"></div>
+                </div>
+            </div>
+            <button id="nextBtn" class="bg-purple-700 text-white font-bold py-2 px-4 rounded-md hover:bg-purple-600 transition-colors">Next</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const progressBar = document.getElementById('progressBar');
+            let currentSlide = 0;
+            const totalSlides = slides.length;
+
+            function showSlide(index) {
+                const activeSlide = document.querySelector('.slide.active');
+                if (activeSlide) activeSlide.classList.remove('active');
+                slides[index].classList.add('active');
+                const progressPercentage = ((index + 1) / totalSlides) * 100;
+                progressBar.style.width = `${progressPercentage}%`;
+                prevBtn.disabled = index === 0;
+                nextBtn.disabled = index === totalSlides - 1;
+                nextBtn.textContent = index === totalSlides - 1 ? 'Finish' : 'Next';
+            }
+
+            nextBtn.addEventListener('click', () => {
+                if (currentSlide < totalSlides - 1) {
+                    currentSlide++;
+                    showSlide(currentSlide);
+                }
+            });
+
+            prevBtn.addEventListener('click', () => {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    showSlide(currentSlide);
+                }
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight' && !nextBtn.disabled) {
+                    nextBtn.click();
+                } else if (e.key === 'ArrowLeft' && !prevBtn.disabled) {
+                    prevBtn.click();
+                }
+            });
+
+            showSlide(currentSlide);
+        });
+    </script>
+</body>
+</html>

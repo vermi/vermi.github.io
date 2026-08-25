@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introduction to Cybersecurity Ethics</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #18181b;
+            color: #e4e4e7;
+            overflow: hidden;
+        }
+        .slide {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 80px;
+            overflow-y: auto;
+        }
+        .slide.active {
+            display: block;
+            opacity: 1;
+        }
+        .slide::-webkit-scrollbar {
+            width: 8px;
+        }
+        .slide::-webkit-scrollbar-track {
+            background: #27272a;
+        }
+        .slide::-webkit-scrollbar-thumb {
+            background-color: #52525b;
+            border-radius: 10px;
+            border: 2px solid #27272a;
+        }
+        .accent { color: #4ade80; }
+        .accent-bg { background-color: rgba(45, 90, 39, 0.3); border-color: rgba(74, 222, 128, 0.3); }
+        .accent-solid { background-color: #2D5A27; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div id="presentation-container" class="relative w-full h-screen">
+
+        <!-- Slide 1: Title -->
+        <div class="slide active p-6 md:p-12">
+            <div class="w-full h-full flex items-center justify-center">
+                <div class="text-center max-w-4xl mx-auto">
+                    <h1 class="text-4xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-600 mb-4">Introduction to Cybersecurity Ethics</h1>
+                    <h2 class="text-2xl md:text-4xl font-bold text-gray-300 mb-4">CYBS 0189 Applied Cybersecurity II</h2>
+                    <p class="text-lg text-gray-400">New Mexico Tech</p>
+                    <p class="text-sm text-gray-500 mt-2">Spring 2026</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Module Overview -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center text-gray-300">Module Overview</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Part 1: Important Ethical Issues in Cybersecurity</h3>
+                        <p class="text-gray-400">Privacy harms, property harms, resource allocation, transparency, and competing roles/duties.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Part 2: Common Ethical Challenges</h3>
+                        <p class="text-gray-400">Ten types of ethical challenges faced by cybersecurity professionals in practice.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Part 3: Obligations to the Public</h3>
+                        <p class="text-gray-400">Professional duty, stakeholder analysis, and the public good.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Part 4: Ethical Frameworks</h3>
+                        <p class="text-gray-400">Virtue Ethics, Consequentialism/Utilitarianism, and Deontological Ethics.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Part 5: Ethical Best Practices</h3>
+                        <p class="text-gray-400">14 norms for cybersecurity ethics and 5 habits for living well.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: What Is Ethics? -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">What Do We Mean by 'Ethics'?</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">The Good Life</h3>
+                        <p class="text-gray-400">Ethics refers to the concern humans have always had for figuring out how best to live. Socrates said: "The most important thing is not life, but the good life."</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Where Ethics Lives</h3>
+                        <p class="text-gray-400 mb-2">Ethics is found in many different contexts:</p>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li><strong>Academic:</strong> Philosophy (theoretical and applied)</li>
+                            <li><strong>Community:</strong> Cultural, political, and religious ideals</li>
+                            <li><strong>Personal:</strong> Self-reflection and striving to improve</li>
+                            <li><strong>Professional:</strong> Formal codes (medical, legal, cybersecurity ethics)</li>
+                        </ul>
+                    </div>
+                    <div class="accent-bg rounded-lg p-4">
+                        <p class="text-sm text-green-200">Key Point: Professional ethics is not just a box to check. It is integral to being excellent at what we do.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Ethics & Technology -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">What Does Ethics Have to Do with Technology?</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Technology Shapes the Good Life</h3>
+                        <p class="text-gray-400">Technology increasingly shapes how human beings seek the good life. Well-designed technologies make it easier to live well; poorly designed ones make it harder.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Why Now?</h3>
+                        <p class="text-gray-400">Unprecedented speed and scale of technological change outpaces regulators and lawmakers. Technical experts are called upon to think proactively about how their choices impact human lives.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Technologies Are Not Neutral</h3>
+                        <p class="text-gray-400">Technologies reflect the values "baked in" with design choices. They both reveal and shape what humans value.</p>
+                    </div>
+                    <div class="accent-bg rounded-lg p-4">
+                        <p class="text-sm text-green-200">Example: Face and voice recognition can track your movements, expose medical history, religiosity, and personal conversations without consistent legal frameworks governing collection.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Technology, Power & Justice -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Technology, Power & Justice</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Redistribution of Power</h3>
+                        <p class="text-gray-400">Companies like Facebook, Google, Amazon, Apple, and Microsoft now wield political influence comparable to, or greater than, that of nations.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Disparate Impacts</h3>
+                        <p class="text-gray-400">Technologies create "winners" and "losers" or magnify existing inequalities. Benefits may flow to wealthy nations while environmental burdens fall on poorer ones.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5 col-span-1 md:col-span-2">
+                        <h3 class="text-xl font-semibold accent mb-2">Technology Justice</h3>
+                        <p class="text-gray-400">How do we ensure that access to benefits and exposure to risks are distributed in the right way? Justice is not only a matter of law; it is even more fundamentally a matter of ethics.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Ethics & Cybersecurity -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">What Does Ethics Have to Do with Cybersecurity?</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Cybersecurity Protects Human Lives</h3>
+                        <p class="text-gray-400">Cybersecurity practices protect the integrity, functionality, and reliability of human institutions that rely on data, systems, and networks. A hospital network defender protects sick patients, even without medical training.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">The Ethical Weight</h3>
+                        <p class="text-gray-400">Cybersecurity professionals protect credit users, students, power and water customers, voters, investors, drivers, passengers&mdash;basically all of us. Ethical issues are at the core of cybersecurity.</p>
+                    </div>
+                    <div class="accent-bg rounded-lg p-4">
+                        <p class="text-sm text-green-200">A broader understanding of cybersecurity ethics is essential to promoting and protecting human flourishing in an increasingly networked society.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Real-World Ethical Scenarios -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Real-World Ethical Scenarios</h2>
+                <div class="space-y-3">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <p class="text-gray-400"><strong class="accent">Kent:</strong> A college senior's transcript grades were changed to 'F' by an undetected network intruder, derailing his grad school applications.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <p class="text-gray-400"><strong class="accent">Desiree:</strong> A credit bureau's cybersecurity team thwarted an attempted theft of her credit data, enabling her business loan approval and decade of success.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <p class="text-gray-400"><strong class="accent">The Porters:</strong> A DDoS-caused network outage prevented a farming family from receiving evacuation orders during a hurricane.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <p class="text-gray-400"><strong class="accent">Casey:</strong> A phishing email at an aeronautics subcontractor introduced malware targeting autopilot system update files.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <p class="text-gray-400"><strong class="accent">Dev & Katia:</strong> Freelance hackers found a phone vulnerability and were offered jobs by a competitor in exchange for silence.</p>
+                    </div>
+                    <div class="accent-bg rounded-lg p-4">
+                        <p class="text-sm text-green-200">All of these cases raise ethical issues. Unsuspecting persons' chances of living good lives are profoundly impacted by cybersecurity decisions.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Part One - Ethical Issues Overview -->
+        <div class="slide p-6 md:p-12">
+            <div class="w-full h-full flex items-center justify-center">
+                <div class="text-center max-w-4xl mx-auto">
+                    <h1 class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-600 mb-6">PART ONE</h1>
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-300 mb-4">What Are the Important Ethical Issues in Cybersecurity?</h2>
+                    <p class="text-lg text-gray-400">Understanding the harms and benefits linked to cybersecurity efforts</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Harms to Privacy -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">A. Harms to Privacy</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">The Data Landscape</h3>
+                        <p class="text-gray-400">Oceans of sensitive data flow across the digital landscape. Most people don't realize how exposed their lives are by poor cybersecurity practices.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Common Privacy Threats</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>Identity theft and financial impersonation</li>
+                            <li>Blackmail and extortion via hacked sensitive information</li>
+                            <li>Facial, gait, and voice recognition tracking</li>
+                            <li>Anonymized data re-identification through dataset linking</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">No One Is Safe</h3>
+                        <p class="text-gray-400">Even those who live "off the digital grid" cannot prevent sensitive data about them from being generated by friends, family, employers, and service providers. In networked societies, data rarely stays confined.</p>
+                    </div>
+                    <div class="accent-bg rounded-lg p-4">
+                        <p class="text-sm text-green-200">Poor cybersecurity practices (lax patching, outdated encryption, no incident response) can be more than ineffective&mdash;they can be unethical.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Harms to Property -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">B. Harms to Property</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Direct Property Threats</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>Misappropriation of electronic funds</li>
+                            <li>Theft of intellectual property/trade secrets</li>
+                            <li>Obtaining bank account numbers/passwords</li>
+                            <li>Remote damage or destruction of property</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Motivations Vary</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>Profit-seeking criminal enterprises</li>
+                            <li>Politically-motivated non-state actors</li>
+                            <li>Corporate espionage agents</li>
+                            <li>Hostile foreign military/intelligence</li>
+                            <li>Lone hackers or collectives</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="accent-bg rounded-lg p-4 mt-4">
+                    <p class="text-sm text-green-200">Example: The Stuxnet worm (2010) was used to disable Iranian centrifuges but also infected hundreds of thousands of unrelated computers. "Hacking back" creates unacceptable risks to innocent parties.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Resource Allocation & Transparency -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">C & D. Resource Allocation & Transparency</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Resource Allocation Dilemma</h3>
+                        <p class="text-gray-400">Cybersecurity consumes considerable resources: time, money, expertise. A maximally secure but unusable network cannot be justified&mdash;but some products (like WiFi-enabled pacemakers) must not have weak security regardless of cost.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Transparency & Disclosure</h3>
+                        <p class="text-gray-400">Because cybersecurity is risk management that impacts others, there is a default ethical duty to disclose known risks. But the appropriate mode, extent, and timing of disclosure is subject to debate.</p>
+                    </div>
+                </div>
+                <div class="bg-red-900/20 border border-red-500/30 rounded-lg p-4 mt-4">
+                    <p class="text-sm text-red-200">Hospital Example: A network security admin who panics at a port scan and institutes a time-consuming new login procedure could endanger patients who need quick network access for life-saving equipment.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Roles, Duties & Interests -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">E. Cybersecurity Roles, Duties & Interests</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Competing Loyalties</h3>
+                        <p class="text-gray-400">Cybersecurity professionals may feel conflicting loyalties to: the public, government agencies, employers/clients, security community subcultures, and their own personal interests.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">The Hacker Culture Debate</h3>
+                        <p class="text-gray-400">The divergent subcommunities of 'white-hat,' 'black-hat,' and 'gray-hat' hackers complicate professional standards. The zero-day exploit market embodies this complex ethical landscape.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Real Tensions</h3>
+                        <p class="text-gray-400">A researcher wanting to publish a vulnerability vs. protecting clients. A CISO wanting to hire a talented but ethically underdeveloped hacker for their Red Team. These complex choices significantly impact others' lives.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 13: Part Two Header -->
+        <div class="slide p-6 md:p-12">
+            <div class="w-full h-full flex items-center justify-center">
+                <div class="text-center max-w-4xl mx-auto">
+                    <h1 class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-600 mb-6">PART TWO</h1>
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-300 mb-4">Common Ethical Challenges for Cybersecurity Professionals</h2>
+                    <p class="text-lg text-gray-400">Even when a cybersecurity practice is legal, it may not be ethical</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 14: Challenges 1-3 -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Ethical Challenges 1&ndash;3</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">1. Balancing Security with Other Values</h3>
+                        <p class="text-gray-400">Have we struck an ethically acceptable balance between cybersecurity and usability, reliability, speed? Have we given stakeholders a false sense of security or made promises we cannot keep?</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">2. Threat/Incident Response</h3>
+                        <p class="text-gray-400">Do we have appropriate incident response plans for each threat type? How aggressive can we justifiably be? How will we respond to ransomware attacks?</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">3. Security Breach/Vulnerability Disclosure</h3>
+                        <p class="text-gray-400">Do we have an ethically sound plan for when and how to notify stakeholders? Have we identified the balance between overreaction and underreaction?</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 15: Challenges 4-6 -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Ethical Challenges 4&ndash;6</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">4. Network Monitoring & User Privacy</h3>
+                        <p class="text-gray-400">How do we monitor effectively without making unjustifiable intrusions upon user privacy? Should emails be read, keystrokes logged, locations tracked? How do we handle personal vs. company devices?</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">5. Competing Interests & Obligations</h3>
+                        <p class="text-gray-400">What if asked to grant inappropriate access privileges? What if asked to delay disclosure of a vulnerability to protect stock price? What if asked to violate professional duty for "national security"?</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">6. Data Storage & Encryption</h3>
+                        <p class="text-gray-400">How do we responsibly store/transmit sensitive data? How do we respond to law enforcement requests to weaken encryption? What are the ethical risks of long-term data storage?</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 16: Challenges 7-8 -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Ethical Challenges 7&ndash;8</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">7. IoT, Smart Grid & Product Design</h3>
+                        <p class="text-gray-400">Have we adequately justified the increased security risks of wireless-enabled devices? Do Bluetooth door locks make sense from a security perspective? Have we been sufficiently imaginative about how products might be abused?</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">8. Accountability for Cybersecurity</h3>
+                        <p class="text-gray-400">Who is designated as responsible for each aspect of cybersecurity? How do we avoid the "problem of many hands" where no one is accountable? Have we placed security in appropriately skilled hands?</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 17: Challenges 9-10 -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Ethical Challenges 9&ndash;10</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">9. Security Research & Testing</h3>
+                        <p class="text-gray-400">When is it ethical to publish unknown vulnerabilities? What are the ethical implications of the private market for zero-day exploits? Companies like Hacking Team and VUPEN sell exploits to repressive governments.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">10. Broader Impacts</h3>
+                        <p class="text-gray-400">Have we fully considered how our practices impact others across diverse individuals, identities, cultures? Is our team diverse enough to anticipate these effects? Do our practices violate anyone's fundamental rights?</p>
+                    </div>
+                </div>
+                <div class="accent-bg rounded-lg p-4 mt-4">
+                    <p class="text-sm text-green-200">Key Question: Would information about our cybersecurity practices be morally controversial or damaging to professional reputations if widely known? If so, why are these our practices, and not better ones?</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 18: Discussion - Equifax Case -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Case Discussion: Equifax Breach (2017)</h2>
+                <div class="space-y-4">
+                    <div class="bg-red-900/20 border border-red-500/30 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-red-300 mb-2">What Happened</h3>
+                        <p class="text-red-200">143 million Americans' data breached. SSNs, credit cards, birthdates, addresses stolen. Equifax knew for months before disclosing. A patch for the exploited vulnerability had been available 2 months before the breach. One system used 'admin/admin' credentials.</p>
+                    </div>
+                    <div class="bg-yellow-900/20 border border-yellow-500/30 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-yellow-300 mb-2">Think-Pair-Share (7 min)</h3>
+                        <ol class="text-yellow-200 text-sm list-decimal list-inside space-y-2">
+                            <li><strong>Think (2 min):</strong> Which of the 10 ethical challenges does this case involve?</li>
+                            <li><strong>Pair (3 min):</strong> What organizational culture factors contributed to these failures?</li>
+                            <li><strong>Share (2 min):</strong> How could an ethical cybersecurity culture have prevented or reduced the harm?</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 19: Part Three Header -->
+        <div class="slide p-6 md:p-12">
+            <div class="w-full h-full flex items-center justify-center">
+                <div class="text-center max-w-4xl mx-auto">
+                    <h1 class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-600 mb-6">PART THREE</h1>
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-300 mb-4">Cybersecurity Professionals' Obligations to the Public</h2>
+                    <p class="text-lg text-gray-400">"With great power comes great responsibility"</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 20: Why Public Obligations? -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Why Do Cybersecurity Professionals Have Public Obligations?</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Because We Are Human</h3>
+                        <p class="text-gray-400">All human beings have ethical obligations to one another. Most people would stop a toddler from crawling toward a mineshaft, even if the child is unknown.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">The School Construction Analogy</h3>
+                        <p class="text-gray-400">If a construction company owner buys defective materials to boost his kids' college fund, and a school cafeteria collapses killing 50&mdash;we don't excuse him because he did it for family. The same logic applies to cybersecurity negligence.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Because We Are Professionals</h3>
+                        <p class="text-gray-400">"Professional" comes from "to profess"&mdash;to stand publicly for something. Professionals secure vital public goods and earn special respect and trust. That power creates special responsibility.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 21: Stakeholder Analysis -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Stakeholder Analysis</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Who Is "The Public"?</h3>
+                        <p class="text-gray-400">The public is composed of families, friends, co-workers, employers, neighbors, community members, fellow citizens, and people worldwide. Each has a unique relationship to our work.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Stakeholder Framework</h3>
+                        <p class="text-gray-400">A stakeholder is anyone potentially impacted by our actions. Some have more at stake than others. Example: Surgical patients relying on properly secured infusion pump software have the highest stakes.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Ranking Competing Interests</h3>
+                        <p class="text-gray-400">My trivial interests (avoiding a tedious audit, concealing an embarrassing security hole) will never override the critical moral interest of another stakeholder in not being unjustly harmed.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 22: Hello Barbie Discussion -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Case Discussion: Hello Barbie (2015)</h2>
+                <div class="space-y-4">
+                    <div class="bg-red-900/20 border border-red-500/30 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-red-300 mb-2">The Product</h3>
+                        <p class="text-red-200">WiFi-enabled doll recording children's conversations, sending audio to cloud for processing. Parents could monitor and share clips online. Security researchers found 14 vulnerabilities: weak passwords, no brute-force protection, URL redirect exposure, persistent backdoor potential.</p>
+                    </div>
+                    <div class="bg-yellow-900/20 border border-yellow-500/30 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-yellow-300 mb-2">Group Discussion (10 min)</h3>
+                        <ol class="text-yellow-200 text-sm list-decimal list-inside space-y-2">
+                            <li>List all stakeholders and what was at stake for each</li>
+                            <li>Why did Mattel/ToyTalk have an especially strong ethical duty here?</li>
+                            <li>"Little to no pre-production security analysis"&mdash;what organizational factors led to this?</li>
+                            <li>How does this case relate to public trust in the tech industry?</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 23: Part Four Header -->
+        <div class="slide p-6 md:p-12">
+            <div class="w-full h-full flex items-center justify-center">
+                <div class="text-center max-w-4xl mx-auto">
+                    <h1 class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-600 mb-6">PART FOUR</h1>
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-300 mb-4">What Ethical Frameworks Can Guide Cybersecurity Practice?</h2>
+                    <p class="text-lg text-gray-400">Three foundational approaches to moral reasoning</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 24: Virtue Ethics -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">1. Virtue Ethics</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Character-Based Ethics</h3>
+                        <p class="text-gray-400">Found in ancient Greek/Roman, Confucian, Buddhist, and Christian traditions. Focuses on qualities of morally excellent persons (virtues) rather than rules for actions. Emphasizes habits of moderation and practical wisdom.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Three Contributions</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-2">
+                            <li><strong>Moral Obligation:</strong> We must consciously develop our character for the better</li>
+                            <li><strong>Standards of Conduct:</strong> Look for exemplary human beings with virtues to aspire to</li>
+                            <li><strong>Practical Wisdom:</strong> Cultivate the ability to discern the right action in complex situations</li>
+                        </ul>
+                    </div>
+                    <div class="accent-bg rounded-lg p-4">
+                        <p class="text-sm text-green-200">Confucius: "The real ethical failing is not having faults, but rather failing to amend them."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 25: Consequentialist/Utilitarian Ethics -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">2. Consequentialist/Utilitarian Ethics</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">The Greatest Good</h3>
+                        <p class="text-gray-400">Derives moral principles from the likely consequences of actions. The right action produces the greatest net sum of good (happiness, absence of pain) for all affected&mdash;not just yourself. This is the "hedonic calculus."</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Strengths & Criticisms</h3>
+                        <p class="text-gray-400">Utilitarians are sometimes charged with ignoring individual rights and justice. But many utilitarians argue that a society respecting rights actually maximizes happiness long-term. "How many societies that deny rights would we call happy?"</p>
+                    </div>
+                    <div class="accent-bg rounded-lg p-4">
+                        <p class="text-sm text-green-200">Cybersecurity Application: Would releasing this vulnerability now produce more overall benefit (spurring patches) or harm (enabling attackers) across all affected stakeholders?</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 26: Deontological Ethics -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">3. Deontological Ethics</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Rule & Principle-Based</h3>
+                        <p class="text-gray-400">One or more rules/principles tell us our moral obligations. Examples: Ten Commandments, universal human rights, duties to parents/rulers/citizens in East Asian traditions.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Kant's Categorical Imperative</h3>
+                        <p class="text-gray-400">Only act in ways you would be willing to have ALL other persons follow, ALL the time. Never treat a human being as a "mere means to an end"&mdash;an object to be manipulated for your own purposes.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Applied to Cybersecurity</h3>
+                        <p class="text-gray-400">I cannot logically give myself permission to lie about a breach, since I would not want everyone to lie when convenient. I cannot use others' data merely as a tool for profit, because that violates their dignity.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 27: Comparing Frameworks -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Comparing the Three Frameworks</h2>
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Virtue Ethics</h3>
+                        <p class="text-gray-400 text-sm mb-2">Asks: "What would a person of good character do?"</p>
+                        <p class="text-gray-500 text-sm"><strong>Focus:</strong> Character development, moral exemplars, practical wisdom</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Utilitarianism</h3>
+                        <p class="text-gray-400 text-sm mb-2">Asks: "What produces the greatest overall good?"</p>
+                        <p class="text-gray-500 text-sm"><strong>Focus:</strong> Consequences, maximizing happiness, minimizing suffering</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Deontology</h3>
+                        <p class="text-gray-400 text-sm mb-2">Asks: "What rules/duties apply here?"</p>
+                        <p class="text-gray-500 text-sm"><strong>Focus:</strong> Universal principles, rights, human dignity</p>
+                    </div>
+                </div>
+                <div class="accent-bg rounded-lg p-4 mt-4">
+                    <p class="text-sm text-green-200">All three frameworks are useful. Each captures different aspects of the good life. Skilled ethical reasoning draws on all of them.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 28: Part Five Header -->
+        <div class="slide p-6 md:p-12">
+            <div class="w-full h-full flex items-center justify-center">
+                <div class="text-center max-w-4xl mx-auto">
+                    <h1 class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-600 mb-6">PART FIVE</h1>
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-300 mb-4">Ethical Best Practices in Cybersecurity</h2>
+                    <p class="text-lg text-gray-400">14 norms for cybersecurity ethics + 5 habits for living well</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 29: Best Practices I-IV -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Best Practices I&ndash;IV</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">I. Keep Ethics in the Spotlight</h3>
+                        <p class="text-gray-400">Don't treat ethics as a "compliance box" to check. Law and ethics are not the same. What is legal can be unethical, and what is ethical can be illegal.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">II. Consider the Human Lives Behind the Systems</h3>
+                        <p class="text-gray-400">A decent human would never handle another person's body, money, or mental condition without due care. We do this when we handle cybersystems.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">III. Consider Downstream, Upstream & Lateral Risks</h3>
+                        <p class="text-gray-400">Ethical issues don't disappear after your task is done. Maintain awareness of what happens to sensitive data/systems after they leave your hands.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">IV. Don't Discount Non-Technical Actors</h3>
+                        <p class="text-gray-400">Being technically naive does not make a person more deserving of harm. Empathy for non-technical users makes you more effective, not less.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 30: Best Practices V-VIII -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Best Practices V&ndash;VIII</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">V. Establish Chains of Responsibility & Accountability</h3>
+                        <p class="text-gray-400">Avoid the "problem of many hands." Make clear who is responsible for each aspect of security and who is accountable for failures.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">VI. Practice Disaster Planning & Crisis Response</h3>
+                        <p class="text-gray-400">Conduct pre-mortems and post-mortems. Develop crisis plans beyond deflecting blame. Thinking about failure makes our work better, not worse.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">VII. Promote Transparency, Autonomy & Trustworthiness</h3>
+                        <p class="text-gray-400">Never bury a vulnerability notification to spare yourself from scorn. Delaying notifications to protect affected stakeholders may be justified; delaying to protect yourself is not.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">VIII. Consider Disparate Interests, Resources & Impacts</h3>
+                        <p class="text-gray-400">Does your product offer cutting-edge security only in the expensive model? Does your facial recognition work with darker skin tones? Anticipate and audit for disparate impacts.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 31: Best Practices IX-XII -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Best Practices IX&ndash;XII</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">IX. Invite Diverse Stakeholder Input</h3>
+                        <p class="text-gray-400">Avoid groupthink. Cybersecurity teams often have high education and economic status with skewed representation. Organizational monocultures magnify blind spots.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">X. Design for Privacy & Security</h3>
+                        <p class="text-gray-400">Both technical design (networks, databases, devices) and social design (policies, procedures, incentives) must keep privacy and security at the forefront&mdash;never as afterthoughts.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">XI. Make Ethics Standard, Pervasive, Iterative & Rewarding</h3>
+                        <p class="text-gray-400">Treat cybersecurity ethics as an active, unending learning cycle. Align team and institutional incentives with ethical best practices so they are reinforced.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">XII. Model & Advocate for Ethical Practice</h3>
+                        <p class="text-gray-400">Seek excellent mentors who possess both technical excellence and ethical leadership. Become an excellent mentor yourself. Raise the bar for everyone.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 32: General Best Practices for Living Well -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">5 Habits for Living Well</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">I. Practice Self-Reflection</h3>
+                        <p class="text-gray-400">Regularly think about the person you want to become vs. who you are today. Would you be comfortable if those you admire knew everything about your actions?</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">II. Look for Moral Exemplars</h3>
+                        <p class="text-gray-400">Stop focusing only on others' shortcomings. Notice exemplary acts of forgiveness, compassion, courage, creativity, and justice around you.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">III. Exercise Moral Imagination</h3>
+                        <p class="text-gray-400">Imagine what it will be like for someone on another continent whose life is ruined by identity theft because you recklessly exposed their data. Their suffering is no less real because you had difficulty imagining it.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">IV. Acknowledge Your Moral Strength</h3>
+                        <p class="text-gray-400">We often think we're too weak to do the right thing&mdash;but this is a self-fulfilling fantasy. People tell hard truths and make sacrifices every day. They're not a different species.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">V. Seek the Company of Other Moral Persons</h3>
+                        <p class="text-gray-400">Aristotle argued that a virtuous friend is a "second self." Ethical action is easier and more pleasurable in the company of others. Only in partnership with good people can we produce good things.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 33: Aggressive Cybersecurity Discussion -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Case Discussion: Aggressive Cybersecurity</h2>
+                <div class="space-y-4">
+                    <div class="bg-red-900/20 border border-red-500/30 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-red-300 mb-2">The Scenario</h3>
+                        <p class="text-red-200 text-sm">Anthony and Sarah use: forced inoculation (releasing worms "into the wild"), automated network disabling of infected hosts without warning, and "hacking back" with spyware/honeypots against attackers. Their motto: "The ends justify the means."</p>
+                    </div>
+                    <div class="bg-yellow-900/20 border border-yellow-500/30 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-yellow-300 mb-2">Group Analysis (10 min)</h3>
+                        <ol class="text-yellow-200 text-sm list-decimal list-inside space-y-2">
+                            <li>Apply each ethical framework (Virtue, Utilitarian, Deontological) to judge their conduct</li>
+                            <li>Which of the 12 best practices do they violate?</li>
+                            <li>Is "the ends justify the means" ever acceptable in cybersecurity? When?</li>
+                            <li>How should their employer's "the less I know the better" stance be evaluated?</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 34: Professional Codes of Ethics -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Professional Ethics Codes in Cybersecurity</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Industry Organizations</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>ISSA Code of Ethics</li>
+                            <li>SANS Institute Code of Ethics</li>
+                            <li>Cybersecurity Institute Code of Ethics</li>
+                            <li>ASIS Code of Ethics</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Professional Societies</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>ACM Code of Ethics and Professional Conduct</li>
+                            <li>IEEE/ACM Software Engineering Code of Ethics</li>
+                            <li>IEEE Technology Ethics Division</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="accent-bg rounded-lg p-4 mt-4">
+                    <p class="text-sm text-green-200">No single code fits all contexts. Organizations should develop explicit internal policies specifically adapted to their own activities and challenges, guided by these 14 general norms.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 35: Key Takeaways -->
+        <div class="slide p-6 md:p-12">
+            <div class="w-full h-full flex items-center justify-center">
+                <div class="max-w-4xl mx-auto">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center text-gray-300 border-b-2 border-gray-600 pb-4">Key Takeaways</h2>
+                    <div class="space-y-4">
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold accent mb-2">Ethics Is Not Optional</h3>
+                            <p class="text-gray-400">Cybersecurity practices protect human lives, privacy, property, and liberty. Poor practices can be unethical, not just ineffective.</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold accent mb-2">Use Multiple Ethical Lenses</h3>
+                            <p class="text-gray-400">Virtue ethics (character), utilitarianism (consequences), and deontology (duties/rights) each illuminate different aspects of ethical cybersecurity practice.</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold accent mb-2">Think About Stakeholders</h3>
+                            <p class="text-gray-400">Always identify who has what at stake. Your trivial interests never justify harming others' vital interests.</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold accent mb-2">Practice Makes Better</h3>
+                            <p class="text-gray-400">Ethical reflection and practice must be standard, pervasive, iterative, and rewarding. Seek mentors. Be a mentor. Raise the bar together.</p>
+                        </div>
+                        <div class="accent-bg rounded-lg p-5">
+                            <h3 class="text-xl font-semibold text-green-300 mb-2">The Bottom Line</h3>
+                            <p class="text-gray-300">Cybersecurity ethics can begin here, but it should not stop here. Every context demands active, intelligent adaptation of ethical principles to specific problems "in the wild."</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div id="navigation" class="fixed bottom-0 left-0 right-0 h-20 bg-zinc-900/80 backdrop-blur-sm border-t border-zinc-700 flex items-center justify-center px-6">
+        <div class="w-full max-w-4xl flex items-center justify-between">
+            <button id="prevBtn" class="bg-zinc-700 text-white font-bold py-2 px-4 rounded-md hover:bg-zinc-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">Previous</button>
+            <div class="flex-grow mx-4">
+                 <div class="w-full bg-zinc-700 rounded-full h-2.5">
+                    <div id="progressBar" class="h-2.5 rounded-full" style="width: 0%; background-color: #2D5A27;"></div>
+                </div>
+            </div>
+            <button id="nextBtn" class="text-white font-bold py-2 px-4 rounded-md hover:opacity-90 transition-colors" style="background-color: #2D5A27;">Next</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const progressBar = document.getElementById('progressBar');
+            let currentSlide = 0;
+            const totalSlides = slides.length;
+
+            function showSlide(index) {
+                const activeSlide = document.querySelector('.slide.active');
+                if (activeSlide) activeSlide.classList.remove('active');
+                slides[index].classList.add('active');
+                const progressPercentage = ((index + 1) / totalSlides) * 100;
+                progressBar.style.width = progressPercentage + '%';
+                prevBtn.disabled = index === 0;
+                nextBtn.disabled = index === totalSlides - 1;
+                nextBtn.textContent = index === totalSlides - 1 ? 'Finish' : 'Next';
+            }
+
+            nextBtn.addEventListener('click', () => {
+                if (currentSlide < totalSlides - 1) {
+                    currentSlide++;
+                    showSlide(currentSlide);
+                }
+            });
+
+            prevBtn.addEventListener('click', () => {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    showSlide(currentSlide);
+                }
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight' && !nextBtn.disabled) {
+                    nextBtn.click();
+                } else if (e.key === 'ArrowLeft' && !prevBtn.disabled) {
+                    prevBtn.click();
+                }
+            });
+
+            showSlide(currentSlide);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CompTIA Security+ Ch. 14-15: Monitoring, Incident Response & Digital Forensics</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #18181b;
+        }
+        .slide {
+            display: none;
+            min-height: 100vh;
+            padding-bottom: 120px;
+        }
+        .slide.active {
+            display: flex;
+        }
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(to right, #f97316, #ef4444);
+            transition: width 0.3s ease;
+            z-index: 1000;
+        }
+        .nav-button {
+            transition: all 0.2s;
+        }
+        .nav-button:hover {
+            transform: scale(1.05);
+        }
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        ul li:before {
+            content: "\25B8";
+            color: #f97316;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.5em;
+            margin-left: 0;
+        }
+        .activity-card {
+            background: linear-gradient(135deg, #451a03, #7c2d12);
+            border: 2px solid #f97316;
+            animation: pulse-border 2s infinite;
+        }
+        @keyframes pulse-border {
+            0%, 100% { border-color: #f97316; }
+            50% { border-color: #fb923c; }
+        }
+    </style>
+</head>
+<body class="bg-zinc-900 text-gray-100">
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- ===== SLIDE 1: Title ===== -->
+    <div class="slide active flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto text-center">
+            <h1 class="text-6xl font-bold mb-4 bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">
+                Monitoring, Incident Response & Digital Forensics
+            </h1>
+            <h2 class="text-3xl text-gray-300 mb-8">CompTIA Security+ Chapters 14 & 15</h2>
+            <div class="w-32 h-1 bg-gradient-to-r from-orange-400 to-red-400 mx-auto mb-8"></div>
+            <p class="text-xl text-gray-400">Detecting, Responding, and Investigating Security Incidents</p>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 2: Learning Objectives ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Learning Objectives</h2>
+            <div class="grid grid-cols-2 gap-5 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold mb-2 text-orange-300">Incident Response Cycle</h3>
+                    <p class="text-gray-300">Understand all six phases: Preparation, Detection, Analysis, Containment, Eradication, and Recovery, plus Lessons Learned.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold mb-2 text-red-300">Threat Detection & Monitoring</h3>
+                    <p class="text-gray-300">Analyze indicators of compromise (IoCs), use SIEM tools, interpret log data, and leverage attack frameworks.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold mb-2 text-orange-300">Mitigation & Recovery</h3>
+                    <p class="text-gray-300">Apply containment, isolation, segmentation, and configuration changes to stop and recover from incidents.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold mb-2 text-red-300">Digital Forensics</h3>
+                    <p class="text-gray-300">Conduct forensic acquisitions, maintain chain of custody, understand legal holds, e-discovery, and forensic reporting.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 3: Part 1 Divider ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-6xl font-bold mb-6 bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">The Incident Response Process</h2>
+            <div class="w-24 h-1 bg-gradient-to-r from-orange-400 to-red-400 mx-auto mb-6"></div>
+            <p class="text-xl text-gray-400">Building the foundation for responding to security incidents</p>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 4: Events vs. Incidents ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Events vs. Incidents</h2>
+            <div class="grid grid-cols-2 gap-6 mb-6">
+                <div class="bg-zinc-800 p-6 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-2xl font-bold mb-3 text-orange-300">Event</h3>
+                    <p class="text-gray-300 text-lg">An observable occurrence in a system or network. Events happen constantly &mdash; most are routine.</p>
+                    <p class="text-gray-500 mt-3 italic">Example: A user logs in, a firewall blocks a port scan, a scheduled backup runs.</p>
+                </div>
+                <div class="bg-zinc-800 p-6 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-2xl font-bold mb-3 text-red-300">Incident</h3>
+                    <p class="text-gray-300 text-lg">A violation of the organization's policies and procedures or security practices.</p>
+                    <p class="text-gray-500 mt-3 italic">Example: Unauthorized access, malware infection, data breach, insider threat.</p>
+                </div>
+            </div>
+            <div class="bg-gradient-to-r from-orange-900/40 to-red-900/40 p-5 rounded-lg border border-orange-500">
+                <p class="text-lg text-center text-orange-200">Many events occur &rarr; Few are incidents. The challenge is detecting which events are actually incidents. Some organizations use the term <span class="font-bold">security incident</span> to distinguish from ITSM incidents.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 5: The IR Cycle ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">The Incident Response Cycle</h2>
+            <div class="flex justify-center mb-6">
+                <div class="grid grid-cols-3 gap-4 max-w-3xl">
+                    <div class="bg-zinc-800 p-4 rounded-lg text-center border-2 border-orange-500">
+                        <p class="text-3xl font-bold text-orange-400">1</p>
+                        <p class="text-lg font-semibold text-orange-300">Preparation</p>
+                    </div>
+                    <div class="bg-zinc-800 p-4 rounded-lg text-center border-2 border-orange-400">
+                        <p class="text-3xl font-bold text-orange-400">2</p>
+                        <p class="text-lg font-semibold text-orange-300">Detection</p>
+                    </div>
+                    <div class="bg-zinc-800 p-4 rounded-lg text-center border-2 border-orange-300">
+                        <p class="text-3xl font-bold text-orange-400">3</p>
+                        <p class="text-lg font-semibold text-orange-300">Analysis</p>
+                    </div>
+                    <div class="bg-zinc-800 p-4 rounded-lg text-center border-2 border-red-400">
+                        <p class="text-3xl font-bold text-red-400">4</p>
+                        <p class="text-lg font-semibold text-red-300">Containment</p>
+                    </div>
+                    <div class="bg-zinc-800 p-4 rounded-lg text-center border-2 border-red-500">
+                        <p class="text-3xl font-bold text-red-400">5</p>
+                        <p class="text-lg font-semibold text-red-300">Eradication</p>
+                    </div>
+                    <div class="bg-zinc-800 p-4 rounded-lg text-center border-2 border-red-600">
+                        <p class="text-3xl font-bold text-red-400">6</p>
+                        <p class="text-lg font-semibold text-red-300">Recovery</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-gradient-to-r from-orange-900/40 to-red-900/40 p-4 rounded-lg border border-orange-500 text-center">
+                <p class="text-lg text-orange-200">+ <span class="font-bold">Lessons Learned</span> &mdash; feeds back into Preparation. The cycle is continuous, not strictly linear. Teams often move back and forth between phases.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 6: Preparation ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Phase 1: Preparation</h2>
+            <div class="space-y-5 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <p class="text-gray-300">The foundation of incident response. Everything you do <span class="font-bold text-orange-300">before</span> an incident determines how well you handle it.</p>
+                </div>
+                <div class="grid grid-cols-2 gap-5">
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-xl font-bold mb-2 text-orange-300">Build the Team</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Identify who will be on the IR team</li>
+                            <li>Define roles, responsibilities, and leadership</li>
+                            <li>Ensure proper training for all members</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-xl font-bold mb-2 text-orange-300">Build the Plans</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Create and document IR procedures</li>
+                            <li>Define communication protocols</li>
+                            <li>Develop runbooks and playbooks</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-xl font-bold mb-2 text-red-300">Build the Infrastructure</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Acquire and configure security tools</li>
+                            <li>Deploy monitoring and logging</li>
+                            <li>Establish forensic capabilities</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-xl font-bold mb-2 text-red-300">Test the Plans</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Conduct exercises regularly</li>
+                            <li>Validate tools and processes work</li>
+                            <li>Update plans based on results</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 7: Detection & Analysis ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Phases 2 & 3: Detection & Analysis</h2>
+            <div class="space-y-5 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-2 text-orange-300">2. Detection</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Review events to identify potential incidents</li>
+                        <li>Leverage indicators of compromise (IoCs) and security monitoring</li>
+                        <li>Use log analysis and SIEM correlation capabilities</li>
+                        <li>Requires a comprehensive awareness and reporting program for staff</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-2 text-orange-300">3. Analysis</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Determine scope: what was targeted, what is the impact?</li>
+                        <li>Identify related events and affected systems</li>
+                        <li>Correlate data from multiple sources to build a complete picture</li>
+                        <li>Determine if the event should be escalated to a full incident</li>
+                    </ul>
+                </div>
+                <div class="bg-gradient-to-r from-orange-900/40 to-red-900/40 p-4 rounded-lg border border-orange-500">
+                    <p class="text-orange-200 text-center">Detection and Analysis often overlap. You may detect something, analyze it, detect more, and re-analyze &mdash; it's iterative.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 8: Containment, Eradication, Recovery ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Phases 4-6: Containment, Eradication & Recovery</h2>
+            <div class="space-y-5 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-2 text-red-300">4. Containment</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Prevent further damage &mdash; quarantine, isolate, or segment affected systems</li>
+                        <li>May not be complete if elements are missed during analysis</li>
+                        <li>Balance: stop the threat vs. preserve forensic evidence</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-2 text-red-300">5. Eradication</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Remove all artifacts of the incident from affected systems</li>
+                        <li>Often involves rebuilding or restoring systems from clean backups</li>
+                        <li>Proving a system is "fully clean" can be very difficult</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-2 text-red-300">6. Recovery</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Restore systems and services to normal operations</li>
+                        <li>Implement fixes so the same vulnerability cannot be re-exploited</li>
+                        <li>Requires eradication to be successful first</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 9: Lessons Learned ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Lessons Learned</h2>
+            <div class="bg-zinc-800 p-5 rounded-lg mb-5">
+                <p class="text-lg text-gray-300">After recovery, organizations conduct a <span class="font-bold text-orange-300">lessons learned</span> session to ensure they improve and don't make the same mistakes again. This feeds directly back into the Preparation phase.</p>
+            </div>
+            <div class="grid grid-cols-2 gap-5 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-xl font-bold mb-2 text-orange-300">What to Document</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>What happened and when?</li>
+                        <li>What worked well in the response?</li>
+                        <li>What failed or was missing?</li>
+                        <li>What could be done differently next time?</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-xl font-bold mb-2 text-red-300">Outcomes</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Updated IR plans and procedures</li>
+                        <li>New or revised security controls</li>
+                        <li>Additional training needs identified</li>
+                        <li>Patching, permission, or architecture changes</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 10: IR Team ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Building the IR Team</h2>
+            <div class="grid grid-cols-2 gap-5 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-xl font-bold mb-2 text-orange-300">Management / Leadership</h3>
+                    <p class="text-gray-300">Makes decisions and serves as conduit to senior leadership. Needs enough seniority to act during emergencies.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-xl font-bold mb-2 text-orange-300">Information Security</h3>
+                    <p class="text-gray-300">Core of the team. Brings specialized IR and analysis skills. Handles containment using security tools.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-xl font-bold mb-2 text-red-300">Technical Experts</h3>
+                    <p class="text-gray-300">Sysadmins, developers, architects. System familiarity helps find artifacts others might miss.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-xl font-bold mb-2 text-red-300">Communications / PR</h3>
+                    <p class="text-gray-300">Manages internal and external messaging. Poor communications can make incidents far worse.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-xl font-bold mb-2 text-orange-300">Legal / HR</h3>
+                    <p class="text-gray-300">Legal counsel for compliance and contracts. HR if insider threats or personnel issues are involved.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-xl font-bold mb-2 text-orange-300">Law Enforcement</h3>
+                    <p class="text-gray-300">Added when specific attacks or legal issues require their involvement. Not typically part of every incident.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 11: Exercises ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">IR Exercises</h2>
+            <div class="grid grid-cols-2 gap-6 mb-6">
+                <div class="bg-zinc-800 p-6 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-2xl font-bold mb-3 text-orange-300">Tabletop Exercises</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Discussion-based &mdash; "walk through" a scenario</li>
+                        <li>Team members talk through their roles and responses</li>
+                        <li>Resembles a brainstorming session</li>
+                        <li>Low cost, identifies gaps in plans and procedures</li>
+                        <li>No actual systems are affected</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-6 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-2xl font-bold mb-3 text-red-300">Simulations</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Active testing &mdash; simulate actual incidents</li>
+                        <li>Can be partial (one function) or full-scale</li>
+                        <li>All participants must know it's an exercise</li>
+                        <li>Start every call/email with "This is an exercise"</li>
+                        <li>Scoped carefully to avoid impacting production</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="bg-gradient-to-r from-orange-900/40 to-red-900/40 p-4 rounded-lg border border-orange-500">
+                <p class="text-orange-200 text-center">Keeping exercises properly under control is more important than detailed testing. Use scripts for specific performance requirements.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 12: IR Plans ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Incident Response Plans</h2>
+            <div class="bg-zinc-800 p-5 rounded-lg mb-5">
+                <p class="text-lg text-gray-300">IR plans can include several subplans. They need to be <span class="font-bold text-orange-300">regularly reviewed and tested</span> &mdash; an outdated plan can be as bad as no plan at all.</p>
+            </div>
+            <div class="grid grid-cols-2 gap-4 text-lg">
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-semibold text-orange-300">Communication Plan</p>
+                    <p class="text-gray-400">Who communicates, to whom, through what channels. Defines who talks to media and makes the final call on tone and content.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-semibold text-orange-300">Stakeholder Management Plan</p>
+                    <p class="text-gray-400">Prioritize which stakeholders get updates, what support they need, and how they interact with the IR process.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-semibold text-red-300">Business Continuity (BC) Plan</p>
+                    <p class="text-gray-400">Keep the organization functional during incidents. May involve alternate systems or offloading services.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-semibold text-red-300">Disaster Recovery (DR) Plan</p>
+                    <p class="text-gray-400">Restore operations after major disasters (natural or human-made) that destroy facilities or infrastructure.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 13: Policies & Training ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Policies & Training</h2>
+            <div class="grid grid-cols-2 gap-6 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-orange-300">IR Policies</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><span class="font-bold text-orange-400">Policy:</span> High-level statement of management intent &mdash; slow to change</li>
+                        <li><span class="font-bold text-orange-400">Standard:</span> Specific guidance on what should be done &mdash; points to a policy</li>
+                        <li><span class="font-bold text-orange-400">Procedure:</span> Step-by-step instructions for how to do it &mdash; updated frequently</li>
+                        <li>IR policies identify the team, define authority, and require creation of handling procedures</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-red-300">Training</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Regular training for all IR team members</li>
+                        <li>IR certifications for security professionals</li>
+                        <li>CISA offers free IR training covering attack prevention, IoCs, and log management</li>
+                        <li>Practice as a group to ensure the whole team can work together</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="bg-gradient-to-r from-orange-900/40 to-red-900/40 p-4 rounded-lg border border-orange-500 mt-5">
+                <p class="text-orange-200 text-center">An IR policy is not the only policy your organization needs. Many IT policies (acceptable use, access control, change management) impact incident response.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 14: ACTIVITY 1 - Tabletop ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-6 text-center bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">Group Activity: Mini Tabletop Exercise</h2>
+            <div class="activity-card p-6 rounded-lg mb-6">
+                <h3 class="text-2xl font-bold mb-4 text-orange-200">Scenario</h3>
+                <p class="text-lg text-gray-200 mb-4">It's Monday morning. Your help desk receives multiple reports that employees cannot access the shared file server. The IT team discovers that all files on the server have been encrypted and a ransom note demands 5 Bitcoin for the decryption key. Your SIEM shows a spike in outbound traffic to an unknown IP address over the weekend.</p>
+            </div>
+            <div class="grid grid-cols-2 gap-5">
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-xl font-bold mb-3 text-orange-300">Discuss in Groups (15 min)</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Which IR phase are you in right now?</li>
+                        <li>Who should be on the IR team for this incident?</li>
+                        <li>What are your first three actions?</li>
+                        <li>What communication needs to happen and to whom?</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-xl font-bold mb-3 text-red-300">Consider</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Should you pay the ransom? Why or why not?</li>
+                        <li>How do you contain this without destroying evidence?</li>
+                        <li>What data sources would help you analyze the attack?</li>
+                        <li>What would your "lessons learned" session cover?</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 15: Part 2 Divider ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-6xl font-bold mb-6 bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">Threat Hunting & Security Monitoring</h2>
+            <div class="w-24 h-1 bg-gradient-to-r from-orange-400 to-red-400 mx-auto mb-6"></div>
+            <p class="text-xl text-gray-400">Detecting the bad, understanding the tools</p>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 16: Indicators of Compromise ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Indicators of Compromise (IoCs)</h2>
+            <div class="bg-zinc-800 p-4 rounded-lg mb-5">
+                <p class="text-lg text-gray-300">Threat hunters look for <span class="font-bold text-orange-300">indicators of compromise</span> &mdash; data points commonly associated with malicious actors and incidents.</p>
+            </div>
+            <div class="grid grid-cols-2 gap-4 text-lg">
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-semibold text-orange-300">Account Lockout</p>
+                    <p class="text-gray-400">Brute-force attempts causing repeated failed logins</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-semibold text-orange-300">Concurrent Session Usage</p>
+                    <p class="text-gray-400">Same user logged in from multiple locations simultaneously</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-semibold text-red-300">Impossible Travel</p>
+                    <p class="text-gray-400">Login from New York, then London 10 minutes later</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-semibold text-red-300">Blocked Content</p>
+                    <p class="text-gray-400">Repeated attempts to access blocked domains or resources &mdash; may indicate malware or intentional access attempts</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 17: IoCs Continued ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Indicators of Compromise (cont.)</h2>
+            <div class="grid grid-cols-2 gap-4 text-lg">
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-semibold text-orange-300">Resource Consumption</p>
+                    <p class="text-gray-400">Unusual disk, bandwidth, or CPU usage spikes. Requires context &mdash; only concerning if much higher than usual.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-semibold text-orange-300">Resource Inaccessibility</p>
+                    <p class="text-gray-400">Systems, files, or services suddenly unavailable. Investigate to rule out or confirm malicious cause.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-semibold text-red-300">Out-of-Cycle Logging</p>
+                    <p class="text-gray-400">Activity at unexpected times: a 2 a.m. login from a 9-to-5 employee, or a job running off schedule.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-semibold text-red-300">Missing Logs</p>
+                    <p class="text-gray-400">Attacker may have wiped logs to cover tracks. This is why centralized logging is critical.</p>
+                </div>
+            </div>
+            <div class="bg-gradient-to-r from-orange-900/40 to-red-900/40 p-4 rounded-lg border border-orange-500 mt-4">
+                <p class="text-orange-200 text-center"><span class="font-bold">Published/Documented IoCs</span> are discovered, documented, and shared via threat feeds and information sharing organizations (ISACs). These allow organizations to proactively hunt for known threats.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 18: Attack Frameworks ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Attack Frameworks</h2>
+            <p class="text-lg text-gray-400 mb-5">Incident responders use frameworks to describe attacks using common language and terminology.</p>
+            <div class="space-y-5 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-2xl font-bold mb-2 text-orange-300">MITRE ATT&CK</h3>
+                    <p class="text-gray-300">Adversarial Tactics, Techniques, and Common Knowledge. The most comprehensive and widely used framework. Covers the full threat lifecycle from reconnaissance through impact. Supported in most security tools.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-2xl font-bold mb-2 text-red-300">Lockheed Martin Cyber Kill Chain</h3>
+                    <p class="text-gray-300">Models attack phases linearly: Reconnaissance &rarr; Weaponization &rarr; Delivery &rarr; Exploitation &rarr; Installation &rarr; Command & Control &rarr; Actions on Objectives.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-400">
+                    <h3 class="text-2xl font-bold mb-2 text-orange-300">Diamond Model</h3>
+                    <p class="text-gray-300">Analyzes intrusions by relating four core features: Adversary, Capability, Infrastructure, and Victim. Useful for threat intelligence analysis.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 19: MITRE ATT&CK Deep Dive ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">MITRE ATT&CK: Deeper Look</h2>
+            <div class="grid grid-cols-3 gap-4 text-lg mb-5">
+                <div class="bg-zinc-800 p-4 rounded-lg text-center">
+                    <p class="font-bold text-orange-300 text-xl">Tactics</p>
+                    <p class="text-gray-400">The "why" &mdash; the adversary's goal at each stage</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg text-center">
+                    <p class="font-bold text-orange-300 text-xl">Techniques</p>
+                    <p class="text-gray-400">The "how" &mdash; methods used to achieve the goal</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg text-center">
+                    <p class="font-bold text-red-300 text-xl">Procedures</p>
+                    <p class="text-gray-400">Specific implementations by real threat actors</p>
+                </div>
+            </div>
+            <div class="bg-zinc-800 p-5 rounded-lg mb-5">
+                <h3 class="text-xl font-bold mb-3 text-orange-300">Matrices Available</h3>
+                <ul class="space-y-2 text-gray-300">
+                    <li>Enterprise: Windows, macOS, Linux, Cloud Computing</li>
+                    <li>Mobile: iOS and Android</li>
+                    <li>Includes data sources, threat actor groups, software, and detailed technique definitions</li>
+                </ul>
+            </div>
+            <div class="bg-zinc-800 p-5 rounded-lg">
+                <h3 class="text-xl font-bold mb-2 text-red-300">Each Technique Entry Includes:</h3>
+                <p class="text-gray-300">ID number, tactic classification, platforms it applies to, permissions required, relevant data sources, detection guidance, and mitigations.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 20: Monitoring Computing Resources ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Monitoring Computing Resources</h2>
+            <div class="space-y-5 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-orange-300">Systems Monitoring</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>System logs and central management tools (including cloud)</li>
+                        <li>System health and performance data aggregated at central logging servers</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-orange-300">Application Monitoring</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Application logs, management interfaces, performance monitoring</li>
+                        <li>Varies significantly &mdash; each app must be analyzed for monitoring needs</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-red-300">Infrastructure Monitoring</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Routers, switches, firewalls generate logs via SNMP and syslog</li>
+                        <li>Different devices produce different log levels and formats</li>
+                        <li>Hardware vendors often provide their own management tools</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 21: SIEM Overview ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">SIEM: Security Information & Event Management</h2>
+            <div class="bg-gradient-to-r from-orange-900/40 to-red-900/40 p-4 rounded-lg border border-orange-500 mb-5">
+                <p class="text-lg text-orange-200 text-center">The central security monitoring tool. Collects, correlates, and analyzes log data from across the entire organization.</p>
+            </div>
+            <div class="grid grid-cols-2 gap-5 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-xl font-bold mb-2 text-orange-300">What SIEM Does</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Collects and aggregates log data from all sources</li>
+                        <li>Correlates events using rules and heuristics</li>
+                        <li>Provides dashboards and visual reporting</li>
+                        <li>Generates alerts based on rules and thresholds</li>
+                        <li>Supports compliance requirements with built-in modules</li>
+                        <li>May include ML/AI for user behavior analytics</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-xl font-bold mb-2 text-red-300">Data Inputs</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>System and application logs</li>
+                        <li>Network security device logs</li>
+                        <li>Network infrastructure logs</li>
+                        <li>Packet captures</li>
+                        <li>Cloud service integrations (Google, Office 365, Okta, etc.)</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="bg-zinc-800 p-4 rounded-lg mt-4">
+                <p class="text-gray-400 text-center">You may also see the terms <span class="font-bold text-orange-300">SIM</span> (Security Information Management) and <span class="font-bold text-orange-300">SEM</span> (Security Event Management). SIEM is the converged term.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 22: SIEM Components ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">SIEM Components</h2>
+            <div class="grid grid-cols-2 gap-5 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-orange-300">Sensors</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Software agents (or VMs/dedicated devices) deployed to gather data</li>
+                        <li>Placed in cloud, remote datacenters, or anywhere data needs collecting</li>
+                        <li>May preprocess data before forwarding to the SIEM</li>
+                        <li>Must be secured like any other network component</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-orange-300">Dashboards</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>High-level visual representation of security state</li>
+                        <li>Configurable per analyst or per organizational need</li>
+                        <li>Help quickly identify problems, abnormal patterns, and trends</li>
+                        <li>Multiple dashboards for different views</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-red-300">Rules & Correlation Engine</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Rules use logic to determine when alerts should fire</li>
+                        <li>Can trigger actions: alerts, firewall changes, defenses</li>
+                        <li>Poorly written rules cause false positives or miss real threats</li>
+                        <li>Must be carefully built, tested, and regularly reviewed</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-red-300">Sensitivity & Thresholds</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Control the volume of alerts the SIEM generates</li>
+                        <li>Alert after N occurrences, or only for high-value targets</li>
+                        <li>Balance: catch threats vs. avoid noise</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 23: Alert Tuning & Fatigue ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Alert Tuning & Alert Fatigue</h2>
+            <div class="grid grid-cols-2 gap-6 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-orange-300">Alert Tuning</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Modify alerts to fire only on events that matter</li>
+                        <li>Set thresholds and filter rules</li>
+                        <li>Identify and suppress false alarms and normal behaviors</li>
+                        <li>Ensure tuning is not so aggressive that real threats are missed</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-2 border-red-500">
+                    <h3 class="text-2xl font-bold mb-3 text-red-300">Alert Fatigue</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>One of the biggest threats to SIEM deployments</li>
+                        <li>Too many alerts &rarr; analysts stop responding</li>
+                        <li>Caused by non-critical, high-volume, or false-positive alerts</li>
+                        <li>When a real event occurs, it may be missed or ignored</li>
+                        <li>Results in much worse security incidents</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="bg-zinc-800 p-5 rounded-lg mt-5">
+                <h3 class="text-xl font-bold mb-2 text-orange-300">Trend Analysis</h3>
+                <p class="text-gray-300">SIEM dashboards can show trends over time: new malware families emerging, exploit attempts increasing, or shifts in attacker behavior. Trends help organizations identify threats as they rise.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 24: Log Aggregation & Correlation ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Log Aggregation, Correlation & Analysis</h2>
+            <div class="space-y-5 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-orange-300">Log Aggregation</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Collecting logs from many sources into one location</li>
+                        <li>Not just SIEM &mdash; also syslog-ng, rsyslog, and similar tools</li>
+                        <li>Lines blur between SIEM, SOAR, and other analysis tools</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-red-300">Correlation</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Matching individual data points to other data points across sources</li>
+                        <li>Requires: time stamps, system identifiers, user accounts, and other details</li>
+                        <li>Automated correlation matches known events and IoCs to build a complete dataset</li>
+                        <li>Enables tagging, investigation tracking, and evidence building</li>
+                    </ul>
+                </div>
+                <div class="bg-gradient-to-r from-orange-900/40 to-red-900/40 p-4 rounded-lg border border-orange-500">
+                    <p class="text-orange-200 text-center">Individual data points have limited value. <span class="font-bold">Correlation</span> is what turns raw logs into actionable intelligence.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 25: SOAR ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">SOAR: Security Orchestration, Automation & Response</h2>
+            <div class="bg-zinc-800 p-5 rounded-lg mb-5">
+                <p class="text-lg text-gray-300">SOAR platforms integrate with SIEM and other tools to <span class="font-bold text-orange-300">automate</span> repetitive security tasks, <span class="font-bold text-orange-300">orchestrate</span> workflows across tools, and <span class="font-bold text-orange-300">respond</span> to incidents faster.</p>
+            </div>
+            <div class="grid grid-cols-3 gap-5">
+                <div class="bg-zinc-800 p-5 rounded-lg text-center">
+                    <p class="text-2xl font-bold text-orange-400 mb-2">Orchestration</p>
+                    <p class="text-gray-400">Connect and coordinate multiple security tools and data sources</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg text-center">
+                    <p class="text-2xl font-bold text-orange-400 mb-2">Automation</p>
+                    <p class="text-gray-400">Run playbooks automatically for common incident types</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg text-center">
+                    <p class="text-2xl font-bold text-red-400 mb-2">Response</p>
+                    <p class="text-gray-400">Quickly assess attack surface, remediate, and restore</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 26: ACTIVITY 2 - Spot the Indicator ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-6 text-center bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">Discussion: Spot the Indicator</h2>
+            <p class="text-lg text-gray-400 text-center mb-6">For each scenario, identify the IoC type and discuss what your next investigative step would be.</p>
+            <div class="space-y-4">
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-500">
+                    <p class="font-bold text-orange-300 mb-1">Scenario 1</p>
+                    <p class="text-gray-300">A user's account shows a successful login from Chicago at 8:02 AM and another from Tokyo at 8:15 AM.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-400">
+                    <p class="font-bold text-orange-300 mb-1">Scenario 2</p>
+                    <p class="text-gray-300">Your DNS filter logs show 200+ blocked requests from a single workstation to a known C2 domain over the past hour.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-400">
+                    <p class="font-bold text-red-300 mb-1">Scenario 3</p>
+                    <p class="text-gray-300">A developer's workstation is consuming 95% disk I/O. They say they haven't started any large jobs today.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-500">
+                    <p class="font-bold text-red-300 mb-1">Scenario 4</p>
+                    <p class="text-gray-300">Your SIEM shows that firewall logs for the web server suddenly stopped arriving 6 hours ago, but the server itself appears operational.</p>
+                </div>
+            </div>
+            <div class="bg-gradient-to-r from-orange-900/40 to-red-900/40 p-4 rounded-lg border border-orange-500 mt-5">
+                <p class="text-orange-200 text-center">After discussing each: Which of these would you escalate to a full incident? Why?</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 27: Part 3 Divider ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-6xl font-bold mb-6 bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">Logs, Mitigation & Recovery</h2>
+            <div class="w-24 h-1 bg-gradient-to-r from-orange-400 to-red-400 mx-auto mb-6"></div>
+            <p class="text-xl text-gray-400">The data that tells the story and the techniques that stop the bleeding</p>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 28: Log Types ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Log Types for Incident Response</h2>
+            <div class="grid grid-cols-2 gap-4 text-lg">
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-semibold text-orange-300">Firewall Logs</p>
+                    <p class="text-gray-400">Blocked/allowed traffic. NGFW and UTM devices add application-layer details and IDS/IPS data.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-semibold text-orange-300">Application Logs</p>
+                    <p class="text-gray-400">Web server requests (Apache, IIS), errors, installer activity. Can reveal SQLi and XSS attacks via logged requests.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-semibold text-red-300">Endpoint Logs</p>
+                    <p class="text-gray-400">Installation, system, and service logs from workstations and servers.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-semibold text-red-300">OS-Specific Security Logs</p>
+                    <p class="text-gray-400">Windows Security log for login events. Linux: <span class="font-mono text-sm">/var/log/auth.log</span> (Debian) or <span class="font-mono text-sm">/var/log/secure</span> (Red Hat).</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-semibold text-orange-300">IDS/IPS Logs</p>
+                    <p class="text-gray-400">Attack signatures detected (IDS) or blocked (IPS) in network traffic.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-semibold text-orange-300">Network Logs</p>
+                    <p class="text-gray-400">Router/switch logs, configuration changes, traffic information, network flows, and packet capture data.</p>
+                </div>
+            </div>
+            <div class="bg-gradient-to-r from-orange-900/40 to-red-900/40 p-4 rounded-lg border border-orange-500 mt-4">
+                <p class="text-orange-200 text-center">Always verify log integrity &mdash; attackers target logs. Centralized logging protects against local log tampering.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 29: Windows & Linux Logs ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Windows & Linux Log Locations</h2>
+            <div class="grid grid-cols-2 gap-6 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-orange-300">Windows Event Viewer</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><span class="font-bold text-orange-400">Application log:</span> App installs, errors, license checks</li>
+                        <li><span class="font-bold text-orange-400">Security log:</span> Failed/successful logins, audit events</li>
+                        <li><span class="font-bold text-orange-400">System log:</span> OS-level events, driver issues</li>
+                        <li>Can be exported for SIEM ingestion</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-red-300">Linux Log Locations</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><span class="font-mono text-sm text-red-400">/var/log/</span> &mdash; starting point for most logs</li>
+                        <li><span class="font-mono text-sm text-red-400">/var/log/syslog</span> &mdash; Debian/Ubuntu</li>
+                        <li><span class="font-mono text-sm text-red-400">/var/log/messages</span> &mdash; Red Hat</li>
+                        <li><span class="font-mono text-sm text-red-400">/var/log/auth.log</span> &mdash; authentication</li>
+                        <li>Use <span class="font-mono text-sm">grep</span>, <span class="font-mono text-sm">tail</span>, or <span class="font-mono text-sm">journalctl</span> to search</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="bg-zinc-800 p-5 rounded-lg mt-5">
+                <h3 class="text-xl font-bold mb-3 text-orange-300">journalctl (systemd)</h3>
+                <p class="text-gray-300 mb-2">Query the systemd journal for kernel, services, and boot messages.</p>
+                <div class="bg-zinc-900 p-3 rounded font-mono text-sm text-gray-400">
+                    <p>journalctl -b &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# entries since last boot</p>
+                    <p>journalctl --since "2026-04-13 08:00:00" &nbsp;# filter by time</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 30: Logging Protocols & Tools ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Logging Protocols & Tools</h2>
+            <div class="grid grid-cols-2 gap-5 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-xl font-bold mb-2 text-orange-300">syslog</h3>
+                    <p class="text-gray-300">Traditional Linux logging protocol. Clients send messages to a central syslog server.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-xl font-bold mb-2 text-orange-300">rsyslog</h3>
+                    <p class="text-gray-300">"Rocket-fast" syslog. High message rates, TLS encryption, TCP transport, multiple database backends.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-xl font-bold mb-2 text-red-300">syslog-ng</h3>
+                    <p class="text-gray-300">Enhanced filtering, direct database logging, TLS over TCP. Popular rsyslog alternative.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-xl font-bold mb-2 text-red-300">NXLog</h3>
+                    <p class="text-gray-300">Open source log aggregation. Parses many formats and forwards to SIEM and analysis tools.</p>
+                </div>
+            </div>
+            <div class="bg-zinc-800 p-5 rounded-lg mt-5">
+                <h3 class="text-xl font-bold mb-2 text-orange-300">Agents vs. Agentless Collection</h3>
+                <div class="grid grid-cols-2 gap-4 mt-2">
+                    <div>
+                        <p class="font-semibold text-orange-400">Agent-based</p>
+                        <p class="text-gray-400">Software installed on endpoints to collect and forward logs. More control and data.</p>
+                    </div>
+                    <div>
+                        <p class="font-semibold text-red-400">Agentless</p>
+                        <p class="text-gray-400">Uses standard interfaces like syslog. Simpler deployment, less overhead.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 31: NetFlow & Metadata ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Network Flows</h2>
+            <div class="bg-zinc-800 p-5 rounded-lg mb-5">
+                <p class="text-lg text-gray-300">Network flows track traffic metadata: source, destination, volume, and timing. Think of them like <span class="font-bold text-orange-300">phone records</span> &mdash; you know who called whom and for how long, but not what was said.</p>
+            </div>
+            <div class="grid grid-cols-3 gap-4 text-lg mb-5">
+                <div class="bg-zinc-800 p-4 rounded-lg text-center">
+                    <p class="font-bold text-orange-300">NetFlow</p>
+                    <p class="text-gray-400">Cisco proprietary, software-driven</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg text-center">
+                    <p class="font-bold text-orange-300">sFlow</p>
+                    <p class="text-gray-400">Multi-vendor, sampling-based</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg text-center">
+                    <p class="font-bold text-red-300">IPFIX</p>
+                    <p class="text-gray-400">Open standard based on NetFlow v9</p>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-5">
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-semibold text-orange-300">Strengths</p>
+                    <p class="text-gray-400">Identify what traffic was sent, where it went, and where it came from. Great for spotting data exfiltration and lateral movement.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-semibold text-red-300">Limitations</p>
+                    <p class="text-gray-400">Flows are often sampled (10:1 or 1000:1), so some detail is lost. No packet content &mdash; just metadata.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 32: Metadata ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Metadata as a Data Source</h2>
+            <div class="bg-zinc-800 p-4 rounded-lg mb-5">
+                <p class="text-lg text-gray-300">Metadata is <span class="font-bold text-orange-300">data about other data</span>. It's generated as a normal part of operations and can be invaluable for incident response and forensics.</p>
+            </div>
+            <div class="grid grid-cols-2 gap-4 text-lg">
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-semibold text-orange-300">Email Metadata</p>
+                    <p class="text-gray-400">Sender, recipient, timestamps, routing headers, attachment presence, antispam info.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-semibold text-orange-300">Mobile Metadata</p>
+                    <p class="text-gray-400">Call logs, SMS, GPS location, cellular tower data, data usage records.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-semibold text-red-300">Web Metadata</p>
+                    <p class="text-gray-400">Metatags, cookies, headers, tracking data embedded in websites.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-semibold text-red-300">File Metadata (EXIF)</p>
+                    <p class="text-gray-400">Creation date, author, GPS coordinates, camera model, firmware version. Powerful for forensics.</p>
+                </div>
+            </div>
+            <div class="bg-zinc-800 p-5 rounded-lg mt-4">
+                <h3 class="text-xl font-bold mb-2 text-orange-300">Other Data Sources</h3>
+                <div class="grid grid-cols-4 gap-3">
+                    <div class="bg-zinc-700 p-3 rounded text-center text-gray-300">Vulnerability Scans</div>
+                    <div class="bg-zinc-700 p-3 rounded text-center text-gray-300">Automated Reports</div>
+                    <div class="bg-zinc-700 p-3 rounded text-center text-gray-300">Dashboards</div>
+                    <div class="bg-zinc-700 p-3 rounded text-center text-gray-300">Packet Captures</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 33: Benchmarks, Reporting & Archiving ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Benchmarks, Reporting & Archiving</h2>
+            <div class="space-y-5 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-orange-300">Benchmarks</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Define standard security configurations including logging settings</li>
+                        <li>May require central logging, specific alert levels, and logging of critical events</li>
+                        <li>Ensure all systems are configured to log useful information at scale</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-red-300">Reporting & Archiving</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><span class="font-bold text-orange-400">Reporting:</span> Identify trends, provide visibility, support management oversight</li>
+                        <li><span class="font-bold text-orange-400">Archiving:</span> Retain logs that are no longer in active use for compliance and future reference</li>
+                        <li>Common retention periods: 30, 45, 90, or 180 days (some cases: 1+ year)</li>
+                        <li>Retention has costs: storage hardware and potential legal disclosure obligations</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 34: Mitigation Techniques ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Containment & Mitigation Techniques</h2>
+            <div class="grid grid-cols-2 gap-5 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold mb-2 text-orange-300">Application Allow Lists</h3>
+                    <p class="text-gray-300">Only approved applications can run. Everything else is blocked from installing or executing.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-400">
+                    <h3 class="text-xl font-bold mb-2 text-orange-300">Application Deny Lists</h3>
+                    <p class="text-gray-300">Block known-bad applications. Less restrictive than allow lists &mdash; anything not on the list can still run.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-400">
+                    <h3 class="text-xl font-bold mb-2 text-red-300">Quarantine</h3>
+                    <p class="text-gray-300">Place suspicious files in a safe zone for investigation rather than deleting. Preserves evidence and allows recovery if it's a false positive.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold mb-2 text-red-300">Monitoring</h3>
+                    <p class="text-gray-300">Validate that remediation was successful. Watch for attacker re-entry or continued compromise after containment.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 35: Isolation, Containment & Segmentation ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Isolation, Containment & Segmentation</h2>
+            <div class="space-y-5 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-2xl font-bold mb-2 text-orange-300">Isolation</h3>
+                    <p class="text-gray-300">Move the system to a protected space. Remove from the network entirely or move to an isolation VLAN. The system is <span class="font-bold">completely separated</span> from other systems.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-400">
+                    <h3 class="text-2xl font-bold mb-2 text-red-300">Containment</h3>
+                    <p class="text-gray-300">Leave the system in place but <span class="font-bold">restrict</span> what it can do via firewall rules or similar controls. Preserves forensic state but limits the attacker. Tension between rapid response and forensic preservation.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-2xl font-bold mb-2 text-red-300">Segmentation</h3>
+                    <p class="text-gray-300">Separate systems into zones using security, network, or physical boundaries. Move infected systems away from critical assets, or move critical assets to a more protected segment.</p>
+                </div>
+            </div>
+            <div class="bg-gradient-to-r from-orange-900/40 to-red-900/40 p-4 rounded-lg border border-orange-500 mt-4">
+                <p class="text-orange-200 text-center">Exam tip: Know the difference between these three. Isolation = remove, Containment = restrict in place, Segmentation = separate into zones.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 36: Configuration Changes ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Common Remediation Actions</h2>
+            <div class="bg-zinc-800 p-4 rounded-lg mb-5">
+                <p class="text-lg text-gray-300">Configuration changes are one of the most frequently used tools in containment and remediation. They must be <span class="font-bold text-orange-300">tracked and recorded</span> &mdash; changes may need to be rolled back after the incident.</p>
+            </div>
+            <div class="grid grid-cols-2 gap-4 text-lg">
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-semibold text-orange-300">Firewall Rule Changes</p>
+                    <p class="text-gray-400">Add, modify, or remove rules to block attack traffic</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-semibold text-orange-300">MDM Policy Changes</p>
+                    <p class="text-gray-400">Remote wipe, lock devices, update mobile policies, locate devices</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-semibold text-red-300">DLP Configuration</p>
+                    <p class="text-gray-400">Block new data types from leaving the organization during the incident</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-semibold text-red-300">Content / URL Filtering</p>
+                    <p class="text-gray-400">Block C2 domains, prevent phishing responses, stop malware callbacks</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-semibold text-orange-300">Certificate Revocation</p>
+                    <p class="text-gray-400">Revoke compromised certificates, remove untrusted CAs from trust lists</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-semibold text-orange-300">Consider Operational Impact</p>
+                    <p class="text-gray-400">Changes may break business functions. Involve stakeholders when urgency allows.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 37: Root Cause Analysis ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Root Cause Analysis (RCA)</h2>
+            <div class="bg-zinc-800 p-5 rounded-lg mb-5">
+                <p class="text-lg text-gray-300">After mitigation, identify <span class="font-bold text-orange-300">why</span> the incident occurred and fix the systemic issues. RCA feeds directly into the Lessons Learned and Preparation phases.</p>
+            </div>
+            <div class="grid grid-cols-3 gap-5 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg text-center">
+                    <p class="text-2xl font-bold text-orange-400 mb-2">Five Whys</p>
+                    <p class="text-gray-400">Ask "why?" repeatedly to drill to the underlying cause</p>
+                    <p class="text-gray-500 mt-2 italic text-sm">Why infected? &rarr; Unpatched &rarr; Why? &rarr; No patch process &rarr; ...</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg text-center">
+                    <p class="text-2xl font-bold text-orange-400 mb-2">Event Analysis</p>
+                    <p class="text-gray-400">Examine each event: is it a root cause or a consequence of something else?</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg text-center">
+                    <p class="text-2xl font-bold text-red-400 mb-2">Diagramming</p>
+                    <p class="text-gray-400">Fishbone (Ishikawa) diagrams map causes and effects visually</p>
+                </div>
+            </div>
+            <div class="bg-gradient-to-r from-orange-900/40 to-red-900/40 p-4 rounded-lg border border-orange-500 mt-5">
+                <p class="text-orange-200 text-center">RCA is not about assigning blame. It's about preventing the same class of incident from happening again.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 38: ACTIVITY 3 - Log Analysis ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-6 text-center bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">Group Activity: Log Analysis & Mitigation</h2>
+            <div class="activity-card p-6 rounded-lg mb-5">
+                <h3 class="text-2xl font-bold mb-3 text-orange-200">Scenario</h3>
+                <p class="text-lg text-gray-200">Your SIEM fires an alert: a web server is sending large volumes of data to an external IP at 3 AM. You pull the following evidence:</p>
+                <div class="bg-zinc-900 p-4 rounded mt-3 font-mono text-sm text-gray-300 space-y-1">
+                    <p>[03:12] Firewall: ALLOW TCP 10.0.1.50 &rarr; 198.51.100.42:443 (2.3 GB transferred)</p>
+                    <p>[03:10] App log: /admin/export?table=customers&format=csv &mdash; 200 OK</p>
+                    <p>[03:08] Auth log: Login success &mdash; user "svc_backup" from 10.0.5.22</p>
+                    <p>[02:55] Auth log: 14 failed logins for "svc_backup" from 10.0.5.22</p>
+                    <p>[02:30] IDS: Signature match &mdash; "Brute force SSH" from 10.0.5.22</p>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-5">
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-xl font-bold mb-3 text-orange-300">Analyze (10 min)</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Reconstruct the attack timeline</li>
+                        <li>What IoCs are present?</li>
+                        <li>What log types helped you piece this together?</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-xl font-bold mb-3 text-red-300">Respond (10 min)</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>What containment actions do you take immediately?</li>
+                        <li>What configuration changes would you make?</li>
+                        <li>Apply the Five Whys: what's the root cause?</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 39: Part 4 Divider ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-6xl font-bold mb-6 bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">Digital Forensics</h2>
+            <div class="w-24 h-1 bg-gradient-to-r from-orange-400 to-red-400 mx-auto mb-6"></div>
+            <p class="text-xl text-gray-400">Acquiring, preserving, and analyzing digital evidence</p>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 40: Forensic Concepts ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Digital Forensic Concepts</h2>
+            <div class="space-y-5 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-orange-300">What is Digital Forensics?</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Acquisition and analysis of digital data &mdash; drives, files, RAM, network traffic</li>
+                        <li>Used for legal cases, internal investigations, incident response, and intelligence</li>
+                        <li>Requires careful documentation, timelines, and evidence handling</li>
+                        <li>The human side matters too &mdash; interviews can provide important clues</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-red-300">Key Principles</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Evidence must be <span class="font-bold text-orange-400">intact, unaltered, and provably so</span></li>
+                        <li>Analysts must demonstrate appropriate skills and use accepted tools</li>
+                        <li>All actions must be documented in an auditable trail</li>
+                        <li>Findings must be <span class="font-bold text-orange-400">repeatable</span> by a third party</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 41: Legal Holds ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Legal Holds</h2>
+            <div class="bg-zinc-800 p-5 rounded-lg mb-5">
+                <p class="text-lg text-gray-300">A <span class="font-bold text-orange-300">legal hold</span> (litigation hold) is a notice requiring an organization to preserve data and records relevant to pending or anticipated litigation. It cannot be ignored.</p>
+            </div>
+            <div class="grid grid-cols-2 gap-5 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-xl font-bold mb-2 text-orange-300">What Must Be Preserved</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Backups and electronic files of all kinds</li>
+                        <li>Paper documents</li>
+                        <li>Any data that might be destroyed or modified in normal operations</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-2 border-red-500">
+                    <h3 class="text-xl font-bold mb-2 text-red-300">Spoliation of Evidence</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Intentionally or negligently altering, destroying, fabricating, hiding, or withholding evidence</li>
+                        <li>Severe legal consequences &mdash; can be a devastating blow in court</li>
+                        <li>Having a strong legal hold process <span class="italic">before</span> a hold arrives is critical</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 42: E-Discovery ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">E-Discovery (EDRM)</h2>
+            <div class="bg-zinc-800 p-4 rounded-lg mb-5">
+                <p class="text-lg text-gray-300">The <span class="font-bold text-orange-300">Electronic Discovery Reference Model</span> describes 9 stages of the discovery process, used for legal cases, FOIA requests, and investigations.</p>
+            </div>
+            <div class="grid grid-cols-3 gap-3 text-base">
+                <div class="bg-zinc-800 p-3 rounded-lg text-center">
+                    <p class="text-xl font-bold text-orange-400">1</p>
+                    <p class="font-semibold text-orange-300">Information Governance</p>
+                    <p class="text-gray-500 text-sm">Assess what data exists</p>
+                </div>
+                <div class="bg-zinc-800 p-3 rounded-lg text-center">
+                    <p class="text-xl font-bold text-orange-400">2</p>
+                    <p class="font-semibold text-orange-300">Identification</p>
+                    <p class="text-gray-500 text-sm">Locate stored information</p>
+                </div>
+                <div class="bg-zinc-800 p-3 rounded-lg text-center">
+                    <p class="text-xl font-bold text-orange-400">3</p>
+                    <p class="font-semibold text-orange-300">Preservation</p>
+                    <p class="text-gray-500 text-sm">Ensure data isn't changed</p>
+                </div>
+                <div class="bg-zinc-800 p-3 rounded-lg text-center">
+                    <p class="text-xl font-bold text-red-400">4</p>
+                    <p class="font-semibold text-red-300">Collection</p>
+                    <p class="text-gray-500 text-sm">Gather the information</p>
+                </div>
+                <div class="bg-zinc-800 p-3 rounded-lg text-center">
+                    <p class="text-xl font-bold text-red-400">5</p>
+                    <p class="font-semibold text-red-300">Processing</p>
+                    <p class="text-gray-500 text-sm">Remove irrelevant data</p>
+                </div>
+                <div class="bg-zinc-800 p-3 rounded-lg text-center">
+                    <p class="text-xl font-bold text-red-400">6</p>
+                    <p class="font-semibold text-red-300">Review</p>
+                    <p class="text-gray-500 text-sm">Verify completeness</p>
+                </div>
+                <div class="bg-zinc-800 p-3 rounded-lg text-center">
+                    <p class="text-xl font-bold text-orange-400">7</p>
+                    <p class="font-semibold text-orange-300">Analysis</p>
+                    <p class="text-gray-500 text-sm">Identify key elements</p>
+                </div>
+                <div class="bg-zinc-800 p-3 rounded-lg text-center">
+                    <p class="text-xl font-bold text-orange-400">8</p>
+                    <p class="font-semibold text-orange-300">Production</p>
+                    <p class="text-gray-500 text-sm">Provide to third parties</p>
+                </div>
+                <div class="bg-zinc-800 p-3 rounded-lg text-center">
+                    <p class="text-xl font-bold text-orange-400">9</p>
+                    <p class="font-semibold text-orange-300">Presentation</p>
+                    <p class="text-gray-500 text-sm">Present in court/analysis</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 43: Order of Volatility ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Order of Volatility</h2>
+            <p class="text-lg text-gray-400 mb-5 text-center">Capture the most volatile data first &mdash; it disappears fastest.</p>
+            <div class="max-w-2xl mx-auto space-y-3">
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-center border-l-4 border-red-600">
+                    <span class="text-2xl font-bold text-red-400 w-10">1</span>
+                    <div><p class="font-semibold text-red-300">CPU Cache & Registers</p><p class="text-gray-500 text-sm">Most volatile &mdash; changes constantly, rarely captured directly</p></div>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-center border-l-4 border-red-500">
+                    <span class="text-2xl font-bold text-red-400 w-10">2</span>
+                    <div><p class="font-semibold text-red-300">Routing Table, ARP Cache, Process Table, Kernel Stats</p><p class="text-gray-500 text-sm">Ephemeral system data &mdash; snapshot in time only</p></div>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-center border-l-4 border-orange-500">
+                    <span class="text-2xl font-bold text-orange-400 w-10">3</span>
+                    <div><p class="font-semibold text-orange-300">System Memory (RAM)</p><p class="text-gray-500 text-sm">Encryption keys, running processes, ephemeral app data</p></div>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-center border-l-4 border-orange-400">
+                    <span class="text-2xl font-bold text-orange-400 w-10">4</span>
+                    <div><p class="font-semibold text-orange-300">Temporary Files & Swap Space</p><p class="text-gray-500 text-sm">Lost on reboot/shutdown</p></div>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-center border-l-4 border-orange-300">
+                    <span class="text-2xl font-bold text-orange-400 w-10">5</span>
+                    <div><p class="font-semibold text-orange-300">Data on Hard Disk</p><p class="text-gray-500 text-sm">Persistent but can be overwritten &mdash; full disk image required</p></div>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-center border-l-4 border-gray-500">
+                    <span class="text-2xl font-bold text-gray-400 w-10">6</span>
+                    <div><p class="font-semibold text-gray-300">Remote Logs</p><p class="text-gray-500 text-sm">Centralized logs &mdash; less volatile</p></div>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-center border-l-4 border-gray-600">
+                    <span class="text-2xl font-bold text-gray-400 w-10">7</span>
+                    <div><p class="font-semibold text-gray-300">Backups</p><p class="text-gray-500 text-sm">Least volatile &mdash; archived and retained</p></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 44: Forensic Locations ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Where to Find Forensic Data</h2>
+            <div class="grid grid-cols-2 gap-4 text-lg">
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-semibold text-orange-300">RAM / Memory</p>
+                    <p class="text-gray-400">Encryption keys, ephemeral data, running processes. Very helpful for live investigations.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-semibold text-orange-300">Swap / Pagefile</p>
+                    <p class="text-gray-400">Supplements RAM. Contains fragments of running processes. Changes faster than disk files.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-semibold text-red-300">Disk &mdash; Full Image</p>
+                    <p class="text-gray-400">Capture entire disk (not just files) to preserve deleted files and metadata. Primary focus of many investigations.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-semibold text-red-300">Windows Registry</p>
+                    <p class="text-gray-400">Common analysis target. Many activities modify the Registry, leaving forensic traces.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-semibold text-orange-300">Firmware</p>
+                    <p class="text-gray-400">Less common target, but may be relevant if firmware was modified during the incident.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-semibold text-orange-300">Mobile / IoT Devices</p>
+                    <p class="text-gray-400">Smartphones, tablets, embedded systems may contain forensically relevant data.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-semibold text-red-300">VM Snapshots</p>
+                    <p class="text-gray-400">Capture VM state without imaging the entire host. Can be imported into forensic tools.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-semibold text-red-300">Network Traffic & Logs</p>
+                    <p class="text-gray-400">Packet captures, firewall logs, IDS/IPS logs, email server logs, authentication logs.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 45: Chain of Custody ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Chain of Custody</h2>
+            <div class="grid grid-cols-2 gap-6 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-orange-300">What It Documents</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Every person who handled the evidence</li>
+                        <li>When, where, and what was done each time</li>
+                        <li>Sign-off forms for every access, transfer, or copy</li>
+                        <li>Applied even when no legal case is anticipated</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-red-300">Evidence Admissibility</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Must be <span class="font-bold text-orange-400">relevant and reliable</span></li>
+                        <li>Obtained legally</li>
+                        <li>Proven authentic and unaltered</li>
+                        <li>Best evidence available</li>
+                        <li>Process must withstand court challenges</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="bg-gradient-to-r from-orange-900/40 to-red-900/40 p-4 rounded-lg border border-orange-500 mt-5">
+                <p class="text-orange-200 text-center">Admissibility requires that forensic data be intact and <span class="font-bold">provably unaltered</span> before and during the forensic process.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 46: Forensic vs. Logical Copies ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Forensic Copies vs. Logical Copies</h2>
+            <div class="grid grid-cols-2 gap-6 text-lg">
+                <div class="bg-zinc-800 p-6 rounded-lg border-2 border-orange-500">
+                    <h3 class="text-2xl font-bold mb-3 text-orange-300">Forensic Copy (Bit-for-Bit)</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Exact duplicate of the entire drive</li>
+                        <li>Preserves deleted files, metadata, slack space, and timestamps</li>
+                        <li>Hash of copy matches hash of original</li>
+                        <li>Required for legal proceedings</li>
+                        <li>Created with dd, FTK Imager, or similar tools</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-6 rounded-lg border-2 border-red-500">
+                    <h3 class="text-2xl font-bold mb-3 text-red-300">Logical Copy (File-Level)</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Copies files and folders only</li>
+                        <li>Does NOT preserve deleted files or drive structure</li>
+                        <li>Hashing a file may match, but a forensic copy hash will differ</li>
+                        <li>May be <span class="font-bold text-red-400">inadmissible</span> in legal proceedings</li>
+                        <li>Created with standard copy operations</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="bg-gradient-to-r from-orange-900/40 to-red-900/40 p-4 rounded-lg border border-orange-500 mt-5">
+                <p class="text-orange-200 text-center">When in doubt, always create a forensic (bit-for-bit) copy. A logical copy loses critical evidence.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 47: Acquisition Tools ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Forensic Acquisition Tools</h2>
+            <div class="grid grid-cols-3 gap-5 text-lg mb-5">
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-orange-300">dd (Linux)</h3>
+                    <p class="text-gray-300 mb-3">Command-line bit-for-bit copy</p>
+                    <div class="bg-zinc-900 p-3 rounded font-mono text-xs text-gray-400">
+                        dd if=/dev/sda of=image.img conv=noerror,sync
+                    </div>
+                    <p class="text-gray-500 text-sm mt-2">Pipe through tee and md5sum for simultaneous hashing</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-orange-300">FTK Imager</h3>
+                    <p class="text-gray-300 mb-3">Free GUI tool. Multiple format support.</p>
+                    <ul class="space-y-1 text-gray-400 text-sm">
+                        <li>Raw, E01 (EnCase), AFF formats</li>
+                        <li>Physical and logical drives</li>
+                        <li>Memory capture</li>
+                        <li>Auto MD5 + SHA1 verification</li>
+                        <li>Built-in evidence documentation</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-red-300">WinHex</h3>
+                    <p class="text-gray-300 mb-3">Disk editor for raw/hex analysis</p>
+                    <ul class="space-y-1 text-gray-400 text-sm">
+                        <li>Raw disk images</li>
+                        <li>Direct memory access</li>
+                        <li>RAID arrays, filesystems</li>
+                        <li>Hex-level data reading</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-5">
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-semibold text-orange-300">Write Blockers</p>
+                    <p class="text-gray-400">Hardware or software that prevents any writes to the evidence drive. Essential for legally admissible forensic work.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-semibold text-red-300">Hash Validation</p>
+                    <p class="text-gray-400">Hash both the original and copy (MD5/SHA1). Matching hashes prove the image is identical. Used as checksum to detect later changes.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 48: Network & VM/Container Forensics ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Network, VM & Container Forensics</h2>
+            <div class="space-y-5 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-orange-300">Network Forensics</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Network traffic is ephemeral &mdash; must be captured proactively</li>
+                        <li>Use packet analyzers like Wireshark for deep analysis</li>
+                        <li>Network taps, span ports, and port mirrors send copies of traffic to collection servers</li>
+                        <li>If not captured live, fall back on firewall logs, IDS/IPS logs, email server logs, and flow data</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-red-300">VM Forensics</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>VMs run on shared hosts &mdash; imaging the entire host captures too much</li>
+                        <li>VM snapshots capture the state forensic analysts need</li>
+                        <li>Snapshots can be imported into forensic tools for analysis</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-red-300">Container Forensics</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Containers are ephemeral by design &mdash; fewer artifacts than VMs</li>
+                        <li>Resources are often shared, making forensic capture challenging</li>
+                        <li>Containers can be paused, but returning them to a forensically sound state is difficult</li>
+                        <li>Requires additional planning and specialized tools</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 49: Data Recovery & Slack Space ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Data Recovery & Slack Space</h2>
+            <div class="grid grid-cols-2 gap-6 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-orange-300">How Deletion Works</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Deleting a file only removes the <span class="font-bold">index entry</span></li>
+                        <li>The actual data remains until overwritten</li>
+                        <li>Quick format = index deletion, not wiping</li>
+                        <li>Recovery tools find files by headers and metadata</li>
+                        <li>Partially overwritten files can still yield recoverable fragments</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-red-300">Slack Space</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Open space on a drive after files are deleted</li>
+                        <li>Contains remnants of previously stored data</li>
+                        <li>Critical for forensic analysis &mdash; reveals historical activity</li>
+                        <li>Secure delete tools overwrite this space to prevent recovery</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="bg-zinc-800 p-5 rounded-lg mt-5">
+                <h3 class="text-xl font-bold mb-2 text-red-300">SSD & Flash Media Challenges</h3>
+                <p class="text-gray-300">Wear leveling moves data to less-worn cells, potentially preserving data in reserved space even after "secure" deletion. Full-disk encryption is the most reliable mitigation for SSDs.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 50: Forensic Suites ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Forensic Suites</h2>
+            <div class="grid grid-cols-3 gap-5 text-lg mb-5">
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-xl font-bold mb-2 text-orange-300">Autopsy</h3>
+                    <p class="text-gray-400">Open source. Broad capabilities including timeline analysis, file discovery, hash matching, and module-based processing.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-xl font-bold mb-2 text-orange-300">FTK (Forensic Toolkit)</h3>
+                    <p class="text-gray-400">Commercial standard. Comprehensive acquisition, analysis, and reporting. Used in law enforcement and enterprise.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-xl font-bold mb-2 text-red-300">EnCase</h3>
+                    <p class="text-gray-400">Commercial standard. E01 format originator. Extensive analysis, reporting, and court-tested workflows.</p>
+                </div>
+            </div>
+            <div class="bg-zinc-800 p-5 rounded-lg">
+                <h3 class="text-xl font-bold mb-3 text-orange-300">Common Capabilities</h3>
+                <ul class="space-y-2 text-gray-300">
+                    <li>Import disk images, raw disks, VM snapshots, logical files</li>
+                    <li>Timeline analysis &mdash; see when filesystem changes and events occurred</li>
+                    <li>Automatic image/document/artifact discovery</li>
+                    <li>Hash cracking, steganographic detection, encryption identification</li>
+                    <li>Relies on accurate timestamps &mdash; incorrect time settings can mislead investigators</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 51: Documentation & Reporting ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Documentation, Provenance & Reporting</h2>
+            <div class="grid grid-cols-2 gap-6 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-orange-300">Provenance & Documentation</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Record where every image/drive came from</li>
+                        <li>Document tools used, processes followed, assumptions made</li>
+                        <li>Include case numbers, examiner details, notes</li>
+                        <li>Prevents repudiation of the forensic process</li>
+                        <li>Manual notes and photos supplement tool-generated records</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-red-300">Forensic Reports</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Summary of investigation and findings</li>
+                        <li>Outline of process, tools, and assumptions</li>
+                        <li>Detailed findings per device/drive with evidence</li>
+                        <li>Recommendations and conclusions</li>
+                        <li>Must be useful without overwhelming technical detail</li>
+                        <li>Accuracy is critical &mdash; may be challenged in court</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 52: Cloud Forensics ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Cloud Forensics Challenges</h2>
+            <div class="bg-zinc-800 p-5 rounded-lg mb-5">
+                <p class="text-lg text-gray-300">Acquiring forensic data directly from a cloud provider is often <span class="font-bold text-red-400">impossible</span>. You must plan ahead and rely on alternative data sources.</p>
+            </div>
+            <div class="grid grid-cols-2 gap-5 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-xl font-bold mb-2 text-orange-300">Right-to-Audit Clauses</h3>
+                    <p class="text-gray-400">Negotiate audit rights in contracts. Large providers may only offer third-party audit reports instead.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-xl font-bold mb-2 text-orange-300">Regulatory / Jurisdiction</h3>
+                    <p class="text-gray-400">Data may be stored in different countries with different laws. Local authorities may claim access rights.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-xl font-bold mb-2 text-red-300">Breach Notification</h3>
+                    <p class="text-gray-400">Laws vary by jurisdiction. Some vendors delay notification for days, weeks, or months. Ensure your contract addresses this.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-xl font-bold mb-2 text-red-300">Alternative Data Sources</h3>
+                    <p class="text-gray-400">Use your own logs, VM snapshots, and cloud-native archiving tools (Google Vault, etc.) since provider-side forensics is usually unavailable.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 53: Intelligence & Counterintelligence ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Digital Forensics & Intelligence</h2>
+            <div class="bg-zinc-800 p-5 rounded-lg mb-5">
+                <p class="text-lg text-gray-300">Beyond legal cases and IR, digital forensics plays a role in <span class="font-bold text-orange-300">strategic intelligence</span> and <span class="font-bold text-orange-300">counterintelligence</span>.</p>
+            </div>
+            <div class="grid grid-cols-2 gap-5 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-xl font-bold mb-2 text-orange-300">Intelligence Uses</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Analyze adversary tools, techniques, and behaviors</li>
+                        <li>Study APT (Advanced Persistent Threat) components</li>
+                        <li>Recover data from acquired systems and devices</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-xl font-bold mb-2 text-red-300">Counterintelligence Uses</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Examine artifacts left behind by adversaries</li>
+                        <li>Requires advanced methods: breaking encryption, analyzing hardware</li>
+                        <li>Systems may be designed to resist forensic techniques</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="bg-gradient-to-r from-orange-900/40 to-red-900/40 p-4 rounded-lg border border-orange-500 mt-5">
+                <p class="text-orange-200 text-center">The exam won't quiz you on specific intelligence tools, but remember that forensic techniques are used in both intelligence and counterintelligence communities.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 54: ACTIVITY 4 - Forensic Planning ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-6 text-center bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">Group Activity: Forensic Investigation Planning</h2>
+            <div class="activity-card p-6 rounded-lg mb-5">
+                <h3 class="text-2xl font-bold mb-3 text-orange-200">Scenario</h3>
+                <p class="text-lg text-gray-200">An employee in the finance department is suspected of exfiltrating sensitive customer records to a personal cloud storage account. Legal has issued a preservation hold. You have been asked to lead the forensic investigation. The employee uses a Windows laptop and accesses files on both a local file server and a SaaS CRM application.</p>
+            </div>
+            <div class="grid grid-cols-2 gap-5">
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-xl font-bold mb-3 text-orange-300">Plan Your Acquisition (10 min)</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Using the order of volatility, what do you capture first?</li>
+                        <li>What tools would you use for the laptop? The file server?</li>
+                        <li>How do you handle the SaaS application data?</li>
+                        <li>What does your chain-of-custody documentation look like?</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-xl font-bold mb-3 text-red-300">Consider the Challenges (10 min)</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Can you image the laptop without the employee knowing?</li>
+                        <li>What if the SaaS provider is hosted in another country?</li>
+                        <li>Forensic copy vs. logical copy &mdash; which do you need and why?</li>
+                        <li>What would your forensic report include?</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 55: Chapter Summary ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-center bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">Chapters 14 & 15 Summary</h2>
+            <div class="grid grid-cols-2 gap-5 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-xl font-bold mb-3 text-orange-300">Incident Response</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>6-phase cycle + Lessons Learned</li>
+                        <li>IR teams, exercises, plans, and policies</li>
+                        <li>Tabletop exercises vs. simulations</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-xl font-bold mb-3 text-orange-300">Threat Hunting & Monitoring</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>8 IoC types + published/documented</li>
+                        <li>ATT&CK, Kill Chain, Diamond Model</li>
+                        <li>SIEM, SOAR, alert tuning</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-xl font-bold mb-3 text-red-300">Data Sources & Mitigation</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>6 log types, syslog variants, journalctl</li>
+                        <li>NetFlow/sFlow/IPFIX, metadata</li>
+                        <li>Isolation vs. containment vs. segmentation</li>
+                        <li>Root cause analysis (Five Whys, diagramming)</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-xl font-bold mb-3 text-red-300">Digital Forensics</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Legal holds, spoliation, EDRM (9 stages)</li>
+                        <li>Order of volatility (7 levels)</li>
+                        <li>Chain of custody, admissibility</li>
+                        <li>Forensic vs. logical copies</li>
+                        <li>Tools: dd, FTK Imager, WinHex, Autopsy</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 56: Exam Tips ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Exam Tips</h2>
+            <div class="space-y-4 text-lg">
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4">
+                    <span class="text-2xl text-orange-400 font-bold">1</span>
+                    <p class="text-gray-300">Know the <span class="font-bold text-orange-300">six IR phases</span> cold. Be ready to identify which phase a scenario describes.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4">
+                    <span class="text-2xl text-orange-400 font-bold">2</span>
+                    <p class="text-gray-300">Distinguish <span class="font-bold text-orange-300">isolation</span> (remove), <span class="font-bold text-orange-300">containment</span> (restrict in place), and <span class="font-bold text-orange-300">segmentation</span> (separate into zones).</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4">
+                    <span class="text-2xl text-orange-400 font-bold">3</span>
+                    <p class="text-gray-300"><span class="font-bold text-orange-300">Tabletop = discussion</span>. Simulation = active testing. Both are IR exercises.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4">
+                    <span class="text-2xl text-red-400 font-bold">4</span>
+                    <p class="text-gray-300">SIEM aggregates and correlates logs. <span class="font-bold text-red-300">Alert tuning</span> prevents alert fatigue. SOAR automates response.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4">
+                    <span class="text-2xl text-red-400 font-bold">5</span>
+                    <p class="text-gray-300"><span class="font-bold text-red-300">Order of volatility</span>: CPU registers (most) &rarr; backups (least). Capture volatile data first.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4">
+                    <span class="text-2xl text-red-400 font-bold">6</span>
+                    <p class="text-gray-300"><span class="font-bold text-red-300">Chain of custody</span> must be maintained throughout. <span class="font-bold text-red-300">Forensic copies</span> (bit-for-bit) &mdash; not logical copies.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4">
+                    <span class="text-2xl text-red-400 font-bold">7</span>
+                    <p class="text-gray-300">A <span class="font-bold text-red-300">legal hold</span> means preserve everything. Spoliation = severe legal consequences.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="fixed bottom-8 left-1/2 transform -translate-x-1/2 flex gap-4 z-50">
+        <button id="prevBtn" class="nav-button bg-orange-600 hover:bg-orange-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg">
+            &larr; Previous
+        </button>
+        <div class="bg-zinc-800 text-white font-semibold py-3 px-6 rounded-lg shadow-lg">
+            <span id="slideNumber">1</span> / <span id="totalSlides">56</span>
+        </div>
+        <button id="nextBtn" class="nav-button bg-orange-600 hover:bg-orange-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg">
+            Next &rarr;
+        </button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const progressBar = document.getElementById('progressBar');
+        const slideNumber = document.getElementById('slideNumber');
+        const totalSlidesSpan = document.getElementById('totalSlides');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        totalSlidesSpan.textContent = totalSlides;
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+            slideNumber.textContent = currentSlide + 1;
+            window.scrollTo(0, 0);
+
+            const progress = ((currentSlide + 1) / totalSlides) * 100;
+            progressBar.style.width = progress + '%';
+        }
+
+        function nextSlide() { showSlide(currentSlide + 1); }
+        function prevSlide() { showSlide(currentSlide - 1); }
+
+        prevBtn.addEventListener('click', prevSlide);
+        nextBtn.addEventListener('click', nextSlide);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') prevSlide();
+            if (e.key === 'ArrowRight') nextSlide();
+        });
+
+        showSlide(0);
+    </script>
+</body>
+</html>

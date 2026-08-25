@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab Prep: File Integrity & System Call Tracing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #18181b; /* True Dark Grey (zinc-900) */
+            color: #e4e4e7; /* Light text */
+            overflow: hidden; /* Prevent scrolling the whole page */
+        }
+        .slide {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 80px; /* Space for navigation */
+            overflow-y: auto; /* Allow individual slides to scroll if content overflows */
+        }
+        .slide.active {
+            display: block;
+            opacity: 1;
+        }
+        /* Custom scrollbar for webkit browsers */
+        .slide::-webkit-scrollbar {
+            width: 8px;
+        }
+        .slide::-webkit-scrollbar-track {
+            background: #27272a;
+        }
+        .slide::-webkit-scrollbar-thumb {
+            background-color: #52525b;
+            border-radius: 10px;
+            border: 2px solid #27272a;
+        }
+        code {
+            font-family: 'Courier New', Courier, monospace;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div id="presentation-container" class="relative w-full h-screen">
+
+        <!-- Slide 1: Title -->
+        <div class="slide active p-6 md:p-12 flex items-center justify-center">
+            <div class="text-center max-w-4xl mx-auto">
+                <h1 class="text-4xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-500 mb-4">This Week's Lab</h1>
+                <h2 class="text-2xl md:text-4xl font-bold text-gray-300 mb-8">File Integrity & System Call Tracing</h2>
+                 <div class="bg-zinc-800 border border-zinc-700 rounded-lg p-6 inline-block">
+                    <p class="text-lg font-semibold text-gray-300">An introduction to foundational analysis techniques.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Learning Objectives -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center text-gray-300">Lab Objectives</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-blue-400 mb-2">📄 Understand File Integrity</h3>
+                        <p class="text-gray-400">Learn what file integrity is and why it's a cornerstone of cybersecurity.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-blue-400 mb-2">#️⃣ Use Hashing to Verify Integrity</h3>
+                        <p class="text-gray-400">Discover how cryptographic hashes act as digital fingerprints for files and learn to use tools like `sha1sum` and `sha256sum`.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-blue-400 mb-2">📞 Demystify System Calls</h3>
+                        <p class="text-gray-400">Learn what system calls are and their role as the bridge between applications and the operating system kernel.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-blue-400 mb-2">🕵️ Trace Program Behavior with `strace`</h3>
+                        <p class="text-gray-400">Get hands-on with the `strace` utility to see the hidden actions a program performs during its execution.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: What is File Integrity? -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-gray-300">Part 1: File Integrity</h2>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5 text-left mb-6">
+                    <h3 class="text-xl font-semibold text-blue-400 mb-3 text-center">What is it?</h3>
+                    <p class="text-lg text-gray-300">File integrity is the assurance that a file has not been <strong class="text-yellow-300">altered, corrupted, or tampered with</strong> in any unauthorized way. It's about trusting that the file you have today is the exact same file that was created yesterday.</p>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-300 mb-4">Why does it matter?</h3>
+                <div class="grid md:grid-cols-3 gap-6 text-left">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h4 class="font-semibold text-blue-400">Software Downloads</h4>
+                        <p class="text-sm text-gray-400">Ensuring the installer you downloaded hasn't been modified to include malware.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h4 class="font-semibold text-blue-400">Forensic Evidence</h4>
+                        <p class="text-sm text-gray-400">Proving that a piece of digital evidence has not been changed since it was collected.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h4 class="font-semibold text-blue-400">System Files</h4>
+                        <p class="text-sm text-gray-400">Detecting if an attacker has modified critical OS files to create a backdoor.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Hashing -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">The Digital Fingerprint: Hashing</h2>
+                 <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5 mb-6">
+                    <p class="text-lg text-gray-300 text-center">We verify integrity using a <strong class="text-yellow-300">cryptographic hash function</strong>. This is a mathematical algorithm that takes any input file and produces a unique, fixed-length string of characters.</p>
+                </div>
+                <div class="bg-zinc-900 border border-zinc-700 rounded-lg p-6">
+                    <div class="flex items-center justify-between">
+                        <div class="text-center">
+                           <p class="text-gray-400 mb-2">Input File</p>
+                           <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                           <p class="text-sm font-mono text-gray-500 mt-2">Any Size</p>
+                        </div>
+                        <div class="text-5xl font-thin text-blue-400">→</div>
+                        <div class="text-center">
+                            <p class="text-gray-400 mb-2">Hash Function</p>
+                            <p class="text-xl font-bold text-blue-400">[ SHA-256 ]</p>
+                        </div>
+                        <div class="text-5xl font-thin text-blue-400">→</div>
+                         <div class="text-center">
+                           <p class="text-gray-400 mb-2">Output Hash</p>
+                           <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+                           <p class="text-sm font-mono text-gray-500 mt-2">Fixed Size</p>
+                        </div>
+                    </div>
+                </div>
+                 <p class="mt-6 text-gray-400 text-center">Changing even <strong class="text-yellow-300">one bit</strong> in the input file will produce a completely different hash.</p>
+            </div>
+        </div>
+        
+        <!-- Slide 5: Common Hashing Algorithms -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Common Hashing Algorithms</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="font-semibold text-lg text-gray-400">MD5</h3>
+                        <p class="text-sm text-gray-500">128-bit hash. Considered broken and insecure for cryptography. Avoid for security purposes.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border-2 border-yellow-500/50 rounded-lg p-4">
+                        <h3 class="font-semibold text-lg text-yellow-400">SHA-1</h3>
+                        <p class="text-sm text-gray-400">160-bit hash. Also cryptographically broken, but its speed makes it common in non-critical systems like Git version control. <strong class="text-yellow-300">We will use `sha1sum` in the lab.</strong></p>
+                    </div>
+                     <div class="bg-zinc-800/50 border-2 border-blue-500 rounded-lg p-4">
+                        <h3 class="font-semibold text-lg text-blue-400">SHA-256 (and SHA-2 family)</h3>
+                        <p class="text-sm text-gray-300">256-bit hash. The current industry standard for security. Strong, secure, and widely supported.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: How to Check Integrity -->
+        <div class="slide p-6 md:p-12">
+             <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">How to Check File Integrity</h2>
+                <p class="text-center text-gray-400 mb-6">The process is simple: generate a hash of the file you have, and compare it to the known-good hash provided by the source.</p>
+                <div class="bg-zinc-900 border border-zinc-700 rounded-lg p-6 font-mono text-gray-300">
+                    <p class="text-green-400">$ <span class="text-white">sha256sum important_file.zip</span></p>
+                    <p class="mt-2"><span class="text-blue-400">e3b0c442...b855</span>  important_file.zip</p>
+                    <p class="text-green-400 mt-4">$ <span class="text-white">sha1sum important_file.zip</span></p>
+                    <p class="mt-2"><span class="text-yellow-400">da39a3ee...5e2799b6</span>  important_file.zip</p>
+                </div>
+                <div class="mt-6 text-center">
+                    <p class="text-2xl mt-4">If the hashes match <span class="text-green-400 font-bold">EXACTLY</span>, the file is intact.</p>
+                    <p class="text-2xl mt-2">If they are <span class="text-red-400 font-bold">DIFFERENT</span>, the file is corrupt or has been tampered with.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 7: Automated Integrity Monitoring -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Automated Monitoring with AIDE</h2>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5 text-left mb-6">
+                    <h3 class="text-xl font-semibold text-blue-400 mb-3 text-center">What is AIDE?</h3>
+                    <p class="text-lg text-gray-300"><strong class="text-yellow-300">AIDE (Advanced Intrusion Detection Environment)</strong> is a tool that automates file integrity checking. Instead of manually checking one file at a time, AIDE monitors thousands of important system files for any changes.</p>
+                </div>
+                <h3 class="text-xl font-semibold text-gray-300 mb-4 text-center">How it Works</h3>
+                <div class="grid md:grid-cols-2 gap-6 text-left">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h4 class="font-semibold text-blue-400">1. Initialization</h4>
+                        <p class="text-sm text-gray-400">AIDE scans your system and creates a <strong class="text-yellow-300">baseline database</strong> containing the hashes and other attributes of every important file.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h4 class="font-semibold text-blue-400">2. Checking</h4>
+                        <p class="text-sm text-gray-400">Later, you run AIDE again. It re-scans the system and compares the current state of files to the baseline, reporting any additions, deletions, or modifications.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: What are System Calls? -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-gray-300">Part 2: System Call Tracing</h2>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5 mb-6">
+                    <h3 class="text-xl font-semibold text-blue-400 mb-3 text-center">What is a System Call?</h3>
+                    <p class="text-lg text-gray-300">A system call (syscall) is a request made by a program to the operating system's kernel for a service. Applications can't just access hardware directly; they must ask the kernel to do it for them.</p>
+                </div>
+                 <div class="bg-zinc-900 border border-zinc-700 rounded-lg p-6">
+                    <div class="flex items-center justify-around">
+                        <div class="text-center">
+                           <p class="text-gray-400 mb-2">Your Program</p>
+                           <p class="text-3xl">👨‍💻</p>
+                           <p class="font-mono text-sm mt-2 text-gray-500">(User Space)</p>
+                        </div>
+                         <div class="text-center">
+                           <p class="text-gray-400 mb-2">"Please open this file!"</p>
+                            <p class="text-xl font-bold text-blue-400">[ System Call ]</p>
+                             <p class="text-5xl font-thin text-blue-400">↕</p>
+                        </div>
+                         <div class="text-center">
+                           <p class="text-gray-400 mb-2">OS Kernel</p>
+                           <p class="text-3xl">🛡️</p>
+                           <p class="font-mono text-sm mt-2 text-gray-500">(Kernel Space)</p>
+                        </div>
+                    </div>
+                </div>
+                 <p class="mt-6 text-gray-400 text-center">Common tasks requiring syscalls: opening/reading files, creating processes, sending network packets, accessing hardware.</p>
+            </div>
+        </div>
+
+        <!-- Slide 9: Why Trace System Calls? -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-gray-300">Why Trace System Calls?</h2>
+                <p class="text-lg text-gray-400 mb-6">By watching the syscalls a program makes, we can understand its true behavior, regardless of what the code looks like.</p>
+                 <div class="grid md:grid-cols-2 gap-6 text-left">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-blue-400 mb-3">🐛 Debugging</h3>
+                        <ul class="space-y-2 text-gray-400 list-disc list-inside">
+                           <li>Find out why a program is crashing.</li>
+                           <li>See which files a program is trying (and failing) to open.</li>
+                           <li>Understand performance bottlenecks.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-blue-400 mb-3">🔬 Security Analysis</h3>
+                         <ul class="space-y-2 text-gray-400 list-disc list-inside">
+                           <li>Detect if a program is trying to access sensitive files (e.g., `/etc/shadow`).</li>
+                           <li>See if malware is opening network connections to a C&C server.</li>
+                           <li>Identify unexpected or suspicious behavior.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 10: Introducing strace -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-gray-300">Introducing `strace`</h2>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5 mb-6">
+                    <p class="text-lg text-gray-300"><code class="bg-zinc-900 p-1 rounded-md text-cyan-400">strace</code> is a powerful command-line tool for Linux that intercepts and records the system calls made by a process and the signals it receives. It's an essential tool for system administrators and security analysts.</p>
+                </div>
+                 <div class="bg-zinc-900 border border-zinc-700 rounded-lg p-6 font-mono text-sm text-left overflow-x-auto">
+                    <p class="text-green-400">$ <span class="text-white">strace ls</span></p>
+                    <p class="text-gray-400 mt-2">execve("/usr/bin/ls", ["ls"], 0x7ffc12a4b5f8 /* 22 vars */) = 0</p>
+                    <p class="text-gray-400">brk(NULL)                               = 0x55c1b2a9d000</p>
+                    <p class="text-gray-400">...</p>
+                    <p class="text-yellow-300">openat(AT_FDCWD, "/etc/ld.so.cache", O_RDONLY|O_CLOEXEC) = 3</p>
+                    <p class="text-gray-400">...</p>
+                    <p class="text-yellow-300">openat(AT_FDCWD, ".", O_RDONLY|O_NONBLOCK|O_CLOEXEC|O_DIRECTORY) = 3</p>
+                    <p class="text-yellow-300">getdents64(3, /* 10 entries */, 32768)   = 288</p>
+                    <p class="text-yellow-300">write(1, "file1.txt\nfile2.log\n", 20)      = 20</p>
+                    <p class="text-yellow-300">close(3)                                = 0</p>
+                    <p class="text-gray-400">...</p>
+                    <p class="text-gray-400">exit_group(0)                           = ?</p>
+                </div>
+                <p class="mt-4 text-gray-500">The output shows every interaction the `ls` command had with the kernel to list the files in the current directory.</p>
+            </div>
+        </div>
+
+        <!-- Slide 11: Lab Preview -->
+        <div class="slide p-6 md:p-12 flex items-center justify-center">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-gray-300">This Week's Lab Activities</h2>
+                <div class="grid md:grid-cols-2 gap-6 text-left">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-blue-400 mb-3">Task 1: File Integrity</h3>
+                        <p class="text-gray-400">You will perform manual checks using <code class="bg-zinc-900 p-1 rounded-md text-cyan-400">sha1sum</code>. Then, you will configure <code class="bg-zinc-900 p-1 rounded-md text-cyan-400">aide</code> to establish a baseline and detect unauthorized file modifications on a system.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-blue-400 mb-3">Task 2: System Call Tracing</h3>
+                         <p class="text-gray-400">You will use <code class="bg-zinc-900 p-1 rounded-md text-cyan-400">strace</code> to observe the behavior of simple programs (like `ls`, `cat`, `ping`). You will analyze the output to identify key system calls and explain what the program is doing at a low level.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 12: Summary -->
+        <div class="slide p-6 md:p-12 flex items-center justify-center">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center text-gray-300 border-b-2 border-gray-600 pb-4">Key Takeaways</h2>
+                <div class="space-y-4">
+                     <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-blue-400 mb-2">Manual vs. Automated Integrity</h3>
+                        <p class="text-gray-400">Use <code class="bg-zinc-900 p-1 rounded-md text-cyan-400">sha1sum</code> for single file checks and <code class="bg-zinc-900 p-1 rounded-md text-cyan-400">aide</code> for continuous system-wide monitoring.</p>
+                    </div>
+                     <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-blue-400 mb-2">Hashing is the How</h3>
+                        <p class="text-gray-400">Cryptographic hashes create a unique fingerprint to verify integrity. <strong class="text-yellow-300">SHA-256</strong> is the current secure standard.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-blue-400 mb-2">Syscalls are the Bridge</h3>
+                        <p class="text-gray-400">System calls are how programs ask the OS kernel to perform actions.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-blue-400 mb-2">`strace` is the Magnifying Glass</h3>
+                        <p class="text-gray-400">The <code class="bg-zinc-900 p-1 rounded-md text-cyan-400">strace</code> tool lets you observe these syscalls to understand a program's true behavior.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Navigation -->
+    <div id="navigation" class="fixed bottom-0 left-0 right-0 h-20 bg-zinc-900/80 backdrop-blur-sm border-t border-zinc-700 flex items-center justify-center px-6">
+        <div class="w-full max-w-4xl flex items-center justify-between">
+            <button id="prevBtn" class="bg-zinc-700 text-white font-bold py-2 px-4 rounded-md hover:bg-zinc-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">Previous</button>
+            <div class="flex-grow mx-4">
+                 <div class="w-full bg-zinc-700 rounded-full h-2.5">
+                    <div id="progressBar" class="bg-blue-600 h-2.5 rounded-full" style="width: 0%"></div>
+                </div>
+            </div>
+            <button id="nextBtn" class="bg-blue-700 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-600 transition-colors">Next</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const progressBar = document.getElementById('progressBar');
+            let currentSlide = 0;
+            const totalSlides = slides.length;
+
+            function showSlide(index) {
+                const activeSlide = document.querySelector('.slide.active');
+                if (activeSlide) activeSlide.classList.remove('active');
+                slides[index].classList.add('active');
+                const progressPercentage = ((index + 1) / totalSlides) * 100;
+                progressBar.style.width = `${progressPercentage}%`;
+                prevBtn.disabled = index === 0;
+                nextBtn.disabled = index === totalSlides - 1;
+                nextBtn.textContent = index === totalSlides - 1 ? 'Finish' : 'Next';
+            }
+
+            nextBtn.addEventListener('click', () => {
+                if (currentSlide < totalSlides - 1) {
+                    currentSlide++;
+                    showSlide(currentSlide);
+                }
+            });
+
+            prevBtn.addEventListener('click', () => {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    showSlide(currentSlide);
+                }
+            });
+            
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight' && !nextBtn.disabled) {
+                    nextBtn.click();
+                } else if (e.key === 'ArrowLeft' && !prevBtn.disabled) {
+                    prevBtn.click();
+                }
+            });
+
+            showSlide(currentSlide);
+        });
+    </script>
+</body>
+</html>
+
+
+

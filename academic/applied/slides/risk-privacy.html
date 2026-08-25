@@ -1,0 +1,1527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Risk Management &amp; Privacy &mdash; CYBS 0189</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #18181b;
+            color: #e4e4e7;
+            overflow: hidden;
+        }
+        .slide {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 80px;
+            overflow-y: auto;
+        }
+        .slide.active {
+            display: block;
+            opacity: 1;
+        }
+        .slide::-webkit-scrollbar {
+            width: 8px;
+        }
+        .slide::-webkit-scrollbar-track {
+            background: #27272a;
+        }
+        .slide::-webkit-scrollbar-thumb {
+            background-color: #52525b;
+            border-radius: 10px;
+            border: 2px solid #27272a;
+        }
+        .accent { color: #60a5fa; }
+        .accent-bg { background-color: rgba(27, 54, 93, 0.3); border-color: rgba(96, 165, 250, 0.3); }
+        .accent-solid { background-color: #1B365D; }
+        .risk-matrix td { text-align: center; padding: 12px 18px; font-weight: 600; font-size: 0.95rem; }
+        .risk-low { background-color: rgba(34, 197, 94, 0.25); color: #4ade80; }
+        .risk-med { background-color: rgba(234, 179, 8, 0.25); color: #facc15; }
+        .risk-high { background-color: rgba(239, 68, 68, 0.25); color: #f87171; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div id="presentation-container" class="relative w-full h-screen">
+
+        <!-- Slide 1: Title -->
+        <div class="slide active p-6 md:p-12">
+            <div class="w-full h-full flex items-center justify-center">
+                <div class="text-center max-w-4xl mx-auto">
+                    <h1 class="text-4xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-700 mb-4">Risk Management &amp; Privacy</h1>
+                    <h2 class="text-2xl md:text-4xl font-bold text-gray-300 mb-4">CYBS 0189 Applied Cybersecurity II</h2>
+                    <p class="text-lg text-gray-400">New Mexico Tech</p>
+                    <p class="text-sm text-gray-500 mt-2">Spring 2026 &mdash; Chapter 17</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Module Overview -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center text-gray-300">Module Overview</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Part I: Analyzing Risk</h3>
+                        <p class="text-gray-400">Threats, vulnerabilities, risk identification, risk assessment, and the relationship between likelihood and impact.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Part II: Risk Analysis</h3>
+                        <p class="text-gray-400">Quantitative analysis (AV, EF, SLE, ARO, ALE), qualitative analysis, and supply chain assessment.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Part III: Managing &amp; Tracking Risk</h3>
+                        <p class="text-gray-400">Risk mitigation, avoidance, transference, acceptance, risk registers, risk appetite, and business impact analysis.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Part IV: Privacy</h3>
+                        <p class="text-gray-400">Data types, data classification, data roles, information life cycle, privacy-enhancing technologies, and breach notification.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Exam Objectives -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">SY0-701 Exam Objectives</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Domain 3.0: Security Architecture</h3>
+                        <p class="text-gray-400"><strong>3.3</strong> &mdash; Compare and contrast concepts and strategies to protect data (data types, data classifications).</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Domain 5.0: Security Program Management</h3>
+                        <ul class="text-gray-400 text-sm list-disc list-inside space-y-1 mt-1">
+                            <li><strong>5.1</strong> &mdash; Summarize elements of effective security governance (roles &amp; responsibilities)</li>
+                            <li><strong>5.2</strong> &mdash; Explain elements of the risk management process</li>
+                            <li><strong>5.4</strong> &mdash; Summarize elements of effective security compliance (privacy)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Part I Section Break -->
+        <div class="slide p-6 md:p-12">
+            <div class="w-full h-full flex items-center justify-center">
+                <div class="text-center max-w-4xl mx-auto">
+                    <h1 class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-700 mb-6">PART I</h1>
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-300 mb-4">Analyzing Risk</h2>
+                    <p class="text-lg text-gray-400">Understanding threats, vulnerabilities, and the nature of risk</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Enterprise Risk Management -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Enterprise Risk Management</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">What is ERM?</h3>
+                        <p class="text-gray-400">A formal approach to risk analysis that begins with <strong>identifying</strong> risks, continues with determining <strong>severity</strong>, and results in adopting <strong>risk management strategies</strong> to address each risk.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Why It Matters</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>Organizations face reputational, financial, and operational risks daily</li>
+                            <li>Risk management brings order to identifying and addressing these risks</li>
+                            <li>Cybersecurity is deeply intertwined with the protection of personal information</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Key Definitions -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Key Definitions</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Threats</h3>
+                        <p class="text-gray-400">Any possible events that might have an adverse impact on the <strong>confidentiality, integrity, and/or availability</strong> of our information or information systems.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Vulnerabilities</h3>
+                        <p class="text-gray-400">Weaknesses in our systems or controls that could be <strong>exploited by a threat</strong>.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Risks</h3>
+                        <p class="text-gray-400">Occur at the <strong>intersection</strong> of a vulnerability and a threat that might exploit it. A threat without a corresponding vulnerability does not pose a risk, nor does a vulnerability without a corresponding threat.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Threat + Vulnerability = Risk -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Threat + Vulnerability = Risk</h2>
+                <div class="flex justify-center mb-6">
+                    <div class="flex items-center gap-0">
+                        <div class="w-48 h-48 rounded-full bg-red-900/30 border-2 border-red-500/40 flex items-center justify-center text-red-300 font-bold text-lg -mr-10 z-10">Threat</div>
+                        <div class="w-48 h-48 rounded-full bg-blue-900/30 border-2 border-blue-500/40 flex items-center justify-center text-blue-300 font-bold text-lg -ml-10 z-10">Vulnerability</div>
+                    </div>
+                </div>
+                <div class="text-center mb-6">
+                    <span class="text-2xl font-bold accent">Risk</span>
+                    <p class="text-gray-400 text-sm mt-1">The overlap &mdash; where threat meets vulnerability</p>
+                </div>
+                <div class="accent-bg rounded-lg p-4 border">
+                    <p class="text-sm text-blue-200"><strong>Example:</strong> A server exposes TCP port 22 to the world (vulnerability). An attacker with a brute-force tool (threat) targets it. The combination &mdash; a successful SSH brute-force attack &mdash; is the risk. Close the port and the risk disappears.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Risk Identification -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Risk Identification</h2>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5 mb-4">
+                    <p class="text-gray-400">The <strong>risk identification process</strong> requires identifying the threats and vulnerabilities that exist in your operating environment. These may come from a wide variety of sources.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold accent mb-2">External Risks</h3>
+                        <p class="text-sm text-gray-400">Cybersecurity adversaries, malicious code, natural disasters, and other risks originating outside the organization.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold accent mb-2">Internal Risks</h3>
+                        <p class="text-sm text-gray-400">Malicious insiders, mistakes by authorized users, equipment failures, and similar risks from within.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold accent mb-2">Multiparty Risks</h3>
+                        <p class="text-sm text-gray-400">Risks that impact more than one organization (e.g., power outage on a city block, compromise of a SaaS provider).</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold accent mb-2">Legacy Systems</h3>
+                        <p class="text-sm text-gray-400">Outdated systems that no longer receive security updates, requiring extraordinary protective measures.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: More Risk Categories -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">More Risk Categories</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Intellectual Property (IP) Theft</h3>
+                        <p class="text-gray-400">Risk when a company possesses trade secrets or proprietary information that, if disclosed, could compromise its business advantage.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Software Compliance / Licensing</h3>
+                        <p class="text-gray-400">Risk when an organization licenses software and violates usage limitations, exposing the organization to financial and legal risk.</p>
+                    </div>
+                    <div class="accent-bg rounded-lg p-4 border">
+                        <p class="text-sm text-blue-200"><strong>Remember:</strong> Risk categories include financial risk, reputational risk, strategic risk, operational risk, and compliance risk. All should be considered during identification.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Risk Assessment -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Risk Assessment</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Two Key Factors</h3>
+                        <ul class="text-gray-400 list-disc list-inside space-y-2">
+                            <li><strong>Likelihood of occurrence (probability)</strong> &mdash; the percent chance a threat will exploit a vulnerability over a given period</li>
+                            <li><strong>Impact (magnitude)</strong> &mdash; the damage the risk will cause if it occurs (financial cost, reputation, etc.)</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5 text-center">
+                        <p class="text-2xl font-bold accent mb-2">Risk Severity = Likelihood &times; Impact</p>
+                        <p class="text-sm text-gray-400">Think of this as a conceptual formula &mdash; combining probability and magnitude to determine severity.</p>
+                    </div>
+                    <div class="accent-bg rounded-lg p-4 border">
+                        <p class="text-sm text-blue-200"><strong>Example:</strong> Hit by a bicycle &mdash; moderate impact, high probability = worth mitigating. Hit by a meteor &mdash; catastrophic impact, near-zero probability = accept the risk.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Types of Risk Assessment -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Types of Risk Assessment</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-lg font-semibold accent mb-2">One-Time</h3>
+                        <p class="text-sm text-gray-400">A point-in-time snapshot. May be done in response to a security incident or at management&rsquo;s request.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-lg font-semibold accent mb-2">Ad Hoc</h3>
+                        <p class="text-sm text-gray-400">Conducted in response to a specific event &mdash; a new project, technology implementation, or significant business change.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-lg font-semibold accent mb-2">Recurring</h3>
+                        <p class="text-sm text-gray-400">Performed at regular intervals (annually, quarterly) to track the evolution of risks and monitor the risk profile over time.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-lg font-semibold accent mb-2">Continuous</h3>
+                        <p class="text-sm text-gray-400">Ongoing monitoring and analysis, often using automated systems that constantly scan for new threats and changes.</p>
+                    </div>
+                </div>
+                <div class="accent-bg rounded-lg p-4 border mt-4">
+                    <p class="text-sm text-blue-200"><strong>Exam Tip:</strong> These four types are specifically mentioned in the CompTIA exam objectives. Be prepared to explain any one of them.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Part II Section Break -->
+        <div class="slide p-6 md:p-12">
+            <div class="w-full h-full flex items-center justify-center">
+                <div class="text-center max-w-4xl mx-auto">
+                    <h1 class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-700 mb-6">PART II</h1>
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-300 mb-4">Risk Analysis</h2>
+                    <p class="text-lg text-gray-400">Quantitative and qualitative approaches to evaluating risk</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 13: Risk Analysis Overview -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Risk Analysis</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <p class="text-gray-400">Risk analysis is a formalized approach to risk prioritization. It allows organizations to conduct reviews in a structured manner. There are two methodologies:</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold accent mb-2">Quantitative</h3>
+                            <p class="text-sm text-gray-400">Uses <strong>numeric data</strong> for straightforward prioritization. Expresses risk in dollar values.</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold accent mb-2">Qualitative</h3>
+                            <p class="text-sm text-gray-400">Uses <strong>subjective judgments</strong> and categories (Low/Medium/High) for risks that are difficult to quantify.</p>
+                        </div>
+                    </div>
+                    <div class="accent-bg rounded-lg p-4 border">
+                        <p class="text-sm text-blue-200">Many organizations combine both techniques to get a well-rounded picture of tangible and intangible risks.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 14: Quantitative Risk Analysis Steps -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Quantitative Risk Analysis</h2>
+                <div class="space-y-3">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 flex items-start gap-4">
+                        <span class="text-2xl font-extrabold accent mt-1">1</span>
+                        <div>
+                            <h3 class="font-semibold text-gray-200">Determine the Asset Value (AV)</h3>
+                            <p class="text-sm text-gray-400">The value of the asset in dollars &mdash; cost to acquire, replace, or the depreciated value.</p>
+                        </div>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 flex items-start gap-4">
+                        <span class="text-2xl font-extrabold accent mt-1">2</span>
+                        <div>
+                            <h3 class="font-semibold text-gray-200">Determine the Annualized Rate of Occurrence (ARO)</h3>
+                            <p class="text-sm text-gray-400">How many times per year you expect the risk to occur. Twice a year = 2.0; once every 100 years = 0.01.</p>
+                        </div>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 flex items-start gap-4">
+                        <span class="text-2xl font-extrabold accent mt-1">3</span>
+                        <div>
+                            <h3 class="font-semibold text-gray-200">Determine the Exposure Factor (EF)</h3>
+                            <p class="text-sm text-gray-400">Percentage of the asset expected to be damaged. Total destruction = 100%; half damaged = 50%.</p>
+                        </div>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 flex items-start gap-4">
+                        <span class="text-2xl font-extrabold accent mt-1">4</span>
+                        <div>
+                            <h3 class="font-semibold text-gray-200">Calculate the Single Loss Expectancy (SLE)</h3>
+                            <p class="text-sm text-gray-400"><strong>SLE = AV &times; EF</strong> &mdash; the financial damage expected each time the risk materializes.</p>
+                        </div>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 flex items-start gap-4">
+                        <span class="text-2xl font-extrabold accent mt-1">5</span>
+                        <div>
+                            <h3 class="font-semibold text-gray-200">Calculate the Annualized Loss Expectancy (ALE)</h3>
+                            <p class="text-sm text-gray-400"><strong>ALE = SLE &times; ARO</strong> &mdash; the total expected damage from this risk per year.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 15: Quantitative Formulas Summary -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">The Formulas You Must Know</h2>
+                <div class="space-y-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-6 text-center">
+                        <p class="text-3xl font-bold accent mb-2">SLE = AV &times; EF</p>
+                        <p class="text-gray-400">Single Loss Expectancy = Asset Value &times; Exposure Factor</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-6 text-center">
+                        <p class="text-3xl font-bold accent mb-2">ALE = SLE &times; ARO</p>
+                        <p class="text-gray-400">Annualized Loss Expectancy = Single Loss Expectancy &times; Annualized Rate of Occurrence</p>
+                    </div>
+                    <div class="accent-bg rounded-lg p-4 border">
+                        <p class="text-sm text-blue-200"><strong>Exam Tip:</strong> Be prepared to explain and calculate these values. Watch out for scenarios that provide extra information to lead you astray!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 16: Worked Example -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Worked Example: DoS Attack</h2>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5 mb-4">
+                    <p class="text-gray-400">Your email server generates <strong>$1,000/hour</strong> in sales. A DoS attack is expected <strong>3 times per year</strong>, lasting <strong>3 hours</strong> each time. During the attack the server operates at <strong>10% capacity</strong>.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="font-semibold accent mb-1">Asset Value (AV)</h3>
+                        <p class="text-gray-400">$1,000/hr &times; 3 hrs = <strong>$3,000</strong></p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="font-semibold accent mb-1">Exposure Factor (EF)</h3>
+                        <p class="text-gray-400">90% capacity lost = <strong>0.90</strong></p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="font-semibold accent mb-1">SLE = AV &times; EF</h3>
+                        <p class="text-gray-400">$3,000 &times; 0.90 = <strong>$2,700</strong></p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="font-semibold accent mb-1">ARO</h3>
+                        <p class="text-gray-400">3 times per year = <strong>3.0</strong></p>
+                    </div>
+                </div>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5 mt-4 text-center">
+                    <h3 class="text-xl font-bold accent mb-1">ALE = SLE &times; ARO</h3>
+                    <p class="text-2xl font-bold text-gray-200">$2,700 &times; 3.0 = <strong class="accent">$8,100 per year</strong></p>
+                    <p class="text-sm text-gray-400 mt-2">A DoS prevention service costing less than $8,100/year makes financial sense.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 17: Qualitative Risk Analysis -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Qualitative Risk Analysis</h2>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5 mb-4">
+                    <p class="text-gray-400">For risks that are hard to quantify in dollar terms &mdash; like reputational damage, employee morale, or public health &mdash; qualitative techniques use <strong>subjective rating scales</strong> (Low/Medium/High) to evaluate probability and magnitude.</p>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="risk-matrix w-full border-collapse rounded-lg overflow-hidden">
+                        <thead>
+                            <tr class="bg-zinc-700">
+                                <td class="text-gray-300 font-bold"></td>
+                                <td class="text-gray-300 font-bold">Low Likelihood</td>
+                                <td class="text-gray-300 font-bold">Med Likelihood</td>
+                                <td class="text-gray-300 font-bold">High Likelihood</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="bg-zinc-700 text-gray-300 font-bold">High Impact</td>
+                                <td class="risk-med">Medium</td>
+                                <td class="risk-high">High</td>
+                                <td class="risk-high">High</td>
+                            </tr>
+                            <tr>
+                                <td class="bg-zinc-700 text-gray-300 font-bold">Med Impact</td>
+                                <td class="risk-low">Low</td>
+                                <td class="risk-med">Medium</td>
+                                <td class="risk-high">High</td>
+                            </tr>
+                            <tr>
+                                <td class="bg-zinc-700 text-gray-300 font-bold">Low Impact</td>
+                                <td class="risk-low">Low</td>
+                                <td class="risk-low">Low</td>
+                                <td class="risk-med">Medium</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 18: Qualitative Example -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Qualitative Analysis in Practice</h2>
+                <div class="overflow-x-auto">
+                    <table class="risk-matrix w-full border-collapse rounded-lg overflow-hidden mb-4">
+                        <thead>
+                            <tr class="bg-zinc-700">
+                                <td class="text-gray-300 font-bold">Risk</td>
+                                <td class="text-gray-300 font-bold">Likelihood</td>
+                                <td class="text-gray-300 font-bold">Magnitude</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="bg-zinc-800/50 text-gray-300 text-left">Stolen Unencrypted Device</td>
+                                <td class="risk-high">High</td>
+                                <td class="risk-high">High</td>
+                            </tr>
+                            <tr>
+                                <td class="bg-zinc-800/50 text-gray-300 text-left">Spearphishing</td>
+                                <td class="risk-high">High</td>
+                                <td class="risk-high">High</td>
+                            </tr>
+                            <tr>
+                                <td class="bg-zinc-800/50 text-gray-300 text-left">Website DDoS</td>
+                                <td class="risk-med">Medium</td>
+                                <td class="risk-high">High</td>
+                            </tr>
+                            <tr>
+                                <td class="bg-zinc-800/50 text-gray-300 text-left">Malware on Endpoint</td>
+                                <td class="risk-med">Medium</td>
+                                <td class="risk-med">Medium</td>
+                            </tr>
+                            <tr>
+                                <td class="bg-zinc-800/50 text-gray-300 text-left">Data Center Intrusion</td>
+                                <td class="risk-low">Low</td>
+                                <td class="risk-high">High</td>
+                            </tr>
+                            <tr>
+                                <td class="bg-zinc-800/50 text-gray-300 text-left">Guest Retains Network Access</td>
+                                <td class="risk-low">Low</td>
+                                <td class="risk-low">Low</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="accent-bg rounded-lg p-4 border">
+                    <p class="text-sm text-blue-200"><strong>Insight:</strong> This tells us to prioritize full-disk encryption for mobile devices and email security gateway over physical data center upgrades &mdash; the risks are more probable.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 19: Supply Chain Assessment -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Supply Chain Assessment</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Vendor Due Diligence</h3>
+                        <p class="text-gray-400">You rely on many vendors to protect the CIA of your data. Cloud providers, SaaS platforms, and hardware suppliers are all part of your supply chain. Performing vendor due diligence is a crucial security responsibility.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Hardware Source Authenticity</h3>
+                        <p class="text-gray-400">Verify that hardware was not tampered with after leaving the vendor. Leaked NSA documents revealed the U.S. government intercepted hardware shipments to implant malicious code.</p>
+                    </div>
+                    <div class="accent-bg rounded-lg p-4 border">
+                        <p class="text-sm text-blue-200"><strong>Key takeaway:</strong> Your organization&rsquo;s risk extends beyond your own walls. Assess vendors and supply chains as part of your overall risk management program.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 20: Part III Section Break -->
+        <div class="slide p-6 md:p-12">
+            <div class="w-full h-full flex items-center justify-center">
+                <div class="text-center max-w-4xl mx-auto">
+                    <h1 class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-700 mb-6">PART III</h1>
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-300 mb-4">Managing &amp; Tracking Risk</h2>
+                    <p class="text-lg text-gray-400">Strategies, tracking tools, and business impact analysis</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 21: Risk Management Strategies Overview -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Risk Management Strategies</h2>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5 mb-4">
+                    <p class="text-gray-400">Once risks are analyzed, managers select an appropriate strategy for each risk. There are four primary strategies:</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Mitigation</h3>
+                        <p class="text-sm text-gray-400">Apply security controls to reduce probability and/or magnitude.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Avoidance</h3>
+                        <p class="text-sm text-gray-400">Change business practices to completely eliminate the risk.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Transference</h3>
+                        <p class="text-sm text-gray-400">Shift the impact to another entity (e.g., insurance).</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Acceptance</h3>
+                        <p class="text-sm text-gray-400">Deliberately choose to take no action and accept the risk.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 22: Risk Mitigation -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Risk Mitigation</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Definition</h3>
+                        <p class="text-gray-400">Applying security controls to <strong>reduce the probability and/or magnitude</strong> of a risk. This is the most common strategy &mdash; the vast majority of security work revolves around mitigation.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Laptop Theft Example</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>Cable locks &rarr; reduce <strong>probability</strong> of theft</li>
+                            <li>Tamperproof STOP tags &rarr; deter thieves (reduce probability) and aid recovery (reduce impact)</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">DDoS Example</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>More bandwidth / server capacity &rarr; reduce <strong>impact</strong></li>
+                            <li>Third-party DDoS mitigation service &rarr; reduce <strong>probability</strong> of traffic reaching your network</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 23: Risk Avoidance -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Risk Avoidance</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Definition</h3>
+                        <p class="text-gray-400">Change business practices to <strong>completely eliminate</strong> the potential that a risk will materialize. The major drawback: avoidance strategies typically have a serious detrimental impact on the business.</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                            <h3 class="font-semibold accent mb-1">Laptop Theft</h3>
+                            <p class="text-sm text-gray-400">Don&rsquo;t allow employees to use laptops. Eliminates the risk, but severely harms productivity.</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                            <h3 class="font-semibold accent mb-1">DDoS Attack</h3>
+                            <p class="text-sm text-gray-400">Shut down the website. No website = no DDoS risk. The &ldquo;ultimate denial-of-service attack!&rdquo;</p>
+                        </div>
+                    </div>
+                    <div class="accent-bg rounded-lg p-4 border">
+                        <p class="text-sm text-blue-200">Avoidance is rarely practical &mdash; it is the most extreme strategy and is typically used only when the risk far outweighs the benefit of the activity.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 24: Risk Transference -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Risk Transference</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Definition</h3>
+                        <p class="text-gray-400">Shift some of the impact of a risk to <strong>another entity</strong>. The most common example: purchasing an insurance policy that covers the risk.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Examples</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li><strong>Laptop theft:</strong> Property insurance reimburses the value of the stolen device</li>
+                            <li><strong>DDoS attack:</strong> Cybersecurity insurance covers the cost of recovering operations and lost revenue</li>
+                        </ul>
+                    </div>
+                    <div class="accent-bg rounded-lg p-4 border">
+                        <p class="text-sm text-blue-200"><strong>Note:</strong> Many general business insurance policies <em>exclude</em> cybersecurity risks. Organizations should purchase specific cybersecurity insurance for cyber threats.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 25: Risk Acceptance -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Risk Acceptance</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Definition</h3>
+                        <p class="text-gray-400">Deliberately choosing to take <strong>no other risk management strategy</strong> and continue operations as normal. Warranted when the cost of mitigation exceeds the impact of the risk itself.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Exceptions &amp; Exemptions</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li><strong>Exception:</strong> A risk doesn&rsquo;t align with policy but the cost of mitigation is too high &mdash; granted for that specific case</li>
+                            <li><strong>Exemption:</strong> More formal than an exception; may require higher-level approval and documented decision-making; may have an expiration date</li>
+                        </ul>
+                    </div>
+                    <div class="bg-red-900/20 border border-red-500/30 rounded-lg p-4">
+                        <p class="text-sm text-red-200"><strong>Warning:</strong> Risk acceptance is a <em>deliberate decision</em> from thoughtful analysis. Simply stating &ldquo;we accept this risk&rdquo; without analysis is not acceptance &mdash; it is an <strong>unmanaged risk</strong>!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 26: Risk Tracking Concepts -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Risk Tracking Concepts</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Inherent Risk</h3>
+                        <p class="text-gray-400">The original level of risk <strong>before</strong> implementing any controls. Inherent in the organization&rsquo;s business.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Residual Risk</h3>
+                        <p class="text-gray-400">The risk that <strong>remains after</strong> implementing controls to mitigate, avoid, and/or transfer the inherent risk.</p>
+                    </div>
+                    <div class="accent-bg rounded-lg p-4 border">
+                        <p class="text-sm text-blue-200"><strong>Goal:</strong> An organization implements risk management strategies to reduce inherent risk. It continues until the residual risk is at or below the organization&rsquo;s <strong>risk appetite</strong>.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 27: Risk Appetite, Tolerance, Threshold -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Appetite, Tolerance &amp; Threshold</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Risk Appetite</h3>
+                        <p class="text-gray-400">The <strong>broad level of risk</strong> an organization is willing to accept as a cost of doing business.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Risk Threshold</h3>
+                        <p class="text-gray-400">The <strong>specific quantitative boundary</strong> at which a risk becomes unacceptable and triggers action. More precise than appetite.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Risk Tolerance</h3>
+                        <p class="text-gray-400">The organization&rsquo;s ability to <strong>withstand risks</strong> and continue operations without significant impact.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 28: Risk Appetite Types -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Types of Risk Appetite</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Expansionary</h3>
+                        <p class="text-gray-400">Willing to take on <strong>higher levels of risk</strong> in pursuit of higher rewards. Suitable for organizations looking to aggressively grow, innovate, or capture market share.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Neutral</h3>
+                        <p class="text-gray-400">A <strong>balanced approach</strong> &mdash; willing to take moderate risk for steady growth. Aims for stability and more secure investments.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Conservative</h3>
+                        <p class="text-gray-400">Tends to <strong>avoid high risks</strong> and focuses on maintaining stability and protecting existing assets. Common in highly regulated industries.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 29: KRIs and Risk Owners -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">KRIs &amp; Risk Owners</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Key Risk Indicators (KRIs)</h3>
+                        <p class="text-gray-400">Metrics used to measure and provide <strong>early warning signals</strong> for increasing levels of risk. They help track the effectiveness of risk mitigation efforts and ensure residual risk stays within appetite.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Risk Owner</h3>
+                        <p class="text-gray-400">An individual or entity <strong>responsible for managing and monitoring</strong> risks, including implementing necessary controls and actions to mitigate them.</p>
+                    </div>
+                    <div class="accent-bg rounded-lg p-4 border">
+                        <p class="text-sm text-blue-200"><strong>Exam Tip:</strong> Risk owner, risk threshold, and KRIs are the three risk register elements specifically mentioned in the CompTIA exam objectives.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 30: Risk Register -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Risk Register</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">What Is It?</h3>
+                        <p class="text-gray-400">The primary tool that risk management professionals use to <strong>track risks</strong> facing the organization. It documents each risk along with its assessment, owner, and status.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Common Data Elements</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>Risk statement, causes, and impacts</li>
+                            <li>Risk owner</li>
+                            <li>Risk threshold information</li>
+                            <li>Key Risk Indicators (KRIs)</li>
+                            <li>Likelihood, impact, and overall score</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Risk Matrix / Heat Map</h3>
+                        <p class="text-gray-400">A summarized view used to communicate risk posture to senior leaders, plotting risks by likelihood vs. impact using color-coded cells (green, yellow, red).</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 31: Risk Reporting -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Risk Reporting</h2>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5 mb-4">
+                    <p class="text-gray-400">Communicating the status and evolution of risks to stakeholders. Tailor format to the audience &mdash; dashboards for executives, detailed data for risk teams.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="font-semibold accent mb-1">Regular Updates</h3>
+                        <p class="text-sm text-gray-400">Routine reports on risk status, control effectiveness, and recent changes.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="font-semibold accent mb-1">Dashboard Reporting</h3>
+                        <p class="text-sm text-gray-400">Visual aids (graphs, charts) summarizing risk data in real time.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="font-semibold accent mb-1">Ad Hoc Reports</h3>
+                        <p class="text-sm text-gray-400">Produced as needed in response to specific events requiring immediate attention.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="font-semibold accent mb-1">Risk Trend Analysis</h3>
+                        <p class="text-sm text-gray-400">Analyzing historical data to identify patterns and predict future risks.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 32: Disaster Recovery Planning -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Disaster Recovery Planning</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">What is DRP?</h3>
+                        <p class="text-gray-400">The discipline of developing plans to <strong>recover operations as quickly as possible</strong> in the face of a disaster. A disaster is any event that has the potential to disrupt an organization&rsquo;s business.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Disaster Types</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li><strong>Natural:</strong> Hurricanes, floods, earthquakes, tornadoes</li>
+                            <li><strong>Human-made:</strong> Cyberattacks, infrastructure failures, human error</li>
+                            <li><strong>Internal &amp; External:</strong> Both forces within and outside the organization</li>
+                        </ul>
+                    </div>
+                    <div class="accent-bg rounded-lg p-4 border">
+                        <p class="text-sm text-blue-200">Organizations should conduct <strong>site risk assessments</strong> for each facility, identifying and prioritizing risks from both environmental and human-made sources.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 33: Business Impact Analysis -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Business Impact Analysis (BIA)</h2>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5 mb-4">
+                    <p class="text-gray-400">A formal process designed to identify the <strong>mission-essential functions</strong> within an organization and the critical systems that support them.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-lg font-semibold accent mb-2">MTBF</h3>
+                        <p class="text-sm text-gray-400"><strong>Mean Time Between Failures</strong> &mdash; the expected time that will elapse between system failures. MTBF of 6 months = expect a failure every 6 months.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-lg font-semibold accent mb-2">MTTR</h3>
+                        <p class="text-sm text-gray-400"><strong>Mean Time to Repair</strong> &mdash; the average amount of time to restore a system to normal operating state after a failure.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-lg font-semibold accent mb-2">RTO</h3>
+                        <p class="text-sm text-gray-400"><strong>Recovery Time Objective</strong> &mdash; the amount of time an organization can tolerate a system being down. Service team meets expectations when MTTR &lt; RTO.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-lg font-semibold accent mb-2">RPO</h3>
+                        <p class="text-sm text-gray-400"><strong>Recovery Point Objective</strong> &mdash; the amount of data an organization can tolerate losing during an outage. Drives backup frequency.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 34: Single Points of Failure -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Single Points of Failure</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Definition</h3>
+                        <p class="text-gray-400">Systems, devices, or other components that, if they fail, would cause an <strong>outage</strong>. Identifying and eliminating single points of failure is critical to disaster recovery.</p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                            <h3 class="font-semibold accent mb-1">Example: Power Supply</h3>
+                            <p class="text-sm text-gray-400">A server with one power supply &mdash; if it fails, the server goes down. Adding a redundant power supply resolves this.</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                            <h3 class="font-semibold accent mb-1">Example: Web Server</h3>
+                            <p class="text-sm text-gray-400">A single web server serving your site &mdash; if it fails, the site is down. Adding a second server to a cluster eliminates the SPOF.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 35: Part IV Section Break -->
+        <div class="slide p-6 md:p-12">
+            <div class="w-full h-full flex items-center justify-center">
+                <div class="text-center max-w-4xl mx-auto">
+                    <h1 class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-700 mb-6">PART IV</h1>
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-300 mb-4">Privacy</h2>
+                    <p class="text-lg text-gray-400">Protecting personal information, data classification, roles, and privacy-enhancing technologies</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 36: Privacy Overview -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Privacy</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Why Privacy Matters</h3>
+                        <p class="text-gray-400">Cybersecurity professionals protect the CIA of all information, including <strong>personally identifiable information (PII)</strong>. Breaches expose individuals to identity theft and expose organizations to reputational damage and fines.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Legal Implications</h3>
+                        <p class="text-gray-400">Privacy requirements vary by <strong>jurisdiction</strong> &mdash; local, regional, national, and global. Organizations must understand the legal implications of where they operate.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Privacy Notice</h3>
+                        <p class="text-gray-400">A document outlining the organization&rsquo;s privacy commitments. May be required by law or regulation, and may be included in terms of agreement.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 37: Data Inventory -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Data Inventory</h2>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5 mb-4">
+                    <p class="text-gray-400">The first step in managing sensitive data: develop a <strong>data inventory</strong> of information types maintained and where that data is stored, processed, and transmitted.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="font-semibold accent mb-1">PII</h3>
+                        <p class="text-sm text-gray-400">Personally Identifiable Information &mdash; uniquely identifies a person (customers, employees, third parties).</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="font-semibold accent mb-1">PHI</h3>
+                        <p class="text-sm text-gray-400">Protected Health Information &mdash; medical records subject to HIPAA.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="font-semibold accent mb-1">Financial Information</h3>
+                        <p class="text-sm text-gray-400">Personal financial records subject to GLBA and/or PCI DSS.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="font-semibold accent mb-1">Intellectual Property</h3>
+                        <p class="text-sm text-gray-400">Trade secrets, formulas, manufacturing processes, proprietary business information.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="font-semibold accent mb-1">Legal Information</h3>
+                        <p class="text-sm text-gray-400">Attorney-client privilege, contracts, court records, regulatory filings.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="font-semibold accent mb-1">Regulated Information</h3>
+                        <p class="text-sm text-gray-400">Any data governed by laws or regulations (HIPAA, GLBA, PCI DSS, etc.).</p>
+                    </div>
+                </div>
+                <div class="accent-bg rounded-lg p-4 border mt-4">
+                    <p class="text-sm text-blue-200"><strong>Exam Tip:</strong> The data inventory must include <em>all</em> forms of information &mdash; both human-readable and non-human-readable (e.g., binary format data files containing PII).</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 38: Information Classification (Government) -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Information Classification</h2>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5 mb-4">
+                    <p class="text-gray-400">Classification programs organize data into categories based on <strong>sensitivity</strong> and the <strong>impact of unauthorized disclosure</strong>.</p>
+                </div>
+                <div class="space-y-3">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="font-semibold text-red-400 mb-1">Top Secret</h3>
+                        <p class="text-sm text-gray-400">Highest degree of protection. Unauthorized disclosure could cause <strong>exceptionally grave</strong> damage to national security.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="font-semibold text-orange-400 mb-1">Secret</h3>
+                        <p class="text-sm text-gray-400">Substantial protection. Disclosure could cause <strong>serious</strong> damage to national security.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="font-semibold text-yellow-400 mb-1">Confidential</h3>
+                        <p class="text-sm text-gray-400">Some protection. Disclosure could cause <strong>identifiable</strong> damage to national security.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="font-semibold text-gray-400 mb-1">Unclassified</h3>
+                        <p class="text-sm text-gray-400">Does not meet classification standards, but is still <strong>not publicly releasable</strong> without authorization.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 39: Business Classification Levels -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Business Classification Levels</h2>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5 mb-4">
+                    <p class="text-gray-400">Businesses use friendlier terms than the government. There are no &ldquo;official&rdquo; business classification levels &mdash; each organization may define them differently.</p>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 text-center">
+                        <h3 class="font-semibold accent text-lg">Public</h3>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 text-center">
+                        <h3 class="font-semibold accent text-lg">Private</h3>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 text-center">
+                        <h3 class="font-semibold accent text-lg">Sensitive</h3>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 text-center">
+                        <h3 class="font-semibold accent text-lg">Confidential</h3>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 text-center">
+                        <h3 class="font-semibold accent text-lg">Critical</h3>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 text-center">
+                        <h3 class="font-semibold accent text-lg">Restricted</h3>
+                    </div>
+                </div>
+                <div class="accent-bg rounded-lg p-4 border mt-4">
+                    <p class="text-sm text-blue-200"><strong>Exam Tip:</strong> CompTIA lists these six classification levels in the exam objectives. Review your organization&rsquo;s classification policy to understand the specific levels in use.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 40: Data Roles and Responsibilities -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Data Roles &amp; Responsibilities</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Data Owners</h3>
+                        <p class="text-gray-400">Senior executives designated as responsible for different data types. Example: VP of HR owns employment data; VP of Sales owns customer data.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Data Subjects</h3>
+                        <p class="text-gray-400">Individuals whose personal data is being processed (customers, employees, partners). They often have rights to access, correct, or request deletion.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Data Controllers</h3>
+                        <p class="text-gray-400">Entities that determine the <strong>reasons and methods</strong> for processing personal information. A European law term substituting for &ldquo;data owner.&rdquo;</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 41: More Data Roles -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">More Data Roles</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Data Stewards</h3>
+                        <p class="text-gray-400">Carry out the <strong>intent of the data controller</strong>. Delegated responsibility from the controller for day-to-day data management.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Data Custodians</h3>
+                        <p class="text-gray-400">Responsible for the <strong>secure safekeeping</strong> of information, but do not have controller or stewardship responsibility. Example: the IT security team securing PII on behalf of a data controller.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Data Processors</h3>
+                        <p class="text-gray-400">Service providers that process personal information <strong>on behalf of a data controller</strong>. Example: a credit card processing company acting as a processor for a retailer.</p>
+                    </div>
+                    <div class="accent-bg rounded-lg p-4 border">
+                        <p class="text-sm text-blue-200"><strong>GDPR Note:</strong> The EU&rsquo;s General Data Protection Regulation requires every data controller to designate a <strong>Data Protection Officer (DPO)</strong> who bears ultimate responsibility for the organization&rsquo;s data privacy efforts.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 42: Controller vs. Processor -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Controller vs. Processor</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-3 text-center">Data Controller</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-2">
+                            <li>Determines <strong>why</strong> data is processed</li>
+                            <li>Determines <strong>how</strong> data is processed</li>
+                            <li>Retains overall responsibility</li>
+                            <li>Decides what data to collect</li>
+                            <li>Example: A retailer collecting customer info</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-3 text-center">Data Processor</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-2">
+                            <li>Processes data <strong>on behalf of</strong> the controller</li>
+                            <li>Follows the controller&rsquo;s instructions</li>
+                            <li>Does not determine purpose of processing</li>
+                            <li>Must protect data per agreement</li>
+                            <li>Example: A credit card processing service</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 43: Information Life Cycle -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Information Life Cycle</h2>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5 mb-4">
+                    <p class="text-gray-400">Data protection should continue at <strong>all stages</strong> of the information life cycle, from collection to eventual disposal.</p>
+                </div>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Data Minimization</h3>
+                        <p class="text-gray-400">Collect only the <strong>smallest possible amount</strong> of information necessary. Information that is not necessary should be discarded or not collected in the first place.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Purpose Limitation</h3>
+                        <p class="text-gray-400">Information should be used <strong>only for the purpose</strong> for which it was originally collected and consented to by the data subjects.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Data Retention</h3>
+                        <p class="text-gray-400">Standards that guide the <strong>end of the data life cycle</strong>. Data should be kept only as long as necessary, then securely destroyed.</p>
+                    </div>
+                </div>
+                <div class="accent-bg rounded-lg p-4 border mt-4">
+                    <p class="text-sm text-blue-200"><strong>Exam Tip:</strong> Reducing the amount of data you retain is one of the most effective strategies for reducing security risk.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 44: Right to Be Forgotten -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Right to Be Forgotten</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">What Is It?</h3>
+                        <p class="text-gray-400">Also known as the <strong>right to erasure</strong> &mdash; a concept implemented in data protection laws (notably the EU&rsquo;s GDPR) that allows individuals to request the deletion of their personal data.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">When Can Individuals Request Erasure?</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>Data is no longer needed for its original purpose</li>
+                            <li>The individual withdraws consent</li>
+                            <li>The individual objects and there is no overriding legitimate interest</li>
+                            <li>The data has been unlawfully processed</li>
+                            <li>There is a legal obligation to erase the data</li>
+                        </ul>
+                    </div>
+                    <div class="accent-bg rounded-lg p-4 border">
+                        <p class="text-sm text-blue-200">Implementing this right is challenging &mdash; organizations need proper mechanisms to identify and erase data across all systems when requested.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 45: Privacy Enhancing Technologies -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Privacy Enhancing Technologies</h2>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5 mb-4">
+                    <p class="text-gray-400">When data can&rsquo;t be completely removed, transform it to anonymize or obscure the original information. The <strong>deidentification</strong> process removes the ability to link data back to an individual.</p>
+                </div>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Hashing</h3>
+                        <p class="text-gray-400">Apply a hash function to transform a value into a hash value, replacing the original in the dataset. <strong>Caution:</strong> Vulnerable to rainbow table attacks if the set of possible values is small.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Tokenization</h3>
+                        <p class="text-gray-400">Replace sensitive values with a unique identifier using a <strong>lookup table</strong>. Example: replace a student ID with a random 10-digit number. Keep the lookup table secure!</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Data Masking</h3>
+                        <p class="text-gray-400">Partially redact sensitive information by replacing characters with blanks, Xs, or *s. Example: credit card ****-****-****-1234.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 46: Rainbow Table Attack -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Rainbow Table Attack</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">The Problem with Hashing Alone</h3>
+                        <p class="text-gray-400">If an attacker has a list of possible values for a field, they can compute the hash of each candidate value and check whether those hashes appear in your data file.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Example</h3>
+                        <p class="text-gray-400">A college hashes student IDs in a list of students who failed courses. An attacker with the full student roster can hash every ID and check which hashes match &mdash; revealing who failed.</p>
+                    </div>
+                    <div class="bg-red-900/20 border border-red-500/30 rounded-lg p-4">
+                        <p class="text-sm text-red-200"><strong>Lesson:</strong> Hashing should be used with caution as a deidentification technique. It works best when the set of possible values is very large and unpredictable.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 47: Privacy and Data Breach Notification -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Data Breach Notification</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Incident Response</h3>
+                        <p class="text-gray-400">In the event of a data breach, immediately activate the cybersecurity incident response plan. Notify key personnel and escalate serious incidents.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Notification Requirements</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>May need to notify affected <strong>individuals</strong></li>
+                            <li>May need to notify <strong>government regulators</strong> and/or news media</li>
+                            <li>In the U.S., <strong>every state</strong> has a data breach notification law with different requirements</li>
+                            <li>The EU&rsquo;s GDPR includes a breach notification requirement</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Key Takeaway</h3>
+                        <p class="text-gray-400">Requirements vary by industry and jurisdiction. Organizations should consult with <strong>an attorney well-versed in this field</strong> when experiencing a breach.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 48: Activity Break - Risk Calculation -->
+        <div class="slide p-6 md:p-12">
+            <div class="w-full h-full flex items-center justify-center">
+                <div class="text-center max-w-4xl mx-auto">
+                    <h1 class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-700 mb-6">ACTIVITY</h1>
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-300 mb-4">Risk Calculation Practice</h2>
+                    <p class="text-lg text-gray-400 mb-6">Work through these scenarios using quantitative risk analysis</p>
+                    <div class="text-left max-w-2xl mx-auto space-y-4">
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                            <p class="text-sm text-gray-400"><strong class="accent">Scenario 1:</strong> A web server worth $50,000 faces a risk that would destroy 60% of its value. The risk is expected to occur once every 5 years. Calculate the SLE, ARO, and ALE.</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                            <p class="text-sm text-gray-400"><strong class="accent">Scenario 2:</strong> A database containing customer records has an AV of $200,000. A breach (EF=25%) is expected twice per year. What is the ALE? Would a $60,000/year security tool be worth it?</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 49: Activity Answers -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Activity Answers</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-3">Scenario 1</h3>
+                        <ul class="text-sm text-gray-400 space-y-2">
+                            <li><strong>AV</strong> = $50,000</li>
+                            <li><strong>EF</strong> = 60% (0.60)</li>
+                            <li><strong>SLE</strong> = $50,000 &times; 0.60 = <strong class="text-gray-200">$30,000</strong></li>
+                            <li><strong>ARO</strong> = 1/5 = <strong class="text-gray-200">0.2</strong></li>
+                            <li><strong>ALE</strong> = $30,000 &times; 0.2 = <strong class="accent">$6,000/year</strong></li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-3">Scenario 2</h3>
+                        <ul class="text-sm text-gray-400 space-y-2">
+                            <li><strong>AV</strong> = $200,000</li>
+                            <li><strong>EF</strong> = 25% (0.25)</li>
+                            <li><strong>SLE</strong> = $200,000 &times; 0.25 = <strong class="text-gray-200">$50,000</strong></li>
+                            <li><strong>ARO</strong> = <strong class="text-gray-200">2.0</strong></li>
+                            <li><strong>ALE</strong> = $50,000 &times; 2.0 = <strong class="accent">$100,000/year</strong></li>
+                            <li>$60,000 tool &lt; $100,000 ALE &rarr; <strong class="text-green-400">Yes, worth it</strong></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 50: Activity - Risk Classification -->
+        <div class="slide p-6 md:p-12">
+            <div class="w-full h-full flex items-center justify-center">
+                <div class="text-center max-w-4xl mx-auto">
+                    <h1 class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-700 mb-6">ACTIVITY</h1>
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-300 mb-4">Identify the Strategy</h2>
+                    <p class="text-lg text-gray-400 mb-6">For each scenario, identify which risk management strategy is being used</p>
+                    <div class="text-left max-w-2xl mx-auto space-y-4">
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                            <p class="text-sm text-gray-400"><strong class="accent">A:</strong> A company purchases cyber insurance to cover losses from ransomware attacks.</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                            <p class="text-sm text-gray-400"><strong class="accent">B:</strong> A hospital decides not to offer public Wi-Fi to patients to prevent network-based attacks.</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                            <p class="text-sm text-gray-400"><strong class="accent">C:</strong> An organization installs endpoint detection and response (EDR) software on all workstations.</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                            <p class="text-sm text-gray-400"><strong class="accent">D:</strong> A startup acknowledges the risk of a small data leak but decides the cost of encryption is not justified for non-sensitive marketing data.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 51: Activity Answers -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Activity Answers</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">A: Risk Transference</h3>
+                        <p class="text-gray-400">Purchasing insurance shifts the financial impact to the insurance carrier.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">B: Risk Avoidance</h3>
+                        <p class="text-gray-400">Eliminating public Wi-Fi completely removes the risk of network-based attacks through that vector.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">C: Risk Mitigation</h3>
+                        <p class="text-gray-400">EDR software reduces the probability and impact of malware infections &mdash; a security control applied to reduce risk.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">D: Risk Acceptance</h3>
+                        <p class="text-gray-400">A deliberate, informed decision that the cost of mitigation outweighs the impact of the risk.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 52: Activity - Data Roles -->
+        <div class="slide p-6 md:p-12">
+            <div class="w-full h-full flex items-center justify-center">
+                <div class="text-center max-w-4xl mx-auto">
+                    <h1 class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-700 mb-6">ACTIVITY</h1>
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-300 mb-4">Name That Role</h2>
+                    <p class="text-lg text-gray-400 mb-6">Identify the data privacy role for each description</p>
+                    <div class="text-left max-w-2xl mx-auto space-y-4">
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                            <p class="text-sm text-gray-400"><strong class="accent">1:</strong> A cloud payroll provider that processes employee salary data for a corporation.</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                            <p class="text-sm text-gray-400"><strong class="accent">2:</strong> The VP of Marketing who decides what customer data to collect and why.</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                            <p class="text-sm text-gray-400"><strong class="accent">3:</strong> The IT security team that encrypts and backs up the customer database.</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                            <p class="text-sm text-gray-400"><strong class="accent">4:</strong> A customer who signed up for an online service and provided their personal details.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 53: Activity Answers -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Activity Answers</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">1: Data Processor</h3>
+                        <p class="text-gray-400">Processes data on behalf of the controller (the corporation).</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">2: Data Controller (Data Owner)</h3>
+                        <p class="text-gray-400">Determines the reasons and methods for processing personal information.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">3: Data Custodian</h3>
+                        <p class="text-gray-400">Responsible for secure safekeeping but does not control how data is used.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">4: Data Subject</h3>
+                        <p class="text-gray-400">The individual whose personal data is being processed.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 54: Exam Essentials 1 -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Exam Essentials</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Risk Identification &amp; Assessment</h3>
+                        <p class="text-gray-400">Cybersecurity analysts identify all risks facing the organization, then conduct a business impact analysis to assess the degree of risk based on probability and magnitude.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Vendors Are a Source of External Risk</h3>
+                        <p class="text-gray-400">Conduct supply chain assessments and vendor due diligence. Perform hardware source authenticity checks to verify equipment was not tampered with.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Four Risk Management Strategies</h3>
+                        <p class="text-gray-400"><strong>Mitigation</strong> (reduce probability/impact), <strong>Avoidance</strong> (eliminate the risk), <strong>Transference</strong> (shift impact to third party), <strong>Acceptance</strong> (acknowledge and proceed). For acceptance: know the difference between exceptions and exemptions.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 55: Exam Essentials 2 -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Exam Essentials (cont.)</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Disaster Recovery Planning Builds Resiliency</h3>
+                        <p class="text-gray-400">DRPs activate when a natural or human-made disaster disrupts operations. Know the BIA metrics: <strong>MTBF, MTTR, RTO, RPO</strong>.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Privacy Controls Protect Personal Information</h3>
+                        <p class="text-gray-400">Programs should cover PII, PHI, financial information, and other records. Understand data minimization, purpose limitation, data retention, and the right to be forgotten.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Know Your Formulas</h3>
+                        <p class="text-gray-400 text-center text-lg"><strong>SLE = AV &times; EF</strong> &nbsp;&nbsp;&bull;&nbsp;&nbsp; <strong>ALE = SLE &times; ARO</strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 56: Key Terms Review -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Key Terms Review</h2>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-3 text-center text-sm text-gray-300">Threat</div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-3 text-center text-sm text-gray-300">Vulnerability</div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-3 text-center text-sm text-gray-300">Risk</div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-3 text-center text-sm text-gray-300">AV / EF / SLE</div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-3 text-center text-sm text-gray-300">ARO / ALE</div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-3 text-center text-sm text-gray-300">Inherent Risk</div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-3 text-center text-sm text-gray-300">Residual Risk</div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-3 text-center text-sm text-gray-300">Risk Appetite</div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-3 text-center text-sm text-gray-300">Risk Threshold</div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-3 text-center text-sm text-gray-300">Risk Tolerance</div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-3 text-center text-sm text-gray-300">KRI</div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-3 text-center text-sm text-gray-300">Risk Register</div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-3 text-center text-sm text-gray-300">MTBF / MTTR</div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-3 text-center text-sm text-gray-300">RTO / RPO</div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-3 text-center text-sm text-gray-300">PII / PHI</div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-3 text-center text-sm text-gray-300">Data Controller</div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-3 text-center text-sm text-gray-300">Data Processor</div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-3 text-center text-sm text-gray-300">Data Custodian</div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-3 text-center text-sm text-gray-300">Data Minimization</div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-3 text-center text-sm text-gray-300">Tokenization</div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-3 text-center text-sm text-gray-300">Data Masking</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 57: Discussion Questions -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Discussion Questions</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <p class="text-gray-400"><strong class="accent">1.</strong> Your organization discovers that a key vendor has suffered a data breach. What steps should you take as part of your risk management process?</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <p class="text-gray-400"><strong class="accent">2.</strong> A startup with an expansionary risk appetite wants to launch a new product quickly. How should their approach to risk management differ from a conservative financial institution?</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <p class="text-gray-400"><strong class="accent">3.</strong> A customer exercises their &ldquo;right to be forgotten.&rdquo; What challenges might your organization face in complying with this request across all systems and backups?</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <p class="text-gray-400"><strong class="accent">4.</strong> When is risk acceptance the correct strategy? How do you distinguish an &ldquo;accepted risk&rdquo; from an &ldquo;unmanaged risk&rdquo;?</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 58: End -->
+        <div class="slide p-6 md:p-12">
+            <div class="w-full h-full flex items-center justify-center">
+                <div class="text-center max-w-4xl mx-auto">
+                    <h1 class="text-4xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-700 mb-4">Questions?</h1>
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-300 mb-6">Risk Management &amp; Privacy</h2>
+                    <p class="text-lg text-gray-400">Chapter 17 &mdash; CYBS 0189 Applied Cybersecurity II</p>
+                    <p class="text-sm text-gray-500 mt-4">Next up: Review Questions &amp; Lab</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Navigation -->
+    <div class="fixed bottom-0 left-0 right-0 bg-zinc-900 border-t border-zinc-800 p-4 flex items-center justify-between z-50">
+        <button id="prevBtn" class="px-4 py-2 bg-zinc-700 hover:bg-zinc-600 rounded-lg text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-colors" disabled>Previous</button>
+        <div class="flex-1 mx-4">
+            <div class="h-2 bg-zinc-700 rounded-full overflow-hidden">
+                <div id="progressBar" class="h-full rounded-full transition-all duration-300" style="width: 1.72%; background-color: #1B365D;"></div>
+            </div>
+        </div>
+        <button id="nextBtn" class="px-4 py-2 rounded-lg text-sm font-medium text-white transition-colors hover:opacity-90" style="background-color: #1B365D;">Next</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const progressBar = document.getElementById('progressBar');
+            let currentSlide = 0;
+            const totalSlides = slides.length;
+
+            function showSlide(index) {
+                const activeSlide = document.querySelector('.slide.active');
+                if (activeSlide) activeSlide.classList.remove('active');
+                slides[index].classList.add('active');
+                const progressPercentage = ((index + 1) / totalSlides) * 100;
+                progressBar.style.width = progressPercentage + '%';
+                prevBtn.disabled = index === 0;
+                nextBtn.disabled = index === totalSlides - 1;
+                nextBtn.textContent = index === totalSlides - 1 ? 'Finish' : 'Next';
+            }
+
+            nextBtn.addEventListener('click', () => {
+                if (currentSlide < totalSlides - 1) {
+                    currentSlide++;
+                    showSlide(currentSlide);
+                }
+            });
+
+            prevBtn.addEventListener('click', () => {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    showSlide(currentSlide);
+                }
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight' && !nextBtn.disabled) {
+                    nextBtn.click();
+                } else if (e.key === 'ArrowLeft' && !prevBtn.disabled) {
+                    prevBtn.click();
+                }
+            });
+
+            showSlide(currentSlide);
+        });
+    </script>
+</body>
+</html>

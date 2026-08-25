@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Applied Cybersecurity - Justin Vermillion</title>
+  <meta name="author" content="Justin Vermillion">
+  <meta name="description" content="Sub-page for the Applied Cybersecurity course taught by Justin Vermillion at New Mexico Institute of Mining & Technology.">
+  <style>
+    /* Import Operator Mono font (Medium weight) */
+    @font-face {
+      font-family: 'Operator Mono';
+      src: url('/~vermillion/OperatorMono-Medium.otf') format('opentype'); /* Assuming font is in the same directory or adjust path */
+      font-weight: normal;
+      font-style: normal;
+    }
+    :root {
+      --bg-color: #1a1a1a;
+      --container-bg: #2a2a2a;
+      --accent-color: #00ff00;
+      --text-color: #e0e0e0;
+      --font-family: 'Operator Mono', 'Courier New', Courier, monospace;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: var(--font-family);
+      background-color: #d0ccb9; /* Color matching the monitor frame */
+      color: var(--text-color);
+      line-height: 1.6;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    /* CRT Monitor Frame */
+    .monitor-frame {
+      position: relative;
+      width: 85vw;
+      max-width: 1200px;
+      height: 90vh;
+      background-color: #d0ccb9; /* Beige color of the monitor */
+      border-radius: 10px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+      padding: 30px 30px 50px 30px; /* Extra padding at bottom */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    /* Screen area */
+    .screen {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background-color: var(--bg-color);
+      border-radius: 5px;
+      overflow: hidden;
+    }
+    /* Brand badge at bottom left */
+    .brand-badge {
+      position: absolute;
+      bottom: 15px;
+      left: 25px;
+      background: linear-gradient(to right, #888, #ddd, #888);
+      padding: 2px 8px;
+      border-radius: 3px;
+      font-family: Arial, sans-serif;
+      font-size: 10px;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+      color: #333;
+      text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    }
+    /* Controls at bottom right of monitor */
+    .monitor-controls {
+      position: absolute;
+      bottom: 15px;
+      right: 25px;
+      display: flex;
+      align-items: center;
+      height: 19px; /* Match the height of the brand badge */
+    }
+    .monitor-controls .indicator {
+      width: 8px;
+      height: 8px;
+      background-color: var(--accent-color);
+      border-radius: 50%;
+      box-shadow: 0 0 5px var(--accent-color);
+      margin: auto 0; /* Center vertically */
+    }
+    /* Content area with scrolling */
+    .content-area {
+      width: 100%;
+      height: 100%;
+      overflow-y: auto;
+      position: relative;
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* IE and Edge */
+    }
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    .content-area::-webkit-scrollbar {
+      display: none;
+    }
+    /* CRT screen effect with scanlines and subtle flicker */
+    .screen::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent,
+        transparent 1px,
+        rgba(0, 0, 0, 0.2) 2px,
+        transparent 3px
+      );
+      pointer-events: none;
+      z-index: 10;
+      animation: flicker 0.15s infinite alternate;
+    }
+    /* Ensure the screen and content background are the same */
+    .screen {
+      background-color: var(--container-bg);
+    }
+    @keyframes flicker {
+      0%, 100% { opacity: 0.95; }
+      50% { opacity: 1; }
+    }
+    /* Main content styling */
+    .container {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 1.5rem;
+      border-radius: 8px;
+      position: relative;
+      z-index: 1;
+    }
+    /* Add padding to the content area to prevent gaps */
+    .content-area {
+      padding-bottom: 40px;
+      background-color: var(--container-bg);
+    }
+    header, nav, main, footer {
+      margin-bottom: 1.5rem;
+    }
+    header {
+      text-align: center;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      font-family: 'Lucida Console', Monaco, monospace;
+    }
+    header p {
+      margin: 0.5rem 0;
+    }
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    nav a, .text-link {
+      color: var(--accent-color);
+      text-decoration: none;
+      font-weight: bold;
+      transition: text-decoration 0.2s;
+    }
+    nav a:hover, .text-link:hover {
+      text-decoration: underline;
+    }
+    main section {
+      margin-bottom: 2rem;
+    }
+    main h2 {
+      text-align: center;
+      margin-bottom: 1rem;
+      font-family: 'Lucida Console', Monaco, monospace;
+    }
+    main h3 {
+      margin-top: 1.5rem;
+      margin-bottom: 0.5rem;
+      font-size: 1.1rem;
+      color: var(--accent-color);
+    }
+    ul {
+      list-style-type: disc;
+      padding-left: 1.5rem;
+    }
+    footer {
+      text-align: center;
+      font-size: 0.9rem;
+      border-top: 2px solid var(--accent-color);
+      padding-top: 1rem;
+    }
+    @media (max-width: 600px) {
+      .monitor-frame {
+        width: 95vw;
+        height: 95vh;
+        padding: 15px;
+      }
+      header h1 {
+        font-size: 2rem;
+      }
+      nav {
+        flex-direction: column;
+        gap: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="monitor-frame">
+    <div class="screen">
+      <div class="content-area">
+        <div class="container">
+          <header>
+            <h1>Applied Cybersecurity</h1>
+            <p>A pilot course at New Mexico Institute of Mining &amp; Technology</p>
+          </header>
+          <nav>
+            <a href="/~vermillion/">Home</a>
+            <a href="#about">About</a>
+            <a href="#syllabi">Syllabi</a>
+            <a href="#slides">Lecture Slides</a>
+          </nav>
+          <main>
+            <section id="about">
+              <h2>About The Course</h2>
+              <p>
+                Applied Cybersecurity is a pilot course running in the Fall and Spring semesters of the 2025-2026 school year. It is a dual-enrollment course with students from three New Mexico high schools participating alongside NMT students.
+              </p>
+              <p>
+                The primary objective of this two-semester course is to introduce students to the field of cybersecurity and prepare them for the CompTIA Security+ certification exam (SY0-701).
+              </p>
+              <p>Course materials include:</p>
+              <ul>
+                  <li><strong>Textbook:</strong> <em>CompTIA Security+ Study Guide: Exam SY0-701 Ninth Edition</em> by Mike Chapple and David Seidl (ISBN: 9781394211418).</li>
+                  <li><strong>Virtual Labs:</strong> We will be using <a href="https://nps.edu/web/c3o/labtainers" target="_blank" rel="noopener noreferrer" class="text-link">Labtainers</a> and the <a href="https://nps.edu/web/c3o/cyberciege" target="_blank" rel="noopener noreferrer" class="text-link">CyberCIEGE</a> video game, both developed by the Naval Postgraduate School.</li>
+              </ul>
+            </section>
+            <section id="syllabi">
+              <h2>Syllabi</h2>
+              <ul>
+                <li><a href="./fall-syllabus.html" class="text-link">Fall 2025 Syllabus</a></li>
+              </ul>
+            </section>
+            <section id="slides">
+              <h2>Lecture Slides</h2>
+              <h3>Semester 1</h3>
+              <ul>
+                <li><a href="slides/week1.html" class="text-link">Module 1: Today's Security Professional</a></li>
+                <li><a href="sides/osint.html" class="text-link">Bonus Module: Open Source Intelligence (OSINT)</a></li>
+                <li><a href="slides/week2.html" class="text-link">Module 2: Cybersecurity Threat Landscape</a></li>
+                <li><a href="slides/network.html" class="text-link">Lab Module: Networking Basics</a></li>
+                <li><a href="slides/week3.html" class="text-link">Module 3: Malicious Code</a></li>
+                <li><a href="slides/week3-lab.html" class="text-link">Lab Module: File Integrity & System Calls</a></li>
+                <li><a href="slides/week4.html" class="text-link">Module 4: Social Engineering & Password Attacks</a></li>
+                <li><a href="slides/cscrm.html" class="text-link">Bonus Module: Supply Chain Risk</a></li>
+                <li><a href="slides/analysis.html" class="text-link">Bonus Lab: Malware Analysis</a></li>
+                <li><a href="slides/week5.html" class="text-link">Module 5: Security Assessment and Testing</a></li>
+                <li><a href="slides/week6.html" class="text-link">Module 6: Application Security</a></li>
+                <li><a href="slides/owasp.html" class="text-link">Bonus Lab: OWASP Top 10</a></li>
+                <li><a href="slides/week7.html" class="text-link">Module 7: Cryptography and PKI</a></li>
+                <li><a href="slides/midterm-review.html" class="text-link">Midterm Review</a></li>
+                <li><a href="slides/week9.html" class="text-link">Module 9: Resiliency and Physical Security</a></li>
+                <li><a href="slides/week10.html" class="text-link">Module 10: Cloud and Virtualization Security</a></li>
+                <li><a href="slides/week11.html" class="text-link">Module 11: Endpoint Security</a></li>
+                <li><a href="slides/week12.html" class="text-link">Module 12: Network Security</a></li>
+                <li><a href="slides/week13.html" class="text-link">Module 13: Wireless and Mobile Security</a></li>
+                <li><a href="slides/final-review.html" class="text-link">Final Review</a></li>
+              </ul>
+              <h3>Semester 2</h3>
+              <ul>
+                <li><a href="slides/iam-slides.html" class="text-link">Module 1: Identity and Access Management</a></li>
+                <li><a href="slides/ethics.html" class="text-link">Module 2: Cybersecurity Ethics</a></li>
+                <li><a href="slides/legal.html" class="text-link">Module 3: Cybersecurity Law</a></li>
+                <li><a href="slides/governance.html" class="text-link">Module 4: Governance and Compliance</a></li>
+                <li><a href="slides/risk-privacy.html" class="text-link">Module 5: Risk Management &amp; Privacy</a></li>
+                <li><a href="slides/dfir.html" class="text-link">Module 6: Monitoring, Incident Response &amp; Digital Forensics</a></li>
+                <li><a href="slides/social-engineering.html" class="text-link">Bonus Module: Social Engineering Skills</a></li>
+                <li><a href="slides/windows-security.html" class="text-link">Bonus Module: Windows Security</a></li>
+              </ul>
+            </section>
+          </main>
+          <footer>
+            <p>&copy; 2025 Justin Vermillion. New Mexico Institute of Mining &amp; Technology.</p>
+            <p>"The Future Begins Here"</p>
+          </footer>
+        </div>
+      </div>
+    </div>
+    <div class="brand-badge">CYBERVISION-2000</div>
+    <div class="monitor-controls">
+      <div class="indicator"></div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,1318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Engineering: Skills, Cases & Defense</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #18181b;
+        }
+        .slide {
+            display: none;
+            min-height: 100vh;
+            padding-bottom: 120px;
+        }
+        .slide.active {
+            display: flex;
+        }
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(to right, #f97316, #ef4444);
+            transition: width 0.3s ease;
+            z-index: 1000;
+        }
+        .nav-button {
+            transition: all 0.2s;
+        }
+        .nav-button:hover {
+            transform: scale(1.05);
+        }
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        ul li:before {
+            content: "\25B8";
+            color: #f97316;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.5em;
+            margin-left: 0;
+        }
+        .quote-card {
+            background: linear-gradient(135deg, #1c1917, #292524);
+            border-left: 4px solid #f97316;
+        }
+    </style>
+</head>
+<body class="bg-zinc-900 text-gray-100">
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- ===== SLIDE 1: Title ===== -->
+    <div class="slide active flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto text-center">
+            <h1 class="text-6xl font-bold mb-4 bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">
+                Social Engineering
+            </h1>
+            <h2 class="text-3xl text-gray-300 mb-8">Skills, Cases &amp; Defense</h2>
+            <div class="w-32 h-1 bg-gradient-to-r from-orange-400 to-red-400 mx-auto mb-8"></div>
+            <p class="text-xl text-gray-400">The human operating system has no patches. It only has training.</p>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 2: Learning Objectives ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Learning Objectives</h2>
+            <div class="grid grid-cols-2 gap-5 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold mb-2 text-orange-300">Understand the Human OS</h3>
+                    <p class="text-gray-300">Explain why social engineering works using Cialdini's principles of influence plus Hadnagy's additions.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold mb-2 text-red-300">Learn the Attacker Skills</h3>
+                    <p class="text-gray-300">Identify the four core SE skills: OSINT, pretexting, elicitation, and attack-vector execution.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold mb-2 text-orange-300">Analyze Real Cases</h3>
+                    <p class="text-gray-300">Break down MGM, Twilio, Twitter, and the Arup deepfake attack &mdash; technique by technique.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold mb-2 text-red-300">Defend Yourself &amp; Others</h3>
+                    <p class="text-gray-300">Recognize red flags, use verification protocols, and know what the law does (and does not) allow.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 3: Where this fits ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-6 text-orange-400">Where This Fits</h2>
+            <p class="text-lg text-gray-400 mb-5">Back in semester 1 you read Ch. 4 of the Security+ guide &mdash; that covered the <span class="text-orange-300 font-semibold">what</span> (definitions, exam vocabulary).</p>
+            <p class="text-lg text-gray-400 mb-5">Then Chris Hadnagy showed up and gave you the <span class="text-orange-300 font-semibold">why it works</span> on real humans.</p>
+            <p class="text-lg text-gray-400 mb-6">Today: the <span class="text-orange-300 font-semibold">how</span>. Four practical skills attackers use, the defenses that actually work, and the rules that keep this knowledge on the right side of the law.</p>
+            <div class="bg-gradient-to-r from-orange-900/40 to-red-900/40 p-4 rounded-lg border border-orange-500">
+                <p class="text-orange-200 text-center">Knowing the playbook is how you refuse to fall for it &mdash; and how you protect the people around you who don't know it exists.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 4: Part 1 Divider ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-6xl font-bold mb-6 bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">Part 1: The Human OS</h2>
+            <div class="w-24 h-1 bg-gradient-to-r from-orange-400 to-red-400 mx-auto mb-6"></div>
+            <p class="text-xl text-gray-400">Why social engineering works &mdash; every time, on everybody</p>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 5: Why SE works ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-6 text-orange-400">Why SE Works</h2>
+            <p class="text-lg text-gray-400 mb-5">Your brain runs on shortcuts. Most of the time that's a feature &mdash; you don't consciously analyze every face, every email, every request. Social engineers abuse the shortcuts.</p>
+            <div class="grid grid-cols-3 gap-4 text-lg">
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="font-bold text-orange-300 mb-2">Cognitive Load</h3>
+                    <p class="text-gray-400">Busy, tired, distracted people skip verification steps. Attackers pick busy times on purpose.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="font-bold text-orange-300 mb-2">Trust Defaults</h3>
+                    <p class="text-gray-400">We're wired to trust by default. Paranoia is exhausting; society runs on assumed honesty.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="font-bold text-orange-300 mb-2">Emotion &gt; Logic</h3>
+                    <p class="text-gray-400">Fear, urgency, excitement, curiosity &mdash; strong emotions bypass the part of your brain that asks "wait, is this real?"</p>
+                </div>
+            </div>
+            <div class="quote-card p-5 rounded-lg mt-6">
+                <p class="text-lg text-gray-200 italic">"I could go into any office building, and 30 minutes later walk out with anything I wanted. I never hacked a computer first &mdash; I hacked the person."</p>
+                <p class="text-gray-500 text-right mt-2">&mdash; Kevin Mitnick, <em>The Art of Deception</em></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 6: Cialdini intro ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-6 text-orange-400">Cialdini's Six Principles</h2>
+            <p class="text-lg text-gray-400 mb-5">Psychologist Robert Cialdini spent 30+ years studying how salespeople, cult leaders, and con artists got people to say yes. He found six repeatable patterns. <span class="text-orange-300">Every social-engineering attack uses at least one.</span></p>
+            <div class="grid grid-cols-3 gap-4 text-lg">
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-bold text-orange-300 text-xl mb-1">Reciprocity</p>
+                    <p class="text-gray-400 text-base">Do something for me, I feel I owe you.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-bold text-orange-300 text-xl mb-1">Commitment</p>
+                    <p class="text-gray-400 text-base">Once I say yes to a small thing, I want to stay consistent.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-bold text-orange-300 text-xl mb-1">Social Proof</p>
+                    <p class="text-gray-400 text-base">If everyone else is doing it, it must be okay.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-bold text-red-300 text-xl mb-1">Authority</p>
+                    <p class="text-gray-400 text-base">I defer to people who look in charge.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-bold text-red-300 text-xl mb-1">Liking</p>
+                    <p class="text-gray-400 text-base">I say yes to people I like or find attractive.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-bold text-red-300 text-xl mb-1">Scarcity</p>
+                    <p class="text-gray-400 text-base">If it's rare or expiring, I want it more.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 7: Cialdini in the wild ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-6 text-orange-400">Cialdini in the Wild</h2>
+            <p class="text-lg text-gray-400 mb-5">You see these every day. Once you can name them, you can resist them.</p>
+            <div class="space-y-4 text-lg">
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <p class="text-gray-300"><span class="font-bold text-orange-300">"Here's a free demo &mdash; now buy the full version"</span> &mdash; reciprocity. You got something, now you feel obligated.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <p class="text-gray-300"><span class="font-bold text-orange-300">"You already said you care about security &mdash; so click this link"</span> &mdash; commitment. Hook you with a small agreement, escalate from there.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <p class="text-gray-300"><span class="font-bold text-orange-300">"142,000 people upgraded this month"</span> &mdash; social proof. The herd is moving; you should move too.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500">
+                    <p class="text-gray-300"><span class="font-bold text-red-300">"This is the CEO. I need a wire transfer by end of day"</span> &mdash; authority. A title on a badge, a confident voice, and most people comply.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500">
+                    <p class="text-gray-300"><span class="font-bold text-red-300">The attacker who smiles, remembers your dog's name, laughs at your joke</span> &mdash; liking. Rapport is a weapon.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500">
+                    <p class="text-gray-300"><span class="font-bold text-red-300">"Offer expires in 10 minutes"</span> &mdash; scarcity. No time to check = no time to think.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 8: Hadnagy additions ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-6 text-orange-400">Hadnagy's Additions</h2>
+            <p class="text-lg text-gray-400 mb-5">After running social-engineering engagements for over a decade, Hadnagy added three more levers he saw constantly in real attacks:</p>
+            <div class="grid grid-cols-3 gap-5 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-2xl font-bold mb-2 text-red-300">Urgency</h3>
+                    <p class="text-gray-400">Compresses your decision window. When you don't have time to think, you run on defaults &mdash; and defaults are exploitable.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-2xl font-bold mb-2 text-red-300">Fear</h3>
+                    <p class="text-gray-400">"Your account will be suspended." "You are being sued." Fear triggers the amygdala; the prefrontal cortex (the part that questions) gets quieter.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-2xl font-bold mb-2 text-red-300">Concession</h3>
+                    <p class="text-gray-400">Ask for something huge, then "settle" for what you actually wanted. Feels like a win to the victim &mdash; it was the plan all along.</p>
+                </div>
+            </div>
+            <div class="bg-gradient-to-r from-orange-900/40 to-red-900/40 p-4 rounded-lg border border-orange-500 mt-6">
+                <p class="text-orange-200 text-center">Every scam text, phishing email, and vishing call stacks 2&ndash;4 of these levers on top of each other. Count them the next time you get one.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 9: Part 2 Divider ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-6xl font-bold mb-6 bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">Part 2: OSINT</h2>
+            <div class="w-24 h-1 bg-gradient-to-r from-orange-400 to-red-400 mx-auto mb-6"></div>
+            <p class="text-xl text-gray-400">Open-Source Intelligence &mdash; you are already leaking</p>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 10: What is OSINT ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-6 text-orange-400">What Is OSINT?</h2>
+            <p class="text-lg text-gray-400 mb-5"><span class="font-bold text-orange-300">Open-Source Intelligence</span> is information collected from public sources. No hacking. No illegal access. Just looking &mdash; carefully, systematically, at what is already out there.</p>
+            <div class="grid grid-cols-2 gap-5 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold text-orange-300 mb-2">Passive OSINT</h3>
+                    <p class="text-gray-400">Collection without touching the target &mdash; reading public social media, Google searches, news articles, archived pages. Leaves no trace.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold text-red-300 mb-2">Active OSINT</h3>
+                    <p class="text-gray-400">Any interaction with the target or their systems &mdash; visiting their website, pinging a server, sending a friend request, DM-ing an employee. Can be detected.</p>
+                </div>
+            </div>
+            <div class="quote-card p-5 rounded-lg mt-6">
+                <p class="text-lg text-gray-200 italic">"Information gathering is the most important step in the SE process. Do it right and the rest of the engagement is half done."</p>
+                <p class="text-gray-500 text-right mt-2">&mdash; Chris Hadnagy, <em>Social Engineering: The Science of Human Hacking</em></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 11: What's leaking about you ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-6 text-orange-400">What's Leaking About You?</h2>
+            <p class="text-lg text-gray-400 mb-5">Before we profile anyone else &mdash; think about your own footprint. An attacker targeting you as a stepping stone to your parents' company, or to take over your accounts, has this at minimum:</p>
+            <div class="grid grid-cols-2 gap-4 text-lg">
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-bold text-orange-300">Instagram / TikTok</p>
+                    <p class="text-gray-400">Real name, face, friends, school, routines, the inside of your house, your pet's name (very often your security-question answer).</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-bold text-orange-300">Discord / Gaming</p>
+                    <p class="text-gray-400">Username reuse links gaming identity to real identity. Server lists reveal interests &mdash; perfect for pretexting.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-bold text-red-300">Data Breaches</p>
+                    <p class="text-gray-400">If you reuse passwords, a breach of one site hands attackers access to all of them. Check <span class="text-orange-300">haveibeenpwned.com</span>.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-bold text-red-300">Family &amp; Friends</p>
+                    <p class="text-gray-400">Your mom's maiden name, your sibling's birthday, your school mascot &mdash; all public, all used as "security" questions.</p>
+                </div>
+            </div>
+            <div class="bg-gradient-to-r from-orange-900/40 to-red-900/40 p-4 rounded-lg border border-orange-500 mt-5">
+                <p class="text-orange-200 text-center">Go home tonight and Google yourself. Most of you will find more than you expected.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 12: Google dorking ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-6 text-orange-400">Google Dorking</h2>
+            <p class="text-lg text-gray-400 mb-5">Google is an OSINT tool if you know its query language. These <span class="text-orange-300 font-semibold">operators</span> turn the search bar into a precision instrument:</p>
+            <div class="grid grid-cols-2 gap-4 text-lg">
+                <div class="bg-zinc-800 p-4 rounded-lg font-mono">
+                    <p class="text-orange-300">site:example.com</p>
+                    <p class="text-gray-400 font-sans text-base">Results only from that domain. Scope a single target.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg font-mono">
+                    <p class="text-orange-300">filetype:pdf</p>
+                    <p class="text-gray-400 font-sans text-base">Only documents of that type. Great for leaked internal files.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg font-mono">
+                    <p class="text-orange-300">intitle:"index of"</p>
+                    <p class="text-gray-400 font-sans text-base">Exposed directory listings &mdash; unsecured file servers.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg font-mono">
+                    <p class="text-orange-300">inurl:login</p>
+                    <p class="text-gray-400 font-sans text-base">URLs containing "login" &mdash; find admin panels.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg font-mono">
+                    <p class="text-red-300">"John Smith" site:linkedin.com</p>
+                    <p class="text-gray-400 font-sans text-base">Exact-phrase name search on one site. Profile enumeration.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg font-mono">
+                    <p class="text-red-300">-careers site:target.com</p>
+                    <p class="text-gray-400 font-sans text-base">Exclude results with a word. Filter noise.</p>
+                </div>
+            </div>
+            <div class="bg-gradient-to-r from-orange-900/40 to-red-900/40 p-4 rounded-lg border border-orange-500 mt-5">
+                <p class="text-orange-200 text-center">There is a public database of useful queries called the <span class="font-bold">Google Hacking Database (GHDB)</span>, maintained by Offensive Security.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 13: Username enumeration ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-6 text-orange-400">Username Enumeration</h2>
+            <p class="text-lg text-gray-400 mb-5">Most people reuse handles. Find one username, find dozens of accounts &mdash; each one a piece of the puzzle.</p>
+            <div class="space-y-4 text-lg">
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold text-orange-300 mb-2">The technique</h3>
+                    <p class="text-gray-300">Check a candidate username against hundreds of platforms at once &mdash; Twitter, GitHub, Reddit, Steam, Twitch, Venmo, forums. Match profiles across sites to build a pattern-of-life.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold text-orange-300 mb-2">Public tools</h3>
+                    <p class="text-gray-300"><span class="font-mono text-orange-200">whatsmyname.app</span> and <span class="font-mono text-orange-200">sherlock</span> (open-source CLI) both check hundreds of sites in seconds. Investigators and attackers both use them.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold text-red-300 mb-2">Why it matters</h3>
+                    <p class="text-gray-300">The GitHub profile reveals your employer. The Strava reveals your running route. The old MySpace reveals your 2009 security questions. Separate identities don't stay separate.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 14: Images and metadata ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-6 text-orange-400">Images Leak More Than You Think</h2>
+            <div class="grid grid-cols-2 gap-5 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold text-orange-300 mb-2">Reverse Image Search</h3>
+                    <p class="text-gray-400">Google Lens, TinEye, Yandex. Drop a profile pic in and see everywhere else it appears &mdash; old blogs, alt accounts, dating sites. Kills the idea of a "throwaway" photo.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold text-orange-300 mb-2">EXIF Metadata</h3>
+                    <p class="text-gray-400">Camera model, timestamp, sometimes GPS coordinates baked into the image file. Most social platforms strip it, but many forums, Discord, and raw email attachments do not.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold text-red-300 mb-2">Background Clues</h3>
+                    <p class="text-gray-400">Window reflections. Street signs. Delivery boxes with addresses. A license plate in a side mirror. OSINT analysts train specifically on this &mdash; so do stalkers.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold text-red-300 mb-2">The famous case</h3>
+                    <p class="text-gray-400">In 2019, a Japanese stalker identified a pop star's home by zooming in on the reflection in her eye from a selfie and matching it to a train station. Your photos are maps.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 15: Profiling walkthrough ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-6 text-orange-400">Profiling a Target: A Walkthrough</h2>
+            <p class="text-lg text-gray-400 mb-5">Pretend we are red-teamers hired to test a fictional company, <span class="text-orange-300 font-semibold">Acme Logistics</span>. Goal: get payroll redirected to our account via a believable impersonation of their CFO.</p>
+            <div class="space-y-3 text-lg">
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4">
+                    <span class="text-2xl text-orange-400 font-bold">1</span>
+                    <p class="text-gray-300"><span class="font-bold text-orange-300">LinkedIn:</span> CFO is Jane Doe. Scraped her "About" blurb, 14 years at the company, MBA from State U, mentions her two daughters.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4">
+                    <span class="text-2xl text-orange-400 font-bold">2</span>
+                    <p class="text-gray-300"><span class="font-bold text-orange-300">Company website:</span> press release names the new Controller &mdash; Jane's direct report, the person who can actually authorize a wire transfer.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4">
+                    <span class="text-2xl text-orange-400 font-bold">3</span>
+                    <p class="text-gray-300"><span class="font-bold text-orange-300">Instagram (public):</span> Jane posted from Maui yesterday. She is unreachable, which is exactly when CFO-impersonation attacks happen.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4">
+                    <span class="text-2xl text-red-400 font-bold">4</span>
+                    <p class="text-gray-300"><span class="font-bold text-red-300">Earnings call transcript:</span> Jane says "team" constantly, uses the phrase "let's circle back," signs emails with just "J." Tone is copyable.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4">
+                    <span class="text-2xl text-red-400 font-bold">5</span>
+                    <p class="text-gray-300"><span class="font-bold text-red-300">Data breach lookup:</span> Jane's personal email was in a 2019 breach. Her old password was "Maui2015!" &mdash; gives us a hint about her password habits.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 16: Profiling conclusions ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-6 text-orange-400">What That OSINT Just Bought Us</h2>
+            <p class="text-lg text-gray-400 mb-5">Five public sources, maybe 30 minutes of work. Here is what we now know well enough to weaponize:</p>
+            <div class="grid grid-cols-2 gap-4 text-lg">
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <p class="font-bold text-orange-300">Who to impersonate</p>
+                    <p class="text-gray-400">Jane Doe, CFO &mdash; confirmed offline this week.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <p class="font-bold text-orange-300">Who to target</p>
+                    <p class="text-gray-400">The Controller &mdash; has wire-transfer authority and reports to Jane.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <p class="font-bold text-orange-300">The pretext</p>
+                    <p class="text-gray-400">"I'm on vacation with bad reception, urgent wire needed before the weekend."</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500">
+                    <p class="font-bold text-red-300">Tone &amp; signature</p>
+                    <p class="text-gray-400">Copy Jane's actual phrasing. Sign "J."</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500">
+                    <p class="font-bold text-red-300">Emotional levers</p>
+                    <p class="text-gray-400">Authority (CFO), urgency (before weekend), liking (friendly tone).</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500">
+                    <p class="font-bold text-red-300">Plausible deniability</p>
+                    <p class="text-gray-400">Vacation explains short, typo-ish emails and a non-corporate phone.</p>
+                </div>
+            </div>
+            <div class="bg-gradient-to-r from-orange-900/40 to-red-900/40 p-4 rounded-lg border border-orange-500 mt-5">
+                <p class="text-orange-200 text-center">This is how real BEC attacks start. The "Nigerian prince" is dead &mdash; the modern version is a researched, precise impersonation.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 17: Part 3 Divider ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-6xl font-bold mb-6 bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">Part 3: Pretexting</h2>
+            <div class="w-24 h-1 bg-gradient-to-r from-orange-400 to-red-400 mx-auto mb-6"></div>
+            <p class="text-xl text-gray-400">The cover story &mdash; who you are, why you're asking</p>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 18: What is a pretext ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-6 text-orange-400">What Is a Pretext?</h2>
+            <p class="text-lg text-gray-400 mb-5">A <span class="text-orange-300 font-semibold">pretext</span> is the invented identity, role, or reason an attacker uses to justify their request. It answers the target's unspoken question: <em>"Why are you talking to me?"</em></p>
+            <div class="grid grid-cols-2 gap-5 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold text-orange-300 mb-2">A weak pretext</h3>
+                    <p class="text-gray-400 mb-2">"Hi, this is IT. I need your password."</p>
+                    <p class="text-gray-500 italic">Too generic. No name, no context, no legitimate reason. Triggers alarm in anyone paying attention.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold text-red-300 mb-2">A strong pretext</h3>
+                    <p class="text-gray-400 mb-2">"Hey, Dana from the Okta rollout team &mdash; I have you on the list for the MFA push pilot. Mark said he'd ping you, has he? Want me to walk you through enrolling real quick?"</p>
+                    <p class="text-gray-500 italic">Specific name, named project, named internal person, helpful framing. Most people would comply.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 19: What makes pretexts believable ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-6 text-orange-400">What Makes a Pretext Believable</h2>
+            <div class="space-y-4 text-lg">
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold text-orange-300 mb-2">Specificity</h3>
+                    <p class="text-gray-300">Named people, named systems, named projects. Vague requests from "IT" die; requests from "Dana on the Okta rollout" live.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold text-orange-300 mb-2">Consistency</h3>
+                    <p class="text-gray-300">Story doesn't contradict itself. Names match between the first email and the follow-up call. Details from OSINT line up.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold text-orange-300 mb-2">Congruence</h3>
+                    <p class="text-gray-300">Tone matches role. "IT helpdesk" sounds casual and slightly harried. "Legal" sounds formal and precise. Mismatch = tell.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold text-red-300 mb-2">Legitimate Reason</h3>
+                    <p class="text-gray-300">Why <em>you</em>, why <em>now</em>, why this channel? A good pretext has clean answers for all three.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold text-red-300 mb-2">Rehearsal</h3>
+                    <p class="text-gray-300">Hadnagy's rule: the more of the pretext that is actually true, the less there is to remember and the less there is to get caught on.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 20: Stay in character ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-6 text-orange-400">Stay in Character</h2>
+            <p class="text-lg text-gray-400 mb-5">Hadnagy teaches pretexting as <span class="text-orange-300 font-semibold">method acting</span>. The pretext is not a lie you recite &mdash; it's a role you inhabit.</p>
+            <div class="grid grid-cols-2 gap-4 text-lg">
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-bold text-orange-300 mb-1">Build a full persona</p>
+                    <p class="text-gray-400">Name, title, office location, manager's name, weekend plans. You will be asked small-talk questions.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-bold text-orange-300 mb-1">Dress the voice</p>
+                    <p class="text-gray-400">If you're "busy IT," you sound slightly rushed. If you're "curious new hire," you ask a dumb question first. Match the role's energy.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-bold text-red-300 mb-1">Prep the escape hatch</p>
+                    <p class="text-gray-400">If confronted, a pro has a plan &mdash; apologize, blame a confusion, disengage. Amateurs freeze and get caught.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-bold text-red-300 mb-1">Don't over-explain</p>
+                    <p class="text-gray-400">Guilty people over-explain. Real coworkers don't justify every request. A confident "Can you run this for me?" beats a nervous paragraph.</p>
+                </div>
+            </div>
+            <div class="quote-card p-5 rounded-lg mt-5">
+                <p class="text-lg text-gray-200 italic">"The best pretexts are 90% truth. That way you don't have to remember what you said."</p>
+                <p class="text-gray-500 text-right mt-2">&mdash; Chris Hadnagy</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 21: Mitnick case ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-6 text-orange-400">Case Study: Kevin Mitnick &amp; Motorola</h2>
+            <p class="text-lg text-gray-400 mb-5">Kevin Mitnick (1963&ndash;2023) is the most famous social engineer in history. In his memoir <em>Ghost in the Wires</em>, he describes how he got the source code for a new Motorola flip phone &mdash; entirely through pretexting.</p>
+            <div class="space-y-3 text-lg">
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4">
+                    <span class="text-xl text-orange-400 font-bold">Step 1</span>
+                    <p class="text-gray-300">Called Motorola's main number. Asked for the group that worked on the new phone. Got transferred around &mdash; <span class="text-orange-300">each transfer gave him a new name to drop</span>.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4">
+                    <span class="text-xl text-orange-400 font-bold">Step 2</span>
+                    <p class="text-gray-300">Posed as an internal engineer who "lost access" and needed the source code sent to a test FTP server. Used the real names he'd collected.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4">
+                    <span class="text-xl text-red-400 font-bold">Step 3</span>
+                    <p class="text-gray-300">Target engineer hesitated &mdash; needed a manager sign-off. Mitnick provided the manager's name (just collected), the manager's extension, and <span class="text-red-300">called the manager himself with a different pretext</span> to get the sign-off.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4">
+                    <span class="text-xl text-red-400 font-bold">Step 4</span>
+                    <p class="text-gray-300">Source code was sent. No malware, no exploit, no zero-day. <span class="text-red-300">Three phone calls.</span></p>
+                </div>
+            </div>
+            <div class="bg-gradient-to-r from-orange-900/40 to-red-900/40 p-4 rounded-lg border border-orange-500 mt-5">
+                <p class="text-orange-200 text-center">The lesson: pretexts compound. Each successful call gave Mitnick more ammunition for the next one.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 22: Red flags that blow pretexts ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-6 text-orange-400">Red Flags That Blow a Pretext</h2>
+            <p class="text-lg text-gray-400 mb-5">These are the same flags defenders use to catch attackers &mdash; and the same mistakes attackers train themselves to avoid.</p>
+            <div class="grid grid-cols-2 gap-4 text-lg">
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500">
+                    <p class="font-bold text-red-300">Unusual channel</p>
+                    <p class="text-gray-400">"My boss texted me from a number I've never seen."</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500">
+                    <p class="font-bold text-red-300">Unusual urgency</p>
+                    <p class="text-gray-400">"Why does this need to happen in the next five minutes?"</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500">
+                    <p class="font-bold text-red-300">Over-familiarity too fast</p>
+                    <p class="text-gray-400">First contact and they already know your kid's name. Rapport on rails.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500">
+                    <p class="font-bold text-red-300">Resistance to verification</p>
+                    <p class="text-gray-400">"I can't wait for you to call back." Real people can wait.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500">
+                    <p class="font-bold text-red-300">Wrong details</p>
+                    <p class="text-gray-400">Wrong manager name, wrong team acronym, slightly wrong terminology. Inside knowledge is not a perfect mask.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500">
+                    <p class="font-bold text-red-300">Secrecy request</p>
+                    <p class="text-gray-400">"Don't tell anyone about this transaction." Legitimate work rarely requires you to hide it.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 23: Part 4 Divider ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-6xl font-bold mb-6 bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">Part 4: Elicitation</h2>
+            <div class="w-24 h-1 bg-gradient-to-r from-orange-400 to-red-400 mx-auto mb-6"></div>
+            <p class="text-xl text-gray-400">Getting information without asking for it</p>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 24: Elicitation vs interrogation ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-6 text-orange-400">Elicitation &ne; Interrogation</h2>
+            <p class="text-lg text-gray-400 mb-5"><span class="text-orange-300 font-semibold">Elicitation</span> is the art of getting people to tell you things they'd never tell you if you asked outright. It feels like conversation to the target. That's the point.</p>
+            <div class="grid grid-cols-2 gap-5 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold text-red-300 mb-2">Interrogation</h3>
+                    <ul class="text-gray-300 space-y-1">
+                        <li>Direct questions</li>
+                        <li>Obvious agenda</li>
+                        <li>Target is on guard</li>
+                        <li>Recorded, memorable</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold text-orange-300 mb-2">Elicitation</h3>
+                    <ul class="text-gray-300 space-y-1">
+                        <li>Statements, not questions</li>
+                        <li>Agenda invisible</li>
+                        <li>Target is relaxed</li>
+                        <li>Forgettable &mdash; "just a chat"</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="bg-gradient-to-r from-orange-900/40 to-red-900/40 p-4 rounded-lg border border-orange-500 mt-5">
+                <p class="text-orange-200 text-center">The FBI publishes a public brochure on elicitation because foreign-intelligence officers use these same techniques at trade shows and in bars.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 25: Elicitation techniques 1 ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-6 text-orange-400">Elicitation Techniques (1/2)</h2>
+            <div class="space-y-4 text-lg">
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold text-orange-300 mb-1">Flattery</h3>
+                    <p class="text-gray-300">"You must be the expert on this &mdash; I've been trying to figure out how your team does X." People love to be recognized. They'll explain proudly.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold text-orange-300 mb-1">Deliberate False Statement</h3>
+                    <p class="text-gray-300">Say something confidently wrong. "I heard your team still uses SHA-1." The target's instinct is to correct you &mdash; and in correcting you, they hand you the real answer.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold text-orange-300 mb-1">Assumed Knowledge</h3>
+                    <p class="text-gray-300">Speak as if you already know. "Once the migration to the new CRM finishes next month&hellip;" If there is a migration, the target rolls with it &mdash; and now you know there is one.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 26: Elicitation techniques 2 ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-6 text-orange-400">Elicitation Techniques (2/2)</h2>
+            <div class="space-y-4 text-lg">
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold text-red-300 mb-1">Quid Pro Quo</h3>
+                    <p class="text-gray-300">Offer information first. "At my last job we used Okta and had constant problems with&hellip;" The target reciprocates with their own setup, their own pain points.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold text-red-300 mb-1">Sounding Board</h3>
+                    <p class="text-gray-300">Complain about a problem related to their work. People love to give advice. Advice about <em>how their org solved it</em> is a detailed map of their systems.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold text-red-300 mb-1">Feigned Ignorance</h3>
+                    <p class="text-gray-300">"I'm new, can you walk me through how access requests work around here?" Makes the target the teacher. Teachers over-share.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold text-red-300 mb-1">Strategic Silence</h3>
+                    <p class="text-gray-300">Ask a small question and then <em>don't fill the pause</em>. Silence is uncomfortable. Most people will keep talking to fill it &mdash; often with exactly what you wanted.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 27: DEF CON SECTF ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-6 text-orange-400">Case Study: DEF CON SECTF</h2>
+            <p class="text-lg text-gray-400 mb-5">Hadnagy founded the <span class="text-orange-300 font-semibold">Social Engineering Capture the Flag</span> contest at DEF CON. Competitors sit in a glass booth and cold-call a pre-assigned Fortune 500 company. They have 25 minutes, a list of "flags" (pieces of info), and a script they can deviate from.</p>
+            <div class="grid grid-cols-2 gap-4 text-lg mb-4">
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <p class="font-bold text-orange-300 mb-1">Typical flags</p>
+                    <p class="text-gray-400">Browser version, OS, antivirus product, VPN vendor, badge system, cafeteria vendor, dumpster pickup day.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <p class="font-bold text-orange-300 mb-1">Typical pretext</p>
+                    <p class="text-gray-400">"Marketing research," "new-employee benefits," "facilities compliance audit."</p>
+                </div>
+            </div>
+            <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500 mb-4">
+                <h3 class="text-xl font-bold text-red-300 mb-1">The disturbing finding</h3>
+                <p class="text-gray-300">Companies with sophisticated technical defenses &mdash; banks, defense contractors, hospitals &mdash; <span class="font-semibold text-red-300">almost all get most flags captured</span>. Years of SECTF data published in the annual report.</p>
+            </div>
+            <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500">
+                <h3 class="text-xl font-bold text-red-300 mb-1">Why</h3>
+                <p class="text-gray-300">Employees are trained on phishing emails, not phone calls. The voice on the other end sounds friendly, sounds like someone who belongs, and people help.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 28: Part 5 Divider ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-6xl font-bold mb-6 bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">Part 5: Attack Vectors</h2>
+            <div class="w-24 h-1 bg-gradient-to-r from-orange-400 to-red-400 mx-auto mb-6"></div>
+            <p class="text-xl text-gray-400">How the skills get delivered &mdash; with real cases</p>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 29: Phishing anatomy ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-6 text-orange-400">Phishing: Anatomy</h2>
+            <p class="text-lg text-gray-400 mb-5">Every phishing email has the same four parts. Learn to spot them and you'll catch almost all of them.</p>
+            <div class="space-y-3 text-lg">
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold text-orange-300 mb-1">1. The Sender</h3>
+                    <p class="text-gray-300">Display name vs. real address. <span class="font-mono text-orange-200">"Apple Support" &lt;security@app1e-verify.com&gt;</span>. Hover, don't trust.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold text-orange-300 mb-1">2. The Hook</h3>
+                    <p class="text-gray-300">Subject + opening line optimized for one of Hadnagy's levers &mdash; usually urgency or fear. "Your account will be locked in 24 hours."</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold text-red-300 mb-1">3. The Payload</h3>
+                    <p class="text-gray-300">A link to a credential-harvesting page, an attachment with a malicious macro, or a reply-to address for data exfiltration.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold text-red-300 mb-1">4. The Call to Action</h3>
+                    <p class="text-gray-300">"Click here to verify." "Open the attached invoice." "Reply with your W-2." Always a single clear action, time-pressured.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 30: Phishing variants ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-6 text-orange-400">Phishing Variants You'll See</h2>
+            <div class="grid grid-cols-2 gap-4 text-lg">
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-bold text-orange-300">Phishing</p>
+                    <p class="text-gray-400">Mass email &mdash; low effort, low success rate, still works at scale.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-bold text-orange-300">Spear Phishing</p>
+                    <p class="text-gray-400">Targeted at one person or small group. Uses OSINT. Much higher success rate.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-bold text-orange-300">Whaling</p>
+                    <p class="text-gray-400">Spear phishing aimed at executives. Big payoff justifies research time.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-bold text-red-300">Vishing</p>
+                    <p class="text-gray-400">Voice phishing &mdash; phone calls. Helpdesks are favorite targets.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-bold text-red-300">Smishing</p>
+                    <p class="text-gray-400">SMS phishing. "Your package is delayed." "IRS owes you a refund."</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-bold text-red-300">Quishing</p>
+                    <p class="text-gray-400">QR-code phishing. Fake codes in parking lots, posters, emails. Bypasses URL-filtering.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-bold text-red-300">BEC</p>
+                    <p class="text-gray-400">Business Email Compromise &mdash; impersonating execs for wire fraud. Billions lost per year.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg">
+                    <p class="font-bold text-red-300">Deepfake Voice / Video</p>
+                    <p class="text-gray-400">AI-cloned voice on a call, AI-generated face on a video conference. 2024 saw the first nine-figure losses.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 31: MGM case ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-6 text-orange-400">Case: MGM Resorts (September 2023)</h2>
+            <p class="text-lg text-gray-400 mb-4">Attackers from the group <span class="text-orange-300 font-semibold">Scattered Spider</span> took down MGM's casinos, hotels, slot machines, digital room keys, and reservation systems across Las Vegas for days. Estimated loss: <span class="text-red-300 font-semibold">$100M+</span>.</p>
+            <div class="space-y-3 text-lg">
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4">
+                    <span class="text-xl text-orange-400 font-bold">1</span>
+                    <p class="text-gray-300"><span class="font-bold text-orange-300">OSINT on LinkedIn</span> &mdash; identified an MGM IT employee by name and title.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4">
+                    <span class="text-xl text-orange-400 font-bold">2</span>
+                    <p class="text-gray-300"><span class="font-bold text-orange-300">10-minute phone call</span> to MGM's IT helpdesk, posing as that employee, claiming they were locked out.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4">
+                    <span class="text-xl text-red-400 font-bold">3</span>
+                    <p class="text-gray-300"><span class="font-bold text-red-300">Helpdesk reset MFA</span> for the attacker &mdash; no callback verification, no second channel.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4">
+                    <span class="text-xl text-red-400 font-bold">4</span>
+                    <p class="text-gray-300"><span class="font-bold text-red-300">From there:</span> access to the Okta admin, then deployed ransomware across the entire environment.</p>
+                </div>
+            </div>
+            <div class="bg-gradient-to-r from-orange-900/40 to-red-900/40 p-4 rounded-lg border border-orange-500 mt-4">
+                <p class="text-orange-200 text-center">Every layer of MGM's technical security was intact. A phone call beat all of it.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 32: Twilio case ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-6 text-orange-400">Case: Twilio (August 2022)</h2>
+            <p class="text-lg text-gray-400 mb-4">Twilio is the SMS backbone for thousands of services &mdash; including many MFA providers. The attacker group <span class="text-orange-300 font-semibold">0ktapus</span> ran a smishing campaign against Twilio employees. Roughly <span class="text-red-300 font-semibold">130 downstream companies</span> were compromised through the blast radius.</p>
+            <div class="space-y-3 text-lg">
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold text-orange-300 mb-1">The text</h3>
+                    <p class="text-gray-300">"Your Twilio schedule has changed, please click here to review." Link went to a near-pixel-perfect Okta login page on a domain like <span class="font-mono text-orange-200">twilio-sso.com</span>.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold text-red-300 mb-1">The trick</h3>
+                    <p class="text-gray-300">The fake page relayed credentials <em>and the MFA code</em> to the attacker in real time &mdash; classic <span class="font-semibold">Adversary-in-the-Middle (AiTM)</span>. MFA did not save them.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold text-red-300 mb-1">The blast radius</h3>
+                    <p class="text-gray-300">Once inside Twilio, attackers pivoted into customer accounts including Signal &mdash; exposing phone numbers for ~1,900 Signal users.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 33: Twitter 2020 case ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-6 text-orange-400">Case: Twitter (July 2020)</h2>
+            <p class="text-lg text-gray-400 mb-4">A then-17-year-old named Graham Ivan Clark and two accomplices hijacked the verified accounts of Elon Musk, Joe Biden, Barack Obama, Bill Gates, Apple, Uber, and others &mdash; and posted a Bitcoin-doubling scam. Netted ~<span class="text-red-300 font-semibold">$120K</span> in a few hours.</p>
+            <div class="space-y-3 text-lg">
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4">
+                    <span class="text-xl text-orange-400 font-bold">1</span>
+                    <p class="text-gray-300"><span class="font-bold text-orange-300">Phone spear phishing</span> of Twitter employees working from home during COVID.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4">
+                    <span class="text-xl text-orange-400 font-bold">2</span>
+                    <p class="text-gray-300">Posed as Twitter IT, said the VPN was broken and sent employees to a fake single-sign-on page.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4">
+                    <span class="text-xl text-red-400 font-bold">3</span>
+                    <p class="text-gray-300">Stole live credentials + MFA codes &mdash; got into the internal admin tool that could reset any account's email.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4">
+                    <span class="text-xl text-red-400 font-bold">4</span>
+                    <p class="text-gray-300">Took over ~130 accounts, posted scam tweets, were arrested within two weeks &mdash; FBI traced Bitcoin and Discord handles back to real names.</p>
+                </div>
+            </div>
+            <div class="bg-gradient-to-r from-orange-900/40 to-red-900/40 p-4 rounded-lg border border-orange-500 mt-4">
+                <p class="text-orange-200 text-center">A high-schooler shut down one of the world's largest tech companies for half a day with a phone. The lead attacker got three years in prison.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 34: Arup deepfake case ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-6 text-orange-400">Case: Arup Deepfake (February 2024)</h2>
+            <p class="text-lg text-gray-400 mb-4">Engineering firm <span class="text-orange-300 font-semibold">Arup</span> (the people who designed the Sydney Opera House) lost <span class="text-red-300 font-semibold">$25 million</span> in a single wire transfer to attackers using deepfaked video of the company's CFO.</p>
+            <div class="space-y-3 text-lg">
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold text-orange-300 mb-1">Setup</h3>
+                    <p class="text-gray-300">A finance employee in Hong Kong got an email from "the CFO" asking to discuss a confidential transaction. Classic BEC start &mdash; but this time, the employee asked for a video call to verify.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold text-red-300 mb-1">The call</h3>
+                    <p class="text-gray-300">A video conference with <span class="font-semibold">the CFO and several other colleagues</span>. All of them were deepfakes, generated from publicly available video footage of the real executives. Voices, faces, mannerisms &mdash; all synthetic.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold text-red-300 mb-1">The lesson</h3>
+                    <p class="text-gray-300">"Verify over a second channel" used to mean "get them on video." That heuristic is now dead. Verification means <span class="font-semibold text-red-300">a known-good phone number, not a number they give you on the call</span>.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 35: Common thread ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-6 text-orange-400">The Common Thread</h2>
+            <p class="text-lg text-gray-400 mb-5">MGM. Twilio. Twitter. Arup. Four different vectors, four different years, same playbook:</p>
+            <div class="space-y-3 text-lg">
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4">
+                    <span class="text-2xl text-orange-400 font-bold">1</span>
+                    <p class="text-gray-300">OSINT to identify the right person &mdash; and the right moment.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4">
+                    <span class="text-2xl text-orange-400 font-bold">2</span>
+                    <p class="text-gray-300">A pretext tuned to the target's role and current context.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4">
+                    <span class="text-2xl text-orange-400 font-bold">3</span>
+                    <p class="text-gray-300">A channel chosen to minimize verification &mdash; phone, SMS, deepfake video.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4">
+                    <span class="text-2xl text-red-400 font-bold">4</span>
+                    <p class="text-gray-300">At least two Cialdini/Hadnagy levers stacked &mdash; typically authority + urgency.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4">
+                    <span class="text-2xl text-red-400 font-bold">5</span>
+                    <p class="text-gray-300">A technical pivot once access is obtained (MFA reset, session hijack, wire transfer).</p>
+                </div>
+            </div>
+            <div class="bg-gradient-to-r from-orange-900/40 to-red-900/40 p-4 rounded-lg border border-orange-500 mt-5">
+                <p class="text-orange-200 text-center">The technology changes. The playbook does not.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 36: Part 6 Divider ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-6xl font-bold mb-6 bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">Part 6: Defense</h2>
+            <div class="w-24 h-1 bg-gradient-to-r from-orange-400 to-red-400 mx-auto mb-6"></div>
+            <p class="text-xl text-gray-400">Protecting yourself and the people you love</p>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 37: Red flag checklist ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-6 text-orange-400">The Red-Flag Checklist</h2>
+            <p class="text-lg text-gray-400 mb-5">If a message or call triggers two or more of these, stop and verify before doing anything:</p>
+            <div class="grid grid-cols-2 gap-3 text-lg">
+                <div class="bg-zinc-800 p-3 rounded-lg border-l-4 border-orange-500">
+                    <p class="text-gray-300">Unexpected and urgent</p>
+                </div>
+                <div class="bg-zinc-800 p-3 rounded-lg border-l-4 border-orange-500">
+                    <p class="text-gray-300">Asks for credentials, codes, or money</p>
+                </div>
+                <div class="bg-zinc-800 p-3 rounded-lg border-l-4 border-orange-500">
+                    <p class="text-gray-300">Uses a channel they'd normally never use</p>
+                </div>
+                <div class="bg-zinc-800 p-3 rounded-lg border-l-4 border-orange-500">
+                    <p class="text-gray-300">Links go to a domain that's <em>almost</em> right</p>
+                </div>
+                <div class="bg-zinc-800 p-3 rounded-lg border-l-4 border-red-500">
+                    <p class="text-gray-300">Pressures you not to check with anyone</p>
+                </div>
+                <div class="bg-zinc-800 p-3 rounded-lg border-l-4 border-red-500">
+                    <p class="text-gray-300">Triggers strong emotion (fear, excitement, guilt)</p>
+                </div>
+                <div class="bg-zinc-800 p-3 rounded-lg border-l-4 border-red-500">
+                    <p class="text-gray-300">Breaks normal process ("skip the ticket this once")</p>
+                </div>
+                <div class="bg-zinc-800 p-3 rounded-lg border-l-4 border-red-500">
+                    <p class="text-gray-300">Something small is off &mdash; and you noticed</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 38: Callback rule ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-6 text-orange-400">The Callback Rule</h2>
+            <p class="text-lg text-gray-400 mb-5">Single most effective defense against SE, worldwide, across every case we've looked at:</p>
+            <div class="bg-gradient-to-r from-orange-900/40 to-red-900/40 p-6 rounded-lg border-2 border-orange-500 mb-5">
+                <p class="text-2xl text-orange-200 text-center font-semibold">Verify through an independent channel using a number or address you already had &mdash; never one provided in the suspicious message.</p>
+            </div>
+            <div class="grid grid-cols-2 gap-4 text-lg">
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold text-orange-300 mb-2">Correct</h3>
+                    <p class="text-gray-300">Bank texts that something's wrong. You hang up and call the number <span class="font-semibold">on the back of your card</span>.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold text-red-300 mb-2">Wrong</h3>
+                    <p class="text-gray-300">Bank texts that something's wrong. You call the number <span class="font-semibold">in the text</span>. That number goes straight to the attacker.</p>
+                </div>
+            </div>
+            <div class="bg-zinc-800 p-4 rounded-lg mt-5">
+                <p class="text-lg text-gray-300">Same rule for video calls after the Arup attack &mdash; a deepfaked face can say "call me back at this number." The number is the attacker.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 39: Slow down ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-6 text-orange-400">Slow Down. That's the Whole Trick.</h2>
+            <p class="text-lg text-gray-400 mb-5">Every attack you just saw depended on the target <span class="text-red-300 font-semibold">not pausing</span>. If you pause, the attack usually dies.</p>
+            <div class="space-y-4 text-lg">
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold text-orange-300 mb-1">30-second rule</h3>
+                    <p class="text-gray-300">Before clicking, wiring, or sharing, count to 30 and ask: "Why is this urgent, really? Who benefits if I do this fast?"</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold text-orange-300 mb-1">Second pair of eyes</h3>
+                    <p class="text-gray-300">Show the message to someone. Attackers count on you feeling embarrassed or confidential. Break that and you break the attack.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold text-red-300 mb-1">"I'll get back to you"</h3>
+                    <p class="text-gray-300">Magic phrase. Real requests survive a 10-minute delay. Fake requests escalate, threaten, or disappear.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 40: Helping family ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-6 text-orange-400">Protecting People Who Don't Know This Stuff</h2>
+            <p class="text-lg text-gray-400 mb-5">Your parents, grandparents, and younger siblings are prime targets. In 2023, the FBI IC3 reported <span class="text-red-300 font-semibold">$3.4 billion lost by people over 60</span> to online fraud. You are their best defense.</p>
+            <div class="grid grid-cols-2 gap-4 text-lg">
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="font-bold text-orange-300">Teach the callback rule</h3>
+                    <p class="text-gray-400">One rule. Easy to remember. Save the real customer-service number for their bank in their phone today.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="font-bold text-orange-300">Agree on a family code word</h3>
+                    <p class="text-gray-400">Deepfake voice scams target grandparents: "I'm in jail, send money." A family safe-word defeats this instantly.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500">
+                    <h3 class="font-bold text-red-300">Review their texts together</h3>
+                    <p class="text-gray-400">Offer to look at weird messages &mdash; no judgment. The goal is they'll ask you <em>before</em> clicking, not after.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500">
+                    <h3 class="font-bold text-red-300">Enable call-screening</h3>
+                    <p class="text-gray-400">iPhones: "Silence Unknown Callers." Android has similar. Most vishing calls die on voicemail.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 41: If you got got ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-6 text-orange-400">If You Got Got</h2>
+            <p class="text-lg text-gray-400 mb-5">Everyone gets got eventually. Professionals in this field have fallen for things. The difference between a minor scare and a major breach is <span class="text-orange-300 font-semibold">how fast you respond</span>, not whether you were perfect.</p>
+            <div class="space-y-3 text-lg">
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4">
+                    <span class="text-2xl text-orange-400 font-bold">1</span>
+                    <p class="text-gray-300"><span class="font-bold text-orange-300">Tell someone fast.</span> Parent, teacher, IT, whoever is responsible for that account. Minutes matter &mdash; attackers move quickly once in.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4">
+                    <span class="text-2xl text-orange-400 font-bold">2</span>
+                    <p class="text-gray-300"><span class="font-bold text-orange-300">Change the password</span> on that account and any other account sharing it.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4">
+                    <span class="text-2xl text-orange-400 font-bold">3</span>
+                    <p class="text-gray-300"><span class="font-bold text-orange-300">Turn on MFA</span> if it wasn't already. Revoke active sessions.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4">
+                    <span class="text-2xl text-red-400 font-bold">4</span>
+                    <p class="text-gray-300"><span class="font-bold text-red-300">Report.</span> For US-based fraud: <span class="font-mono text-red-200">ic3.gov</span> (FBI) and <span class="font-mono text-red-200">reportfraud.ftc.gov</span>. If money moved: call your bank immediately.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4">
+                    <span class="text-2xl text-red-400 font-bold">5</span>
+                    <p class="text-gray-300"><span class="font-bold text-red-300">Don't hide it out of shame.</span> Shame is the attacker's last weapon. Telling someone is how the attack ends.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 42: Part 7 Divider ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-6xl font-bold mb-6 bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">Part 7: Ethics &amp; the Law</h2>
+            <div class="w-24 h-1 bg-gradient-to-r from-orange-400 to-red-400 mx-auto mb-6"></div>
+            <p class="text-xl text-gray-400">Where this knowledge is legal &mdash; and where it isn't</p>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 43: CFAA ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-6 text-orange-400">The Computer Fraud and Abuse Act</h2>
+            <p class="text-lg text-gray-400 mb-5">The <span class="text-orange-300 font-semibold">CFAA</span> (18 U.S.C. § 1030) is the main US federal law governing unauthorized computer access. Social engineering is not a loophole &mdash; tricking someone into giving you access <em>is</em> unauthorized access under the law.</p>
+            <div class="space-y-4 text-lg">
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold text-orange-300 mb-1">What it covers</h3>
+                    <p class="text-gray-300">Accessing a "protected computer" without authorization, or exceeding authorized access. "Protected computer" has been interpreted broadly &mdash; almost anything connected to the internet counts.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold text-red-300 mb-1">Penalties</h3>
+                    <p class="text-gray-300">Range from misdemeanor to felony. The Twitter 2020 hacker got 3 years. Scattered Spider members (MGM) face decades if convicted.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold text-red-300 mb-1">State laws stack</h3>
+                    <p class="text-gray-300">Every state has additional computer crime laws. Identity theft, wire fraud, impersonation &mdash; each can be charged separately. Penalties compound.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 44: Authorization ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-6 text-orange-400">Authorization Is the Entire Difference</h2>
+            <p class="text-lg text-gray-400 mb-5">Professional red-teamers and social engineers use every technique in this deck &mdash; <span class="text-orange-300 font-semibold">legally</span>. The difference is one document.</p>
+            <div class="grid grid-cols-2 gap-5 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold text-orange-300 mb-2">Pentester / red-teamer</h3>
+                    <ul class="text-gray-300 space-y-1">
+                        <li>Signed Statement of Work</li>
+                        <li>Explicit scope (what's allowed)</li>
+                        <li>Rules of Engagement (what's off-limits)</li>
+                        <li>"Get out of jail" letter on paper</li>
+                        <li>Emergency contact at the client</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold text-red-300 mb-2">Everyone else doing the same thing</h3>
+                    <ul class="text-gray-300 space-y-1">
+                        <li>Committing federal crimes</li>
+                        <li>Subject to CFAA + state laws</li>
+                        <li>Subject to civil suits</li>
+                        <li>No "I was just curious" defense</li>
+                        <li>Permanent record, career-ending</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="bg-gradient-to-r from-orange-900/40 to-red-900/40 p-4 rounded-lg border border-orange-500 mt-5">
+                <p class="text-orange-200 text-center">Practicing on your friends "just to see if it works" is not a gray area. Get consent every time, even for experiments.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 45: Hadnagy ethics code ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-6 text-orange-400">Hadnagy's Code of Ethics</h2>
+            <p class="text-lg text-gray-400 mb-5">Social-Engineer LLC publishes a Code of Ethics for the profession. The key principles:</p>
+            <div class="space-y-3 text-lg">
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <p class="text-gray-300"><span class="font-bold text-orange-300">Leave people better than you found them.</span> A successful engagement teaches, it doesn't humiliate.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <p class="text-gray-300"><span class="font-bold text-orange-300">Never use fear, threats, or emotional manipulation that damages someone.</span> Urgency is fine; psychological harm is not.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500">
+                    <p class="text-gray-300"><span class="font-bold text-red-300">Stay in scope.</span> Don't chase an interesting tangent outside what's authorized.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500">
+                    <p class="text-gray-300"><span class="font-bold text-red-300">Protect the information you obtain.</span> You saw the data because the job required it, not because it's yours.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500">
+                    <p class="text-gray-300"><span class="font-bold text-red-300">Report honestly.</span> Don't inflate findings. Don't hide mistakes.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 46: Careers ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-6 text-orange-400">Where This Becomes a Job</h2>
+            <p class="text-lg text-gray-400 mb-5">If any of this clicked for you, it's also a career path &mdash; one of the most in-demand in cybersecurity. Salaries typically run $80K&ndash;$200K+ depending on role and seniority.</p>
+            <div class="grid grid-cols-2 gap-4 text-lg">
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="font-bold text-orange-300">Penetration Tester</h3>
+                    <p class="text-gray-400">Break in, write it up, help fix it. Social-engineering engagements are a standard part of the work.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="font-bold text-orange-300">Red-Team Operator</h3>
+                    <p class="text-gray-400">Longer, more realistic attack simulations. SE is often the opening move.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="font-bold text-orange-300">Dedicated SE Specialist</h3>
+                    <p class="text-gray-400">Niche. Firms like Social-Engineer LLC, TrustedSec, and many consulting shops staff this role directly.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500">
+                    <h3 class="font-bold text-red-300">Security Awareness Engineer</h3>
+                    <p class="text-gray-400">Build phishing simulations, training content, culture programs. Demand is exploding.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500">
+                    <h3 class="font-bold text-red-300">Threat Intelligence Analyst</h3>
+                    <p class="text-gray-400">OSINT is the core skill. Track threat actors, profile campaigns, brief defenders.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500">
+                    <h3 class="font-bold text-red-300">Incident Response / SOC</h3>
+                    <p class="text-gray-400">The other side of the fight. Recognize SE in your logs, respond, contain, lessons-learned.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 47: Getting started ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-6 text-orange-400">Getting Started (Legally)</h2>
+            <div class="space-y-3 text-lg">
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="font-bold text-orange-300 mb-1">Read</h3>
+                    <p class="text-gray-300"><em>Social Engineering: The Science of Human Hacking</em> (Hadnagy). <em>The Art of Deception</em> (Mitnick). <em>Influence</em> (Cialdini). <em>Ghost in the Wires</em> (Mitnick).</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="font-bold text-orange-300 mb-1">Practice OSINT on yourself</h3>
+                    <p class="text-gray-300">Hunt your own public footprint. Fix what you find. This alone teaches most of Part 2 of this deck.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="font-bold text-orange-300 mb-1">Compete legally</h3>
+                    <p class="text-gray-300">CTFs with OSINT and SE categories &mdash; TraceLabs missing-persons CTF, PicoCTF (student-friendly), HackTheBox.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500">
+                    <h3 class="font-bold text-red-300 mb-1">Certify (eventually)</h3>
+                    <p class="text-gray-300">Security+ you're already doing. Then consider: OSCP (hands-on pentest), PNPT (TCM Security &mdash; includes SE), Hadnagy's own SEPP/SEPT courses.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500">
+                    <h3 class="font-bold text-red-300 mb-1">Get authorized targets</h3>
+                    <p class="text-gray-300">HackTheBox, TryHackMe, and bug-bounty programs like HackerOne let you practice on real systems with written authorization.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 48: Closing divider ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-6xl font-bold mb-6 bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">Wrap-Up</h2>
+            <div class="w-24 h-1 bg-gradient-to-r from-orange-400 to-red-400 mx-auto mb-6"></div>
+            <p class="text-xl text-gray-400">What to take with you</p>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 49: Key Takeaways ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-6 text-orange-400">Key Takeaways</h2>
+            <div class="space-y-3 text-lg">
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4">
+                    <span class="text-2xl text-orange-400 font-bold">1</span>
+                    <p class="text-gray-300">SE works because of <span class="font-bold text-orange-300">how human brains work</span>, not because people are dumb. Cialdini's six + Hadnagy's urgency, fear, concession &mdash; count the levers in every scam.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4">
+                    <span class="text-2xl text-orange-400 font-bold">2</span>
+                    <p class="text-gray-300"><span class="font-bold text-orange-300">OSINT is the foundation</span>. Every serious attack starts with research. Your public footprint is your attack surface.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4">
+                    <span class="text-2xl text-orange-400 font-bold">3</span>
+                    <p class="text-gray-300">A strong <span class="font-bold text-orange-300">pretext</span> is specific, consistent, and 90% true. Weak pretexts die on the first challenge.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4">
+                    <span class="text-2xl text-red-400 font-bold">4</span>
+                    <p class="text-gray-300"><span class="font-bold text-red-300">Elicitation</span> is information-gathering through conversation. Statements, not questions. Silence is your best friend.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4">
+                    <span class="text-2xl text-red-400 font-bold">5</span>
+                    <p class="text-gray-300">MGM, Twilio, Twitter, Arup all ran the <span class="font-bold text-red-300">same playbook</span>: OSINT &rarr; pretext &rarr; low-verification channel &rarr; stacked levers &rarr; technical pivot.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4">
+                    <span class="text-2xl text-red-400 font-bold">6</span>
+                    <p class="text-gray-300">The <span class="font-bold text-red-300">callback rule</span> and <span class="font-bold text-red-300">slowing down</span> beat almost every attack. Teach your family.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4">
+                    <span class="text-2xl text-red-400 font-bold">7</span>
+                    <p class="text-gray-300"><span class="font-bold text-red-300">Authorization is the entire difference</span> between a red-teamer and a felon. Same skills, one piece of paper.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SLIDE 50: Thank you / questions ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-6xl font-bold mb-6 bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">Questions?</h2>
+            <div class="w-24 h-1 bg-gradient-to-r from-orange-400 to-red-400 mx-auto mb-8"></div>
+            <p class="text-xl text-gray-300 mb-4">The human OS has no patches.</p>
+            <p class="text-xl text-gray-400">Training is the patch.</p>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="fixed bottom-8 left-1/2 transform -translate-x-1/2 flex gap-4 z-50">
+        <button id="prevBtn" class="nav-button bg-orange-600 hover:bg-orange-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg">
+            &larr; Previous
+        </button>
+        <div class="bg-zinc-800 text-white font-semibold py-3 px-6 rounded-lg shadow-lg">
+            <span id="slideNumber">1</span> / <span id="totalSlides">50</span>
+        </div>
+        <button id="nextBtn" class="nav-button bg-orange-600 hover:bg-orange-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg">
+            Next &rarr;
+        </button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const progressBar = document.getElementById('progressBar');
+        const slideNumber = document.getElementById('slideNumber');
+        const totalSlidesSpan = document.getElementById('totalSlides');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        totalSlidesSpan.textContent = totalSlides;
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+            slideNumber.textContent = currentSlide + 1;
+            window.scrollTo(0, 0);
+
+            const progress = ((currentSlide + 1) / totalSlides) * 100;
+            progressBar.style.width = progress + '%';
+        }
+
+        function nextSlide() { showSlide(currentSlide + 1); }
+        function prevSlide() { showSlide(currentSlide - 1); }
+
+        prevBtn.addEventListener('click', prevSlide);
+        nextBtn.addEventListener('click', nextSlide);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') prevSlide();
+            if (e.key === 'ArrowRight') nextSlide();
+        });
+
+        showSlide(0);
+    </script>
+</body>
+</html>

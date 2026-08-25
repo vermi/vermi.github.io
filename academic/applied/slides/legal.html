@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introduction to US Cyber Law — CYBS 0189</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #18181b;
+            color: #e4e4e7;
+            overflow: hidden;
+        }
+        .slide {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 80px;
+            overflow-y: auto;
+        }
+        .slide.active {
+            display: block;
+            opacity: 1;
+        }
+        .slide::-webkit-scrollbar {
+            width: 8px;
+        }
+        .slide::-webkit-scrollbar-track {
+            background: #27272a;
+        }
+        .slide::-webkit-scrollbar-thumb {
+            background-color: #52525b;
+            border-radius: 10px;
+            border: 2px solid #27272a;
+        }
+        .accent { color: #60a5fa; }
+        .accent-bg { background-color: rgba(27, 54, 93, 0.3); border-color: rgba(96, 165, 250, 0.3); }
+        .accent-solid { background-color: #1B365D; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div id="presentation-container" class="relative w-full h-screen">
+
+        <!-- Slide 1: Title -->
+        <div class="slide active p-6 md:p-12">
+            <div class="w-full h-full flex items-center justify-center">
+                <div class="text-center max-w-4xl mx-auto">
+                    <h1 class="text-4xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-700 mb-4">Introduction to US Cyber Law</h1>
+                    <h2 class="text-2xl md:text-4xl font-bold text-gray-300 mb-4">CYBS 0189 Applied Cybersecurity II</h2>
+                    <p class="text-lg text-gray-400">New Mexico Tech</p>
+                    <p class="text-sm text-gray-500 mt-2">Spring 2026</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Module Overview -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center text-gray-300">Module Overview</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Part I: State Privacy Laws</h3>
+                        <p class="text-gray-400">Comprehensive laws, children's privacy, biometrics, and emerging state trends.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Part II: Federal Legislation</h3>
+                        <p class="text-gray-400">APRA, PADFAA, proposed bills, and congressional action on privacy.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Part III: Federal Enforcement</h3>
+                        <p class="text-gray-400">FTC, CFPB, SEC, HHS/HIPAA, DOJ, and other agency actions.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Part IV: Civil Litigation</h3>
+                        <p class="text-gray-400">Data breach, wiretapping, BIPA, TCPA, CCPA, and VPPA trends.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: The 2024-2025 Landscape -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">The 2024&ndash;2025 Landscape</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">No Federal Privacy Law</h3>
+                        <p class="text-gray-400">Congress's continued failure to pass a comprehensive privacy law left states and federal agencies to lead the charge in defining and regulating cybersecurity and privacy.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">State Expansion</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li><strong>7 states</strong> enacted new comprehensive privacy laws in 2024</li>
+                            <li><strong>4 states'</strong> laws took effect in 2024 (FL, TX, OR, MT)</li>
+                            <li>By 2026, <strong>20 states</strong> (~50% of U.S. population) will have comprehensive privacy laws</li>
+                        </ul>
+                    </div>
+                    <div class="accent-bg rounded-lg p-4">
+                        <p class="text-sm text-blue-200">The Trump administration signals a significant federal shift: deregulation, pro-innovation, and reversal of Biden-era policies around content moderation, AI, and digital assets.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Part I Section Break -->
+        <div class="slide p-6 md:p-12">
+            <div class="w-full h-full flex items-center justify-center">
+                <div class="text-center max-w-4xl mx-auto">
+                    <h1 class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-700 mb-6">PART I</h1>
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-300 mb-4">State Privacy Laws</h2>
+                    <p class="text-lg text-gray-400">Comprehensive laws, children's data, biometrics, and emerging frameworks</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: State Privacy Law Expansion -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">State Privacy Law Expansion</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">New Laws Passed in 2024</h3>
+                        <p class="text-gray-400">Minnesota, Nebraska, New Hampshire, New Jersey, Maryland, Kentucky, Rhode Island</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Laws Taking Effect in 2025</h3>
+                        <p class="text-gray-400">Delaware, Iowa, Nebraska, New Hampshire, New Jersey, Tennessee, Maryland, Minnesota</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Early 2026</h3>
+                        <p class="text-gray-400">Indiana, Kentucky, Rhode Island</p>
+                    </div>
+                    <div class="accent-bg rounded-lg p-4">
+                        <p class="text-sm text-blue-200">16 additional states are actively considering data privacy legislation: AL, AR, GA, HI, IL, MA, MS, NM, NY, OH, OK, PA, SC, VT, WA, WV.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Core State Law Elements -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Core Elements of State Privacy Laws</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Common Rights</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>Access personal data</li>
+                            <li>Correct personal data</li>
+                            <li>Delete personal data</li>
+                            <li>Opt out of targeted advertising</li>
+                            <li>Opt out of profiling</li>
+                            <li>Opt out of data sales</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Key Variations</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li><strong>Maryland:</strong> Strictest&mdash;bans sale of sensitive data entirely</li>
+                            <li><strong>Minnesota:</strong> First "right to question" automated decisions</li>
+                            <li><strong>Iowa:</strong> Most controller-friendly&mdash;opt-out for sensitive data</li>
+                            <li><strong>Tennessee:</strong> NIST-based affirmative defense</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Maryland Spotlight -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">State Spotlight: Maryland</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Strictest in the Nation</h3>
+                        <p class="text-gray-400">Maryland's Online Data Privacy Act (effective Oct 2025) is the only state to prohibit the sale of sensitive personal information entirely.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Minors' Protections</h3>
+                        <p class="text-gray-400">Prohibits sale of minors' personal information and processing for targeted advertising. Defines "minor" as anyone under 18 (vs. under 16 in CA and VA).</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Broader Knowledge Standard</h3>
+                        <p class="text-gray-400">Applies to businesses that "knew or should have known" the consumer's age&mdash;broader than the "actual knowledge" standard used in Texas and Connecticut.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Minnesota's Right to Question -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">State Spotlight: Minnesota's "Right to Question"</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">First of Its Kind</h3>
+                        <p class="text-gray-400">Minnesota Consumer Data Privacy Act is the first state to offer consumers the right to question automated decisions.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">The Right to Question Includes</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>Know the <strong>reason</strong> behind the decision</li>
+                            <li>Know what <strong>actions</strong> could secure a different outcome</li>
+                            <li><strong>Review</strong> the personal data used</li>
+                            <li><strong>Correct</strong> inaccurate data and request reevaluation</li>
+                        </ul>
+                    </div>
+                    <div class="accent-bg rounded-lg p-4">
+                        <p class="text-sm text-blue-200">As businesses adopt automated decisionmaking tools, this creates a unique compliance area for companies operating in Minnesota.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Automated Decisionmaking & Sale Definitions -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Key Divergences: Automation &amp; "Sale"</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Automated Decisionmaking Opt-Out</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li><strong>"Solely" automated:</strong> CT, DE, FL, IN, MD, MT, NE, NH, RI, TN, TX</li>
+                            <li><strong>Broader scope:</strong> CA, CO, KY, MN, NJ, OR, VA</li>
+                            <li><strong>No opt-out:</strong> IA, UT</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Definition of "Sale"</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li><strong>Monetary or other valuable consideration:</strong> CA, CO, CT, DE, FL, MD, MN, MT, NE, NH, NJ, OR, RI, TX</li>
+                            <li><strong>Monetary consideration only:</strong> IN, IA, KY, TN, UT, VA</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="accent-bg rounded-lg p-4 mt-4">
+                    <p class="text-sm text-blue-200">These differences have major compliance implications for companies that exchange data for services rather than monetary payment.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Children's Online Privacy -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Children's Online Privacy: State Approaches</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">State Minors Laws</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li><strong>Florida:</strong> Bans social media for children &le;13; parental consent for 14&ndash;15</li>
+                            <li><strong>Georgia:</strong> Restricts social media for under-16 without parental consent</li>
+                            <li><strong>Maryland Kids Code:</strong> Impact assessments for children's data; default high privacy</li>
+                            <li><strong>NY SAFE Act:</strong> Bans "addictive feeds" for minors without consent</li>
+                            <li><strong>California:</strong> "Addictive feeds" ban&mdash;blocked by Ninth Circuit</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Age Thresholds for Opt-In Consent</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li><strong>Under 16:</strong> CA, CT, MT, NH, OR (opt-in consent for sale/ads)</li>
+                            <li><strong>Under 17:</strong> MN, NJ</li>
+                            <li><strong>Under 18:</strong> DE, MD (strictest&mdash;no targeted ads/sale)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Biometric Data Laws -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Biometric Data Legislation</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Illinois BIPA Amendments (Aug 2024)</h3>
+                        <p class="text-gray-400">Same biometric data + same method = single violation. Aims to prevent exponential damages from Cothron v. White Castle ruling.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Colorado Biometric Protections (July 2025)</h3>
+                        <p class="text-gray-400">Retention schedules, incident response protocols, deletion requirements, and employee consent rules for biometric identifiers.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Neural &amp; Biological Data</h3>
+                        <p class="text-gray-400">Colorado and California expanded "sensitive data" to include neural data&mdash;information from measuring nervous system activity. Colorado goes further to include "biological data."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Part II Section Break -->
+        <div class="slide p-6 md:p-12">
+            <div class="w-full h-full flex items-center justify-center">
+                <div class="text-center max-w-4xl mx-auto">
+                    <h1 class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-700 mb-6">PART II</h1>
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-300 mb-4">Federal Legislation</h2>
+                    <p class="text-lg text-gray-400">Comprehensive privacy bills, PADFAA, and congressional action</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 13: APRA & PADFAA -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Federal Privacy Legislation: APRA &amp; PADFAA</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">APRA &mdash; Stalled</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>American Privacy Rights Act introduced Apr 2024</li>
+                            <li>Bipartisan, bicameral effort</li>
+                            <li>Would grant access, correction, deletion, export rights</li>
+                            <li>Would preempt most state privacy laws</li>
+                            <li>Opposition from state regulators (CPPA), civil rights groups</li>
+                            <li>Markup cancelled June 2024&mdash;no further action</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">PADFAA &mdash; Enacted</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>Protecting Americans' Data from Foreign Adversaries Act</li>
+                            <li>Signed into law April 2024; effective June 2024</li>
+                            <li>Prohibits data brokers from transferring sensitive data to China, Russia, Iran, North Korea</li>
+                            <li>Broadly defines "personally identifiable sensitive data"</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="accent-bg rounded-lg p-4 mt-4">
+                    <p class="text-sm text-blue-200">Key divides remain: preemption of state laws (Republican position) vs. private right of action (Democratic position).</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 14: Other Federal Bills -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Other Federal Bills &amp; Cybersecurity Legislation</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Children's Safety</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li><strong>Kids Online Safety Act:</strong> Duty of care for platforms, protective defaults</li>
+                            <li><strong>COPPA 2.0:</strong> Extends protections to teens 12&ndash;17, bans targeted ads</li>
+                            <li>Both passed Senate; no House action yet</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Cybersecurity Bills</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li><strong>Healthcare Cybersecurity Act:</strong> CISA + HHS collaboration</li>
+                            <li><strong>Farm &amp; Food Cybersecurity Act:</strong> Food-related cyber exercises</li>
+                            <li><strong>Health Infrastructure Security Act:</strong> Mandatory minimum cyber standards</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Other Proposed Bills</h3>
+                        <p class="text-gray-400">Stop Spying Bosses Act &bull; No Robot Bosses Act &bull; Reproductive Data Privacy Act &bull; Verifying Kids' Online Privacy Act &bull; American Donor Privacy Act</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 15: Part III Section Break -->
+        <div class="slide p-6 md:p-12">
+            <div class="w-full h-full flex items-center justify-center">
+                <div class="text-center max-w-4xl mx-auto">
+                    <h1 class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-700 mb-6">PART III</h1>
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-300 mb-4">Federal Enforcement &amp; Guidance</h2>
+                    <p class="text-lg text-gray-400">FTC, CFPB, SEC, HHS, DOJ, and other agency actions</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 16: FTC Overview -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Federal Trade Commission: Leadership Change</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">New Chair Andrew Ferguson (Jan 2025)</h3>
+                        <p class="text-gray-400">Replaced Lina Khan. His agenda: "Reverse Khan's anti-business agenda," hold Big Tech accountable, protect free speech, and "no more novel and legally dubious consumer protection cases."</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">White House Oversight</h3>
+                        <p class="text-gray-400">Trump executive order requires FTC (and SEC, FCC) to consult White House on strategic plans, priorities, and draft regulations.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Republican Majority Coming</h3>
+                        <p class="text-gray-400">Mark Meador nominated as new Republican commissioner. If confirmed, FTC will have a Republican majority for the first time since 2022.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 17: FTC AI & Surveillance -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">FTC: AI, Surveillance &amp; Data Security</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">AI &amp; Algorithmic Bias</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>Settled with convenience store chain over AI facial recognition (5-year ban)</li>
+                            <li>Action against IntelliVision for unsubstantiated FRT accuracy claims</li>
+                            <li>Chair Ferguson opposes "pro-regulation side of AI debate"</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Surveillance Pricing</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>Orders to 8 companies offering surveillance pricing products</li>
+                            <li>Study reveals how consumer data affects pricing</li>
+                            <li>Public comments opened then shut down by Chair Ferguson</li>
+                            <li>Ferguson views targeted advertising as "beneficial to consumers"</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 18: FTC Enforcement Actions -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">FTC: Notable 2024 Enforcement Actions</h2>
+                <div class="space-y-3">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <p class="text-gray-400"><strong class="accent">Corporate Landlord:</strong> $45M settlement&mdash;junk fees, data retention violations, consumer refunds.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <p class="text-gray-400"><strong class="accent">Digital Marketing / Data Aggregator:</strong> Banned from sharing precise location data; must destroy stored data.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <p class="text-gray-400"><strong class="accent">Substance Abuse Telehealth:</strong> Banned from sharing health data for advertising; required privacy programs.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <p class="text-gray-400"><strong class="accent">Online Therapy Provider:</strong> Shared sensitive data (emails, IPs, health answers) with advertisers without consent.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <p class="text-gray-400"><strong class="accent">Data Brokers:</strong> Tracking and selling sensitive location data&mdash;banned from collecting/selling.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <p class="text-gray-400"><strong class="accent">Security Camera Company:</strong> $2.95M penalty&mdash;CAN-SPAM violation, hackers accessed hospital cameras.</p>
+                    </div>
+                    <div class="accent-bg rounded-lg p-4">
+                        <p class="text-sm text-blue-200">Key trend: FTC requiring deletion of improperly collected data and implementing comprehensive privacy programs.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 19: FTC COPPA Updates -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">FTC: COPPA Updates &amp; Children's Privacy</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">COPPA Amendments Finalized (Jan 16, 2025)</h3>
+                        <p class="text-gray-400">Shifts burden from parents to service providers.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Key Changes</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>Opt-in parental consent required for sharing children's data with third parties for targeted advertising</li>
+                            <li>Data retention limits&mdash;only as long as "reasonably necessary"</li>
+                            <li>Public disclosure requirements for Safe Harbor programs</li>
+                            <li>"Personal information" expanded to include biometric and government-issued identifiers</li>
+                        </ul>
+                    </div>
+                    <div class="accent-bg rounded-lg p-4">
+                        <p class="text-sm text-blue-200">FTC denied ESRB's facial age estimation application for COPPA consent verification&mdash;insufficient information.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 20: CFPB -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">CFPB: A Dramatic Shift</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Effectively Frozen</h3>
+                        <p class="text-gray-400">Director Rohit Chopra removed January 31, 2025. Acting Directors froze all enforcement, litigation, and rulemaking.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Operational Shutdown</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>DC office closed; Federal Reserve funding cancelled</li>
+                            <li>$100M+ in vendor contracts cancelled</li>
+                            <li>Probationary staff fired; enforcement actions dismissed</li>
+                            <li>Key 2024 rules suspended: data broker FCRA rule, Section 1033 open banking rule, AI housing appraisal rule</li>
+                        </ul>
+                    </div>
+                    <div class="accent-bg rounded-lg p-4">
+                        <p class="text-sm text-blue-200">Gap filling: FTC, state AGs, and private litigants expected to increase activity as CFPB enforcement wanes.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 21: SEC -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">SEC: Cybersecurity Disclosure &amp; Enforcement</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Cyber Disclosure Rule (2024)</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>~50 companies filed cybersecurity disclosures on Form 8-K</li>
+                            <li>Fewer than 20% reported material impact</li>
+                            <li>5 new compliance interpretations&mdash;4 on ransomware payments</li>
+                            <li>New Reg S-P: 30-day breach notification for broker-dealers and advisers</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Key Enforcement</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>Software company case largely dismissed&mdash;court rejected cybersecurity-as-accounting-controls theory</li>
+                            <li>Transfer agent fined $850K for failing to secure client funds</li>
+                            <li>Stock exchange operator: $10M settlement</li>
+                            <li>Marketing firm: $2.1M for inadequate cyber disclosure controls</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="accent-bg rounded-lg p-4 mt-4">
+                    <p class="text-sm text-blue-200">2025 outlook: Pro-business SEC Chair expected; Republican commissioners skeptical of cyber enforcement; but new Cyber and Emerging Technologies Unit formed.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 22: HHS & HIPAA -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">HHS &amp; HIPAA: Cybersecurity in Healthcare</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Risk Analysis Initiative (Oct 2024)</h3>
+                        <p class="text-gray-400">Guides healthcare organizations in evaluating cybersecurity practices for electronic protected health information (ePHI).</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Proposed HIPAA Security Rule Update (Dec 2024)</h3>
+                        <p class="text-gray-400">Encrypt ePHI, deploy malware controls, require multi-factor authentication. Now frozen under Trump's "Regulatory Freeze Pending Review."</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Notable Enforcement</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>Clearway Pain Solutions: $1.19M penalty for ePHI breach (34,000+ individuals)</li>
+                            <li>Holy Redeemer Family Medicine: Settlement for disclosing full medical record to employer</li>
+                            <li>Bryan County Ambulance: $90K&mdash;first enforcement under Risk Analysis Initiative</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 23: DOJ & Other Agencies -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">DOJ &amp; Other Federal Agencies</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Department of Justice</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>Final Rule restricting foreign adversaries' data access (China, Cuba, Iran, NK, Russia, Venezuela)</li>
+                            <li>Lawsuit against social media company for COPPA violations</li>
+                            <li>Civil Cyber-Fraud Initiative settlements</li>
+                            <li>Dark web takedowns: Nulled, Cracked, Rydox, Incognito Market</li>
+                            <li>LockBit disruption: 2,000+ victims, $120M+ in ransoms</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Other Agencies</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li><strong>Commerce/NIST:</strong> CSF 2.0 with new "Govern" function; Kaspersky ban</li>
+                            <li><strong>DHS/CISA:</strong> US-EU incident reporting harmonization</li>
+                            <li><strong>DOD:</strong> CMMC program finalized for defense contractors</li>
+                            <li><strong>DOE:</strong> Cybersecurity baselines for energy; ETAC operational</li>
+                            <li><strong>FCC:</strong> ~$395M in fines/settlements; Cyber Trust Mark</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 24: FCC Deep Dive -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">FCC: Enforcement &amp; Rulemaking</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Major Fines &amp; Settlements</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>Wireless carriers: ~$200M for sharing customer location data without consent</li>
+                            <li>Phone captioning company: $34.6M for unlawful call content retention</li>
+                            <li>Prepaid service provider: $16M for failing to protect customer info</li>
+                            <li>Major carrier (data breach): $13M&mdash;failed to ensure vendor destroyed data</li>
+                            <li>Major carrier (multiple breaches): $31.5M&mdash;exposed 47.8M records including SSNs</li>
+                        </ul>
+                    </div>
+                    <div class="accent-bg rounded-lg p-4">
+                        <p class="text-sm text-blue-200">Cyber Trust Mark (March 2024): Voluntary cybersecurity labeling program for IoT devices meeting privacy/security standards&mdash;smart appliances, fitness trackers, etc.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 25: State AG Enforcement -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">State Agency Enforcement</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Texas AG &mdash; Most Active</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>Launched dedicated data privacy team (June 2024)</li>
+                            <li>Investigating car manufacturers' data collection</li>
+                            <li>Sued car manufacturer under Deceptive Trade Practices Act</li>
+                            <li>100+ notices for data broker registration failures</li>
+                            <li>Filed SCOPE Act complaint against social media platform</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Other States</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li><strong>California CPPA:</strong> Data broker sweep; $6,600 registration fees; ADMT regulations</li>
+                            <li><strong>CA AG:</strong> Streaming service sweep; $375K tech company settlement</li>
+                            <li><strong>Connecticut:</strong> Warning letters, 30 complaints in first 6 months</li>
+                            <li><strong>Colorado:</strong> Recognized Global Privacy Control as universal opt-out</li>
+                            <li><strong>Oregon &amp; Virginia:</strong> Initiated confidential investigations</li>
+                        </ul>
+                    </div>
+                    <div class="accent-bg rounded-lg p-4">
+                        <p class="text-sm text-blue-200">State AGs are expected to be particularly active in 2025 as federal enforcement pulls back under the Trump administration.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 26: Part IV Section Break -->
+        <div class="slide p-6 md:p-12">
+            <div class="w-full h-full flex items-center justify-center">
+                <div class="text-center max-w-4xl mx-auto">
+                    <h1 class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-700 mb-6">PART IV</h1>
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-300 mb-4">Civil Litigation</h2>
+                    <p class="text-lg text-gray-400">Data breach, wiretapping, BIPA, TCPA, CCPA, and emerging trends</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 27: Data Breach Litigation -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Data Breach Litigation</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">2024 By the Numbers</h3>
+                        <p class="text-gray-400">2,850 data breaches (down from 3,122 in 2023) but victims increased 257% due to the scale of major breaches.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Major Settlements</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li><strong>$65M:</strong> Health network&mdash;ransomware, 135K patients, medical photos leaked</li>
+                            <li><strong>$30M:</strong> Personal genomics company&mdash;6M+ customers' data stolen</li>
+                            <li><strong>$15M:</strong> Mobile payment company&mdash;two breaches, 8.2M users exposed</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Key Legal Developments</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>Standing: Risk of future harm sufficient if actual attempted misuse alleged</li>
+                            <li>Fiduciary duty: Split&mdash;employer-employee (rejected) vs. healthcare provider (accepted)</li>
+                            <li>Telecom class actions consolidated in N.D. Texas&mdash;73M accounts exposed</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 28: Wiretapping Litigation -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Wiretapping &amp; Online Tracking Litigation</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">The Flood of Cases</h3>
+                        <p class="text-gray-400">Hundreds of cases filed in 2024. Plaintiffs allege web tracking tools (pixels, SDKs, chat features) violate federal and state wiretap laws.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Damages Exposure</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li><strong>Federal:</strong> $100/day or $10K minimum</li>
+                            <li><strong>California:</strong> $5,000 per violation (all-party consent state)</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Mixed Results</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li><strong>Win for defense:</strong> Keystrokes immediately "hashed" = no reading of "contents"</li>
+                            <li><strong>Win for defense:</strong> Social media SDKs&mdash;no evidence of intercepted "contents"</li>
+                            <li><strong>Loss for defense:</strong> Period-tracking app data shared via SDK&mdash;allowed to proceed</li>
+                            <li><strong>Major settlement:</strong> Tech company settled Incognito Mode tracking case&mdash;must delete billions of records</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 29: BIPA Litigation -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">BIPA: Biometric Information Privacy Litigation</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Defense-Friendly</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>9th Circuit: Data must be "capable of identifying" the plaintiff</li>
+                            <li>Damages Amendment: Same data + same method = single violation</li>
+                            <li>Control matters: Designing software &ne; collecting data</li>
+                            <li>AI training: Must plead photos were actually in training dataset</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Plaintiff-Friendly</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>Cloud providers can be liable for third-party publishers' biometric use</li>
+                            <li>Non-IL residents may bring BIPA claims if data processed within Illinois</li>
+                            <li>Clearview AI: Preliminary settlement&mdash;23% equity stake (~$52M)</li>
+                            <li>Texas CUBI: $1.4B settlement with social media company</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 30: CCPA & TCPA -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">CCPA &amp; TCPA Litigation Trends</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">CCPA Private Right of Action</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>Statutory damages: $100&ndash;$750 per consumer per incident</li>
+                            <li>Defendant must qualify as a "business" that determines how data is processed</li>
+                            <li>Scope expanding: disclosure without consent now actionable (not just traditional breaches)</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">TCPA</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>Focus shifted from ATDS definition to other provisions post-Duguid</li>
+                            <li>Free webinar fax = "unsolicited advertisement" (4th Circuit)</li>
+                            <li>One-to-one consent rule went into effect Jan 2025&mdash;then vacated by 11th Circuit</li>
+                            <li>Supreme Court to rule on FCC's interpretive authority under Hobbs Act</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 31: CFAA & Other Litigation -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">CFAA &amp; Other Noteworthy Litigation</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Computer Fraud &amp; Abuse Act</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>Screen scraping case: Jury awarded $5K&mdash;then reversed (airline failed to prove $5K loss threshold)</li>
+                            <li>IT admin: Access as account manager was authorized; lacked notice it wasn't</li>
+                            <li>Former employees expanding access: Survived dismissal</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Other Cases</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li><strong>Daniel's Law (NJ):</strong> Constitutional&mdash;privacy statute survives First Amendment challenge</li>
+                            <li><strong>Cellular data as property:</strong> 9th Circuit&mdash;data qualifies for conversion claims</li>
+                            <li><strong>VPPA:</strong> Split on tracking technology disclosures</li>
+                            <li><strong>NYC Biometric Law:</strong> "Profiting" limited to transactions involving the data itself</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 32: Trump Admin Impact -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">The Trump Administration's Impact</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Key Changes</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li><strong>FTC:</strong> New Chair Ferguson&mdash;"no more legally dubious consumer protection cases"</li>
+                            <li><strong>CFPB:</strong> Effectively frozen&mdash;enforcement halted, rules suspended, staff cut</li>
+                            <li><strong>SEC:</strong> Pro-business Chair expected; reduced cyber enforcement</li>
+                            <li><strong>HHS:</strong> HIPAA Security Rule update frozen under "Regulatory Freeze Pending Review"</li>
+                            <li><strong>Executive Order:</strong> Independent agencies must consult White House on strategic plans</li>
+                        </ul>
+                    </div>
+                    <div class="accent-bg rounded-lg p-4">
+                        <p class="text-sm text-blue-200">The priorities&mdash;deregulation, pro-innovation, reversal of Biden-era policies&mdash;are reshaping the federal landscape. State AGs and private litigants are expected to fill the enforcement gap.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 33: 2025 Outlook -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">2025 Outlook &amp; Key Takeaways</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Expect Continued</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>State privacy law expansion and enforcement</li>
+                            <li>Focus on children's data and biometric privacy</li>
+                            <li>Active civil litigation (breach, wiretapping, BIPA)</li>
+                            <li>State AG enforcement filling federal gaps</li>
+                            <li>DOJ cybercrime prosecution</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Expect Shifts</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>Reduced FTC enforcement aggressiveness</li>
+                            <li>CFPB effectively dormant or eliminated</li>
+                            <li>SEC pulling back on cyber enforcement</li>
+                            <li>Pro-innovation AI and technology policy at federal level</li>
+                            <li>No comprehensive federal privacy law in near term</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="accent-bg rounded-lg p-4 mt-4">
+                    <p class="text-sm text-blue-200">Bottom line: The compliance landscape is fragmenting&mdash;more state laws, less federal guidance, increased litigation risk.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 34: Discussion -->
+        <div class="slide p-6 md:p-12">
+            <div class="w-full h-full flex items-center justify-center">
+                <div class="text-center max-w-4xl mx-auto">
+                    <h1 class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-700 mb-6">Discussion &amp; Q&amp;A</h1>
+                    <div class="space-y-4 mt-8 text-left max-w-3xl mx-auto">
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                            <p class="text-gray-400"><strong class="accent">1.</strong> How should organizations prepare for 20+ different state privacy regimes?</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                            <p class="text-gray-400"><strong class="accent">2.</strong> What happens when federal enforcement agencies pull back&mdash;does state enforcement effectively replace them?</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                            <p class="text-gray-400"><strong class="accent">3.</strong> Is the BIPA damages amendment model the right balance between privacy rights and business liability?</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                            <p class="text-gray-400"><strong class="accent">4.</strong> How will the Trump administration's deregulation stance affect cybersecurity incident response?</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                            <p class="text-gray-400"><strong class="accent">5.</strong> Should there be a federal comprehensive privacy law, and if so, should it preempt state laws?</p>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-500 mt-8">CYBS 0189 Applied Cybersecurity II &mdash; New Mexico Tech &mdash; Spring 2026</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Navigation -->
+    <div class="fixed bottom-0 left-0 right-0 bg-zinc-900 border-t border-zinc-800 p-4 flex items-center justify-between z-50">
+        <button id="prevBtn" class="px-4 py-2 bg-zinc-700 hover:bg-zinc-600 rounded-lg text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-colors" disabled>Previous</button>
+        <div class="flex-1 mx-4">
+            <div class="h-2 bg-zinc-700 rounded-full overflow-hidden">
+                <div id="progressBar" class="h-full rounded-full transition-all duration-300" style="width: 2.94%; background-color: #1B365D;"></div>
+            </div>
+        </div>
+        <button id="nextBtn" class="px-4 py-2 rounded-lg text-sm font-medium text-white transition-colors hover:opacity-90" style="background-color: #1B365D;">Next</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const progressBar = document.getElementById('progressBar');
+            let currentSlide = 0;
+            const totalSlides = slides.length;
+
+            function showSlide(index) {
+                const activeSlide = document.querySelector('.slide.active');
+                if (activeSlide) activeSlide.classList.remove('active');
+                slides[index].classList.add('active');
+                const progressPercentage = ((index + 1) / totalSlides) * 100;
+                progressBar.style.width = progressPercentage + '%';
+                prevBtn.disabled = index === 0;
+                nextBtn.disabled = index === totalSlides - 1;
+                nextBtn.textContent = index === totalSlides - 1 ? 'Finish' : 'Next';
+            }
+
+            nextBtn.addEventListener('click', () => {
+                if (currentSlide < totalSlides - 1) {
+                    currentSlide++;
+                    showSlide(currentSlide);
+                }
+            });
+
+            prevBtn.addEventListener('click', () => {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    showSlide(currentSlide);
+                }
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight' && !nextBtn.disabled) {
+                    nextBtn.click();
+                } else if (e.key === 'ArrowLeft' && !prevBtn.disabled) {
+                    prevBtn.click();
+                }
+            });
+
+            showSlide(currentSlide);
+        });
+    </script>
+</body>
+</html>

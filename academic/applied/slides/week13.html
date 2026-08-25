@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CompTIA Security+ Ch. 13: Wireless and Mobile Security</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #18181b;
+        }
+        .slide {
+            display: none;
+            min-height: 100vh;
+            padding-bottom: 160px;
+        }
+        .slide.active {
+            display: flex;
+        }
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(to right, #a855f7, #8b5cf6);
+            transition: width 0.3s ease;
+            z-index: 1000;
+        }
+        .nav-button {
+            transition: all 0.2s;
+        }
+        .nav-button:hover {
+            transform: scale(1.05);
+        }
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        ul li:before {
+            content: "▸";
+            color: #a855f7;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.5em;
+            margin-left: 0;
+        }
+    </style>
+</head>
+<body class="bg-zinc-900 text-gray-100">
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Slide 1: Title -->
+    <div class="slide active flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto text-center">
+            <h1 class="text-7xl font-bold mb-6 bg-gradient-to-r from-purple-400 to-violet-400 bg-clip-text text-transparent">
+                Wireless and Mobile Security
+            </h1>
+            <h2 class="text-4xl text-gray-300 mb-8">CompTIA Security+ Chapter 13</h2>
+            <div class="w-32 h-1 bg-gradient-to-r from-purple-400 to-violet-400 mx-auto mb-8"></div>
+            <p class="text-2xl text-gray-400">Securing Wireless Networks and Mobile Devices</p>
+        </div>
+    </div>
+
+    <!-- Slide 2: Chapter Overview -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-purple-400">Chapter Overview</h2>
+            <div class="grid grid-cols-2 gap-6 text-xl">
+                <div class="bg-zinc-800 p-6 rounded-lg border-l-4 border-purple-500">
+                    <h3 class="text-2xl font-bold mb-3 text-purple-300">Wireless Technologies</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Cellular, Wi-Fi, Bluetooth</li>
+                        <li>RFID, GPS, NFC</li>
+                        <li>Network Models</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-6 rounded-lg border-l-4 border-violet-500">
+                    <h3 class="text-2xl font-bold mb-3 text-violet-300">Wireless Attacks</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Evil Twins & Rogue APs</li>
+                        <li>Bluetooth Attacks</li>
+                        <li>RF Jamming & Disassociation</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-6 rounded-lg border-l-4 border-purple-500">
+                    <h3 class="text-2xl font-bold mb-3 text-purple-300">Network Design</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Site Surveys & Heatmaps</li>
+                        <li>WPA2/WPA3 Security</li>
+                        <li>RADIUS & 802.1X</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-6 rounded-lg border-l-4 border-violet-500">
+                    <h3 class="text-2xl font-bold mb-3 text-violet-300">Mobile Devices</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>BYOD, CYOD, COPE</li>
+                        <li>Mobile Device Management</li>
+                        <li>Hardening & Security</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 3: Wireless Connection Methods -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-purple-400">Wireless Connection Methods</h2>
+            <div class="space-y-5 text-xl">
+                <div class="grid grid-cols-2 gap-5">
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-purple-300">Cellular</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>4G LTE and 5G networks</li>
+                            <li>Managed by carrier, not organization</li>
+                            <li>Treat as external network</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-violet-300">Wi-Fi</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>2.4 GHz and 5 GHz bands</li>
+                            <li>802.11n/ac/ax (Wi-Fi 4/5/6)</li>
+                            <li>Extends beyond physical boundaries</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-5">
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-purple-300">Bluetooth</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Short-range (5-30 meters)</li>
+                            <li>Point-to-point connections</li>
+                            <li>Pairing with PIN validation</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-violet-300">RFID</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Active or passive tags</li>
+                            <li>Used for access control, inventory</li>
+                            <li>Vulnerable to cloning attacks</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 4: GPS and Geolocation -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-purple-400">GPS and Geolocation</h2>
+            <div class="space-y-5 text-xl">
+                <div class="bg-gradient-to-r from-purple-900 to-violet-900 p-5 rounded-lg border border-purple-500">
+                    <p class="text-xl font-semibold text-purple-300 mb-2">GPS Purpose:</p>
+                    <p class="text-gray-200">Satellite-based positioning system providing location accuracy within a foot. Not a network for device transmission.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-purple-300">GPS Capabilities</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Highly accurate positioning for geofencing</li>
+                        <li>Provides consistent time signal</li>
+                        <li>Can be jammed or spoofed (uncommon)</li>
+                        <li>Used for location-aware authentication</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-violet-300">Geolocation</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Combines GPS, Wi-Fi, Bluetooth, cellular</li>
+                        <li>Rich data about device location</li>
+                        <li>Used by Find My and similar services</li>
+                        <li>Enables location-based access controls</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 5: Wireless Network Models -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-purple-400">Wireless Network Models</h2>
+            <div class="space-y-5 text-xl">
+                <div class="grid grid-cols-2 gap-5">
+                    <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-purple-500">
+                        <h3 class="text-2xl font-bold mb-3 text-purple-300">Point-to-Point</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Connects two nodes directly</li>
+                            <li>Transmissions only received by endpoints</li>
+                            <li>Used for dedicated links</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-violet-500">
+                        <h3 class="text-2xl font-bold mb-3 text-violet-300">Point-to-Multipoint</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Single source to multiple receivers</li>
+                            <li>Wi-Fi is a common example</li>
+                            <li>Many nodes receive transmitted data</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-5">
+                    <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-purple-500">
+                        <h3 class="text-2xl font-bold mb-3 text-purple-300">Mesh</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Devices connect to multiple peers</li>
+                            <li>Self-healing network topology</li>
+                            <li>Redundant paths for reliability</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-violet-500">
+                        <h3 class="text-2xl font-bold mb-3 text-violet-300">Broadcast</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Information sent to many nodes</li>
+                            <li>No response expected</li>
+                            <li>GPS and radio are examples</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 6: Evil Twins and Rogue APs -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-purple-400">Evil Twins and Rogue Access Points</h2>
+            <div class="space-y-5 text-xl">
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-purple-300">Evil Twin Attacks</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Malicious AP mimicking legitimate network</li>
+                        <li>Positioned closer or with stronger signal</li>
+                        <li>Captures victim network traffic</li>
+                        <li>Often provides Internet to avoid detection</li>
+                        <li>Can present fake login pages for credential theft</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-violet-300">Rogue Access Points</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>APs added to network intentionally or unintentionally</li>
+                        <li>Create unauthorized entry points to network</li>
+                        <li>Can be devices with built-in wireless capabilities</li>
+                        <li>Detection via wireless controllers and WIDS</li>
+                        <li>Monitor for unknown APs in coverage area</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 7: Bluetooth Attacks -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-purple-400">Bluetooth Attacks</h2>
+            <div class="space-y-5 text-xl">
+                <div class="grid grid-cols-2 gap-5">
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-purple-300">Bluejacking</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Sends unsolicited messages</li>
+                            <li>To Bluetooth-enabled devices</li>
+                            <li>Generally low impact</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-violet-300">Bluesnarfing</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Unauthorized access to device</li>
+                            <li>Gathers contact lists, data</li>
+                            <li>Exploits weak pairing</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-purple-300">Security Weaknesses</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Designed for ease of use (easy to attack)</li>
+                        <li>Fixed PINs reduce security (e.g., 0000)</li>
+                        <li>Vulnerable to eavesdropping and BIAs</li>
+                    </ul>
+                </div>
+                <div class="bg-purple-900 p-4 rounded-lg border border-purple-500">
+                    <p class="text-lg text-gray-200"><span class="font-bold text-purple-300">Best Practice:</span> Turn off when not in use, change default PINs, patch regularly</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 8: RF and Protocol Attacks -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-purple-400">RF and Protocol Attacks</h2>
+            <div class="space-y-5 text-xl">
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-purple-300">Disassociation Attacks</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Forces device to disconnect from AP</li>
+                        <li>Sends spoofed deauthentication frames</li>
+                        <li>Creates opportunity for evil twin attacks</li>
+                        <li>WPA2 management frames often unencrypted</li>
+                        <li>WPA3 requires protected management frames</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-violet-300">Jamming</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Blocks all traffic in frequency range</li>
+                        <li>Essentially wireless interference</li>
+                        <li>Can be intentional or unintentional</li>
+                        <li>Illegal in the United States (FCC regulations)</li>
+                        <li>Different from deauthers (protocol vs. power)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 9: Sideloading and Jailbreaking -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-purple-400">Mobile Device Vulnerabilities</h2>
+            <div class="space-y-5 text-xl">
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-purple-300">Sideloading</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Transferring files via USB, SD card, or Bluetooth</li>
+                        <li>Installs apps outside official app store</li>
+                        <li>More common on Android devices</li>
+                        <li>Can bypass app signing requirements</li>
+                        <li>Often prohibited by organizational security policies</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-violet-300">Jailbreaking</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Exploits vulnerabilities to gain root access</li>
+                        <li>Conducts privilege escalation attack</li>
+                        <li>Allows installation of unauthorized apps</li>
+                        <li>Changes settings not normally available</li>
+                        <li>Bypasses native security model</li>
+                        <li>Can be detected by MDM tools</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 10: Site Surveys and Heatmaps -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-purple-400">Network Design: Site Surveys</h2>
+            <div class="space-y-5 text-xl">
+                <div class="bg-gradient-to-r from-purple-900 to-violet-900 p-5 rounded-lg border border-purple-500">
+                    <p class="text-xl font-semibold text-purple-300 mb-2">Purpose:</p>
+                    <p class="text-gray-200">Understand the physical environment and existing wireless networks before deployment</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-purple-300">Site Survey Process</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Physical walkthrough of entire facility</li>
+                        <li>Identify existing networks and APs</li>
+                        <li>Map signal strengths throughout space</li>
+                        <li>Use GPS and physical marking for location</li>
+                        <li>Consider building materials and obstacles</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-violet-300">Heatmaps</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Visual representation of signal strength</li>
+                        <li>Shows coverage areas and dead zones</li>
+                        <li>Identifies channel overlap and interference</li>
+                        <li>Helps optimize AP placement</li>
+                        <li>Prevents signal extending beyond premises</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 11: Wi-Fi Channel Planning -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-purple-400">Wi-Fi Channel Planning</h2>
+            <div class="space-y-5 text-xl">
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-purple-300">2.4 GHz Band Challenges</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>11 channels in North America (1-11)</li>
+                        <li>Each channel is 20 MHz wide with 5 MHz spacing</li>
+                        <li>Channels overlap in 70 MHz allocation</li>
+                        <li>Only channels 1, 6, and 11 don't overlap</li>
+                        <li>Must coordinate channel usage to avoid interference</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-violet-300">Best Practices</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Use non-overlapping channels (1, 6, 11)</li>
+                        <li>Overlay channel usage on heatmaps</li>
+                        <li>Enable automatic channel selection on APs</li>
+                        <li>Use WLAN controllers for dynamic adjustment</li>
+                        <li>Monitor for interference and rogue devices</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 12: Controller and AP Security -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-purple-400">Controller and Access Point Security</h2>
+            <div class="space-y-5 text-xl">
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-purple-300">WLAN Controllers</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Centralized management of access points</li>
+                        <li>Software-defined wireless capabilities</li>
+                        <li>Can be hardware, cloud, or VM-based</li>
+                        <li>Provide monitoring and intelligence</li>
+                        <li>Enable Wi-Fi and 5G roaming</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-violet-300">Securing Controllers and APs</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Change default settings and passwords</li>
+                        <li>Disable insecure protocols and services</li>
+                        <li>Place on isolated VLANs or management networks</li>
+                        <li>Regular patching and firmware updates</li>
+                        <li>Enable logging and monitoring</li>
+                        <li>Configure threat intelligence and IPS features</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 13: WPA2 Security -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-purple-400">WPA2 Security Standard</h2>
+            <div class="space-y-5 text-xl">
+                <div class="grid grid-cols-2 gap-5">
+                    <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-purple-500">
+                        <h3 class="text-2xl font-bold mb-3 text-purple-300">WPA2-Personal (PSK)</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Pre-shared key authentication</li>
+                            <li>No authentication server needed</li>
+                            <li>Same password for all users</li>
+                            <li>Easier to deploy, less secure</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-violet-500">
+                        <h3 class="text-2xl font-bold mb-3 text-violet-300">WPA2-Enterprise</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>RADIUS authentication server</li>
+                            <li>802.1X implementation</li>
+                            <li>Unique credentials per user</li>
+                            <li>Individual identification</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-purple-300">CCMP Encryption</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Counter Mode CBC-MAC Protocol</li>
+                        <li>Uses AES encryption for confidentiality</li>
+                        <li>User authentication and access control</li>
+                        <li>Much stronger than legacy WEP</li>
+                        <li>Note: Network authentication not included (added in WPA3)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 14: WPA3 Security -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-purple-400">WPA3 Security Standard</h2>
+            <div class="space-y-5 text-xl">
+                <div class="bg-gradient-to-r from-purple-900 to-violet-900 p-5 rounded-lg border border-purple-500 mb-5">
+                    <p class="text-xl font-semibold text-purple-300 mb-2">Required since mid-2020</p>
+                    <p class="text-gray-200">All Wi-Fi devices must support WPA3 for certification</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-purple-300">WPA3-Personal Improvements</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><span class="font-semibold text-purple-400">SAE:</span> Simultaneous Authentication of Equals</li>
+                        <li>Replaces pre-shared keys with mutual validation</li>
+                        <li>Slows down brute-force attacks</li>
+                        <li><span class="font-semibold text-purple-400">Perfect Forward Secrecy:</span> Protects past traffic</li>
+                        <li>Traffic secure even if password compromised</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-violet-300">WPA3-Enterprise Improvements</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Optional 192-bit security mode</li>
+                        <li>Authenticated encryption</li>
+                        <li>Enhanced key derivation and authentication</li>
+                        <li>Improved protection for network frames</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 15: Wireless Authentication -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-purple-400">Wireless Authentication Methods</h2>
+            <div class="space-y-5 text-xl">
+                <div class="grid grid-cols-3 gap-5">
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-purple-300">Open Networks</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>No authentication required</li>
+                            <li>Often use captive portals</li>
+                            <li>No encryption provided</li>
+                            <li>Traffic at risk</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-violet-300">Pre-Shared Keys</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Shared passphrase</li>
+                            <li>Provides encryption</li>
+                            <li>No individual identification</li>
+                            <li>Easy deployment</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-purple-300">Enterprise</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>RADIUS server</li>
+                            <li>EAP authentication</li>
+                            <li>Unique credentials</li>
+                            <li>Individual tracking</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-purple-300">802.1X Standard</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>IEEE standard for port-based access control</li>
+                        <li>Used for both wired and wireless</li>
+                        <li>Integrates with RADIUS servers</li>
+                        <li>Enables enterprise authentication</li>
+                        <li>Can trigger actions based on user attributes</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 16: EAP Protocols -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-purple-400">Extensible Authentication Protocol (EAP)</h2>
+            <div class="space-y-5 text-xl">
+                <div class="grid grid-cols-2 gap-5">
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-purple-300">PEAP</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Server cert authentication</li>
+                            <li>Wraps EAP in TLS tunnel</li>
+                            <li>Unique keys per device</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-violet-300">EAP-TLS</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Certificate-based (both sides)</li>
+                            <li>Most secure option</li>
+                            <li>Cert management overhead</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-5">
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-purple-300">EAP-TTLS</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Extends EAP-TLS</li>
+                            <li>No client certificate required</li>
+                            <li>Similar to PEAP</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-violet-300">EAP-FAST</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Cisco proprietary</li>
+                            <li>Faster roaming</li>
+                            <li>Uses symmetric keys</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 17: Mobile Device Deployment Models -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-purple-400">Mobile Device Deployment Models</h2>
+            <div class="space-y-5 text-xl">
+                <div class="grid grid-cols-2 gap-5">
+                    <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-purple-500">
+                        <h3 class="text-2xl font-bold mb-3 text-purple-300">BYOD</h3>
+                        <p class="text-sm text-violet-300 mb-2">Bring Your Own Device</p>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>User owns and manages device</li>
+                            <li>Lower cost to organization</li>
+                            <li>Greater user freedom</li>
+                            <li>Less organizational control</li>
+                            <li>Higher security risk</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-violet-500">
+                        <h3 class="text-2xl font-bold mb-3 text-violet-300">CYOD</h3>
+                        <p class="text-sm text-purple-300 mb-2">Choose Your Own Device</p>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Organization owns device</li>
+                            <li>User selects from options</li>
+                            <li>Easier support (limited models)</li>
+                            <li>Better security than BYOD</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-purple-500">
+                    <h3 class="text-2xl font-bold mb-3 text-purple-300">COPE</h3>
+                    <p class="text-sm text-violet-300 mb-2">Corporate-Owned, Personally Enabled</p>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Company owns and manages device</li>
+                        <li>Allows reasonable personal use</li>
+                        <li>Balances security and user satisfaction</li>
+                        <li>Users unlikely to carry two phones</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 18: Mobile Device Management -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-purple-400">Mobile Device Management (MDM)</h2>
+            <div class="space-y-5 text-xl">
+                <div class="bg-gradient-to-r from-purple-900 to-violet-900 p-5 rounded-lg border border-purple-500">
+                    <p class="text-xl font-semibold text-purple-300 mb-2">Purpose:</p>
+                    <p class="text-gray-200">Centralized management and security for mobile devices across deployment models</p>
+                </div>
+                <div class="grid grid-cols-2 gap-5">
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-purple-300">MDM vs UEM</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li><span class="font-semibold text-purple-400">MDM:</span> Mobile-specific management</li>
+                            <li>Phones, tablets, mobile OS</li>
+                            <li><span class="font-semibold text-purple-400">UEM:</span> Unified endpoint management</li>
+                            <li>Mobile + desktop + laptops</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-violet-300">Key Challenges</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>OS limitations and variability</li>
+                            <li>Hardware manufacturer differences</li>
+                            <li>Carrier settings and versions</li>
+                            <li>Diverse deployment models</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 19: MDM Features Part 1 -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-purple-400">MDM Features (Part 1)</h2>
+            <div class="space-y-5 text-xl">
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-purple-300">Application Management</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Deploy and control apps remotely</li>
+                        <li>Limit installation permissions</li>
+                        <li>Monitor usage</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-violet-300">Content Management (MCM)</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Secure organizational files</li>
+                        <li>Separates business and personal data</li>
+                        <li>Controlled access to content</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-purple-300">Remote Wipe</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Full or selective wipe options</li>
+                        <li>For lost/stolen devices</li>
+                        <li>Requires device connectivity</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 20: MDM Features Part 2 -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-purple-400">MDM Features (Part 2)</h2>
+            <div class="space-y-5 text-xl">
+                <div class="grid grid-cols-2 gap-5">
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-purple-300">Geofencing</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Restrict usage by location</li>
+                            <li>Auto-wipe if leaves area</li>
+                            <li>Locate lost devices</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-violet-300">Authentication</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Screen locks and timeouts</li>
+                            <li>Password/PIN policies</li>
+                            <li>Biometric & context-aware</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-5">
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-purple-300">Containerization</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Separate work/personal contexts</li>
+                            <li>Secure containers/wrappers</li>
+                            <li>Prevents cross-contamination</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-violet-300">Full Device Encryption</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Best protection when lost/stolen</li>
+                            <li>Combine with remote wipe</li>
+                            <li>Prevents data breaches</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 21: MDM Device Controls -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-purple-400">MDM Device Controls</h2>
+            <div class="space-y-5 text-xl">
+                <div class="grid grid-cols-2 gap-5">
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-purple-300">Hardware Controls</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>Camera/microphone blocking</li>
+                            <li>USB and external media</li>
+                            <li>GPS tagging controls</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800 p-5 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-3 text-violet-300">Communication</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li>SMS/MMS restrictions</li>
+                            <li>Wi-Fi/Bluetooth/NFC controls</li>
+                            <li>Disable tethering</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-purple-300">Software Controls</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Detect jailbreaking and rooting</li>
+                        <li>Monitor firmware and OTA updates</li>
+                        <li>App allow/block lists and prevent sideloading</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 22: Hardening Mobile Devices -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-purple-400">Hardening Mobile Devices</h2>
+            <div class="space-y-5 text-xl">
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-purple-300">CIS Benchmarks</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>iOS and Android hardening guidelines</li>
+                        <li>Industry-standard security practices</li>
+                        <li>Regularly updated for new OS versions</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-violet-300">Essential Hardening Steps</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Update and patch OS regularly</li>
+                        <li>Enable remote wipe and full-device encryption</li>
+                        <li>Require strong passcodes with screen locks</li>
+                        <li>Wipe after excessive passcode failures</li>
+                        <li>Turn off unused connectivity</li>
+                    </ul>
+                </div>
+                <div class="bg-purple-900 p-4 rounded-lg border border-purple-500">
+                    <p class="text-lg text-gray-200"><span class="font-bold text-purple-300">NSA Guidance:</span> Mobile device best practices guide for high-security environments</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 23: Think-Pair-Share Activity -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-6 text-center bg-gradient-to-r from-purple-400 to-violet-400 bg-clip-text text-transparent">Think-Pair-Share Activity</h2>
+            <div class="bg-gradient-to-r from-purple-900 to-violet-900 p-6 rounded-lg border-2 border-purple-500 mb-5">
+                <h3 class="text-2xl font-bold mb-3 text-purple-300 text-center">Mobile Device Deployment Scenario</h3>
+                <p class="text-lg text-gray-200 leading-relaxed">
+                    Your organization is expanding its workforce to include 200 remote employees who need access to sensitive customer data and internal applications. You need to decide on a mobile device deployment model and security controls.
+                </p>
+                <ul class="text-lg text-gray-200 mt-3 space-y-1">
+                    <li>Budget constraints limit device spending</li>
+                    <li>Must comply with data protection regulations</li>
+                    <li>Employees prefer flexibility in device choice</li>
+                    <li>Need to support iOS and Android</li>
+                </ul>
+            </div>
+            <div class="space-y-4 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h4 class="text-xl font-bold mb-2 text-purple-400">Think (2 minutes):</h4>
+                    <p class="text-gray-300">Which deployment model would you choose (BYOD, CYOD, COPE)? What MDM features are essential?</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h4 class="text-xl font-bold mb-2 text-violet-400">Pair (3 minutes):</h4>
+                    <p class="text-gray-300">Discuss your choices with a partner. Compare trade-offs between security, cost, and user satisfaction.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h4 class="text-xl font-bold mb-2 text-purple-400">Share (5 minutes):</h4>
+                    <p class="text-gray-300">Share your recommended solution with the class.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 24: Key Takeaways -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-center bg-gradient-to-r from-purple-400 to-violet-400 bg-clip-text text-transparent">Key Takeaways</h2>
+            <div class="space-y-5 text-xl">
+                <div class="bg-zinc-800 p-6 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-purple-300">Wireless Security Fundamentals</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Multiple wireless technologies serve different purposes</li>
+                        <li>Site surveys and heatmaps guide secure network design</li>
+                        <li>WPA3 provides significant security improvements over WPA2</li>
+                        <li>Enterprise authentication with RADIUS and EAP for user-level control</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-6 rounded-lg">
+                    <h3 class="text-2xl font-bold mb-3 text-violet-300">Mobile Device Security</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Deployment models (BYOD, CYOD, COPE) balance security and flexibility</li>
+                        <li>MDM/UEM tools essential for managing diverse device fleets</li>
+                        <li>Containerization separates work and personal data</li>
+                        <li>Full-device encryption critical for lost/stolen device protection</li>
+                        <li>Hardening using CIS benchmarks and NSA guidelines</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slide 25: Summary -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-center bg-gradient-to-r from-purple-400 to-violet-400 bg-clip-text text-transparent">Chapter 13 Summary</h2>
+            <div class="grid grid-cols-2 gap-5 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-xl font-bold mb-3 text-purple-300">Wireless Technologies</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Cellular, Wi-Fi, Bluetooth</li>
+                        <li>RFID, GPS, NFC</li>
+                        <li>Network models and topologies</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-xl font-bold mb-3 text-violet-300">Wireless Attacks</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Evil twins and rogue APs</li>
+                        <li>Bluejacking and bluesnarfing</li>
+                        <li>Disassociation and jamming</li>
+                        <li>Sideloading and jailbreaking</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-xl font-bold mb-3 text-purple-300">Network Security</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>Site surveys and heatmaps</li>
+                        <li>WPA2 and WPA3 standards</li>
+                        <li>802.1X and EAP variants</li>
+                        <li>RADIUS authentication</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg">
+                    <h3 class="text-xl font-bold mb-3 text-violet-300">Mobile Management</h3>
+                    <ul class="space-y-2 text-gray-300">
+                        <li>BYOD, CYOD, COPE models</li>
+                        <li>MDM and UEM capabilities</li>
+                        <li>Containerization and FDE</li>
+                        <li>Device hardening practices</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="bg-gradient-to-r from-purple-900 to-violet-900 p-5 rounded-lg border border-purple-500 mt-5">
+                <p class="text-xl font-semibold text-center text-purple-300">Wireless and mobile security require careful planning, strong authentication, and comprehensive device management to protect organizational assets in an increasingly mobile world.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="fixed bottom-8 left-1/2 transform -translate-x-1/2 flex gap-4 z-50">
+        <button id="prevBtn" class="nav-button bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg">
+            ← Previous
+        </button>
+        <div class="bg-zinc-800 text-white font-semibold py-3 px-6 rounded-lg shadow-lg">
+            <span id="slideNumber">1</span> / <span id="totalSlides">25</span>
+        </div>
+        <button id="nextBtn" class="nav-button bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg">
+            Next →
+        </button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const progressBar = document.getElementById('progressBar');
+        const slideNumber = document.getElementById('slideNumber');
+        const totalSlidesSpan = document.getElementById('totalSlides');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        totalSlidesSpan.textContent = totalSlides;
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+            slideNumber.textContent = currentSlide + 1;
+
+            const progress = ((currentSlide + 1) / totalSlides) * 100;
+            progressBar.style.width = progress + '%';
+        }
+
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
+
+        function prevSlide() {
+            showSlide(currentSlide - 1);
+        }
+
+        prevBtn.addEventListener('click', prevSlide);
+        nextBtn.addEventListener('click', nextSlide);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') prevSlide();
+            if (e.key === 'ArrowRight') nextSlide();
+        });
+
+        // Initialize
+        showSlide(0);
+    </script>
+</body>
+</html>

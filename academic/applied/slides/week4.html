@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CompTIA Security+ Ch. 4: Social Engineering & Password Attacks</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #18181b; /* True Dark Grey (zinc-900) */
+            color: #e4e4e7; /* Light text */
+            overflow: hidden; /* Prevent scrolling the whole page */
+        }
+        .slide {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 80px; /* Space for navigation */
+            overflow-y: auto; /* Allow individual slides to scroll if content overflows */
+        }
+        .slide.active {
+            display: block;
+            opacity: 1;
+        }
+        /* Custom scrollbar for webkit browsers */
+        .slide::-webkit-scrollbar {
+            width: 8px;
+        }
+        .slide::-webkit-scrollbar-track {
+            background: #27272a;
+        }
+        .slide::-webkit-scrollbar-thumb {
+            background-color: #52525b;
+            border-radius: 10px;
+            border: 2px solid #27272a;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div id="presentation-container" class="relative w-full h-screen">
+
+        <!-- Slide 1: Title -->
+        <div class="slide active p-6 md:p-12">
+            <div class="w-full h-full flex items-center justify-center">
+                <div class="text-center max-w-4xl mx-auto">
+                    <h1 class="text-4xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-500 mb-4">CompTIA Security+ Chapter 4</h1>
+                    <h2 class="text-2xl md:text-4xl font-bold text-gray-300 mb-8">Social Engineering & Password Attacks</h2>
+                     <div class="bg-zinc-800 border border-zinc-700 rounded-lg p-6 inline-block">
+                        <p class="text-lg font-semibold text-gray-300">Exam Objectives: Domain 2.2 & 2.4</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Learning Objectives -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center text-gray-300">Learning Objectives</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-blue-400 mb-2">🧠 Understand Social Engineering Principles</h3>
+                        <p class="text-gray-400">Learn the psychological principles attackers use, such as authority, urgency, and scarcity.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-blue-400 mb-2">🎣 Identify Social Engineering Techniques</h3>
+                        <p class="text-gray-400">Distinguish between phishing, vishing, smishing, impersonation, watering hole attacks, and more.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-blue-400 mb-2">🔑 Analyze Password Attacks</h3>
+                        <p class="text-gray-400">Explain the difference between brute-force, password spraying, and dictionary attacks.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-blue-400 mb-2">🛡️ Learn Mitigation Strategies</h3>
+                        <p class="text-gray-400">Discover how user awareness, MFA, and strong password policies defend against these attacks.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: The Psychology of the Attack -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-gray-300">The Psychology of the Attack</h2>
+                <div class="bg-blue-900/20 border border-blue-500/30 rounded-lg p-4 text-center mb-6">
+                    <p class="text-lg text-blue-300">Social engineering works by exploiting human psychology to bypass technical security controls.</p>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4 text-center">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h4 class="text-lg font-semibold text-blue-400">👑 Authority</h4>
+                        <p class="text-sm text-gray-400 mt-1">People obey those they perceive as being in charge.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h4 class="text-lg font-semibold text-blue-400">😠 Intimidation</h4>
+                        <p class="text-sm text-gray-400 mt-1">Using fear or bullying to force an action.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h4 class="text-lg font-semibold text-blue-400">👨‍👩‍👧‍👦 Consensus</h4>
+                        <p class="text-sm text-gray-400 mt-1">People tend to do what others are doing (social proof).</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h4 class="text-lg font-semibold text-blue-400">⏳ Scarcity & Urgency</h4>
+                        <p class="text-sm text-gray-400 mt-1">Creating a feeling that something must be done NOW.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h4 class="text-lg font-semibold text-blue-400">🤝 Familiarity & Trust</h4>
+                        <p class="text-sm text-gray-400 mt-1">Building a connection or rapport to lower defenses.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Gone Phishin' -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Gone Phishin'</h2>
+                <div class="grid md:grid-cols-3 gap-6 text-center">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-blue-400 mb-3">🎣 Phishing</h3>
+                        <p class="text-gray-400">Fraudulent acquisition of information via <strong>email</strong>.</p>
+                        <ul class="text-sm mt-2 text-gray-500">
+                            <li><strong>Spear Phishing:</strong> Targets specific individuals.</li>
+                            <li><strong>Whaling:</strong> Targets senior executives.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-blue-400 mb-3">📞 Vishing</h3>
+                        <p class="text-gray-400">Phishing via <strong>voice calls</strong> or voicemail. Often uses urgency (e.g., "This is the IRS...").</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-blue-400 mb-3">📱 Smishing</h3>
+                        <p class="text-gray-400">Phishing via <strong>SMS (text) messages</strong>. Usually contains a malicious link.</p>
+                    </div>
+                </div>
+                <div class="mt-6 bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                    <h4 class="text-lg font-semibold text-gray-300 mb-2">🤖 Real-World Example: AI Voice Cloning Vishing</h4>
+                    <p class="text-gray-400">In 2024, scams emerged where attackers use AI to clone a person's voice from a short audio sample. They then call a family member, using the cloned voice in a fake emergency ("I'm in jail and need bail money!"), combining familiarity and urgency to commit fraud.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Influence Campaigns -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Influence Campaigns</h2>
+                <div class="grid md:grid-cols-3 gap-6 mb-6">
+                    <div class="bg-yellow-900/20 border border-yellow-500/30 rounded-lg p-4">
+                        <h3 class="text-xl font-semibold text-yellow-400 mb-2 text-center">Misinformation</h3>
+                        <p class="text-yellow-300 text-center">Incorrect information spread <strong>without</strong> malicious intent.</p>
+                    </div>
+                    <div class="bg-red-900/20 border border-red-500/30 rounded-lg p-4">
+                        <h3 class="text-xl font-semibold text-red-400 mb-2 text-center">Disinformation</h3>
+                        <p class="text-red-300 text-center"><strong>Intentionally</strong> false information spread to deceive.</p>
+                    </div>
+                    <div class="bg-purple-900/20 border border-purple-500/30 rounded-lg p-4">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-2 text-center">Malinformation</h3>
+                        <p class="text-purple-300 text-center"><strong>Genuine</strong> information shared out of context to harm someone.</p>
+                    </div>
+                </div>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5 mb-6">
+                    <h3 class="text-xl font-semibold text-blue-400 mb-3 text-center">Countering MDM (CISA's TRUST Model)</h3>
+                    <ul class="text-gray-400 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 text-center">
+                        <li><strong>T</strong>ell your story.</li>
+                        <li><strong>R</strong>eady your team.</li>
+                        <li><strong>U</strong>nderstand and assess.</li>
+                        <li><strong>S</strong>trategize response.</li>
+                        <li><strong>T</strong>rack outcomes.</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                    <h4 class="text-lg font-semibold text-gray-300 mb-2">📰 Real-World Example: AI-Powered Disinformation</h4>
+                    <p class="text-gray-400">During the 2024-2025 global election cycles, threat actors deployed AI-generated content at scale. This included creating fake news articles, realistic but false images of political candidates, and automated social media bot accounts to spread divisive narratives, aiming to influence public opinion.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 6: Impersonation & Pretexting -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Impersonation & Pretexting</h2>
+                 <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="text-xl font-semibold text-blue-400 mb-2 text-center">🎭 Impersonation</h3>
+                        <p class="text-gray-400 text-center">Pretending to be someone else (a manager, a delivery driver, a technician).</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="text-xl font-semibold text-blue-400 mb-2 text-center">📝 Pretexting</h3>
+                        <p class="text-gray-400 text-center">Creating a believable, fabricated scenario (the "pretext") to justify the request.</p>
+                    </div>
+                </div>
+                <div class="bg-red-900/20 border border-red-500/30 rounded-lg p-4 text-center mb-6">
+                    <h3 class="text-xl font-semibold text-red-400 mb-2">💸 Business Email Compromise (BEC)</h3>
+                    <p class="text-red-300">A specific attack where an attacker impersonates an executive or vendor via email to trick employees into making unauthorized wire transfers.</p>
+                </div>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                    <h4 class="text-lg font-semibold text-gray-300 mb-2">🚨 Real-World Example: The $25 Million Deepfake BEC Attack</h4>
+                    <p class="text-gray-400">In early 2024, a finance worker was tricked into paying out $25.6 million after attending a video conference where everyone else, including the CFO, was a deepfake recreation. This demonstrates a sophisticated new level of BEC combining impersonation, authority, and advanced technology.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: AI-Powered Social Engineering -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">The New Frontier: AI-Powered Social Engineering</h2>
+                <div class="bg-blue-900/20 border border-blue-500/30 rounded-lg p-4 text-center mb-6">
+                    <p class="text-lg text-blue-300">Generative AI gives attackers powerful tools to enhance and scale their attacks.</p>
+                </div>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-blue-400 mb-2">🤖 Hyper-Realistic Phishing Emails</h3>
+                        <p class="text-gray-400">AI can write perfectly grammatical, contextually-aware, and persuasive emails in any language, eliminating the classic "bad grammar" red flag.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-blue-400 mb-2">🗣️ Voice & Video Cloning (Deepfakes)</h3>
+                        <p class="text-gray-400">AI can clone voices for vishing and create deepfake video for highly convincing BEC attacks, as seen in the $25M Hong Kong case.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-blue-400 mb-2">🎯 Automated Target Research</h3>
+                        <p class="text-gray-400">AI can rapidly scan social media and public records (OSINT) to gather personal details, making spear phishing attacks more customized and believable at scale.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Web-Based & Physical Vectors -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Web-Based & Physical Vectors</h2>
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="text-xl font-semibold text-blue-400 mb-2 text-center">🏞️ Watering Hole</h3>
+                        <p class="text-gray-400 text-center">Attackers compromise a website they know their targets frequently visit, then wait for the "prey" to come to them.</p>
+                    </div>
+                     <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="text-xl font-semibold text-blue-400 mb-2 text-center">💅 Brand Impersonation</h3>
+                        <p class="text-gray-400 text-center">Using emails and websites intended to appear as if they are from a legitimate, well-known brand.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="text-xl font-semibold text-blue-400 mb-2 text-center">⌨️ Typosquatting</h3>
+                        <p class="text-gray-400 text-center">Registering domains with common misspellings of popular websites (e.g., `Gogle.com`) to capture user typos.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="text-xl font-semibold text-blue-400 mb-2 text-center">💊 Pharming</h3>
+                        <p class="text-gray-400 text-center">Redirecting victims to a malicious site by modifying DNS records or a system's local hosts file.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Group Activity - The Email -->
+        <div class="slide p-6 md:p-12">
+            <div class="w-full h-full flex items-center justify-center">
+                <div class="max-w-2xl w-full bg-zinc-800 border-zinc-700 border rounded-lg overflow-hidden">
+                    <!-- Email Header -->
+                    <div class="flex items-start space-x-4 p-5 border-b border-zinc-700">
+                        <div class="flex-shrink-0">
+                            <span class="inline-flex h-12 w-12 items-center justify-center rounded-full bg-blue-600">
+                                <span class="text-xl font-medium leading-none text-white">JJ</span>
+                            </span>
+                        </div>
+                        <div class="min-w-0 flex-1">
+                             <div class="text-sm">
+                                <span class="font-medium text-gray-200">From:</span>
+                                <span class="text-gray-400">Jim Johnson &lt;jim.johnson.bigcorp@gmail.com&gt;</span>
+                            </div>
+                            <div class="text-sm mt-1">
+                                <span class="font-medium text-gray-200">To:</span>
+                                <span class="text-gray-400">Taylor Swift &lt;taylor.swift@bigcorp.com&gt;</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Subject & Body -->
+                    <div class="p-5">
+                        <h1 class="text-2xl font-bold text-gray-100">Urgent: Last-Minute Request</h1>
+                        <div class="mt-4 text-gray-300 leading-relaxed space-y-4">
+                            <p>Hello,</p>
+                            <p>I'm tied up in a last-minute meeting and need to send a client a reward. Can you please urgently purchase five $500 Amazon gift cards, scratch off the codes, and email me pictures of the back? I'll reimburse you first thing tomorrow. This is time-sensitive.</p>
+                            <p>Thanks,</p>
+                            <div class="mt-2">
+                                <p class="font-semibold text-gray-200">Jim Johnson</p>
+                                <p class="text-sm text-gray-400">CEO, Big Corp</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Group Activity - The Task -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-gray-300">Group Activity: Deconstruct the Attack</h2>
+                 <div class="bg-yellow-900/20 border border-yellow-500/30 rounded-lg p-5 text-center mb-6">
+                    <h3 class="text-xl font-semibold text-yellow-300 mb-2">Scenario: The Urgent Gift Card Request</h3>
+                    <p class="text-yellow-200">You are an employee in the finance department and you just received the email on the previous slide.</p>
+                </div>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5 text-left">
+                    <h3 class="text-xl font-semibold text-gray-300 mb-3 text-center">Your Task (7 minutes)</h3>
+                    <ul class="space-y-3 text-gray-400 list-decimal list-inside">
+                        <li><strong>Identify the Principles:</strong> What psychological principles of social engineering are being used in this email?</li>
+                        <li><strong>Name the Attack:</strong> What specific type of attack is this? Be as precise as possible.</li>
+                        <li><strong>Spot the Red Flags:</strong> What are the clear warning signs that this email is fraudulent?</li>
+                        <li><strong>Formulate a Response:</strong> How should the employee respond to this request? What is the correct action to take?</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 11: Password Attacks -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Online Password Attacks</h2>
+                <div class="grid md:grid-cols-3 gap-6 text-center">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-blue-400 mb-3">🔨 Brute-Force</h3>
+                        <p class="text-gray-400">Trying every possible password combination against a <strong>single account</strong>. Slow and noisy.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-blue-400 mb-3">💦 Password Spraying</h3>
+                        <p class="text-gray-400">Trying a few common passwords against <strong>many different accounts</strong> to avoid lockouts.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-blue-400 mb-3">📖 Dictionary Attack</h3>
+                        <p class="text-gray-400">Using a list of common words and phrases instead of random characters.</p>
+                    </div>
+                </div>
+                <div class="mt-6 bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                    <h4 class="text-lg font-semibold text-gray-300 mb-2">📈 Real-World Example: "Mother of all Breaches" (MOAB)</h4>
+                    <p class="text-gray-400">In 2024, researchers discovered a massive leak containing 26 billion records from thousands of previous breaches. This data set is a goldmine for attackers, who use the exposed usernames and cracked passwords to conduct widespread password spraying and credential stuffing attacks.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Offline Password Cracking -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                 <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Offline Password Cracking</h2>
+                <div class="bg-blue-900/20 border border-blue-500/30 rounded-lg p-4 text-center mb-6">
+                    <p class="text-lg text-blue-300">If an attacker steals a hashed password file, they can attack it offline, which is much faster and avoids lockouts.</p>
+                </div>
+                 <div class="grid md:grid-cols-2 gap-6 text-center">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-blue-400 mb-3">🌈 Rainbow Tables</h3>
+                        <p class="text-gray-400">A massive, precomputed database of plaintext passwords and their corresponding hashes, used for quick lookups.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-blue-400 mb-3">🛠️ Cracking Tools</h3>
+                        <p class="text-gray-400">Tools like <strong>John the Ripper</strong> or <strong>Hashcat</strong> use GPUs to run extremely fast brute-force and dictionary attacks against a captured password file.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 13: Password Defenses -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Password Defenses</h2>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                    <h3 class="text-xl font-semibold text-blue-400 mb-3">🛡️ Mitigation Techniques</h3>
+                    <ul class="space-y-3 text-gray-400 list-disc list-inside">
+                        <li><strong>Account Lockout Policies:</strong> Lock an account after a few failed login attempts to thwart online brute-force attacks.</li>
+                        <li><strong>Password Hashing:</strong> Never store passwords in plaintext. Use a strong, modern hashing algorithm like Argon2 or bcrypt.</li>
+                        <li><strong>Multi-Factor Authentication (MFA):</strong> The single most effective defense. Even if an attacker steals a password, they can't log in without the second factor.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 14: Salting & Peppering -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Defeating Rainbow Tables</h2>
+                <div class="grid md:grid-cols-2 gap-6 text-center">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-blue-400 mb-3">🧂 Salting</h3>
+                        <p class="text-gray-400">A unique, random value (a "salt") is added to each password <span class="font-bold">before</span> hashing. This salt is stored alongside the hash. This ensures that even identical passwords have unique hashes, making rainbow tables useless.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-blue-400 mb-3">🌶️ Peppering</h3>
+                        <p class="text-gray-400">A secret value (a "pepper") is added to each password before hashing, but the pepper is <span class="font-bold">not</span> stored in the database. It's stored securely elsewhere, adding another layer of protection if the password database is stolen.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 15: Summary -->
+        <div class="slide p-6 md:p-12">
+            <div class="w-full h-full flex items-center justify-center">
+                <div class="max-w-4xl mx-auto">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center text-gray-300 border-b-2 border-gray-600 pb-4">Chapter Summary</h2>
+                    <div class="space-y-4">
+                         <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold text-blue-400 mb-2">🧠 Humans are the Target</h3>
+                            <p class="text-gray-400">Social engineering bypasses technology by exploiting human psychology. Attackers use principles like authority, urgency, and trust to manipulate people.</p>
+                        </div>
+                         <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold text-blue-400 mb-2">🎣 Attacks Come in Many Forms</h3>
+                            <p class="text-gray-400">Be able to identify various attack vectors, from email (phishing, BEC) and phone calls (vishing) to malicious websites (watering holes, typosquatting).</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold text-blue-400 mb-2">🔑 Passwords are a Primary Goal</h3>
+                            <p class="text-gray-400">Attackers use brute-force and password spraying attacks to gain access. Protecting password stores with strong hashing and salting is critical.</p>
+                        </div>
+                        <div class="bg-red-900/50 border border-red-500/50 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold text-red-300 mb-2">🚨 Bottom Line</h3>
+                            <p class="text-gray-300">Awareness training for users and technical controls like MFA are the essential one-two punch to defend against these attacks.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Navigation -->
+    <div id="navigation" class="fixed bottom-0 left-0 right-0 h-20 bg-zinc-900/80 backdrop-blur-sm border-t border-zinc-700 flex items-center justify-center px-6">
+        <div class="w-full max-w-4xl flex items-center justify-between">
+            <button id="prevBtn" class="bg-zinc-700 text-white font-bold py-2 px-4 rounded-md hover:bg-zinc-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">Previous</button>
+            <div class="flex-grow mx-4">
+                 <div class="w-full bg-zinc-700 rounded-full h-2.5">
+                    <div id="progressBar" class="bg-blue-600 h-2.5 rounded-full" style="width: 0%"></div>
+                </div>
+            </div>
+            <button id="nextBtn" class="bg-blue-700 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-600 transition-colors">Next</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const progressBar = document.getElementById('progressBar');
+            let currentSlide = 0;
+            const totalSlides = slides.length;
+
+            function showSlide(index) {
+                const activeSlide = document.querySelector('.slide.active');
+                if (activeSlide) activeSlide.classList.remove('active');
+                slides[index].classList.add('active');
+                const progressPercentage = ((index + 1) / totalSlides) * 100;
+                progressBar.style.width = `${progressPercentage}%`;
+                prevBtn.disabled = index === 0;
+                nextBtn.disabled = index === totalSlides - 1;
+                nextBtn.textContent = index === totalSlides - 1 ? 'Finish' : 'Next';
+            }
+
+            nextBtn.addEventListener('click', () => {
+                if (currentSlide < totalSlides - 1) {
+                    currentSlide++;
+                    showSlide(currentSlide);
+                }
+            });
+
+            prevBtn.addEventListener('click', () => {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    showSlide(currentSlide);
+                }
+            });
+            
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight' && !nextBtn.disabled) {
+                    nextBtn.click();
+                } else if (e.key === 'ArrowLeft' && !prevBtn.disabled) {
+                    prevBtn.click();
+                }
+            });
+
+            showSlide(currentSlide);
+        });
+    </script>
+</body>
+</html>
+
+

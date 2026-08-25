@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CompTIA Security+ Ch. 9: Resilience and Physical Security</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #18181b; /* True Dark Grey (zinc-900) */
+            color: #e4e4e7; /* Light text */
+            overflow: hidden; /* Prevent scrolling the whole page */
+        }
+        .slide {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 80px; /* Space for navigation */
+            overflow-y: auto; /* Allow individual slides to scroll if content overflows */
+        }
+        .slide.active {
+            display: block;
+            opacity: 1;
+        }
+        /* Custom scrollbar for webkit browsers */
+        .slide::-webkit-scrollbar {
+            width: 8px;
+        }
+        .slide::-webkit-scrollbar-track {
+            background: #27272a;
+        }
+        .slide::-webkit-scrollbar-thumb {
+            background-color: #52525b;
+            border-radius: 10px;
+            border: 2px solid #27272a;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div id="presentation-container" class="relative w-full h-screen">
+
+        <!-- Slide 1: Title -->
+        <div class="slide active p-6 md:p-12">
+            <div class="w-full h-full flex items-center justify-center">
+                <div class="text-center max-w-4xl mx-auto">
+                    <h1 class="text-4xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-500 mb-4">CompTIA Security+ Chapter 9</h1>
+                    <h2 class="text-2xl md:text-4xl font-bold text-gray-300 mb-8">Resilience and Physical Security</h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Learning Objectives -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center text-gray-300">Learning Objectives</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-orange-400 mb-2">🛡️ Understand Resilience and High Availability</h3>
+                        <p class="text-gray-400">Explain concepts like load balancing, clustering, and geographic dispersion.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-orange-400 mb-2">💾 Master Backup and Recovery Strategies</h3>
+                        <p class="text-gray-400">Differentiate between backup types, site considerations (hot, cold, warm), and recovery objectives.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-orange-400 mb-2">🏢 Identify Physical Security Controls</h3>
+                        <p class="text-gray-400">Recognize and explain the purpose of controls like bollards, fencing, sensors, and access control vestibules.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-orange-400 mb-2">🔌 Analyze Power Resiliency</h3>
+                        <p class="text-gray-400">Understand the roles of Uninterruptible Power Supplies (UPS) and generators in ensuring continuity.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Resilience and High Availability -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Resilience & High Availability</h2>
+                 <div class="bg-orange-900/20 border border-orange-500/30 rounded-lg p-4 text-center mb-6">
+                    <p class="text-lg text-orange-300">Resilience is the ability to withstand disruptions. High Availability is the practice of ensuring systems remain operational, often through redundancy.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-orange-400 mb-2">Load Balancing</h3>
+                        <p class="text-gray-400">Distributes incoming network traffic across multiple servers to ensure no single server becomes a bottleneck. Improves responsiveness and availability.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-orange-400 mb-2">Clustering</h3>
+                        <p class="text-gray-400">A group of servers that work together as a single system. If one server (node) fails, another node in the cluster takes over its workload (failover).</p>
+                    </div>
+                     <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5 col-span-1 md:col-span-2">
+                        <h3 class="text-xl font-semibold text-orange-400 mb-2">Geographic Dispersion</h3>
+                        <p class="text-gray-400">Placing redundant systems or datacenters in different physical locations to protect against regional disasters like earthquakes or hurricanes.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 4: Power Resiliency -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Power Resiliency</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-orange-400 mb-2">Uninterruptible Power Supply (UPS)</h3>
+                        <p class="text-gray-400">A large battery that provides instantaneous, short-term power in the event of an outage. Its purpose is to give systems enough time to either shut down gracefully or for a generator to start up.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-orange-400 mb-2">Generator</h3>
+                        <p class="text-gray-400">A fuel-powered engine that provides long-term power during an extended outage. There is a short delay between the power loss and the generator starting, which is why a UPS is essential.</p>
+                    </div>
+                </div>
+                 <div class="mt-6 bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                    <h4 class="text-lg font-semibold text-gray-300 mb-2">🚨 Real-World Example: OVHcloud Datacenter Fire (2021)</h4>
+                    <p class="text-gray-400">A massive fire completely destroyed one of OVHcloud's datacenters in France and damaged another, taking millions of websites offline. The investigation revealed that the datacenter lacked an automatic fire suppression system and had a wooden ceiling. This incident highlighted the critical importance of both power resiliency and physical safety systems, as customers who had not paid for backups to a separate geographic location lost their data permanently.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Backup Strategies -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Backup Strategies</h2>
+                <div class="grid md:grid-cols-3 gap-6 text-center">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-orange-400 mb-3">Full Backup</h3>
+                        <p class="text-gray-400">A complete copy of all data. It is the slowest to create but the fastest to restore.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-orange-400 mb-3">Differential Backup</h3>
+                        <p class="text-gray-400">Copies all files that have changed since the last <strong>full</strong> backup. Restoration requires the full backup plus the latest differential.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-orange-400 mb-3">Incremental Backup</h3>
+                        <p class="text-gray-400">Copies all files that have changed since the last <strong>backup of any kind</strong>. It is the fastest to create but the slowest to restore, as it requires the last full backup and all subsequent incrementals.</p>
+                    </div>
+                </div>
+                <div class="mt-6 grid md:grid-cols-2 gap-6">
+                     <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-orange-400 mb-2">Snapshots</h3>
+                        <p class="text-gray-400">Captures the full state of a system (usually a virtual machine) at a specific point in time, allowing for quick rollbacks.</p>
+                    </div>
+                     <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-orange-400 mb-2">On-site vs. Off-site</h3>
+                        <p class="text-gray-400">On-site backups are fast, but off-site backups (in a different geographic location) are essential to protect against a site-wide disaster like a fire or flood.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Think-Pair-Share Backups -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-gray-300">🤔 Think-Pair-Share: Backup Strategy</h2>
+                <div class="bg-yellow-900/20 border border-yellow-500/30 rounded-lg p-5 text-left mb-6">
+                    <h3 class="text-xl font-semibold text-yellow-300 mb-3 text-center">Scenario: A Small Business</h3>
+                    <p class="text-yellow-200">A small accounting firm has one server with critical client data. They can't afford any data loss, but their budget is tight. They need a simple, reliable backup strategy.</p>
+                </div>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5 text-left">
+                    <h3 class="text-xl font-semibold text-gray-300 mb-3 text-center">Your Task (5 minutes)</h3>
+                    <ul class="space-y-2 text-gray-400 list-decimal list-inside">
+                        <li>What backup schedule would you recommend? (e.g., full backup weekly, differential daily).</li>
+                        <li>Where should the backups be stored to protect against both hardware failure and a fire at the office?</li>
+                        <li>Why is simply making a copy to a USB drive connected to the server not a sufficient strategy?</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Disaster Recovery Sites -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Disaster Recovery Sites</h2>
+                <div class="grid md:grid-cols-3 gap-6 text-center">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-orange-400 mb-3">🔥 Hot Site</h3>
+                        <p class="text-gray-400">A fully operational duplicate of the primary site with all hardware, software, and real-time data replication. Recovery is nearly instantaneous.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-orange-400 mb-3">☀️ Warm Site</h3>
+                        <p class="text-gray-400">Has hardware and connectivity but relies on recent backups for data. Recovery takes hours to days.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-orange-400 mb-3">❄️ Cold Site</h3>
+                        <p class="text-gray-400">Just a room with power and cooling. All hardware and data must be brought in. Recovery can take weeks.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Physical Security - Perimeter -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Physical Security: The Perimeter</h2>
+                 <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-orange-400 mb-2">Fencing</h3>
+                        <p class="text-gray-400">The first line of defense. Height and material are key factors in its effectiveness as a deterrent and barrier.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-orange-400 mb-2">Bollards</h3>
+                        <p class="text-gray-400">Short, sturdy posts used to prevent vehicles from ramming into buildings or accessing pedestrian areas.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-orange-400 mb-2">Lighting</h3>
+                        <p class="text-gray-400">Illuminates critical areas to deter intruders and assist surveillance. Eliminating shadows is a primary goal.</p>
+                    </div>
+                     <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-orange-400 mb-2">Video Surveillance (CCTV)</h3>
+                        <p class="text-gray-400">Cameras used to monitor areas in real-time and record footage for later investigation. Acts as both a detective and a deterrent control.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Physical Security - Access Control -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Physical Security: Access Control</h2>
+                 <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-orange-400 mb-2">Access Control Vestibule (Mantrap)</h3>
+                        <p class="text-gray-400">A set of two interlocking doors where only one can be open at a time. Prevents tailgating/piggybacking.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-orange-400 mb-2">Access Badges</h3>
+                        <p class="text-gray-400">Cards (using magnetic stripes or RFID) that grant access through readers. They also serve as visual identification.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-orange-400 mb-2">Security Guards</h3>
+                        <p class="text-gray-400">Provide a human element for decision-making, observation, and response that automated systems cannot.</p>
+                    </div>
+                     <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-orange-400 mb-2">Sensors</h3>
+                        <p class="text-gray-400">Devices that detect changes in the environment, such as motion (infrared, microwave), pressure, or noise.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 10: Micro-Lab Physical Security -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-gray-300">🔬 Micro-Lab: Physical Breach Analysis</h2>
+                <div class="bg-yellow-900/20 border border-yellow-500/30 rounded-lg p-5 text-left mb-6">
+                    <h3 class="text-xl font-semibold text-yellow-300 mb-3 text-center">Scenario: The Datacenter Intrusion</h3>
+                    <p class="text-yellow-200">A company reviews surveillance footage after a server theft. The video shows an attacker in a delivery driver uniform waiting at the main entrance. An employee swipes their badge to enter and holds the door for the attacker ("tailgating"). The attacker then walks to the datacenter, which is protected by a simple keypad lock, and forces the door open with a crowbar. They steal a server and walk out.</p>
+                </div>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5 text-left">
+                    <h3 class="text-xl font-semibold text-gray-300 mb-3 text-center">Your Task (5 minutes)</h3>
+                    <ul class="space-y-2 text-gray-400 list-decimal list-inside">
+                        <li>Identify at least three physical security control failures in this scenario.</li>
+                        <li>For each failure, propose a specific control that could have prevented or mitigated that part of the attack.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Summary -->
+        <div class="slide p-6 md:p-12">
+            <div class="w-full h-full flex items-center justify-center">
+                <div class="max-w-4xl mx-auto">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center text-gray-300 border-b-2 border-gray-600 pb-4">Chapter Summary</h2>
+                    <div class="space-y-4">
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold text-orange-400 mb-2">Resilience is Built on Redundancy</h3>
+                            <p class="text-gray-400">High availability is achieved by eliminating single points of failure through load balancers, clusters, redundant power (UPS/generators), and RAID.</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold text-orange-400 mb-2">Plan for Disaster</h3>
+                            <p class="text-gray-400">A robust backup strategy (full, differential, incremental) and a suitable disaster recovery site (hot, warm, or cold) are essential for business continuity.</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold text-orange-400 mb-2">Physical Security is the Foundation</h3>
+                            <p class="text-gray-400">Technical controls are meaningless if an attacker can simply walk in and steal a server. A layered defense using fences, access controls, and surveillance is critical.</p>
+                        </div>
+                        <div class="bg-red-900/50 border border-red-500/50 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold text-red-300 mb-2">🚨 Bottom Line</h3>
+                            <p class="text-gray-300">Availability is not an accident. It is the result of careful planning, redundant design, and a strong physical security posture.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div id="navigation" class="fixed bottom-0 left-0 right-0 h-20 bg-zinc-900/80 backdrop-blur-sm border-t border-zinc-700 flex items-center justify-center px-6">
+        <div class="w-full max-w-4xl flex items-center justify-between">
+            <button id="prevBtn" class="bg-zinc-700 text-white font-bold py-2 px-4 rounded-md hover:bg-zinc-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">Previous</button>
+            <div class="flex-grow mx-4">
+                 <div class="w-full bg-zinc-700 rounded-full h-2.5">
+                    <div id="progressBar" class="bg-orange-600 h-2.5 rounded-full" style="width: 0%"></div>
+                </div>
+            </div>
+            <button id="nextBtn" class="bg-orange-600 text-white font-bold py-2 px-4 rounded-md hover:bg-orange-500 transition-colors">Next</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const progressBar = document.getElementById('progressBar');
+            let currentSlide = 0;
+            const totalSlides = slides.length;
+
+            function showSlide(index) {
+                const activeSlide = document.querySelector('.slide.active');
+                if (activeSlide) activeSlide.classList.remove('active');
+                slides[index].classList.add('active');
+                const progressPercentage = ((index + 1) / totalSlides) * 100;
+                progressBar.style.width = `${progressPercentage}%`;
+                prevBtn.disabled = index === 0;
+                nextBtn.disabled = index === totalSlides - 1;
+                nextBtn.textContent = index === totalSlides - 1 ? 'Finish' : 'Next';
+            }
+
+            nextBtn.addEventListener('click', () => {
+                if (currentSlide < totalSlides - 1) {
+                    currentSlide++;
+                    showSlide(currentSlide);
+                }
+            });
+
+            prevBtn.addEventListener('click', () => {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    showSlide(currentSlide);
+                }
+            });
+            
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight' && !nextBtn.disabled) {
+                    nextBtn.click();
+                } else if (e.key === 'ArrowLeft' && !prevBtn.disabled) {
+                    prevBtn.click();
+                }
+            });
+
+            showSlide(currentSlide);
+        });
+    </script>
+</body>
+</html>
+
+

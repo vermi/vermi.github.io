@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CompTIA Security+ Ch. 5: Security Assessment and Testing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #18181b; /* True Dark Grey (zinc-900) */
+            color: #e4e4e7; /* Light text */
+            overflow: hidden; /* Prevent scrolling the whole page */
+        }
+        .slide {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 80px; /* Space for navigation */
+            overflow-y: auto; /* Allow individual slides to scroll if content overflows */
+        }
+        .slide.active {
+            display: block;
+            opacity: 1;
+        }
+        /* Custom scrollbar for webkit browsers */
+        .slide::-webkit-scrollbar {
+            width: 8px;
+        }
+        .slide::-webkit-scrollbar-track {
+            background: #27272a;
+        }
+        .slide::-webkit-scrollbar-thumb {
+            background-color: #52525b;
+            border-radius: 10px;
+            border: 2px solid #27272a;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div id="presentation-container" class="relative w-full h-screen">
+
+        <!-- Slide 1: Title -->
+        <div class="slide active p-6 md:p-12">
+            <div class="w-full h-full flex items-center justify-center">
+                <div class="text-center max-w-4xl mx-auto">
+                    <h1 class="text-4xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-500 mb-4">CompTIA Security+ Chapter 5</h1>
+                    <h2 class="text-2xl md:text-4xl font-bold text-gray-300 mb-8">Security Assessment and Testing</h2>
+                     <div class="bg-zinc-800 border border-zinc-700 rounded-lg p-6 inline-block">
+                        <p class="text-lg font-semibold text-gray-300">Domains: 4.0 (Security Operations) & 5.0 (Program Management)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Learning Objectives -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center text-gray-300">Learning Objectives</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-green-400 mb-2">🔄 Understand the Vulnerability Management Lifecycle</h3>
+                        <p class="text-gray-400">Learn the process from identification and analysis to remediation, validation, and reporting.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-green-400 mb-2">🎯 Differentiate Assessment Techniques</h3>
+                        <p class="text-gray-400">Explain the purpose of vulnerability scans, penetration tests, and security audits.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-green-400 mb-2">💯 Interpret Scan Results & CVSS</h3>
+                        <p class="text-gray-400">Analyze vulnerability scan reports and use the Common Vulnerability Scoring System (CVSS) to prioritize risks.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-green-400 mb-2">🕵️ Adopt the Hacker Mindset</h3>
+                        <p class="text-gray-400">Understand the goals and methods of penetration testing, from reconnaissance to persistence.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Vulnerability Management Lifecycle -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-8 text-gray-300">Vulnerability Management Lifecycle</h2>
+                <div class="relative">
+                     <!-- Flow Line -->
+                    <div class="hidden md:block absolute top-1/2 left-0 w-full h-0.5 bg-zinc-600 -translate-y-1/2"></div>
+                    <div class="grid grid-cols-2 md:grid-cols-5 gap-6 relative">
+                        <div class="bg-zinc-800 border border-zinc-700 rounded-lg p-4 flex flex-col items-center">
+                            <span class="text-3xl">1️⃣</span>
+                            <h3 class="text-lg font-semibold text-green-400 mt-2">Identification</h3>
+                            <p class="text-sm text-gray-400 mt-1">Find vulnerabilities via scans, pen tests, audits.</p>
+                        </div>
+                         <div class="bg-zinc-800 border border-zinc-700 rounded-lg p-4 flex flex-col items-center">
+                            <span class="text-3xl">2️⃣</span>
+                            <h3 class="text-lg font-semibold text-green-400 mt-2">Analysis</h3>
+                            <p class="text-sm text-gray-400 mt-1">Confirm findings and prioritize using CVSS.</p>
+                        </div>
+                         <div class="bg-zinc-800 border border-zinc-700 rounded-lg p-4 flex flex-col items-center">
+                            <span class="text-3xl">3️⃣</span>
+                            <h3 class="text-lg font-semibold text-green-400 mt-2">Remediation</h3>
+                            <p class="text-sm text-gray-400 mt-1">Fix the issue via patching or other controls.</p>
+                        </div>
+                         <div class="bg-zinc-800 border border-zinc-700 rounded-lg p-4 flex flex-col items-center">
+                            <span class="text-3xl">4️⃣</span>
+                            <h3 class="text-lg font-semibold text-green-400 mt-2">Validation</h3>
+                            <p class="text-sm text-gray-400 mt-1">Rescan to confirm the vulnerability is gone.</p>
+                        </div>
+                        <div class="bg-zinc-800 border border-zinc-700 rounded-lg p-4 flex flex-col items-center col-span-2 md:col-span-1">
+                            <span class="text-3xl">5️⃣</span>
+                            <h3 class="text-lg font-semibold text-green-400 mt-2">Reporting</h3>
+                            <p class="text-sm text-gray-400 mt-1">Inform stakeholders of the results.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Vulnerability Scanning -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Vulnerability Scanning</h2>
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-green-400 mb-3">Credentialed vs. Non-Credentialed</h3>
+                        <p class="text-gray-400 mb-2"><strong>Non-Credentialed:</strong> Sees what an external attacker sees. Faster, but more prone to false positives.</p>
+                        <p class="text-gray-400"><strong>Credentialed:</strong> Logs into the system with read-only rights. More accurate and detailed, but requires more setup.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-green-400 mb-3">Intrusive vs. Non-Intrusive</h3>
+                         <p class="text-gray-400 mb-2"><strong>Non-Intrusive:</strong> A safe scan that only checks for vulnerabilities without trying to exploit them.</p>
+                        <p class="text-gray-400"><strong>Intrusive:</strong> Attempts to exploit a vulnerability to confirm it. More accurate, but carries a risk of disrupting or crashing the target system.</p>
+                    </div>
+                </div>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                    <h4 class="text-lg font-semibold text-gray-300 mb-2">🚨 Real-World Example: Log4Shell (CVE-2021-44228)</h4>
+                    <p class="text-gray-400">This critical vulnerability in the widespread Log4j logging library allowed for unauthenticated remote code execution. Vulnerability scanners were crucial for organizations to quickly identify all affected systems across their networks, demonstrating the need for comprehensive, credentialed scanning to find vulnerable software versions.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Prioritizing with CVSS -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Prioritizing with CVSS</h2>
+                <div class="bg-green-900/20 border border-green-500/30 rounded-lg p-4 text-center mb-6">
+                    <p class="text-lg text-green-300">The Common Vulnerability Scoring System (CVSS) provides a standardized way to rate the severity of vulnerabilities.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-green-400 mb-3">Key Metrics</h3>
+                        <ul class="space-y-2 text-gray-400 list-disc list-inside">
+                            <li><strong>Attack Vector (AV):</strong> How is it exploited? (Network, Local)</li>
+                            <li><strong>Attack Complexity (AC):</strong> How hard is it to exploit? (Low, High)</li>
+                            <li><strong>Privileges Required (PR):</strong> Does the attacker need an account?</li>
+                            <li><strong>Impact (C, I, A):</strong> What is the impact on Confidentiality, Integrity, and Availability?</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-green-400 mb-3">Severity Rating Scale</h3>
+                        <ul class="space-y-2 text-gray-300">
+                            <li><span class="font-bold text-red-500">9.0 - 10.0:</span> 🔥 Critical</li>
+                            <li><span class="font-bold text-orange-500">7.0 - 8.9:</span> 🔶 High</li>
+                            <li><span class="font-bold text-yellow-500">4.0 - 6.9:</span> 🟡 Medium</li>
+                            <li><span class="font-bold text-green-500">0.1 - 3.9:</span> 🟢 Low</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 6: Micro-Lab CVSS -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-gray-300">🔬 Micro-Lab: Calculate a CVSS Score</h2>
+                <div class="bg-yellow-900/20 border border-yellow-500/30 rounded-lg p-5 text-left mb-6">
+                    <h3 class="text-xl font-semibold text-yellow-300 mb-3 text-center">Task: Score a Web Vulnerability</h3>
+                    <p class="text-yellow-200">A web application has a SQL injection vulnerability. An unauthenticated attacker can exploit it over the internet with a simple, specially crafted request. The exploit allows the attacker to read all data from the database (high confidentiality impact) and modify or delete all data (high integrity impact), but it does not affect the availability of the application.</p>
+                </div>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5 text-left">
+                    <h3 class="text-xl font-semibold text-gray-300 mb-3 text-center">Your Mission (5 minutes)</h3>
+                    <ol class="space-y-2 text-gray-400 list-decimal list-inside">
+                         <li>Go to the NIST CVSS Calculator: <a href="https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator" target="_blank" rel="noopener" class="text-blue-400 hover:underline">https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator</a></li>
+                        <li>Input the metrics from the scenario above.</li>
+                        <li>What is the final CVSS Base Score and Severity Rating? Be ready to share!</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Penetration Testing -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Penetration Testing: Thinking Like an Attacker</h2>
+                <div class="bg-green-900/20 border border-green-500/30 rounded-lg p-4 text-center mb-6">
+                    <p class="text-lg text-green-300">A pen test is an authorized, legal attempt to defeat security controls to find exploitable flaws before real attackers do.</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-6 text-center">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-green-400 mb-3">⚪ White Box</h3>
+                        <p class="text-gray-400">Testers have full knowledge: source code, diagrams, credentials. Best for a deep, thorough test.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-green-400 mb-3">⚫ Black Box</h3>
+                        <p class="text-gray-400">Testers have zero prior knowledge. Best for simulating a real external attacker.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-green-400 mb-3">🔘 Gray Box</h3>
+                        <p class="text-gray-400">A mix of both. Testers might have user-level credentials to simulate an insider threat.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Penetration Test Types -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Penetration Test Types</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-green-400 mb-2">Physical</h3>
+                        <p class="text-gray-400">Identifies and exploits vulnerabilities in physical controls like locks, fences, and access control systems to gain unauthorized access to facilities.</p>
+                    </div>
+                     <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-green-400 mb-2">Offensive</h3>
+                        <p class="text-gray-400">Proactively simulates real-world cyberattacks to exploit vulnerabilities in networks, systems, and applications (the "Red Team").</p>
+                    </div>
+                     <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-green-400 mb-2">Defensive</h3>
+                        <p class="text-gray-400">Focuses on evaluating the effectiveness of security policies and technologies in detecting and mitigating threats (the "Blue Team").</p>
+                    </div>
+                     <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-green-400 mb-2">Integrated</h3>
+                        <p class="text-gray-400">Combines offensive and defensive testing ("Purple Teaming") to provide a comprehensive assessment of security posture through active collaboration.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Threat Hunting -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Threat Hunting: The Proactive Search</h2>
+                 <div class="bg-green-900/20 border border-green-500/30 rounded-lg p-4 text-center mb-6">
+                    <p class="text-lg text-green-300">Threat hunting uses the attacker mindset to search for evidence of successful attacks that have already bypassed preventative controls.</p>
+                </div>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-green-400 mb-2">Core Philosophy: "Presumption of Compromise"</h3>
+                        <p class="text-gray-400">This approach assumes that attackers are already inside the network. The goal is not to prevent a breach, but to find and remove attackers before they can achieve their objectives.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-green-400 mb-2">Process: Intelligence Fusion</h3>
+                        <p class="text-gray-400">Hunters combine information from threat feeds, security bulletins, and other sources to form hypotheses about potential attacker activity, then search for that evidence in logs and network traffic.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Pen Test Process -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Pen Test Process</h2>
+                 <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-green-400 mb-3">📜 Rules of Engagement (RoE)</h3>
+                        <p class="text-gray-400 mb-2">The most important document! It's the contract that defines:</p>
+                        <ul class="space-y-1 text-gray-400 list-disc list-inside">
+                            <li><strong>Scope:</strong> What is in-bounds and out-of-bounds?</li>
+                            <li><strong>Timeline:</strong> When can testing occur?</li>
+                            <li><strong>Permission:</strong> The "Get Out of Jail Free" card.</li>
+                             <li><strong>Communication Plan:</strong> Who to call if something breaks.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-green-400 mb-3">⚔️ Attacker Phases</h3>
+                        <p class="text-gray-400 text-center text-lg">Reconnaissance ➡️ Initial Access ➡️ Privilege Escalation ➡️ Lateral Movement ➡️ Persistence</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Think-Pair-Share -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-gray-300">🤔 Think-Pair-Share: A Bug Bounty Report</h2>
+                <div class="bg-yellow-900/20 border border-yellow-500/30 rounded-lg p-5 text-left mb-6">
+                    <h3 class="text-xl font-semibold text-yellow-300 mb-3 text-center">Scenario: The Leaky Server</h3>
+                    <p class="text-yellow-200">A security researcher submits a report through your company's bug bounty program. They discovered an internet-facing server with an open port running an old, unpatched version of Apache Tomcat. The researcher states that this version is vulnerable to CVE-2023-24998, which allows an unauthenticated attacker to upload a malicious file, leading to remote code execution. The server hosts marketing materials and is not supposed to contain customer data.</p>
+                </div>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5 text-left">
+                    <h3 class="text-xl font-semibold text-gray-300 mb-3 text-center">Your Task (7 minutes)</h3>
+                    <ul class="space-y-2 text-gray-400 list-decimal list-inside">
+                        <li>How do you validate the researcher's finding?</li>
+                        <li>Even if it's "just" a marketing server, how could an attacker use it to pivot to more critical systems?</li>
+                        <li>What part of the vulnerability management lifecycle is this?</li>
+                        <li>What does this finding reveal about the company's patch management process?</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Audits vs Assessments -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Audits vs. Assessments</h2>
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-green-400 mb-3">🛡️ Security Assessment</h3>
+                        <p class="text-gray-400">A comprehensive review to <strong>identify vulnerabilities and recommend improvements</strong>. Can be done by an internal team. The goal is to get better.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-green-400 mb-3">⚖️ Security Audit</h3>
+                        <p class="text-gray-400">A formal examination by an <strong>independent third party</strong> to demonstrate compliance with a standard (e.g., ISO 27001, PCI DSS). The goal is to prove security to others.</p>
+                    </div>
+                </div>
+                <div class="bg-blue-900/20 border border-blue-500/30 rounded-lg p-4 text-center">
+                    <p class="text-lg text-blue-300">The key output of an audit is an <strong>attestation</strong>: a formal statement from the auditor that the controls are adequate and effective.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 13: Summary -->
+        <div class="slide p-6 md:p-12">
+            <div class="w-full h-full flex items-center justify-center">
+                <div class="max-w-4xl mx-auto">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center text-gray-300 border-b-2 border-gray-600 pb-4">Chapter Summary</h2>
+                    <div class="space-y-4">
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold text-green-400 mb-2">🔄 Testing is a Cycle, Not a One-Time Event</h3>
+                            <p class="text-gray-400">Effective security requires a continuous cycle of vulnerability identification, analysis, remediation, and validation.</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold text-green-400 mb-2">🎯 Know Your Goal</h3>
+                            <p class="text-gray-400">Use the right tool for the job. Vulnerability scans find known issues. Pen tests find exploitable pathways. Audits prove compliance.</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold text-green-400 mb-2">💯 Prioritization is Key</h3>
+                            <p class="text-gray-400">You can't fix everything at once. Use CVSS and business context to focus on the vulnerabilities that pose the greatest risk to your organization.</p>
+                        </div>
+                        <div class="bg-red-900/50 border border-red-500/50 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold text-red-300 mb-2">🚨 Bottom Line</h3>
+                            <p class="text-gray-300">Security assessment isn't just about finding flaws; it's about building a resilient program that continuously learns and improves its defenses.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div id="navigation" class="fixed bottom-0 left-0 right-0 h-20 bg-zinc-900/80 backdrop-blur-sm border-t border-zinc-700 flex items-center justify-center px-6">
+        <div class="w-full max-w-4xl flex items-center justify-between">
+            <button id="prevBtn" class="bg-zinc-700 text-white font-bold py-2 px-4 rounded-md hover:bg-zinc-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">Previous</button>
+            <div class="flex-grow mx-4">
+                 <div class="w-full bg-zinc-700 rounded-full h-2.5">
+                    <div id="progressBar" class="bg-green-600 h-2.5 rounded-full" style="width: 0%"></div>
+                </div>
+            </div>
+            <button id="nextBtn" class="bg-green-700 text-white font-bold py-2 px-4 rounded-md hover:bg-green-600 transition-colors">Next</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const progressBar = document.getElementById('progressBar');
+            let currentSlide = 0;
+            const totalSlides = slides.length;
+
+            function showSlide(index) {
+                const activeSlide = document.querySelector('.slide.active');
+                if (activeSlide) activeSlide.classList.remove('active');
+                slides[index].classList.add('active');
+                const progressPercentage = ((index + 1) / totalSlides) * 100;
+                progressBar.style.width = `${progressPercentage}%`;
+                prevBtn.disabled = index === 0;
+                nextBtn.disabled = index === totalSlides - 1;
+                nextBtn.textContent = index === totalSlides - 1 ? 'Finish' : 'Next';
+            }
+
+            nextBtn.addEventListener('click', () => {
+                if (currentSlide < totalSlides - 1) {
+                    currentSlide++;
+                    showSlide(currentSlide);
+                }
+            });
+
+            prevBtn.addEventListener('click', () => {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    showSlide(currentSlide);
+                }
+            });
+            
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight' && !nextBtn.disabled) {
+                    nextBtn.click();
+                } else if (e.key === 'ArrowLeft' && !prevBtn.disabled) {
+                    prevBtn.click();
+                }
+            });
+
+            showSlide(currentSlide);
+        });
+    </script>
+</body>
+</html>
+
+

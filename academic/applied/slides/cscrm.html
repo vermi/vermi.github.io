@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Supply Chain Risk Management (2025)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #18181b; /* True Dark Grey (zinc-900) */
+            color: #e4e4e7; /* Light text */
+            overflow: hidden; /* Prevent scrolling the whole page */
+        }
+        .slide {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 80px; /* Space for navigation */
+            overflow-y: auto; /* Allow individual slides to scroll if content overflows */
+        }
+        .slide.active {
+            display: block;
+            opacity: 1;
+        }
+        /* Custom scrollbar for webkit browsers */
+        .slide::-webkit-scrollbar {
+            width: 8px;
+        }
+        .slide::-webkit-scrollbar-track {
+            background: #27272a;
+        }
+        .slide::-webkit-scrollbar-thumb {
+            background-color: #52525b;
+            border-radius: 10px;
+            border: 2px solid #27272a;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div id="presentation-container" class="relative w-full h-screen">
+
+        <!-- Slide 1: Title -->
+        <div class="slide active p-6 md:p-12">
+            <div class="w-full h-full flex items-center justify-center">
+                <div class="text-center max-w-4xl mx-auto">
+                    <h1 class="text-4xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500 mb-4">Cyber Supply Chain Risk Management</h1>
+                    <h2 class="text-2xl md:text-4xl font-bold text-gray-300 mb-8">The Modern Threat Landscape (2025)</h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Agenda -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center text-gray-300">Agenda</h2>
+                <div class="space-y-4 text-center">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5 text-xl text-gray-300">What is a Supply Chain?</div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5 text-xl text-gray-300">Where Does "Cyber" Fit In?</div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5 text-xl text-gray-300">What are the Modern Risks?</div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5 text-xl text-gray-300">How Do We Mitigate Them?</div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5 text-xl text-gray-300">Updated Case Studies</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: What is a Supply Chain? -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-5xl mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-gray-300">What is a Supply Chain?</h2>
+                <p class="text-lg text-gray-400 mb-10">A system of organizations, people, activities, information, and resources involved in moving a product or service from supplier to customer.</p>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-8">
+                    <!-- Design -->
+                    <div class="flex flex-col items-center text-center bg-zinc-800/50 border border-zinc-700 rounded-lg p-6">
+                        <svg class="h-12 w-12 text-amber-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.311a12.06 12.06 0 0 0-4.5 0m3.75 2.311a12.06 12.06 0 0 1-4.5 0M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" /></svg>
+                        <h3 class="text-lg font-semibold text-amber-400 mt-3">Design</h3>
+                    </div>
+                    <!-- Production -->
+                    <div class="flex flex-col items-center text-center bg-zinc-800/50 border border-zinc-700 rounded-lg p-6">
+                       <svg class="h-12 w-12 text-amber-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6h1.5m-1.5 3h1.5m-1.5 3h1.5M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" /></svg>
+                        <h3 class="text-lg font-semibold text-amber-400 mt-3">Production</h3>
+                    </div>
+                    <!-- Distribution -->
+                    <div class="flex flex-col items-center text-center bg-zinc-800/50 border border-zinc-700 rounded-lg p-6">
+                        <svg class="h-12 w-12 text-amber-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v.958m12 11.177a2.25 2.25 0 0 1-2.25 2.25H8.25a2.25 2.25 0 0 1-2.25-2.25V9.75M16.5 9.75h1.875a1.125 1.125 0 0 1 1.125 1.125v1.125c0 .621-.504 1.125-1.125 1.125h-1.875m-13.5 0h1.875c.621 0 1.125-.504 1.125-1.125V10.875c0-.621-.504-1.125-1.125-1.125H3.375M3.375 9.75v-1.125a1.125 1.125 0 0 1 1.125-1.125h1.5" /></svg>
+                        <h3 class="text-lg font-semibold text-amber-400 mt-3">Distribution</h3>
+                    </div>
+                     <!-- Acquisition -->
+                    <div class="flex flex-col items-center text-center bg-zinc-800/50 border border-zinc-700 rounded-lg p-6">
+                       <svg class="h-12 w-12 text-amber-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c.51 0 .962-.328 1.087-.835l1.853-7.413A1.875 1.875 0 0 0 18.25 3H5.25L4.25 8.25" /></svg>
+                        <h3 class="text-lg font-semibold text-amber-400 mt-3">Acquisition</h3>
+                    </div>
+                     <!-- Consumers -->
+                    <div class="flex flex-col items-center text-center bg-zinc-800/50 border border-zinc-700 rounded-lg p-6">
+                       <svg class="h-12 w-12 text-amber-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-4.663M12 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" /></svg>
+                        <h3 class="text-lg font-semibold text-amber-400 mt-3">Consumers</h3>
+                    </div>
+                     <!-- Maintenance -->
+                    <div class="flex flex-col items-center text-center bg-zinc-800/50 border border-zinc-700 rounded-lg p-6">
+                       <svg class="h-12 w-12 text-amber-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-1.007 1.11-.95.542.057 1.007.56 1.11.95l.128.768a2.25 2.25 0 0 1 2.336 2.336l.768.128c.542.09.95.568.95 1.11s-.408 1.02-.95 1.11l-.768.128a2.25 2.25 0 0 1-2.336 2.336l-.128.768c-.09.542-.568.95-1.11.95s-1.02-.408-1.11-.95l-.128-.768a2.25 2.25 0 0 1-2.336-2.336l-.768-.128c-.542-.09-.95-.568-.95-1.11s.408-1.02.95-1.11l.768-.128a2.25 2.25 0 0 1 2.336-2.336l.128-.768ZM12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" /></svg>
+                        <h3 class="text-lg font-semibold text-amber-400 mt-3">Maintenance</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 4: Cyber is Everywhere -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-5xl mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-gray-300">Cyber is Everywhere in the Supply Chain</h2>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-6 text-left">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="font-semibold text-amber-400 text-lg">Design</h3>
+                        <p class="text-sm text-gray-400 mt-1">CAD Software, Simulators, Collaboration Tools, Prototyping Hardware</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="font-semibold text-amber-400 text-lg">Production</h3>
+                        <p class="text-sm text-gray-400 mt-1">Industrial Control Systems (ICS), SCADA, PLCs, Factory Networks</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="font-semibold text-amber-400 text-lg">Distribution</h3>
+                        <p class="text-sm text-gray-400 mt-1">Logistics & Scheduling Software, GPS Tracking, Communication Systems</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="font-semibold text-amber-400 text-lg">Acquisition</h3>
+                        <p class="text-sm text-gray-400 mt-1">e-Commerce Platforms, Payment Processors, Procurement Systems</p>
+                    </div>
+                     <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="font-semibold text-amber-400 text-lg">Consumers</h3>
+                        <p class="text-sm text-gray-400 mt-1">Mobile Devices, Web Browsers, Home Networks, IoT Devices</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="font-semibold text-amber-400 text-lg">Maintenance</h3>
+                        <p class="text-sm text-gray-400 mt-1">Update/Patch Servers, Remote Access Tools, Managed Service Providers (MSPs)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: The Risks - Design -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Risk: The Design Phase</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-amber-400 mb-3">Threats</h3>
+                        <ul class="space-y-2 text-gray-400 list-disc list-inside">
+                            <li>Unintentional design flaws (bugs)</li>
+                            <li>Malicious backdoors inserted by insiders</li>
+                             <li>Compromise of open-source libraries</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-amber-400 mb-3">Impact</h3>
+                         <ul class="space-y-2 text-gray-400 list-disc list-inside">
+                            <li>Vulnerabilities affect all users of the final product</li>
+                            <li>Flaws may not be discovered for years</li>
+                            <li>Extremely costly to fix post-production</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mt-6 bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                    <h4 class="text-lg font-semibold text-gray-300 mb-2">Case Study (Updated): The xz Utils Backdoor (2024)</h4>
+                    <p class="text-gray-400">A sophisticated actor, likely state-sponsored, spent years becoming a trusted maintainer of a critical open-source data compression library (xz) used in nearly every Linux distribution. They subtly inserted a complex backdoor that could allow remote code execution. It was discovered by chance just before being incorporated into stable releases, narrowly averting a catastrophic global supply chain attack.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: The Risks - Production -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Risk: The Production Phase</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-amber-400 mb-3">Threats</h3>
+                        <ul class="space-y-2 text-gray-400 list-disc list-inside">
+                            <li>Manufacturing flaws or defects</li>
+                            <li>Installation of counterfeit components</li>
+                             <li>Insider threats on the factory floor</li>
+                             <li>Compromise of factory IT/OT networks</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-amber-400 mb-3">Impact</h3>
+                         <ul class="space-y-2 text-gray-400 list-disc list-inside">
+                            <li>Affects a large batch or all users</li>
+                            <li>Can introduce difficult-to-detect hardware backdoors</li>
+                            <li>Costly recalls and reputational damage</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mt-6 bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                    <h4 class="text-lg font-semibold text-gray-300 mb-2">Case Study: Supermicro "Spy Chip" (2018 Allegation)</h4>
+                    <p class="text-gray-400">A controversial Bloomberg report alleged that China's military had instructed subcontractors to implant tiny microchips onto server motherboards manufactured by Supermicro. These chips, not part of the original design, could allegedly create a stealth backdoor. While heavily disputed by the companies involved and never fully proven with public evidence, the report highlighted the profound national security risks of hardware tampering during production.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: The Risks - Distribution -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Risk: The Distribution Phase</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-amber-400 mb-3">Threats</h3>
+                        <ul class="space-y-2 text-gray-400 list-disc list-inside">
+                            <li>Interdiction (tampering with packages in transit)</li>
+                            <li>Lack of oversight of third-party logistics (3PL) providers</li>
+                            <li>Compromise of logistics software</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-amber-400 mb-3">Impact</h3>
+                         <ul class="space-y-2 text-gray-400 list-disc list-inside">
+                             <li>Impact can be limited to specific shipments or be widespread</li>
+                            <li>Extremely difficult to detect "man-in-the-middle" hardware attacks</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mt-6 bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                    <h4 class="text-lg font-semibold text-gray-300 mb-2">Case Study: Cisco Router Interdiction (2014)</h4>
+                    <p class="text-gray-400">Documents from the Snowden leaks revealed that the NSA's TAO (Tailored Access Operations) unit routinely intercepted shipments of new Cisco routers. Agents would unbox the devices, install custom surveillance firmware implants, reseal the boxes with factory-quality tape, and send them on to their final destinations. This allowed the agency to gain persistent access to targeted foreign networks.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: The Risks - Acquisition -->
+         <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Risk: The Acquisition Phase</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-amber-400 mb-3">Threats</h3>
+                        <ul class="space-y-2 text-gray-400 list-disc list-inside">
+                            <li>Purchase of counterfeit goods</li>
+                            <li>Insider threats within procurement departments</li>
+                            <li>Use of unauthorized or "gray market" vendors</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-amber-400 mb-3">Impact</h3>
+                         <ul class="space-y-2 text-gray-400 list-disc list-inside">
+                             <li>Can lead to targeted attacks on critical infrastructure</li>
+                            <li>High likelihood of national security and financial impact</li>
+                            <li>Introduction of unreliable or malicious hardware/software</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mt-6 bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                    <h4 class="text-lg font-semibold text-gray-300 mb-2">Case Study: Counterfeit Circuits in Military Hardware (2012 Report)</h4>
+                    <p class="text-gray-400">A U.S. Senate Armed Services Committee investigation found over 1 million suspected counterfeit electronic parts in the Department of Defense supply chain. These components, originating from China, were found in critical systems including thermal imaging for missiles, military aircraft, and submarines. These parts pose a risk of premature failure and could contain hidden backdoors for espionage.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: The Risks - Maintenance -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Risk: The Maintenance Phase</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-amber-400 mb-3">Threats</h3>
+                        <ul class="space-y-2 text-gray-400 list-disc list-inside">
+                            <li>Compromise of update servers or code signing keys</li>
+                            <li>Malicious insider at a Managed Service Provider (MSP)</li>
+                            <li>Insecure remote access protocols (RDP, VNC)</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-amber-400 mb-3">Impact</h3>
+                         <ul class="space-y-2 text-gray-400 list-disc list-inside">
+                             <li>Can impact all users of the software simultaneously</li>
+                            <li>Can turn a trusted software provider into a malware distributor</li>
+                            <li>High likelihood of widespread data leakage</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mt-6 bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                    <h4 class="text-lg font-semibold text-gray-300 mb-2">Case Study (Updated): The SolarWinds Attack (2020)</h4>
+                    <p class="text-gray-400">Russian state-sponsored actors (APT29) breached the IT management company SolarWinds. They inserted a backdoor into the company's Orion software. When SolarWinds distributed a legitimate, digitally signed software update, it unknowingly sent the malware to 18,000 of its customers, including top U.S. government agencies like Treasury and Commerce, leading to a massive intelligence breach.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Mitigation -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">What Are We Doing About It? Mitigation</h2>
+                <div class="bg-blue-900/20 border border-blue-500/30 rounded-lg p-4 text-center mb-6">
+                    <p class="text-lg text-blue-300">CSCRM is a complex, ongoing process, not a one-time fix. It involves multiple layers of policy, technology, and vigilance.</p>
+                </div>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-amber-400 mb-2">📜 Policy & Frameworks</h3>
+                        <p class="text-gray-400">NIST SP 800-161 ("Cybersecurity Supply Chain Risk Management Practices") provides the foundational guidance. The U.S. government now requires federal agencies to obtain a Software Bill of Materials (SBOM) from software producers.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-amber-400 mb-2">📦 Software Bill of Materials (SBOM)</h3>
+                        <p class="text-gray-400">An "ingredients list" for software. An SBOM is a formal, machine-readable inventory of software components and dependencies. It allows organizations to quickly identify if they are using a vulnerable library (like xz or Log4j).</p>
+                    </div>
+                     <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-amber-400 mb-2">🕵️ Vendor & Supplier Vetting</h3>
+                        <p class="text-gray-400">Conducting rigorous security assessments of suppliers, demanding evidence of secure development practices, and including security requirements in contracts.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: What Can You Do? -->
+        <div class="slide p-6 md:p-12">
+             <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-gray-300">What Can YOU Do?</h2>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-8">
+                     <ul class="space-y-4 text-gray-300 list-disc list-inside text-left text-lg">
+                        <li>Download software <span class="font-bold text-amber-400">only</span> from official, trusted sources. Verify file integrity using hashes when provided.</li>
+                        <li>Be wary of "too good to be true" deals. Counterfeit hardware and software often contain malware.</li>
+                        <li>Avoid using untrusted USB devices, including promotional giveaways and public charging stations (risk of "juice jacking").</li>
+                        <li>For work-related purchases, always follow your organization's procurement and cybersecurity policies.</li>
+                        <li>Keep your systems updated. A huge number of supply chain attacks start by exploiting known, unpatched vulnerabilities.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Bonus Case Studies -->
+        <div class="slide p-6 md:p-12">
+             <div class="w-full h-full flex items-center justify-center">
+                <div class="text-center max-w-4xl mx-auto">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-6 text-gray-300">Bonus Case Studies (2025 Update)</h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 13: Stuxnet -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Case Study: Stuxnet</h2>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                    <ul class="space-y-2 text-gray-300">
+                        <li><span class="font-semibold text-amber-400">Year:</span> 2005-2010</li>
+                        <li><span class="font-semibold text-amber-400">Actors:</span> Unattributed (widely believed to be U.S. & Israel)</li>
+                        <li><span class="font-semibold text-amber-400">Target:</span> Iranian nuclear enrichment facilities (SCADA/PLC systems)</li>
+                        <li><span class="font-semibold text-amber-400">Attack Vector:</span> USB drive (insider or contractor). The worm spread through an air-gapped network by exploiting multiple Windows zero-day vulnerabilities.</li>
+                        <li><span class="font-semibold text-amber-400">Impact:</span> Reportedly caused physical damage to one-fifth of Iran's nuclear centrifuges by subtly changing their rotational speed while reporting normal operations to monitoring systems. A landmark example of cyber-physical attack.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 14: NotPetya -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Case Study: NotPetya</h2>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                    <ul class="space-y-2 text-gray-300">
+                        <li><span class="font-semibold text-amber-400">Year:</span> 2017</li>
+                        <li><span class="font-semibold text-amber-400">Actors:</span> Russia (Sandworm group)</li>
+                        <li><span class="font-semibold text-amber-400">Primary Target:</span> Ukraine</li>
+                        <li><span class="font-semibold text-amber-400">Attack Vector:</span> A compromised update server for M.E.Doc, a popular Ukrainian accounting software. This is a classic software supply chain attack.</li>
+                        <li><span class="font-semibold text-amber-400">Impact:</span> Disguised as ransomware, it was actually a destructive wiper that irreversibly encrypted the boot sector of hard drives. It spread globally, causing over $10 billion in damages to companies like Maersk, Merck, and FedEx, crippling economies for days.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 15: MOVEit Transfer -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Case Study: MOVEit Transfer Breach</h2>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                    <ul class="space-y-2 text-gray-300">
+                        <li><span class="font-semibold text-amber-400">Year:</span> 2023</li>
+                        <li><span class="font-semibold text-amber-400">Actors:</span> Cl0p Ransomware Gang (financially motivated)</li>
+                        <li><span class="font-semibold text-amber-400">Target:</span> Users of the MOVEit Secure File Transfer software.</li>
+                        <li><span class="font-semibold text-amber-400">Attack Vector:</span> A zero-day SQL injection vulnerability in the MOVEit software itself. Attackers exploited this flaw to steal data directly from the servers of companies that used the software.</li>
+                        <li><span class="font-semibold text-amber-400">Impact:</span> One of the largest breaches ever, affecting over 2,700 organizations and 94 million individuals. Victims included government agencies (DOE), major corporations (Shell, British Airways), and consulting firms. Attackers exfiltrated massive amounts of sensitive data and extorted victims.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 16: Salt Typhoon -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Case Study: Salt Typhoon</h2>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                    <ul class="space-y-2 text-gray-300">
+                        <li><span class="font-semibold text-amber-400">Years:</span> 2021-2024 (and ongoing)</li>
+                        <li><span class="font-semibold text-amber-400">Actors:</span> China (state-sponsored)</li>
+                        <li><span class="font-semibold text-amber-400">Target:</span> U.S. critical infrastructure, especially telecommunications and government agencies.</li>
+                        <li><span class="font-semibold text-amber-400">Attack Vector:</span> Exploiting public-facing network appliances (routers, VPNs) and using "living-off-the-land" techniques with legitimate system tools to remain undetected. This is a hardware/software supply chain risk.</li>
+                        <li><span class="font-semibold text-amber-400">Impact:</span> Long-term, persistent espionage campaign. Stole credentials and data from U.S. telecom providers and government entities, and positioned themselves for potential future disruptive attacks against critical infrastructure.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Navigation -->
+    <div id="navigation" class="fixed bottom-0 left-0 right-0 h-20 bg-zinc-900/80 backdrop-blur-sm border-t border-zinc-700 flex items-center justify-center px-6">
+        <div class="w-full max-w-4xl flex items-center justify-between">
+            <button id="prevBtn" class="bg-zinc-700 text-white font-bold py-2 px-4 rounded-md hover:bg-zinc-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">Previous</button>
+            <div class="flex-grow mx-4">
+                 <div class="w-full bg-zinc-700 rounded-full h-2.5">
+                    <div id="progressBar" class="bg-amber-500 h-2.5 rounded-full" style="width: 0%"></div>
+                </div>
+            </div>
+            <button id="nextBtn" class="bg-amber-600 text-white font-bold py-2 px-4 rounded-md hover:bg-amber-500 transition-colors">Next</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const progressBar = document.getElementById('progressBar');
+            let currentSlide = 0;
+            const totalSlides = slides.length;
+
+            function showSlide(index) {
+                const activeSlide = document.querySelector('.slide.active');
+                if (activeSlide) activeSlide.classList.remove('active');
+                slides[index].classList.add('active');
+                const progressPercentage = ((index + 1) / totalSlides) * 100;
+                progressBar.style.width = `${progressPercentage}%`;
+                prevBtn.disabled = index === 0;
+                nextBtn.disabled = index === totalSlides - 1;
+                nextBtn.textContent = index === totalSlides - 1 ? 'Finish' : 'Next';
+            }
+
+            nextBtn.addEventListener('click', () => {
+                if (currentSlide < totalSlides - 1) {
+                    currentSlide++;
+                    showSlide(currentSlide);
+                }
+            });
+
+            prevBtn.addEventListener('click', () => {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    showSlide(currentSlide);
+                }
+            });
+            
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight' && !nextBtn.disabled) {
+                    nextBtn.click();
+                } else if (e.key === 'ArrowLeft' && !prevBtn.disabled) {
+                    prevBtn.click();
+                }
+            });
+
+            showSlide(currentSlide);
+        });
+    </script>
+</body>
+</html>
+
+
+

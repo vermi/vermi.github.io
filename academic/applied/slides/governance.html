@@ -1,0 +1,1677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Governance and Compliance — CYBS 0189</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #18181b;
+            color: #e4e4e7;
+            overflow: hidden;
+        }
+        .slide {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 80px;
+            overflow-y: auto;
+        }
+        .slide.active {
+            display: block;
+            opacity: 1;
+        }
+        .slide::-webkit-scrollbar {
+            width: 8px;
+        }
+        .slide::-webkit-scrollbar-track {
+            background: #27272a;
+        }
+        .slide::-webkit-scrollbar-thumb {
+            background-color: #52525b;
+            border-radius: 10px;
+            border: 2px solid #27272a;
+        }
+        .accent { color: #60a5fa; }
+        .accent-bg { background-color: rgba(27, 54, 93, 0.3); border-color: rgba(96, 165, 250, 0.3); }
+        .accent-solid { background-color: #1B365D; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div id="presentation-container" class="relative w-full h-screen">
+
+        <!-- Slide 1: Title -->
+        <div class="slide active p-6 md:p-12">
+            <div class="w-full h-full flex items-center justify-center">
+                <div class="text-center max-w-4xl mx-auto">
+                    <h1 class="text-4xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-700 mb-4">Security Governance &amp; Compliance</h1>
+                    <h2 class="text-2xl md:text-4xl font-bold text-gray-300 mb-4">CYBS 0189 Applied Cybersecurity II</h2>
+                    <p class="text-lg text-gray-400">New Mexico Tech</p>
+                    <p class="text-sm text-gray-500 mt-2">Spring 2026 &mdash; Module 4</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Module Overview -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center text-gray-300">Module Overview</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Part I: Security Governance</h3>
+                        <p class="text-gray-400">Corporate governance, GRC programs, information security governance, centralized vs. decentralized models.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Part II: Policy Framework</h3>
+                        <p class="text-gray-400">Policies, standards, procedures, guidelines, exceptions, compensating controls, and monitoring.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Part III: Change Management &amp; Personnel</h3>
+                        <p class="text-gray-400">Change management processes, personnel controls, third-party risk management, and vendor agreements.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Part IV: Compliance, Frameworks &amp; Awareness</h3>
+                        <p class="text-gray-400">Regulatory compliance, NIST CSF/RMF, ISO standards, security awareness training programs.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Exam Objectives -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">SY0-701 Exam Objectives</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Domain 1.0: General Security Concepts</h3>
+                        <p class="text-gray-400"><strong>1.3</strong> &mdash; Explain the importance of change management processes and the impact to security.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Domain 2.0: Threats, Vulnerabilities &amp; Mitigations</h3>
+                        <p class="text-gray-400"><strong>2.5</strong> &mdash; Explain the purpose of mitigation techniques (least privilege).</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Domain 5.0: Security Program Management</h3>
+                        <ul class="text-gray-400 text-sm list-disc list-inside space-y-1 mt-1">
+                            <li><strong>5.1</strong> &mdash; Summarize elements of effective security governance</li>
+                            <li><strong>5.3</strong> &mdash; Explain processes for third-party risk assessment and management</li>
+                            <li><strong>5.4</strong> &mdash; Summarize elements of effective security compliance</li>
+                            <li><strong>5.6</strong> &mdash; Given a scenario, implement security awareness practices</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Part I Section Break -->
+        <div class="slide p-6 md:p-12">
+            <div class="w-full h-full flex items-center justify-center">
+                <div class="text-center max-w-4xl mx-auto">
+                    <h1 class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-700 mb-6">PART I</h1>
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-300 mb-4">Security Governance</h2>
+                    <p class="text-lg text-gray-400">Structures, programs, and models for directing organizational security</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: What is Governance? -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">What is Governance?</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Definition</h3>
+                        <p class="text-gray-400">Governance programs are the sets of <strong>procedures and controls</strong> put in place to allow an organization to effectively direct its work. They coordinate the development and execution of strategic plans at all levels.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Why It Matters</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>Without governance, thousands of employees make independent decisions &mdash; chaos</li>
+                            <li>Ensures every aspect of an organization&rsquo;s work aligns with its strategy and goals</li>
+                            <li>Policy serves as the primary governance tool for cybersecurity programs</li>
+                        </ul>
+                    </div>
+                    <div class="accent-bg rounded-lg p-4">
+                        <p class="text-sm text-blue-200">Organizations often base policies on frameworks from NIST and ISO, and are further shaped by external compliance obligations from regulators.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Corporate Governance Model -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Corporate Governance Model</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">The Hierarchy</h3>
+                        <div class="flex items-center justify-center space-x-2 text-sm text-gray-300 my-4 flex-wrap gap-y-2">
+                            <span class="bg-blue-900/50 border border-blue-700 px-3 py-2 rounded">Shareholders</span>
+                            <span class="text-gray-500">&rarr; elect &rarr;</span>
+                            <span class="bg-blue-900/50 border border-blue-700 px-3 py-2 rounded">Board of Directors</span>
+                            <span class="text-gray-500">&rarr; hire &rarr;</span>
+                            <span class="bg-blue-900/50 border border-blue-700 px-3 py-2 rounded">CEO</span>
+                            <span class="text-gray-500">&rarr; manage &rarr;</span>
+                            <span class="bg-blue-900/50 border border-blue-700 px-3 py-2 rounded">Management Team</span>
+                        </div>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold accent mb-2">Board of Directors</h3>
+                            <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                                <li>Ultimate authority as owners&rsquo; representatives</li>
+                                <li>Meet monthly or quarterly</li>
+                                <li>Best practice: majority should be <strong>independent directors</strong></li>
+                            </ul>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold accent mb-2">CEO &amp; Management</h3>
+                            <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                                <li>CEO handles day-to-day operations</li>
+                                <li>Delegates to executives (CFO, COO, CISO)</li>
+                                <li>Governance cascades downward through the hierarchy</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: GRC Programs -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Governance, Risk &amp; Compliance (GRC)</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <p class="text-gray-400 mb-4">GRC programs integrate three related tasks into a unified approach:</p>
+                        <div class="grid md:grid-cols-3 gap-4">
+                            <div class="bg-zinc-900/50 border border-zinc-600 rounded-lg p-4 text-center">
+                                <h4 class="text-lg font-bold accent mb-2">Governance</h4>
+                                <p class="text-sm text-gray-400">Setting strategic direction and ensuring alignment across the organization</p>
+                            </div>
+                            <div class="bg-zinc-900/50 border border-zinc-600 rounded-lg p-4 text-center">
+                                <h4 class="text-lg font-bold accent mb-2">Risk Management</h4>
+                                <p class="text-sm text-gray-400">Identifying, assessing, and mitigating threats to organizational objectives</p>
+                            </div>
+                            <div class="bg-zinc-900/50 border border-zinc-600 rounded-lg p-4 text-center">
+                                <h4 class="text-lg font-bold accent mb-2">Compliance</h4>
+                                <p class="text-sm text-gray-400">Adhering to laws, regulations, standards, and internal policies</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accent-bg rounded-lg p-4">
+                        <p class="text-sm text-blue-200">These three functions are deeply interconnected. Governance sets the policies, risk management identifies what needs protecting, and compliance ensures the rules are followed.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Information Security Governance -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Information Security Governance</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">The CISO&rsquo;s Role</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>CEO delegates information security responsibility to the <strong>Chief Information Security Officer (CISO)</strong></li>
+                            <li>CISO works with peers to design and implement the security governance framework</li>
+                            <li>CISO does not have operational control &mdash; must leverage management to enforce security</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Key Responsibilities</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>Establish a management structure for the cybersecurity team</li>
+                            <li>Create policies that apply to the entire organization</li>
+                            <li>Use existing reporting channels and establish new ones as needed</li>
+                            <li>Include escalation procedures for when the security team needs management support</li>
+                        </ul>
+                    </div>
+                    <div class="accent-bg rounded-lg p-4">
+                        <p class="text-sm text-blue-200">The CISO and CEO must work together to ensure proper alignment of the information security program with corporate governance.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Centralized vs. Decentralized -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Centralized vs. Decentralized Governance</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Centralized</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li><strong>Top-down</strong> approach</li>
+                            <li>Central authority creates policies and standards</li>
+                            <li>Enforced uniformly throughout the organization</li>
+                            <li>Ensures consistency</li>
+                            <li>May lack flexibility for unique business unit needs</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Decentralized</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li><strong>Bottom-up</strong> approach</li>
+                            <li>Individual business units are delegated authority</li>
+                            <li>Units achieve cybersecurity objectives as they see fit</li>
+                            <li>Greater flexibility and responsiveness</li>
+                            <li>Risk of inconsistency and gaps</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="accent-bg rounded-lg p-4 mt-4">
+                    <p class="text-sm text-blue-200"><strong>Exam Tip:</strong> Be able to distinguish between centralized and decentralized governance models. These topics come directly from the SY0-701 exam objectives.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Types of Governance Structures -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Types of Governance Structures</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Boards</h3>
+                        <p class="text-gray-400">Formal board of directors elected by shareholders (public companies) or members (nonprofits). Ultimate authority over the organization.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Committees</h3>
+                        <p class="text-gray-400">Internal committees consisting of subject matter experts (SMEs) and managers. May include security steering committees, change advisory boards, and audit committees.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Government Entities</h3>
+                        <p class="text-gray-400">Regulatory agencies play a role in governance of some organizations. Examples: banks regulated by the U.S. Treasury, healthcare by HHS, financial markets by SEC.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Real-World: SolarWinds CISO -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Real World: SolarWinds &amp; CISO Accountability</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">What Happened</h3>
+                        <p class="text-gray-400">In October 2023, the SEC charged SolarWinds and its CISO Timothy Brown with fraud for allegedly overstating the company&rsquo;s cybersecurity practices while concealing known risks &mdash; prior to and after the devastating 2020 supply chain attack.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Governance Lessons</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>CISOs are now personally accountable for security representations</li>
+                            <li>Internal security assessments must align with external disclosures</li>
+                            <li>Governance structures must ensure honest upward reporting</li>
+                            <li>The board needs accurate security posture information to fulfill its oversight role</li>
+                        </ul>
+                    </div>
+                    <div class="accent-bg rounded-lg p-4">
+                        <p class="text-sm text-blue-200">In July 2024, a federal judge dismissed most of the SEC&rsquo;s claims but allowed the pre-breach fraud charge to proceed &mdash; reinforcing that misleading security statements have legal consequences.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Part II Section Break -->
+        <div class="slide p-6 md:p-12">
+            <div class="w-full h-full flex items-center justify-center">
+                <div class="text-center max-w-4xl mx-auto">
+                    <h1 class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-700 mb-6">PART II</h1>
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-300 mb-4">Policy Framework</h2>
+                    <p class="text-lg text-gray-400">Policies, standards, procedures, guidelines, and exceptions</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 13: Policy Document Hierarchy -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Policy Document Hierarchy</h2>
+                <div class="space-y-4">
+                    <p class="text-gray-400 text-center mb-4">An organization&rsquo;s <strong>information security policy framework</strong> generally includes four types of documents:</p>
+                    <div class="bg-blue-900/40 border border-blue-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-blue-300 mb-1">Policies</h3>
+                        <p class="text-sm text-gray-400">High-level statements of management intent. Compliance is <strong>mandatory</strong>.</p>
+                    </div>
+                    <div class="bg-blue-900/30 border border-blue-600 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-blue-300 mb-1">Standards</h3>
+                        <p class="text-sm text-gray-400">Mandatory requirements describing how to carry out policies. More specific, may change more often.</p>
+                    </div>
+                    <div class="bg-blue-900/20 border border-blue-500/50 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-blue-300 mb-1">Procedures</h3>
+                        <p class="text-sm text-gray-400">Detailed, step-by-step processes for specific circumstances. Compliance is <strong>mandatory</strong>.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-blue-300 mb-1">Guidelines</h3>
+                        <p class="text-sm text-gray-400">Best practices and recommendations. Compliance is <strong>not mandatory</strong>.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 14: Policies -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Policies</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <p class="text-gray-400 mb-3">Policies are high-level statements of management intent. They generally contain broad statements about cybersecurity objectives including:</p>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>Importance of cybersecurity to the organization</li>
+                            <li>Requirements to protect confidentiality, integrity, and availability</li>
+                            <li>Ownership of information created/possessed by the organization</li>
+                            <li>Designation of the CISO as the responsible executive</li>
+                            <li>Delegation of authority to create standards, procedures, and guidelines</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Common Policy Documents</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li><strong>Information security policy</strong> &mdash; high-level authority and guidance</li>
+                            <li><strong>Acceptable use policy (AUP)</strong> &mdash; permissible uses of information resources</li>
+                            <li><strong>Incident response policy</strong> &mdash; how the org responds to security incidents</li>
+                            <li><strong>Business continuity / disaster recovery</strong> &mdash; operations during and after disasters</li>
+                            <li><strong>SDLC policy</strong> &mdash; security integrated into every stage of development</li>
+                            <li><strong>Change management policy</strong> &mdash; review, approve, and implement changes safely</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 15: Standards -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Standards</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <p class="text-gray-400 mb-3">Standards provide <strong>mandatory requirements</strong> describing how an organization will carry out its policies. They include specific configuration settings, required controls, and security objectives. Approved at a lower level than policies and may change more regularly.</p>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold accent mb-2">Password Standards</h3>
+                            <p class="text-sm text-gray-400">Requirements for length, complexity, reuse, and expiration.</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold accent mb-2">Access Control Standards</h3>
+                            <p class="text-sm text-gray-400">Account lifecycle from provisioning through decommissioning, including service accounts.</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold accent mb-2">Physical Security Standards</h3>
+                            <p class="text-sm text-gray-400">Access control systems, surveillance, visitor policies, handling of physical security breaches.</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold accent mb-2">Encryption Standards</h3>
+                            <p class="text-sm text-gray-400">Requirements for encrypting data in transit and at rest, algorithm selection, and key management.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 16: Procedures -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Procedures</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <p class="text-gray-400 mb-3">Procedures are <strong>detailed, step-by-step processes</strong> that individuals and organizations must follow in specific circumstances. Like checklists, they ensure a consistent process for achieving a security objective. Compliance is mandatory.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Common Procedures</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li><strong>Change management procedures</strong> &mdash; how to perform change management activities, including use of version control</li>
+                            <li><strong>Onboarding/offboarding procedures</strong> &mdash; how to add new user accounts when employees join and remove them when they leave</li>
+                            <li><strong>Playbooks</strong> &mdash; actions the incident response team takes for specific types of incidents</li>
+                        </ul>
+                    </div>
+                    <div class="accent-bg rounded-lg p-4">
+                        <p class="text-sm text-blue-200"><strong>Example:</strong> Visa publishes <em>What to Do if Compromised</em> &mdash; a mandatory procedure requiring merchants to notify Visa within three days, engage a forensic investigator within five business days, and provide a final report within ten business days.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 17: Guidelines -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Guidelines</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Definition</h3>
+                        <p class="text-gray-400">Guidelines provide best practices and recommendations related to a given concept, technology, or task. Compliance with guidelines is <strong>not mandatory</strong> &mdash; they offer helpful advice.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">How They Fit</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>Policy sets high-level objectives and requires compliance with standards</li>
+                            <li>Standards include details of required security controls</li>
+                            <li>Guidelines provide advice to organizations seeking to comply with the policy and standards</li>
+                        </ul>
+                    </div>
+                    <div class="accent-bg rounded-lg p-4">
+                        <p class="text-sm text-blue-200">The &ldquo;optionality&rdquo; of guidelines may vary by organizational culture. Some organizations treat guidelines almost as mandatory, while others view them as purely advisory.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 18: External Considerations -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">External Considerations</h2>
+                <div class="space-y-4">
+                    <p class="text-gray-400 text-center mb-2">When preparing policy documents, consider external factors that may impact your policies:</p>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold accent mb-2">Regulatory</h3>
+                            <p class="text-sm text-gray-400">Legal requirements that mandate the use of certain controls (HIPAA, SOX, GLBA).</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold accent mb-2">Legal</h3>
+                            <p class="text-sm text-gray-400">Laws at the national, state/regional, and local levels that affect operations.</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold accent mb-2">Industry</h3>
+                            <p class="text-sm text-gray-400">Industry-specific considerations and best practices (PCI DSS for payment processing).</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold accent mb-2">Jurisdictional</h3>
+                            <p class="text-sm text-gray-400">Global, national, and local/regional considerations based on where you operate (GDPR for EU data).</p>
+                        </div>
+                    </div>
+                    <div class="accent-bg rounded-lg p-4">
+                        <p class="text-sm text-blue-200">Failure to follow industry best practices may be seen as negligence and can cause legal liability for the organization.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 19: Exceptions & Compensating Controls -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Exceptions &amp; Compensating Controls</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Exception Process</h3>
+                        <p class="text-gray-400 mb-2">When adopting security policies, organizations should also provide a mechanism for exceptions. An exception request should document:</p>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>Standard/requirement that requires an exception</li>
+                            <li>Reason for noncompliance</li>
+                            <li>Business and/or technical justification</li>
+                            <li>Scope and duration of the exception</li>
+                            <li>Risks associated with the exception</li>
+                            <li>Compensating controls to mitigate risks</li>
+                            <li>Plan for achieving compliance</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Compensating Controls</h3>
+                        <p class="text-gray-400">Alternative means to achieve a security objective when the original control requirement cannot be met. Organizations should also develop <strong>remediation plans</strong> to bring the organization back into full compliance.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 20: PCI DSS Compensating Control Criteria -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">PCI DSS Compensating Control Criteria</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <p class="text-gray-400 mb-3">PCI DSS includes one of the most formal compensating control processes. Five criteria must be met:</p>
+                        <ol class="text-sm text-gray-400 list-decimal list-inside space-y-2">
+                            <li>Must meet the <strong>intent and rigor</strong> of the original requirement</li>
+                            <li>Must provide a <strong>similar level of defense</strong> as the original requirement</li>
+                            <li>Must be <strong>&ldquo;above and beyond&rdquo;</strong> other PCI DSS requirements</li>
+                            <li>Must address the <strong>additional risk</strong> imposed by not adhering to the original requirement</li>
+                            <li>Must address the requirement <strong>currently and in the future</strong></li>
+                        </ol>
+                    </div>
+                    <div class="accent-bg rounded-lg p-4">
+                        <p class="text-sm text-blue-200"><strong>Example:</strong> An organization must run an outdated OS because critical business software only works on it. As a compensating control, they isolate the system on a dedicated network segment with no access to other systems.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 21: Monitoring and Revision -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Monitoring and Revision</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Policy Monitoring</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>Regularly evaluate implementation and efficacy of policies</li>
+                            <li>Use SIEM systems and periodic audits/assessments</li>
+                            <li>Assess alignment with current security needs, regulatory requirements, and technology changes</li>
+                            <li>Gather feedback from staff who implement the policies</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Policy Revision</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>Update policies to address shortcomings and new challenges</li>
+                            <li>Communicate revised policies to all relevant personnel</li>
+                            <li>Provide training on changes if necessary</li>
+                            <li>Regular monitoring and timely revision are crucial for maintaining a robust security posture</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 22: Part III Section Break -->
+        <div class="slide p-6 md:p-12">
+            <div class="w-full h-full flex items-center justify-center">
+                <div class="text-center max-w-4xl mx-auto">
+                    <h1 class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-700 mb-6">PART III</h1>
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-300 mb-4">Change Management &amp; Personnel</h2>
+                    <p class="text-lg text-gray-400">Managing changes, people, and third-party relationships</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 23: Why Change Management Matters -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Why Change Management Matters</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">The Problem</h3>
+                        <p class="text-gray-400">Changes often create unintended side effects that cause outages. A well-meaning administrator can change one system to resolve a problem but unknowingly cause a problem in other systems.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">The Firewall Example</h3>
+                        <p class="text-gray-400">A firewall admin sees an unrecognized open port on Firewall 2 and closes it for security. But that port was needed for the web server to communicate with the database server. The result: cascading outage, hours of troubleshooting, finger-pointing &mdash; all from one unauthorized change.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Two Security Impacts</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li><strong>Availability:</strong> Unauthorized changes can directly cause outages (CIA triad)</li>
+                            <li><strong>Security weakening:</strong> Frustrated admins might grant excessive permissions to &ldquo;just make it work&rdquo; &mdash; violating least privilege</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 24: Change Management Process -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Change Management Process</h2>
+                <div class="space-y-3">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold accent mb-1">1. Request the Change</h3>
+                        <p class="text-sm text-gray-400">Personnel identify desired changes and submit a request (often via an internal ticketing system).</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold accent mb-1">2. Review the Change</h3>
+                        <p class="text-sm text-gray-400">Experts from multiple areas perform a complete <strong>impact analysis</strong> in consultation with stakeholders. May involve a <strong>change advisory board (CAB)</strong>.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold accent mb-1">3. Approve/Reject the Change</h3>
+                        <p class="text-sm text-gray-400">Based on review, approve or reject. May require creation of a <strong>rollback/backout plan</strong>.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold accent mb-1">4. Test the Change</h3>
+                        <p class="text-sm text-gray-400">Test in a <strong>nonproduction environment</strong>. Include test results in documentation.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold accent mb-1">5. Schedule &amp; Implement</h3>
+                        <p class="text-sm text-gray-400">Schedule during <strong>maintenance windows</strong> (off-peak hours). Have a backout plan ready.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold accent mb-1">6. Document the Change</h3>
+                        <p class="text-sm text-gray-400">Update configuration management documentation so all parties are aware and the system can be rebuilt if needed.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 25: Technical Impact of Changes -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Technical Impact of Changes</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <p class="text-gray-400 mb-3">Organizations should involve a diverse set of technical stakeholders when evaluating changes. Key issues to consider:</p>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-2">
+                            <li>Will the change require modifications to <strong>security controls</strong> (firewall rules, allow/deny lists)?</li>
+                            <li>Will any <strong>business or technical activities</strong> need to be restricted during or after the change?</li>
+                            <li>Will the change cause <strong>downtime</strong> for critical systems?</li>
+                            <li>Will the change require <strong>restarting services or applications</strong>?</li>
+                            <li>Does the change involve <strong>legacy applications</strong> that lack vendor support?</li>
+                            <li>Have all possible <strong>dependencies</strong> been identified and documented?</li>
+                        </ul>
+                    </div>
+                    <div class="accent-bg rounded-lg p-4">
+                        <p class="text-sm text-blue-200"><strong>Emergency changes</strong> may bypass the normal process (e.g., during an active attack), but the administrator must still document the changes afterward for review.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 26: Version Control & Documentation -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Version Control &amp; Documentation</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Version Control</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>Ensures developers and users have the latest versions</li>
+                            <li>Uses labeling/numbering systems (1.0, 1.1, 2.0)</li>
+                            <li>Differentiates software sets across machines and time</li>
+                            <li>Allows rollback to previous known-good configurations</li>
+                            <li>Critical for tracking changes over time to deployed software</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Documentation</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>Identifies current configuration of systems</li>
+                            <li>Records who is responsible for each system and its purpose</li>
+                            <li>Lists all changes applied to the baseline</li>
+                            <li>Stored in a formal configuration management system</li>
+                            <li>Must be updated before closing out any change management task</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="accent-bg rounded-lg p-4 mt-4">
+                    <p class="text-sm text-blue-200">Before closing a change, update all related documentation, diagrams, policies, and procedures to reflect the impact of the change.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 27: Real-World: CrowdStrike -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Real World: CrowdStrike Outage (July 2024)</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">What Happened</h3>
+                        <p class="text-gray-400">On July 19, 2024, a faulty CrowdStrike Falcon sensor update caused an estimated <strong>8.5 million Windows systems</strong> worldwide to crash with the &ldquo;Blue Screen of Death.&rdquo; Airlines, hospitals, banks, and emergency services were disrupted globally.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Change Management Failures</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>The update was pushed directly to production without adequate staged testing</li>
+                            <li>No canary/phased rollout to catch issues before global deployment</li>
+                            <li>A content validator tool had a bug that failed to detect the problematic update</li>
+                            <li>Recovery required <strong>manual, physical intervention</strong> on each affected machine &mdash; no easy backout plan</li>
+                        </ul>
+                    </div>
+                    <div class="accent-bg rounded-lg p-4">
+                        <p class="text-sm text-blue-200">Estimated financial impact: <strong>$5.4 billion</strong> in losses for Fortune 500 companies alone. A textbook example of why change management processes &mdash; testing, staged rollouts, and backout plans &mdash; exist.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 28: Least Privilege -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Personnel Management: Least Privilege</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">The Principle</h3>
+                        <p class="text-gray-400">Individuals should be granted only the <strong>minimum set of permissions</strong> necessary to carry out their job functions. Simple in concept, challenging in practice.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Privilege Creep</h3>
+                        <p class="text-gray-400">Occurs when an employee moves between roles within the organization, accumulating new privileges but never having past privileges revoked. Over time, the employee has far more access than their current role requires.</p>
+                    </div>
+                    <div class="accent-bg rounded-lg p-4">
+                        <p class="text-sm text-blue-200">Least privilege requires careful attention to the privileges necessary for specific jobs and ongoing attention to avoid security issues. Regular access reviews help combat privilege creep.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 29: Separation of Duties & Two-Person Control -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Separation of Duties &amp; Two-Person Control</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Separation of Duties</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>Takes two sensitive tasks and ensures no single person can perform both</li>
+                            <li><strong>Classic example:</strong> In accounting, one person creates a new vendor, a different person issues checks</li>
+                            <li>Fraud now requires <strong>collusion</strong> between two employees, reducing risk</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Two-Person Control</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>Similar to separation of duties but different</li>
+                            <li>Requires the <strong>participation of two people</strong> to perform a single sensitive action</li>
+                            <li><strong>Example:</strong> Two key holders needed to open a vault, two admins needed to approve a privileged action</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="accent-bg rounded-lg p-4 mt-4">
+                    <p class="text-sm text-blue-200"><strong>Key Difference:</strong> Separation of duties prevents one person from holding two different sensitive privileges. Two-person control requires two people to participate in one sensitive action.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 30: Job Rotation & Mandatory Vacations -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Job Rotation &amp; Mandatory Vacations</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Job Rotation</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>Employees with sensitive roles are periodically moved to other positions</li>
+                            <li>Many types of fraud require <strong>ongoing concealment activities</strong></li>
+                            <li>If rotated out, the employee may not be able to continue concealment</li>
+                            <li>The replacement may discover the fraud themselves</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Mandatory Vacations</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>Employees forced to take annual vacations of a week or more</li>
+                            <li>Access privileges are <strong>revoked during the vacation period</strong></li>
+                            <li>Serves a similar purpose to job rotation &mdash; disrupts ongoing fraud</li>
+                            <li>Common in financial services and other regulated industries</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Clean Desk Policy</h3>
+                        <p class="text-sm text-gray-400">Protects confidentiality by requiring all papers and materials to be secured before an employee leaves their desk. Limits exposure of sensitive information.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 31: Onboarding & Offboarding -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Onboarding &amp; Offboarding</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Onboarding</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>Standardized process for new employees</li>
+                            <li>Create user accounts and grant appropriate access</li>
+                            <li>Conduct <strong>background checks</strong> to uncover past issues</li>
+                            <li>Sign <strong>NDA</strong> (nondisclosure agreement)</li>
+                            <li>Provide initial security awareness training</li>
+                            <li>Issue equipment and credentials</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Offboarding</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>Revoke all access and credentials promptly</li>
+                            <li>Recover organization assets (laptop, badge, keys)</li>
+                            <li>Conduct exit interview</li>
+                            <li>Remind employee of ongoing NDA obligations</li>
+                            <li>Disable accounts &mdash; don&rsquo;t just change passwords</li>
+                            <li>Ensure orderly transfer of knowledge and responsibilities</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="accent-bg rounded-lg p-4 mt-4">
+                    <p class="text-sm text-blue-200">NDAs require employees to protect confidential information during and after employment. Organizations should periodically remind employees of their NDA responsibilities.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 32: Social Media Policies -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Social Media Policies</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Why Organizations Need Them</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>Employee activity on social media may reflect positively or negatively on the organization</li>
+                            <li>Social media analysis may include assessments of both personal and professional accounts</li>
+                            <li>Employees may inadvertently disclose sensitive information</li>
+                            <li>Social media is a primary vector for social engineering attacks and reconnaissance</li>
+                        </ul>
+                    </div>
+                    <div class="accent-bg rounded-lg p-4">
+                        <p class="text-sm text-blue-200">Organizations should make their expectations and practices clear in a social media policy. This helps employees understand boundaries while protecting the organization&rsquo;s interests.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 33: Third-Party Risk Management Overview -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Third-Party Risk Management</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">The Risk</h3>
+                        <p class="text-gray-400">Many risks facing an organization come from third-party organizations &mdash; vendors, suppliers, and business partners. These relationships create dependencies that can introduce security vulnerabilities into the organization.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Third-Party Risk Lifecycle</h3>
+                        <div class="flex items-center justify-center space-x-2 text-sm text-gray-300 my-2 flex-wrap gap-y-2">
+                            <span class="bg-blue-900/50 border border-blue-700 px-3 py-2 rounded">Selection</span>
+                            <span class="text-gray-500">&rarr;</span>
+                            <span class="bg-blue-900/50 border border-blue-700 px-3 py-2 rounded">Assessment</span>
+                            <span class="text-gray-500">&rarr;</span>
+                            <span class="bg-blue-900/50 border border-blue-700 px-3 py-2 rounded">Agreements</span>
+                            <span class="text-gray-500">&rarr;</span>
+                            <span class="bg-blue-900/50 border border-blue-700 px-3 py-2 rounded">Monitoring</span>
+                            <span class="text-gray-500">&rarr;</span>
+                            <span class="bg-blue-900/50 border border-blue-700 px-3 py-2 rounded">Wind-Down</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 34: Vendor Selection & Due Diligence -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Vendor Selection &amp; Due Diligence</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Due Diligence</h3>
+                        <p class="text-gray-400 mb-2">Thoroughly vetting potential vendors to ensure they meet organizational standards:</p>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>Financial stability and business reputation</li>
+                            <li>Quality of products or services</li>
+                            <li>Compliance with relevant regulations</li>
+                            <li>Security practices and data handling procedures</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Conflict of Interest</h3>
+                        <p class="text-gray-400">A conflict of interest arises when a vendor has a competing interest that could influence their behavior against the organization&rsquo;s best interests. This may require contractual clauses or a decision not to engage with the vendor at all.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 35: Vendor Assessment -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Vendor Assessment</h2>
+                <div class="space-y-4">
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold accent mb-2">Penetration Testing</h3>
+                            <p class="text-sm text-gray-400">Authorized simulated attacks to identify vulnerabilities in the vendor&rsquo;s systems.</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold accent mb-2">Right-to-Audit Clause</h3>
+                            <p class="text-sm text-gray-400">Contract provision allowing the customer to conduct or commission audits on the vendor&rsquo;s operations.</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold accent mb-2">Evidence of Internal Audits</h3>
+                            <p class="text-sm text-gray-400">Request proof of the vendor&rsquo;s internal controls, compliance, and risk management practices.</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold accent mb-2">Independent Assessments</h3>
+                            <p class="text-sm text-gray-400">Third-party evaluations including certifications like ISO 27001 or SOC reports.</p>
+                        </div>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold accent mb-2">Supply Chain Analysis</h3>
+                            <p class="text-sm text-gray-400">Assess the vendor&rsquo;s suppliers and understand interdependencies that could impact their delivery.</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold accent mb-2">Questionnaires</h3>
+                            <p class="text-sm text-gray-400">Collect information on vendor practices regularly, focusing on security, data handling, and business continuity.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 36: Vendor Agreements -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Vendor Agreements</h2>
+                <div class="space-y-3">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold accent mb-1">MSA &mdash; Master Service Agreement</h3>
+                        <p class="text-sm text-gray-400">Umbrella contract for work over an extended period. Includes detailed security and privacy requirements.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold accent mb-1">WO/SOW &mdash; Work Order / Statement of Work</h3>
+                        <p class="text-sm text-gray-400">Project-specific details that reference the MSA. Created for each new engagement.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold accent mb-1">SLA &mdash; Service Level Agreement</h3>
+                        <p class="text-sm text-gray-400">Specifies conditions of service (availability, response time, data durability) and remedies if the vendor fails to meet them.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold accent mb-1">MOU &mdash; Memorandum of Understanding</h3>
+                        <p class="text-sm text-gray-400">Informal letter documenting aspects of a relationship. Common between internal business units.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold accent mb-1">MOA &mdash; Memorandum of Agreement</h3>
+                        <p class="text-sm text-gray-400">More formal than an MOU. Details roles, responsibilities, resource allocation, and performance metrics.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold accent mb-1">BPA &mdash; Business Partners Agreement</h3>
+                        <p class="text-sm text-gray-400">Agreement between organizations doing business together in a partnership (joint development, profit sharing).</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold accent mb-1">NDA &mdash; Non-Disclosure Agreement</h3>
+                        <p class="text-sm text-gray-400">Protects confidential information shared between parties. Vendor agreements should include NDA terms.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 37: Vendor Monitoring -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Vendor Monitoring &amp; Wind-Down</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Rules of Engagement</h3>
+                        <p class="text-gray-400">Define boundaries: communication protocols, responsibilities, and issue resolution processes. Prevent misunderstandings and disputes.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Ongoing Monitoring Areas</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li><strong>Performance:</strong> KPIs that quantitatively measure vendor performance</li>
+                            <li><strong>Security:</strong> Monitor vendor&rsquo;s security posture, check for breaches/incidents</li>
+                            <li><strong>Compliance:</strong> Ensure vendor maintains certifications and meets regulatory requirements</li>
+                            <li><strong>Financial:</strong> Evaluate vendor financial health for long-term viability</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Winding Down Relationships</h3>
+                        <p class="text-gray-400">Plan for orderly transition when a vendor relationship ends or a product reaches <strong>end of life (EOL)</strong> or <strong>end of service life (EOSL)</strong>. Both parties should follow specific steps documented in advance.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 38: Real-World: MOVEit -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Real World: MOVEit Breach (2023)</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">What Happened</h3>
+                        <p class="text-gray-400">The Cl0p ransomware group exploited a zero-day SQL injection vulnerability in Progress Software&rsquo;s MOVEit Transfer file-sharing tool. The attack compromised data from over <strong>2,700 organizations</strong> and <strong>95 million individuals</strong> worldwide.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Third-Party Risk Lessons</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>Most victims were not direct MOVEit customers &mdash; they were affected through their vendors (supply chain risk)</li>
+                            <li>Organizations like the BBC, Shell, U.S. government agencies, and major universities were impacted</li>
+                            <li>Highlights the importance of <strong>supply chain analysis</strong> and understanding who your vendors depend on</li>
+                            <li>Right-to-audit clauses and vendor security assessments could have identified exposure</li>
+                        </ul>
+                    </div>
+                    <div class="accent-bg rounded-lg p-4">
+                        <p class="text-sm text-blue-200">Your security is only as strong as your weakest vendor&rsquo;s security. Third-party risk management is not optional.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 39: Part IV Section Break -->
+        <div class="slide p-6 md:p-12">
+            <div class="w-full h-full flex items-center justify-center">
+                <div class="text-center max-w-4xl mx-auto">
+                    <h1 class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-700 mb-6">PART IV</h1>
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-300 mb-4">Compliance, Frameworks &amp; Awareness</h2>
+                    <p class="text-lg text-gray-400">Laws, regulations, standard frameworks, and security training programs</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 40: Complying with Laws & Regulations -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Complying with Laws &amp; Regulations</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">The Landscape</h3>
+                        <p class="text-gray-400">Legislators and regulators worldwide take a keen interest in cybersecurity. The EU has broad data protection regulation (GDPR), while the U.S. relies on a <strong>patchwork of regulations</strong> covering different industries and information categories.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Key Point</h3>
+                        <p class="text-gray-400">Always consult your organization&rsquo;s legal counsel and subject matter experts when designing a compliance strategy. You&rsquo;ll need to understand national, territory, and state laws that apply to your operations.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 41: Key Regulations -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Key Compliance Requirements</h2>
+                <div class="space-y-3">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold accent mb-1">HIPAA</h3>
+                        <p class="text-sm text-gray-400">Health Insurance Portability and Accountability Act &mdash; security and privacy rules for healthcare providers, insurers, and clearinghouses.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold accent mb-1">PCI DSS</h3>
+                        <p class="text-sm text-gray-400">Payment Card Industry Data Security Standard &mdash; rules for storing, processing, and transmitting credit/debit card data. Not a law, but a contractual obligation.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold accent mb-1">GLBA</h3>
+                        <p class="text-sm text-gray-400">Gramm&ndash;Leach&ndash;Bliley Act &mdash; requires U.S. financial institutions to have a formal security program with a designated responsible individual.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold accent mb-1">SOX</h3>
+                        <p class="text-sm text-gray-400">Sarbanes&ndash;Oxley Act &mdash; financial records of publicly traded companies require strong IT system assurance.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold accent mb-1">GDPR</h3>
+                        <p class="text-sm text-gray-400">General Data Protection Regulation &mdash; security and privacy requirements for personal information of EU residents worldwide.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold accent mb-1">FERPA</h3>
+                        <p class="text-sm text-gray-400">Family Educational Rights and Privacy Act &mdash; security and privacy controls for student educational records at U.S. institutions.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 42: Compliance Reporting -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Compliance Reporting</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Internal Reporting</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>Regular reports to management and board</li>
+                            <li>Highlights state of compliance</li>
+                            <li>Identifies gaps and recommends improvements</li>
+                            <li>Helps allocate resources effectively</li>
+                            <li>Ensures alignment with strategic goals</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">External Reporting</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>Mandated by regulatory bodies or contractual obligations</li>
+                            <li>Provide documentation and evidence to external entities</li>
+                            <li>Examples: PCI SSC compliance reports, GDPR evidence to DPAs</li>
+                            <li>Crucial for maintaining good standing and avoiding penalties</li>
+                            <li>Builds trust with customers and partners</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 43: Consequences of Noncompliance -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Consequences of Noncompliance</h2>
+                <div class="space-y-4">
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold text-red-400 mb-2">Fines &amp; Sanctions</h3>
+                            <p class="text-sm text-gray-400">Regulatory bodies can levy significant fines. Under GDPR: up to <strong>4% of annual global turnover</strong> or &euro;20 million. Nonfinancial sanctions may include restrictions on business operations.</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold text-red-400 mb-2">Reputational Damage</h3>
+                            <p class="text-sm text-gray-400">Public disclosure of noncompliance or breaches severely tarnishes brand image. Customers and partners may lose trust and take their business elsewhere.</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold text-red-400 mb-2">Loss of License</h3>
+                            <p class="text-sm text-gray-400">Regulatory authorities may suspend or revoke licenses critical to operations. Example: a bank losing its banking license for anti-money-laundering failures.</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold text-red-400 mb-2">Contractual Impacts</h3>
+                            <p class="text-sm text-gray-400">Noncompliance can lead to contract termination, lost revenue, and costs of finding new partners. May also lead to lawsuits from affected parties.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 44: Real-World: Meta GDPR Fine -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Real World: Meta&rsquo;s $1.3 Billion GDPR Fine</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">What Happened</h3>
+                        <p class="text-gray-400">In May 2023, the Irish Data Protection Commission fined Meta <strong>&euro;1.2 billion ($1.3B)</strong> &mdash; the largest GDPR fine ever &mdash; for transferring EU user data to the United States without adequate data protection safeguards in violation of GDPR Chapter V.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Compliance Lessons</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>GDPR has teeth &mdash; even the world&rsquo;s largest companies are subject to massive penalties</li>
+                            <li>Cross-border data transfers require specific legal mechanisms</li>
+                            <li>Compliance is not optional, regardless of company size or influence</li>
+                            <li>The fine represented approximately 1% of Meta&rsquo;s annual revenue</li>
+                        </ul>
+                    </div>
+                    <div class="accent-bg rounded-lg p-4">
+                        <p class="text-sm text-blue-200">Other notable GDPR fines: Amazon (&euro;746M, 2021), WhatsApp (&euro;225M, 2021), Google (&euro;150M, 2022). The consequences of noncompliance are very real.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 45: Compliance Monitoring -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Compliance Monitoring</h2>
+                <div class="space-y-4">
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold accent mb-2">Due Diligence</h3>
+                            <p class="text-sm text-gray-400">Continuously researching and understanding the legal and regulatory requirements that pertain to the organization. Stay abreast of evolving laws.</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold accent mb-2">Due Care</h3>
+                            <p class="text-sm text-gray-400">Ongoing efforts to ensure implemented policies and controls are effective and continuously maintained. Regularly review and update policies.</p>
+                        </div>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold accent mb-2">Acknowledgment</h3>
+                            <p class="text-sm text-gray-400">Employees and partners state that they are <strong>aware of</strong> compliance requirements.</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold accent mb-2">Attestation</h3>
+                            <p class="text-sm text-gray-400">Employees and partners confirm they are aware of requirements <strong>and that their practices adhere</strong> to those policies.</p>
+                        </div>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold accent mb-2">Internal Monitoring</h3>
+                            <p class="text-sm text-gray-400">Internal audits, reviews, and checks to ensure the organization follows its own policies.</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold accent mb-2">External Monitoring</h3>
+                            <p class="text-sm text-gray-400">Third-party audits and assessments providing an unbiased view of compliance status.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 46: Automation in Compliance -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Automation in Compliance Monitoring</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Why Automate?</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>Essential for larger organizations with complex compliance requirements</li>
+                            <li>Track changes in regulations automatically</li>
+                            <li>Monitor for policy violations in real time</li>
+                            <li>Ensure policies are consistently applied across the organization</li>
+                            <li>Reduce human error</li>
+                            <li>Generate detailed reports for analysis and improvement</li>
+                        </ul>
+                    </div>
+                    <div class="accent-bg rounded-lg p-4">
+                        <p class="text-sm text-blue-200"><strong>Exam Tip:</strong> Be ready to summarize elements of effective security compliance, including compliance reporting, consequences of noncompliance, and compliance monitoring (due diligence, due care, attestation, acknowledgment, internal/external, automation).</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 47: Adopting Standard Frameworks -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Adopting Standard Frameworks</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Why Use Frameworks?</h3>
+                        <p class="text-gray-400">Developing a cybersecurity program from scratch is a formidable undertaking. Standard security frameworks provide a <strong>roadmap</strong> and a <strong>standardized approach</strong> to developing and evaluating cybersecurity programs.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Key Frameworks for the Exam</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li><strong>NIST Cybersecurity Framework (CSF)</strong> &mdash; broad structure for cybersecurity controls</li>
+                            <li><strong>NIST Risk Management Framework (RMF)</strong> &mdash; formal process for implementing controls</li>
+                            <li><strong>ISO 27001</strong> &mdash; Information security management systems</li>
+                            <li><strong>ISO 27002</strong> &mdash; Information security controls</li>
+                            <li><strong>ISO 27701</strong> &mdash; Privacy controls</li>
+                            <li><strong>ISO 31000</strong> &mdash; General risk management</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 48: NIST CSF -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">NIST Cybersecurity Framework (CSF)</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Framework Core &mdash; Five Functions</h3>
+                        <div class="grid grid-cols-5 gap-2 mt-3">
+                            <div class="bg-blue-900/50 border border-blue-700 rounded p-2 text-center">
+                                <p class="text-sm font-bold text-blue-300">Identify</p>
+                            </div>
+                            <div class="bg-green-900/50 border border-green-700 rounded p-2 text-center">
+                                <p class="text-sm font-bold text-green-300">Protect</p>
+                            </div>
+                            <div class="bg-yellow-900/50 border border-yellow-700 rounded p-2 text-center">
+                                <p class="text-sm font-bold text-yellow-300">Detect</p>
+                            </div>
+                            <div class="bg-red-900/50 border border-red-700 rounded p-2 text-center">
+                                <p class="text-sm font-bold text-red-300">Respond</p>
+                            </div>
+                            <div class="bg-purple-900/50 border border-purple-700 rounded p-2 text-center">
+                                <p class="text-sm font-bold text-purple-300">Recover</p>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-400 mt-3">Each function is divided into <strong>categories</strong>, <strong>subcategories</strong>, and <strong>informative references</strong>.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Three Components</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li><strong>Framework Core:</strong> Set of security functions applicable across all industries</li>
+                            <li><strong>Implementation Tiers:</strong> Maturity model (Tier 1: Partial &rarr; Tier 4: Adaptive)</li>
+                            <li><strong>Framework Profile:</strong> Describes how a specific organization approaches the Core functions</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 49: NIST CSF Implementation Tiers -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">NIST CSF Implementation Tiers</h2>
+                <div class="space-y-3">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold text-red-400 mb-1">Tier 1: Partial</h3>
+                        <p class="text-sm text-gray-400">Ad hoc, reactive risk management. Limited awareness of cybersecurity risk. No understanding of role in larger ecosystem.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold text-yellow-400 mb-1">Tier 2: Risk Informed</h3>
+                        <p class="text-sm text-gray-400">Management-approved practices, but not yet organization-wide policy. Aware of risk but no org-wide approach established.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold text-blue-400 mb-1">Tier 3: Repeatable</h3>
+                        <p class="text-sm text-gray-400">Formally approved, organization-wide risk management. Understands role, dependencies, and dependents in the larger ecosystem.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold text-green-400 mb-1">Tier 4: Adaptive</h3>
+                        <p class="text-sm text-gray-400">Adapts based on lessons learned and predictive indicators. Org-wide risk-informed approach. Contributes to community&rsquo;s broader understanding.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 50: NIST CSF 2.0 -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">NIST CSF 2.0 (February 2024)</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">What Changed</h3>
+                        <p class="text-gray-400">NIST released CSF 2.0 in February 2024 &mdash; the first major update since the original 2014 framework. The most significant addition is a sixth core function: <strong>Govern</strong>.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">The Govern Function</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>Placed at the center of the framework, connecting all other functions</li>
+                            <li>Covers organizational context, risk management strategy, roles and responsibilities</li>
+                            <li>Addresses policy, oversight, and cybersecurity supply chain risk management</li>
+                            <li>Reflects growing recognition that governance is foundational to all cybersecurity activities</li>
+                        </ul>
+                    </div>
+                    <div class="accent-bg rounded-lg p-4">
+                        <p class="text-sm text-blue-200">CSF 2.0 also expanded its scope beyond critical infrastructure to all organizations, added emphasis on supply chain risk, and improved guidance for creating Framework Profiles.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 51: NIST RMF -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">NIST Risk Management Framework (RMF)</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Purpose</h3>
+                        <p class="text-gray-400">A <strong>mandatory standard for federal agencies</strong> providing a formalized process to select, implement, and assess risk-based security and privacy controls. Defined in NIST SP 800-37.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">RMF Steps</h3>
+                        <div class="flex items-center justify-center flex-wrap gap-2 text-sm text-gray-300 my-2">
+                            <span class="bg-blue-900/50 border border-blue-700 px-3 py-2 rounded">Prepare</span>
+                            <span class="text-gray-500">&rarr;</span>
+                            <span class="bg-blue-900/50 border border-blue-700 px-3 py-2 rounded">Categorize</span>
+                            <span class="text-gray-500">&rarr;</span>
+                            <span class="bg-blue-900/50 border border-blue-700 px-3 py-2 rounded">Select</span>
+                            <span class="text-gray-500">&rarr;</span>
+                            <span class="bg-blue-900/50 border border-blue-700 px-3 py-2 rounded">Implement</span>
+                            <span class="text-gray-500">&rarr;</span>
+                            <span class="bg-blue-900/50 border border-blue-700 px-3 py-2 rounded">Assess</span>
+                            <span class="text-gray-500">&rarr;</span>
+                            <span class="bg-blue-900/50 border border-blue-700 px-3 py-2 rounded">Authorize</span>
+                            <span class="text-gray-500">&rarr;</span>
+                            <span class="bg-blue-900/50 border border-blue-700 px-3 py-2 rounded">Monitor</span>
+                        </div>
+                    </div>
+                    <div class="accent-bg rounded-lg p-4">
+                        <p class="text-sm text-blue-200"><strong>CSF vs. RMF:</strong> The RMF is a formal process for implementing security controls and authorizing system use. The CSF provides a broad structure for cybersecurity controls. Both are mandatory for government; only CSF is commonly used in private industry.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 52: ISO Standards -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">ISO Standards</h2>
+                <div class="space-y-4">
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold accent mb-2">ISO 27001</h3>
+                            <p class="text-sm text-gray-400">&ldquo;Information security management systems.&rdquo; Control objectives covering 14 categories. Organizations can pursue formal certification by an external assessor.</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold accent mb-2">ISO 27002</h3>
+                            <p class="text-sm text-gray-400">Goes beyond objectives to describe <strong>actual controls</strong> an organization may implement. Supplementary to 27001 for selecting and implementing controls.</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold accent mb-2">ISO 27701</h3>
+                            <p class="text-sm text-gray-400">Standard guidance for managing <strong>privacy controls</strong>. An extension to ISO 27001/27002 focusing specifically on privacy.</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold accent mb-2">ISO 31000</h3>
+                            <p class="text-sm text-gray-400">Guidelines for <strong>risk management programs</strong> in general. Not specific to cybersecurity or privacy &mdash; applicable to any type of risk.</p>
+                        </div>
+                    </div>
+                    <div class="accent-bg rounded-lg p-4">
+                        <p class="text-sm text-blue-200"><strong>Exam Tip:</strong> ISO 27001 = cybersecurity, ISO 27701 = privacy. They look nearly identical in numbering, so remember the distinction!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 53: Benchmarks & CIS -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Benchmarks &amp; Secure Configuration Guides</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">The Gap</h3>
+                        <p class="text-gray-400">NIST and ISO frameworks are high-level and don&rsquo;t offer practical guidance on actually implementing security controls. Benchmarks and configuration guides fill this gap.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Center for Internet Security (CIS)</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>Publishes <strong>hundreds of benchmarks</strong> for commonly used platforms</li>
+                            <li>Covers operating systems, web servers, application servers, network devices</li>
+                            <li>Extremely detailed &mdash; the Windows Server 2022 benchmark is <strong>642 pages</strong></li>
+                            <li>Specifies exact configuration settings (e.g., &ldquo;Minimum password length: 14 or more characters&rdquo;)</li>
+                        </ul>
+                    </div>
+                    <div class="accent-bg rounded-lg p-4">
+                        <p class="text-sm text-blue-200">Other sources include vendor-specific hardening guides, DISA STIGs (Security Technical Implementation Guides) for government systems, and NIST National Checklist Program.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 54: Security Awareness & Training -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Security Awareness &amp; Training</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Why It Matters</h3>
+                        <p class="text-gray-400">The success of a security program depends on the behavior of many different people. Security training ensures employees understand risks and their role in minimizing them.</p>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold accent mb-2">Training</h3>
+                            <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                                <li>Formal programs requiring time to learn material</li>
+                                <li>Computer-based training (CBT)</li>
+                                <li><strong>Role-based training</strong> tailored to job responsibilities</li>
+                                <li>Sysadmins get different training than customer service reps</li>
+                            </ul>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold accent mb-2">Awareness</h3>
+                            <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                                <li>Less formal, designed to reinforce lessons</li>
+                                <li>Posters, videos, email messages</li>
+                                <li>Keeps security top-of-mind</li>
+                                <li>No commitment of time to learn new material</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 55: Phishing & Anomalous Behavior -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Phishing &amp; Anomalous Behavior Recognition</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Anti-Phishing Campaigns</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>Every security program should include specific anti-phishing training</li>
+                            <li><strong>Phishing simulations</strong> &mdash; send fake phishing messages to test employees</li>
+                            <li>Users who click are sent to additional training</li>
+                            <li>Train users to <strong>recognize</strong> suspicious messages and <strong>report</strong> them properly</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold accent mb-2">Anomalous Behavior Recognition</h3>
+                        <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                            <li>Train employees to recognize <strong>risky</strong>, <strong>unexpected</strong>, and <strong>unintentional</strong> behavior</li>
+                            <li>The insider threat from employees with legitimate access is significant</li>
+                            <li>Other employees may be the first to notice signs of anomalous behavior</li>
+                            <li>Create clear channels for reporting concerns</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 56: User Guidance & Training Topics -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">User Guidance &amp; Training Topics</h2>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold accent mb-1">Security Policies &amp; Handbooks</h3>
+                        <p class="text-sm text-gray-400">Inform users where to find critical security documents.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold accent mb-1">Situational Awareness</h3>
+                        <p class="text-sm text-gray-400">Update users on current threats and how to recognize suspicious activity.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold accent mb-1">Insider Threats</h3>
+                        <p class="text-sm text-gray-400">Remind users that employees and insiders can pose security risks. Be alert for anomalous behavior.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold accent mb-1">Password Management</h3>
+                        <p class="text-sm text-gray-400">Educate on password standards and the importance of not reusing passwords.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold accent mb-1">Removable Media &amp; Cables</h3>
+                        <p class="text-sm text-gray-400">Risks of USB drives, external media, and unfamiliar cables. Scan for malware.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold accent mb-1">Social Engineering</h3>
+                        <p class="text-sm text-gray-400">Recognize and respond to attacks. Be skeptical of unsolicited communications.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold accent mb-1">Operational Security</h3>
+                        <p class="text-sm text-gray-400">Protect sensitive information day-to-day. Don&rsquo;t discuss sensitive data in public areas.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold accent mb-1">Hybrid/Remote Work</h3>
+                        <p class="text-sm text-gray-400">VPNs, secure Wi-Fi, physical device security, and remote work policies.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 57: Training Program Lifecycle -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Training Program Lifecycle</h2>
+                <div class="space-y-4">
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold accent mb-2">Development</h3>
+                            <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                                <li>Assess the organization&rsquo;s security landscape</li>
+                                <li>Identify potential risks and threats</li>
+                                <li>Develop tailored content for unique challenges</li>
+                                <li>Incorporate real-world examples</li>
+                                <li>Align with organizational policies and procedures</li>
+                            </ul>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold accent mb-2">Execution</h3>
+                            <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                                <li>Use variety: workshops, e-learning, simulations</li>
+                                <li>Make training accessible and regular</li>
+                                <li>Initial training for new employees</li>
+                                <li>Periodic refreshers to keep knowledge current</li>
+                            </ul>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold accent mb-2">Reporting &amp; Monitoring</h3>
+                            <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                                <li>Track participation in training programs</li>
+                                <li>Assess knowledge through quizzes and tests</li>
+                                <li>Collect feedback from employees</li>
+                                <li>Provide reports to decision-makers</li>
+                                <li>Analyze trends in knowledge levels and incidents</li>
+                            </ul>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold accent mb-2">Frequency</h3>
+                            <ul class="text-sm text-gray-400 list-disc list-inside space-y-1">
+                                <li><strong>Initial:</strong> When joining the organization or assuming new responsibilities</li>
+                                <li><strong>Recurring:</strong> Annual refresher training</li>
+                                <li>Review and update materials regularly as the threat landscape evolves</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 58: Key Takeaways -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Key Takeaways</h2>
+                <div class="space-y-3">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <p class="text-gray-400"><strong class="accent">1.</strong> Governance programs ensure organizations achieve strategic objectives through procedures and controls. Know the difference between <strong>centralized</strong> and <strong>decentralized</strong> models.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <p class="text-gray-400"><strong class="accent">2.</strong> Policy frameworks consist of <strong>policies</strong> (mandatory, high-level), <strong>standards</strong> (mandatory, specific), <strong>procedures</strong> (mandatory, step-by-step), and <strong>guidelines</strong> (optional, advisory).</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <p class="text-gray-400"><strong class="accent">3.</strong> Change management uses a 6-step process (request, review, approve, test, implement, document) with <strong>backout plans</strong> and <strong>maintenance windows</strong>.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <p class="text-gray-400"><strong class="accent">4.</strong> Personnel controls include <strong>least privilege</strong>, <strong>separation of duties</strong>, <strong>two-person control</strong>, <strong>job rotation</strong>, and <strong>mandatory vacations</strong>.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <p class="text-gray-400"><strong class="accent">5.</strong> Third-party risk management covers the full vendor lifecycle: <strong>selection, assessment, agreements</strong> (SLA, MSA, MOU, MOA, NDA, BPA), <strong>monitoring</strong>, and <strong>wind-down</strong>.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <p class="text-gray-400"><strong class="accent">6.</strong> Know key regulations (HIPAA, PCI DSS, GLBA, SOX, GDPR, FERPA), consequences of noncompliance, and frameworks (NIST CSF/RMF, ISO 27001/27002/27701/31000).</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <p class="text-gray-400"><strong class="accent">7.</strong> Security awareness practices include phishing campaigns, anomalous behavior recognition, user guidance, and a training lifecycle of <strong>development, execution, reporting/monitoring</strong>.</p>
+                    </div>
+                </div>
+                <p class="text-sm text-gray-500 mt-6 text-center">CYBS 0189 Applied Cybersecurity II &mdash; New Mexico Tech &mdash; Spring 2026</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Navigation -->
+    <div class="fixed bottom-0 left-0 right-0 bg-zinc-900 border-t border-zinc-800 p-4 flex items-center justify-between z-50">
+        <button id="prevBtn" class="px-4 py-2 bg-zinc-700 hover:bg-zinc-600 rounded-lg text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-colors" disabled>Previous</button>
+        <div class="flex-1 mx-4">
+            <div class="h-2 bg-zinc-700 rounded-full overflow-hidden">
+                <div id="progressBar" class="h-full rounded-full transition-all duration-300" style="width: 1.72%; background-color: #1B365D;"></div>
+            </div>
+        </div>
+        <button id="nextBtn" class="px-4 py-2 rounded-lg text-sm font-medium text-white transition-colors hover:opacity-90" style="background-color: #1B365D;">Next</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const progressBar = document.getElementById('progressBar');
+            let currentSlide = 0;
+            const totalSlides = slides.length;
+
+            function showSlide(index) {
+                const activeSlide = document.querySelector('.slide.active');
+                if (activeSlide) activeSlide.classList.remove('active');
+                slides[index].classList.add('active');
+                const progressPercentage = ((index + 1) / totalSlides) * 100;
+                progressBar.style.width = progressPercentage + '%';
+                prevBtn.disabled = index === 0;
+                nextBtn.disabled = index === totalSlides - 1;
+                nextBtn.textContent = index === totalSlides - 1 ? 'Finish' : 'Next';
+            }
+
+            nextBtn.addEventListener('click', () => {
+                if (currentSlide < totalSlides - 1) {
+                    currentSlide++;
+                    showSlide(currentSlide);
+                }
+            });
+
+            prevBtn.addEventListener('click', () => {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    showSlide(currentSlide);
+                }
+            });
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight' && !nextBtn.disabled) {
+                    nextBtn.click();
+                } else if (e.key === 'ArrowLeft' && !prevBtn.disabled) {
+                    prevBtn.click();
+                }
+            });
+
+            showSlide(currentSlide);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CompTIA Security+ Ch. 3: Malicious Code</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #18181b; /* True Dark Grey (zinc-900) */
+            color: #e4e4e7; /* Light text */
+            overflow: hidden; /* Prevent scrolling the whole page */
+        }
+        .slide {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 80px; /* Space for navigation */
+            overflow-y: auto; /* Allow individual slides to scroll if content overflows */
+        }
+        .slide.active {
+            display: block;
+            opacity: 1;
+        }
+        /* Custom scrollbar for webkit browsers */
+        .slide::-webkit-scrollbar {
+            width: 8px;
+        }
+        .slide::-webkit-scrollbar-track {
+            background: #27272a;
+        }
+        .slide::-webkit-scrollbar-thumb {
+            background-color: #52525b;
+            border-radius: 10px;
+            border: 2px solid #27272a;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div id="presentation-container" class="relative w-full h-screen">
+
+        <!-- Slide 1: Title -->
+        <div class="slide active p-6 md:p-12 flex items-center justify-center">
+            <div class="text-center max-w-4xl mx-auto">
+                <h1 class="text-4xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-red-600 mb-4">CompTIA Security+ Chapter 3</h1>
+                <h2 class="text-2xl md:text-4xl font-bold text-gray-300 mb-8">Malicious Code</h2>
+                 <div class="bg-zinc-800 border border-zinc-700 rounded-lg p-6 inline-block">
+                    <p class="text-lg font-semibold text-gray-300">Exam Objectives: Domain 2.0 (Threats, Vulnerabilities, and Mitigations)</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Learning Objectives -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center text-gray-300">Learning Objectives</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-red-400 mb-2">🦠 Identify Malware Types</h3>
+                        <p class="text-gray-400">Learn to distinguish between Ransomware, Trojans, Worms, Viruses, Spyware, Keyloggers, Rootkits, Logic Bombs, and Bloatware.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-red-400 mb-2">🔍 Analyze Indicators of Compromise (IoCs)</h3>
+                        <p class="text-gray-400">Recognize the signs of malicious activity, such as C&C traffic, file encryption, lateral movement, and data exfiltration.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-red-400 mb-2">🛡️ Understand Mitigation Techniques</h3>
+                        <p class="text-gray-400">Explore methods to combat malware, including backups, user awareness, antimalware tools, and network segmentation.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-red-400 mb-2">🔬 Learn Malware Analysis</h3>
+                        <p class="text-gray-400">Discover basic techniques for analyzing malware using sandboxes, online tools, and code analysis.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: What are IoCs? -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-gray-300">What are Indicators of Compromise (IoCs)?</h2>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5 text-left mb-6">
+                    <p class="text-lg text-gray-300">IoCs are the digital "bread crumbs" or forensic evidence that indicate a potential security breach has occurred on a system or network.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-6 text-left">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-red-400 mb-3">Why They Matter</h3>
+                        <ul class="space-y-2 text-gray-400 list-disc list-inside">
+                            <li><strong>Detection:</strong> Help security tools and analysts identify ongoing attacks.</li>
+                            <li><strong>Response:</strong> Provide specific data to search for during an incident (e.g., "scan all PCs for this file hash").</li>
+                            <li><strong>Prevention:</strong> Can be fed into firewalls, proxies, and EDRs to block future attacks.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-red-400 mb-3">Common Categories</h3>
+                         <ul class="space-y-2 text-gray-400 list-disc list-inside">
+                            <li><strong>Network-based:</strong> Unusual traffic, connections to known bad IPs, strange DNS requests.</li>
+                            <li><strong>Host-based:</strong> Suspicious files (by name or hash), new registry keys, unexpected running processes.</li>
+                             <li><strong>Behavioral:</strong> A user account logging in at 3 AM, mass file deletions.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Ransomware -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Ransomware</h2>
+                <div class="bg-red-900/20 border border-red-500/30 rounded-lg p-4 text-center mb-6">
+                    <p class="text-lg text-red-300">Malware that takes over a computer and demands a ransom, often by encrypting files (crypto malware).</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-red-400 mb-3">Indicators of Compromise (IoCs)</h3>
+                        <ul class="space-y-2 text-gray-400 list-disc list-inside">
+                            <li>Command & Control (C&C) traffic</li>
+                            <li>Abnormal use of legitimate tools (e.g., PowerShell)</li>
+                            <li>Lateral movement attempts</li>
+                            <li>Mass file encryption</li>
+                            <li>Ransom notes on screen</li>
+                            <li>Large data exfiltration</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-red-400 mb-3">Mitigation</h3>
+                         <ul class="space-y-2 text-gray-400 list-disc list-inside">
+                            <li><strong>Effective, isolated backups</strong> are the #1 defense.</li>
+                            <li>Anti-ransomware & EDR tools</li>
+                            <li>User training against phishing</li>
+                            <li>Network segmentation</li>
+                            <li>Have a pre-defined response plan.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mt-6 bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                    <h4 class="text-lg font-semibold text-gray-300 mb-2">🚨 Real-World Example (2024): Black Basta</h4>
+                    <p class="text-gray-400">The <strong>Black Basta</strong> ransomware group targeted the Ascension health system, one of the largest in the U.S. The attack disrupted clinical operations across 140 hospitals, forcing them to divert ambulances and revert to paper records, highlighting the critical threat to public safety.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 5: Trojans -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Trojans (Trojan Horses)</h2>
+                <div class="bg-red-900/20 border border-red-500/30 rounded-lg p-4 text-center mb-6">
+                    <p class="text-lg text-red-300">Malware disguised as legitimate software. Relies on users running it to infect a system.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-red-400 mb-3">Indicators of Compromise (IoCs)</h3>
+                        <ul class="space-y-2 text-gray-400 list-disc list-inside">
+                            <li>Signatures of known malicious files</li>
+                            <li>C&C hostnames and IP addresses</li>
+                            <li>Unexpected new files or folders</li>
+                            <li>Unusual network traffic from a new "app"</li>
+                            <li><strong>Remote Access Trojans (RATs)</strong> provide full remote control.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-red-400 mb-3">Mitigation</h3>
+                         <ul class="space-y-2 text-gray-400 list-disc list-inside">
+                            <li>Security awareness training (don't download untrusted software!)</li>
+                            <li>Application whitelisting/control</li>
+                            <li>Antimalware/EDR tools</li>
+                            <li>Regularly review installed programs.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mt-6 bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                    <h4 class="text-lg font-semibold text-gray-300 mb-2">🎭 Real-World Example: Triada Trojan</h4>
+                    <p class="text-gray-400">The <strong>Triada Trojan</strong> was often bundled with modified versions of popular apps like WhatsApp. Once installed, it gathered device info, registered with a C&C server, and then downloaded further malicious modules to perform actions like displaying ads or signing the user up for paid subscriptions without their consent.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Worms -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Worms</h2>
+                <div class="bg-red-900/20 border border-red-500/30 rounded-lg p-4 text-center mb-6">
+                    <p class="text-lg text-red-300">Self-replicating malware that spreads automatically without user interaction, typically by exploiting vulnerabilities in network services.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-red-400 mb-3">Indicators of Compromise (IoCs)</h3>
+                        <ul class="space-y-2 text-gray-400 list-disc list-inside">
+                            <li>High volume of network scanning</li>
+                            <li>Unusual traffic patterns between internal systems</li>
+                            <li>Downloads from remote systems</li>
+                            <li>Use of system commands for injection</li>
+                            <li>Signs of a botnet (C&C traffic)</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-red-400 mb-3">Mitigation</h3>
+                         <ul class="space-y-2 text-gray-400 list-disc list-inside">
+                             <li><strong>Network segmentation and firewalls</strong> are critical to contain spread.</li>
+                            <li>Timely vulnerability patching</li>
+                            <li>Intrusion Prevention Systems (IPS)</li>
+                            <li>Disabling unnecessary services</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mt-6 bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                    <h4 class="text-lg font-semibold text-gray-300 mb-2">🍓 Real-World Example: Raspberry Robin</h4>
+                    <p class="text-gray-400">The <strong>Raspberry Robin</strong> worm initially spread via infected USB drives. Once active, it uses built-in Windows tools to move laterally across networks. It's often used as an initial access tool by ransomware gangs, dropping other malware once it has established a foothold.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Viruses -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Viruses</h2>
+                <div class="bg-red-900/20 border border-red-500/30 rounded-lg p-4 text-center mb-6">
+                    <p class="text-lg text-red-300">Malicious programs that attach to legitimate files or programs and require user action to activate and spread. Unlike worms, they don't self-propagate across networks.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-red-400 mb-3">Types of Viruses</h3>
+                        <ul class="space-y-2 text-gray-400 list-disc list-inside">
+                            <li><strong>Memory-resident:</strong> Stays in RAM.</li>
+                            <li><strong>Boot Sector:</strong> Infects the master boot record.</li>
+                            <li><strong>Macro:</strong> Lives in documents (e.g., Word, Excel).</li>
+                            <li><strong>Fileless:</strong> Lives only in memory, never writing to disk.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-red-400 mb-3">Mitigation</h3>
+                         <ul class="space-y-2 text-gray-400 list-disc list-inside">
+                            <li>Antimalware/Antivirus software</li>
+                            <li>User awareness (don't open strange attachments!)</li>
+                            <li>Patching browsers and plugins</li>
+                             <li><strong>Best Practice:</strong> Wipe and reimage infected machines.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mt-6 bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                    <h4 class="text-lg font-semibold text-gray-300 mb-2">👻 Real-World Example: Fileless Malware</h4>
+                    <p class="text-gray-400">An attacker sends a phishing email with a link. The user clicks, exploiting a browser vulnerability to run a script (like PowerShell) directly in memory. This script can then download other malware or steal data without ever writing a traditional malicious file to the hard drive, making it very difficult for signature-based antivirus to detect.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Spyware and Keyloggers -->
+        <div class="slide p-6 md:p-12">
+             <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Spyware & Keyloggers</h2>
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <div class="bg-red-900/20 border border-red-500/30 rounded-lg p-4">
+                        <h3 class="text-xl font-semibold text-red-400 mb-2 text-center">🕵️ Spyware</h3>
+                        <p class="text-red-300 text-center">Malware designed to obtain information about an individual, organization, or system.</p>
+                    </div>
+                    <div class="bg-red-900/20 border border-red-500/30 rounded-lg p-4">
+                        <h3 class="text-xl font-semibold text-red-400 mb-2 text-center">⌨️ Keyloggers</h3>
+                        <p class="text-red-300 text-center">A type of spyware that captures keystrokes, mouse input, and other user actions.</p>
+                    </div>
+                </div>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5 mb-6">
+                    <h3 class="text-xl font-semibold text-red-400 mb-3">Indicators & Mitigation</h3>
+                    <ul class="space-y-2 text-gray-400 list-disc list-inside">
+                        <li><strong>IoCs:</strong> Unexpected network traffic (data exfiltration), new processes disguised as system processes, browser injection attacks.</li>
+                        <li><strong>Mitigation:</strong> Anti-spyware/antimalware tools, user awareness, controlling software installation.</li>
+                        <li><strong>For Keyloggers:</strong> Multi-Factor Authentication (MFA) is a crucial defense.</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                    <h4 class="text-lg font-semibold text-gray-300 mb-2">📱 Real-World Example: Pegasus Spyware</h4>
+                    <p class="text-gray-400">Developed by the NSO Group, <strong>Pegasus</strong> is a powerful "zero-click" spyware that can infect iOS and Android devices without any user interaction. It can harvest texts, track calls, collect passwords, and activate the phone's camera and microphone, and is used for espionage against journalists, activists, and political figures.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Rootkits and Logic Bombs -->
+         <div class="slide p-6 md:p-12">
+             <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Rootkits & Logic Bombs</h2>
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <div class="bg-red-900/20 border border-red-500/30 rounded-lg p-4">
+                        <h3 class="text-xl font-semibold text-red-400 mb-2 text-center">👻 Rootkits</h3>
+                        <p class="text-red-300 text-center">Malware designed to gain administrative-level control over a system while hiding its presence.</p>
+                    </div>
+                    <div class="bg-red-900/20 border border-red-500/30 rounded-lg p-4">
+                        <h3 class="text-xl font-semibold text-red-400 mb-2 text-center">💣 Logic Bombs</h3>
+                        <p class="text-red-300 text-center">Malicious code that lies dormant until a specific condition is met (e.g., a certain date).</p>
+                    </div>
+                </div>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5 mb-6">
+                    <h3 class="text-xl font-semibold text-red-400 mb-3">Detection & Mitigation</h3>
+                    <ul class="space-y-2 text-gray-400 list-disc list-inside">
+                        <li><strong>Rootkits:</strong> Detection is hard because the OS can't be trusted. Best detected by scanning from a trusted, external system. Removal almost always requires a full system wipe.</li>
+                        <li><strong>Logic Bombs:</strong> Very difficult to detect. Mitigation relies on secure coding practices, code reviews, and strict change control processes.</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                    <h4 class="text-lg font-semibold text-gray-300 mb-2">🏧 Real-World Example: ATM Rootkit</h4>
+                    <p class="text-gray-400">Attackers have used rootkits on ATMs. The rootkit hides its presence and allows attackers to issue commands (often via a special card or code) to make the machine dispense cash on demand, a technique known as "jackpotting."</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 10: Bloatware -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Bloatware</h2>
+                <div class="bg-red-900/20 border border-red-500/30 rounded-lg p-4 text-center mb-6">
+                    <p class="text-lg text-red-300">Unwanted applications pre-installed on systems by manufacturers or bundled with other software. Not usually malicious, but creates security risks.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-red-400 mb-3">The Problem with Bloatware</h3>
+                        <ul class="space-y-2 text-gray-400 list-disc list-inside">
+                            <li>Wastes Resources</li>
+                            <li>Increases Attack Surface</li>
+                            <li>Privacy Concerns</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-red-400 mb-3">Mitigation</h3>
+                         <ul class="space-y-2 text-gray-400 list-disc list-inside">
+                            <li><strong>Best Practice:</strong> Wipe new devices and install a clean, standard corporate image.</li>
+                            <li>Manually uninstall unwanted applications.</li>
+                            <li>Be careful during software installation to uncheck bundled "offers."</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Interactive Activity -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-gray-300">Group Activity: Incident Response</h2>
+                <div class="bg-yellow-900/20 border border-yellow-500/30 rounded-lg p-5 text-left mb-6">
+                    <h3 class="text-xl font-semibold text-yellow-300 mb-3 text-center">Scenario</h3>
+                    <p class="text-yellow-200">A small accounting firm reports that their receptionist's computer is suddenly very slow. Later that day, the receptionist can't open any client files—they all have a `.LOCKED` extension. A note on the desktop demands a Bitcoin payment. Soon after, the main file server becomes inaccessible to everyone. Network monitoring tools show the receptionist's PC scanning the internal network and making strange connections to an IP address in Eastern Europe, `91.198.174.192`.</p>
+                </div>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5 text-left">
+                    <h3 class="text-xl font-semibold text-gray-300 mb-3 text-center">Your Task (10 minutes)</h3>
+                    <ul class="space-y-3 text-gray-400 list-decimal list-inside">
+                        <li><strong>Identify the Malware:</strong> What specific type(s) of malware are likely involved in this attack? Explain the role of each.</li>
+                        <li><strong>List the IoCs:</strong> What are the specific Indicators of Compromise mentioned in the scenario?</li>
+                        <li><strong>Propose a Response:</strong> What are the immediate first three steps the firm should take to mitigate the damage?</li>
+                        <li><strong>Recommend Prevention:</strong> What are two key preventative measures that could have stopped this attack?</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Malware Analysis: Sandboxes -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Malware Analysis: Sandboxes</h2>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 text-center mb-6">
+                    <p class="text-lg text-gray-300">Analysts use safe, isolated environments (sandboxes) to observe malware behavior without risking a real system.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-red-400 mb-3">Online Sandboxes (Easy & Fast)</h3>
+                        <ul class="space-y-4 text-gray-400 list-disc list-inside">
+                            <li><strong>VirusTotal:</strong> Upload a file/URL to scan it against dozens of AV engines and see community reports.</li>
+                            <li><strong>ANY.RUN:</strong> An interactive online sandbox to detonate malware and watch its actions in real-time.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-red-400 mb-3">Local Sandboxes (Powerful & Private)</h3>
+                         <ul class="space-y-4 text-gray-400 list-disc list-inside">
+                             <li><strong>Cuckoo Sandbox:</strong> An open-source, automated sandbox you set up yourself for detailed reports on file activity, network traffic, and API calls.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 13: Web-Based Analysis Tools -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Web-Based Analysis Tools</h2>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 text-center mb-6">
+                    <p class="text-lg text-gray-300">Beyond sandboxes, these public tools provide valuable threat intelligence and context.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-red-400 mb-3">Device & Service Discovery</h3>
+                        <ul class="space-y-4 text-gray-400 list-disc list-inside">
+                            <li><strong>Shodan.io:</strong> A search engine for internet-connected devices. Used to find vulnerable systems, exposed services, and even malware C&C servers.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-red-400 mb-3">URL & IP Reputation</h3>
+                         <ul class="space-y-4 text-gray-400 list-disc list-inside">
+                             <li><strong>URLScan.io:</strong> Scans a website and provides a detailed report of all resources, connections, and technologies used. Excellent for analyzing phishing links safely.</li>
+                             <li><strong>AbuseIPDB:</strong> A database of IP addresses that have been reported for malicious activity. Check if an IoC is a known bad actor.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 14: Key Exam Points -->
+        <div class="slide p-6 md:p-12 flex items-center justify-center">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center text-gray-300">Key Exam Points</h2>
+                <div class="space-y-4">
+                     <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-red-400 mb-2">🦠 Malware Distinctions</h3>
+                        <p class="text-gray-400">Know the key difference: A <strong>Trojan</strong> needs a user to run it. A <strong>Worm</strong> spreads by itself. A <strong>Virus</strong> attaches to files and needs user action to spread.</p>
+                    </div>
+                     <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-red-400 mb-2">🔍 Common IoCs</h3>
+                        <p class="text-gray-400">Be ready to identify C&C traffic, unexpected file encryption, lateral movement, data exfiltration, and unusual use of system tools (PowerShell, cmd.exe).</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-red-400 mb-2">👻 Stealthy Malware</h3>
+                        <p class="text-gray-400"><strong>Rootkits</strong> and <strong>Fileless Viruses</strong> are designed for stealth. Detection often requires out-of-band analysis (offline scans) or behavioral monitoring.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-red-400 mb-2">🛡️ Core Mitigation Strategy</h3>
+                        <p class="text-gray-400">For most significant malware infections (ransomware, rootkits), the safest mitigation is to <strong>wipe the system and restore from a known-good backup or image</strong>.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 15: Summary -->
+        <div class="slide p-6 md:p-12 flex items-center justify-center">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center text-gray-300 border-b-2 border-gray-600 pb-4">Chapter Summary</h2>
+                <div class="space-y-4">
+                     <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-red-400 mb-2">🔬 Know Your Malware</h3>
+                        <p class="text-gray-400">Each malware type has unique characteristics. Understanding if it self-propagates (worm), requires a user (Trojan/virus), encrypts files (ransomware), or hides itself (rootkit) is key to analysis.</p>
+                    </div>
+                     <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-red-400 mb-2">🎯 Indicators are Clues</h3>
+                        <p class="text-gray-400">Recognizing IoCs like strange network traffic, new files, or encrypted data allows you to identify and respond to an attack quickly.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-red-400 mb-2">🛡️ Defense in Depth</h3>
+                        <p class="text-gray-400">A combination of technical controls (antimalware, firewalls, patching) and human controls (user awareness) is the most effective defense.</p>
+                    </div>
+                    <div class="bg-red-900/50 border border-red-500/50 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-red-300 mb-2">🚨 Bottom Line</h3>
+                        <p class="text-gray-300">When an infection occurs, assume the worst. The most reliable path to a clean system is often to wipe and rebuild, not to attempt a risky and uncertain cleaning process.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Navigation -->
+    <div id="navigation" class="fixed bottom-0 left-0 right-0 h-20 bg-zinc-900/80 backdrop-blur-sm border-t border-zinc-700 flex items-center justify-center px-6">
+        <div class="w-full max-w-4xl flex items-center justify-between">
+            <button id="prevBtn" class="bg-zinc-700 text-white font-bold py-2 px-4 rounded-md hover:bg-zinc-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">Previous</button>
+            <div class="flex-grow mx-4">
+                 <div class="w-full bg-zinc-700 rounded-full h-2.5">
+                    <div id="progressBar" class="bg-red-600 h-2.5 rounded-full" style="width: 0%"></div>
+                </div>
+            </div>
+            <button id="nextBtn" class="bg-red-700 text-white font-bold py-2 px-4 rounded-md hover:bg-red-600 transition-colors">Next</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const progressBar = document.getElementById('progressBar');
+            let currentSlide = 0;
+            const totalSlides = slides.length;
+
+            function showSlide(index) {
+                const activeSlide = document.querySelector('.slide.active');
+                if (activeSlide) activeSlide.classList.remove('active');
+                slides[index].classList.add('active');
+                const progressPercentage = ((index + 1) / totalSlides) * 100;
+                progressBar.style.width = `${progressPercentage}%`;
+                prevBtn.disabled = index === 0;
+                nextBtn.disabled = index === totalSlides - 1;
+                nextBtn.textContent = index === totalSlides - 1 ? 'Finish' : 'Next';
+            }
+
+            nextBtn.addEventListener('click', () => {
+                if (currentSlide < totalSlides - 1) {
+                    currentSlide++;
+                    showSlide(currentSlide);
+                }
+            });
+
+            prevBtn.addEventListener('click', () => {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    showSlide(currentSlide);
+                }
+            });
+            
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight' && !nextBtn.disabled) {
+                    nextBtn.click();
+                } else if (e.key === 'ArrowLeft' && !prevBtn.disabled) {
+                    prevBtn.click();
+                }
+            });
+
+            showSlide(currentSlide);
+        });
+    </script>
+</body>
+</html>
+
+

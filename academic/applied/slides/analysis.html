@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Malware Analysis Lab</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #18181b; /* True Dark Grey (zinc-900) */
+            color: #e4e4e7; /* Light text */
+            overflow: hidden; /* Prevent scrolling the whole page */
+        }
+        .slide {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 80px; /* Space for navigation */
+            overflow-y: auto; /* Allow individual slides to scroll if content overflows */
+        }
+        .slide.active {
+            display: block;
+            opacity: 1;
+        }
+        /* Custom scrollbar for webkit browsers */
+        .slide::-webkit-scrollbar {
+            width: 8px;
+        }
+        .slide::-webkit-scrollbar-track {
+            background: #27272a;
+        }
+        .slide::-webkit-scrollbar-thumb {
+            background-color: #52525b;
+            border-radius: 10px;
+            border: 2px solid #27272a;
+        }
+        /* Styling for click-to-reveal */
+        summary {
+            cursor: pointer;
+            outline: none;
+        }
+        summary::-webkit-details-marker {
+            color: #4ade80; /* emerald-400 */
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div id="presentation-container" class="relative w-full h-screen">
+
+        <!-- Slide 1: Title -->
+        <div class="slide active p-6 md:p-12">
+            <div class="w-full h-full flex items-center justify-center">
+                <div class="text-center max-w-4xl mx-auto">
+                    <h1 class="text-4xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-500 mb-4">Malware Analysis Lab</h1>
+                    <h2 class="text-2xl md:text-4xl font-bold text-gray-300 mb-8">Hands-On Threat Intelligence</h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: File Hash -->
+        <div class="slide p-6 md:p-12">
+            <div class="w-full h-full flex flex-col items-center justify-center text-center">
+                 <h2 class="text-3xl md:text-4xl font-bold mb-8 text-gray-300">File Hash for Analysis</h2>
+                 <div class="bg-zinc-900 border border-zinc-700 rounded-lg p-6 w-full max-w-4xl">
+                    <code class="text-green-400 text-lg md:text-xl break-all">248fcc901aff4e4b4c48c91e4d78a939bf681c9a1bc24addc3551b32768f907b</code>
+                 </div>
+                 <p class="mt-6 text-gray-400">Use a tool like VirusTotal to search for this SHA-256 hash.</p>
+            </div>
+        </div>
+
+        <!-- Slide 3: Questions -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center text-gray-300">Lab Questions</h2>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-6">
+                    <ol class="space-y-4 text-gray-300 list-decimal list-inside text-lg">
+                        <li>What type of malware is this?</li>
+                        <li>What is the top-listed filename associated with this malware?</li>
+                        <li>What is the timestamp (YYYY-MM-DD HH:MM) of the first observation of this malware?</li>
+                        <li>What is the MITRE ID (TXXXX) of the local system data exfiltration conducted by this malware?</li>
+                        <li>What social media-related domain names did this malware connect to?</li>
+                        <li>What is the likely IP:PORT of the malware's C&C server?</li>
+                        <li>Which specific Windows DLL file was likely used for privilege escalation? (Hint: look for the detailed behavior of each known DLL.)</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 4: Answer Key -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center text-gray-300">Lab Answer Key</h2>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-6">
+                    <ol class="space-y-3 text-gray-300 text-lg list-decimal list-inside">
+                        <li><strong>Malware Type:</strong> <span class="text-green-400">Trojan / Info Stealer (RedStealer)</span></li>
+                        <li><strong>Filename:</strong> <span class="text-green-400">wextract.exe</span></li>
+                        <li><strong>First Observation:</strong> <span class="text-green-400">2023-10-06 04:41 UTC</span></li>
+                        <li><strong>MITRE ID (Exfiltration):</strong> <span class="text-green-400">T1005</span></li>
+                        <li><strong>Social Media Domains:</strong> <span class="text-green-400">facebook.com / facebook.net</span></li>
+                        <li><strong>C&C Server:</strong> <span class="text-green-400">77.91.124.55:19071</span></li>
+                        <li><strong>Privilege Escalation DLL:</strong> <span class="text-green-400">advapi32.dll</span></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Follow-Up Discussion -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center text-gray-300">Follow-Up Discussion</h2>
+                <div class="space-y-6">
+                    <details class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <summary class="text-xl font-semibold text-green-400 mb-2">1. How confident are you in each answer—and why might it be misleading?</summary>
+                        <p class="text-gray-400 text-sm mt-3">File hash (High), filename (Low), first-seen (Medium), domains (Low-Medium), IP:PORT (Medium), MITRE ID (Medium-High), DLL (Low-Medium). This separates solid IOCs from noisy ones.</p>
+                    </details>
+                    <details class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <summary class="text-xl font-semibold text-green-400 mb-2">2. If you could only take two actions right now, what would you do—and what’s the tradeoff?</summary>
+                        <p class="text-gray-400 text-sm mt-3">Add the hash to a deny list (low collateral damage). Watch/alert on connections to the suspicious IP:PORT (safer than blocking all of Facebook). This builds prioritization instincts and avoids self-inflicted outages.</p>
+                    </details>
+                    <details class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <summary class="text-xl font-semibold text-green-400 mb-2">3. Connect each IOC to a basic Sec+ control and the “so what?”</summary>
+                        <p class="text-gray-400 text-sm mt-3">Hash → AV/EDR blocklist ("Stops this exact file"). IP:PORT → Firewall/egress filter ("Catches data going to a bad server"). T1005 → DLP/Least Privilege ("Limits what can be stolen"). This ties indicators to concrete defenses.</p>
+                    </details>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+    <!-- Navigation -->
+    <div id="navigation" class="fixed bottom-0 left-0 right-0 h-20 bg-zinc-900/80 backdrop-blur-sm border-t border-zinc-700 flex items-center justify-center px-6">
+        <div class="w-full max-w-4xl flex items-center justify-between">
+            <button id="prevBtn" class="bg-zinc-700 text-white font-bold py-2 px-4 rounded-md hover:bg-zinc-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">Previous</button>
+            <div class="flex-grow mx-4">
+                 <div class="w-full bg-zinc-700 rounded-full h-2.5">
+                    <div id="progressBar" class="bg-green-600 h-2.5 rounded-full" style="width: 0%"></div>
+                </div>
+            </div>
+            <button id="nextBtn" class="bg-green-700 text-white font-bold py-2 px-4 rounded-md hover:bg-green-600 transition-colors">Next</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const progressBar = document.getElementById('progressBar');
+            let currentSlide = 0;
+            const totalSlides = slides.length;
+
+            function showSlide(index) {
+                const activeSlide = document.querySelector('.slide.active');
+                if (activeSlide) activeSlide.classList.remove('active');
+                slides[index].classList.add('active');
+                const progressPercentage = ((index + 1) / totalSlides) * 100;
+                progressBar.style.width = `${progressPercentage}%`;
+                prevBtn.disabled = index === 0;
+                nextBtn.disabled = index === totalSlides - 1;
+                nextBtn.textContent = index === totalSlides - 1 ? 'Finish' : 'Next';
+            }
+
+            nextBtn.addEventListener('click', () => {
+                if (currentSlide < totalSlides - 1) {
+                    currentSlide++;
+                    showSlide(currentSlide);
+                }
+            });
+
+            prevBtn.addEventListener('click', () => {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    showSlide(currentSlide);
+                }
+            });
+            
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight' && !nextBtn.disabled) {
+                    nextBtn.click();
+                } else if (e.key === 'ArrowLeft' && !prevBtn.disabled) {
+                    prevBtn.click();
+                }
+            });
+
+            showSlide(currentSlide);
+        });
+    </script>
+</body>
+</html>
+
+

@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Final Exam Review</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .slide-enter { animation: fadeIn 0.5s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .reveal-box { transition: all 0.3s ease; }
+        /* Custom scrollbar for essay content if needed */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #1f2937; }
+        ::-webkit-scrollbar-thumb { background: #4b5563; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #6b7280; }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100 h-screen overflow-hidden flex flex-col">
+
+    <!-- Header / Progress -->
+    <header class="bg-gray-800 border-b border-gray-700 p-4 flex justify-between items-center z-10">
+        <div class="flex items-center gap-3">
+            <i class="fas fa-shield-alt text-blue-400 text-xl"></i>
+            <h1 class="font-bold text-lg tracking-wide text-blue-100">Final Exam Review</h1>
+        </div>
+        <div class="text-sm text-gray-400 font-mono" id="slide-counter">1 / 10</div>
+    </header>
+
+    <!-- Main Slide Area -->
+    <main id="slide-container" class="flex-1 relative flex items-center justify-center p-4 md:p-8">
+        <!-- Content injected via JS -->
+    </main>
+
+    <!-- Navigation Controls -->
+    <footer class="bg-gray-800 border-t border-gray-700 p-4 z-10">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
+            <button onclick="prevSlide()" class="bg-gray-700 hover:bg-gray-600 text-white px-6 py-2 rounded-lg transition flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed" id="btn-prev">
+                <i class="fas fa-arrow-left"></i> Previous
+            </button>
+            
+            <div class="flex gap-2 text-gray-500 text-sm hidden sm:flex">
+                <span><kbd class="bg-gray-700 px-2 py-1 rounded">←</kbd> / <kbd class="bg-gray-700 px-2 py-1 rounded">→</kbd> to navigate</span>
+                <span class="mx-2">|</span>
+                <span><kbd class="bg-gray-700 px-2 py-1 rounded">Space</kbd> to reveal</span>
+            </div>
+
+            <button onclick="nextSlide()" class="bg-blue-600 hover:bg-blue-500 text-white px-6 py-2 rounded-lg transition flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed" id="btn-next">
+                Next <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+    </footer>
+
+    <script>
+        // --- DATA SOURCE ---
+        const slides = [
+            {
+                type: 'title',
+                title: "Final Exam Review Session",
+                subtitle: "Applied Cybersecurity I",
+                content: "This review covers key concepts from the 12 chapter quiz banks and prepares you for the essay scenarios."
+            },
+            // --- SECTION: MULTIPLE CHOICE ---
+            { type: 'section', title: "Section 1: Multiple Choice Practice", subtitle: "24 Questions - 2 points each" },
+            {
+                type: 'mc',
+                id: 1,
+                question: "Megan wants to prevent access to phones that are misplaced by members of her organization. Which of the following MDM control options is LEAST likely to help her protect phones that are misplaced?",
+                options: ["PINs", "Device encryption", "Remote wipe", "Application management"],
+                answer: "Application management",
+                explanation: "PINs, encryption, and remote wipe are direct controls for securing a lost/misplaced device. Application management controls software installation but does not directly secure the device against physical loss or unauthorized access to the device itself."
+            },
+            {
+                type: 'mc',
+                id: 2,
+                question: "What are the two most commonly deployed biometric authentication solutions for mobile devices?",
+                options: ["Voice recognition and face recognition", "Fingerprint recognition and gait recognition", "Face recognition and fingerprint recognition", "Voice recognition and fingerprint recognition"],
+                answer: "Face recognition and fingerprint recognition",
+                explanation: "Face ID/Face Unlock and Fingerprint sensors are the standard biometric features on modern smartphones."
+            },
+            {
+                type: 'mc',
+                id: 3,
+                question: "Casey wants to replace her organization's MPLS-based external connectivity using commodity technologies. What technology should she select to help her manage this?",
+                options: ["IPSec VPN", "SASE", "SD-WAN", "TLS VPN"],
+                answer: "SD-WAN",
+                explanation: "Software-Defined Wide Area Network (SD-WAN) is designed specifically to decouple the networking hardware from its control mechanism, allowing the use of commodity links (like broadband) to replace or augment expensive MPLS circuits."
+            },
+            {
+                type: 'mc',
+                id: 4,
+                question: "What protocol is used to securely wrap many otherwise insecure protocols?",
+                options: ["ISAKMP", "SSL", "IKE", "TLS"],
+                answer: "TLS",
+                explanation: "Transport Layer Security (TLS) is the modern standard for wrapping insecure protocols (like HTTP, FTP, SMTP) to provide encryption. SSL is the deprecated predecessor."
+            },
+            {
+                type: 'mc',
+                id: 5,
+                question: "What term is used to describe tools focused on detecting and responding to suspicious activities occurring on endpoints like desktops, laptops, and mobile devices?",
+                options: ["EDR", "IAM", "FDE", "ESC"],
+                answer: "EDR",
+                explanation: "EDR stands for Endpoint Detection and Response."
+            },
+            {
+                type: 'mc',
+                id: 6,
+                question: "Helen's organization is planning to deploy IoT devices across their buildings as part of a HVAC system. The vendor does not provide security updates. What security control should she recommend?",
+                options: ["Install host-based firewalls", "Deploy the IoT devices to a protected VLAN", "Install host-based IPS", "Disable the web interfaces"],
+                answer: "Deploy the IoT devices to a protected VLAN",
+                explanation: "Since the devices cannot be patched (and likely can't run host-based firewalls/IPS), network segmentation (VLANs) is the best control to isolate them from the rest of the network."
+            },
+            {
+                type: 'mc',
+                id: 7,
+                question: "Wanda is responsible for sensors at remote locations with low-bandwidth. She wants to place computing power on the sensors to preprocess data before sending it to the cloud. What term describes this?",
+                options: ["Edge computing", "Client-server computing", "Fog computing", "Thin client computing"],
+                answer: "Edge computing",
+                explanation: "Edge computing involves processing data near the source of data generation (the sensors/edge) rather than relying on a central cloud server."
+            },
+            {
+                type: 'mc',
+                id: 8,
+                question: "Helen hosts a payroll system in AWS and her customers access it through the web. What tier of cloud computing best describes Helen's service?",
+                options: ["PaaS", "SaaS", "FaaS", "IaaS"],
+                answer: "SaaS",
+                explanation: "Software as a Service (SaaS). The customers are consuming a finished software product over the web."
+            },
+            {
+                type: 'mc',
+                id: 9,
+                question: "Kathleen wants to discourage potential attackers from entering the facility she is responsible for. Which of the following is NOT a common control used for this type of preventive defense?",
+                options: ["Fences", "Lighting", "Platform diversity", "Video surveillance"],
+                answer: "Platform diversity",
+                explanation: "Platform diversity is a technical resilience strategy (using different OSs/Hardware), not a physical security control like fences or lighting."
+            },
+            {
+                type: 'mc',
+                id: 10,
+                question: "Mike wants to stop vehicles from traveling toward the entrance of his building. What physical security control should he implement?",
+                options: ["An air gap", "A hot aisle", "A robotic sentry", "A bollard"],
+                answer: "A bollard",
+                explanation: "Bollards are physical posts designed to stop vehicles from ramming into buildings or pedestrian areas."
+            },
+            {
+                type: 'mc',
+                id: 11,
+                question: "What type of cipher operates on one character of text at a time?",
+                options: ["Block cipher", "Bit cipher", "Stream cipher", "Balanced cipher"],
+                answer: "Stream cipher",
+                explanation: "Stream ciphers encrypt data one bit or byte (character) at a time, whereas block ciphers encrypt chunks of data."
+            },
+            {
+                type: 'mc',
+                id: 12,
+                question: "What type of cryptographic attack attempts to force a user to reduce the level of encryption that they use to communicate with a remote server?",
+                options: ["Birthday", "Frequency", "Downgrade", "Collision"],
+                answer: "Downgrade",
+                explanation: "A downgrade attack intentionally forces the negotiation of a connection down to a weaker, older, or unencrypted protocol version."
+            },
+            {
+                type: 'mc',
+                id: 13,
+                question: "Joe checks his web server logs and sees: <code class='bg-gray-800 p-1 rounded text-yellow-300'>id=892'; DROP TABLE users --</code>. What type of attack was attempted?",
+                options: ["Cross-site scripting", "Session hijacking", "Parameter pollution", "SQL Injection"],
+                answer: "SQL Injection",
+                explanation: "The payload <code>DROP TABLE</code> is a SQL command used to delete database tables. This is a classic SQL Injection attack. (Note: The exam paper options might have been incomplete, but 'SQL Injection' is the correct technical answer)."
+            },
+            {
+                type: 'mc',
+                id: 14,
+                question: "Chris is reviewing evidence where an attacker embedded JavaScript in a URL that a user clicked. The web page then sent the JavaScript to the user in the displayed page.",
+                options: ["Reflected XSS", "Stored XSS", "Persistent XSS", "DOM-based XSS"],
+                answer: "Reflected XSS",
+                explanation: "Reflected XSS occurs when the malicious script is 'reflected' off the web server (usually via a URL parameter) and executed immediately, without being stored in the database."
+            },
+            {
+                type: 'mc',
+                id: 15,
+                question: "Which element of the SCAP framework can be used to consistently describe vulnerabilities?",
+                options: ["CPE", "CVE", "CVSS", "CCE"],
+                answer: "CVE",
+                explanation: "Common Vulnerabilities and Exposures (CVE) provides a standard identifier for known cybersecurity vulnerabilities."
+            },
+            {
+                type: 'mc',
+                id: 16,
+                question: "Which one of the following values for the CVSS attack complexity metric would indicate that the specified attack is simplest to exploit?",
+                options: ["High", "Medium", "Low", "Severe"],
+                answer: "Low",
+                explanation: "Low attack complexity means there are few barriers to exploiting the vulnerability."
+            },
+            {
+                type: 'mc',
+                id: 17,
+                question: "Customers are asking about a new social media account operating under the company's brand, advertising cryptocurrency. What type of attack is this?",
+                options: ["Impersonation", "Brand impersonation", "Mis-branding", "Crypto-phishing"],
+                answer: "Brand impersonation",
+                explanation: "The attacker is mimicking the organization's brand identity on social media to deceive customers."
+            },
+            {
+                type: 'mc',
+                id: 18,
+                question: "Joanna wants to detect password spraying attacks. What type of rule should she deploy?",
+                options: ["Match attempts to log into many systems with the same username", "Match multiple attempts to log into the same user account", "Match repeated use of the same password for multiple usernames", "Match all attempts to use passwords with slight changes"],
+                answer: "Match repeated use of the same password during failed login attempts for multiple usernames",
+                explanation: "Password spraying avoids account lockouts by trying one common password (e.g., 'Summer2025!') against many different accounts."
+            },
+            {
+                type: 'mc',
+                id: 19,
+                question: "A system displays a message demanding payment in Bitcoin and claiming data has been encrypted. What malware is this?",
+                options: ["Worms", "A virus", "Ransomware", "Rootkit"],
+                answer: "Ransomware",
+                explanation: "Ransomware encrypts user data and demands payment for the decryption key."
+            },
+            {
+                type: 'mc',
+                id: 20,
+                question: "Matt uploads a malware sample to a scanner using multiple engines. He receives multiple different answers for what the malware package is. What has occurred?",
+                options: ["The package contains >1 malware", "Service misconfigured", "Malware is polymorphic", "Different vendors use different names"],
+                answer: "Different vendors use different names",
+                explanation: "There is no standardized naming convention for malware across all vendors. One might call it 'Trojan.Generic', another 'Win32/Emotet'."
+            },
+            {
+                type: 'mc',
+                id: 21,
+                question: "Wendy is scanning cloud-based repositories for sensitive information. Which would concern her most if found in a public repo?",
+                options: ["Product manuals", "Source code", "API keys", "Open source data"],
+                answer: "API keys",
+                explanation: "API keys allow immediate, often programmatic access to cloud resources and data, posing a critical security risk."
+            },
+            {
+                type: 'mc',
+                id: 22,
+                question: "Which one of the following attackers is most likely to be associated with an APT (Advanced Persistent Threat)?",
+                options: ["Nation-state actor", "Hacktivist", "Unskilled", "Insider"],
+                answer: "Nation-state actor",
+                explanation: "APTs are characterized by their sophistication and resources, typically associated with nation-state espionage."
+            },
+            {
+                type: 'mc',
+                id: 23,
+                question: "The attackers stole thousands of customer records from the organization's database. What cybersecurity principle was most impacted?",
+                options: ["Availability", "Nonrepudiation", "Confidentiality", "Integrity"],
+                answer: "Confidentiality",
+                explanation: "Confidentiality ensures that information is accessible only to those authorized to have access. Theft of data is a breach of confidentiality."
+            },
+            {
+                type: 'mc',
+                id: 24,
+                question: "Which one of the following is not a common goal of a cybersecurity attacker?",
+                options: ["Disclosure", "Denial", "Alteration", "Allocation"],
+                answer: "Allocation",
+                explanation: "The common goals correspond to the CIA triad (plus DAD: Disclosure, Alteration, Denial). 'Allocation' is not a standard attack goal."
+            },
+
+            // --- SECTION: ESSAY SCENARIOS ---
+            { type: 'section', title: "Section 2: Essay Scenarios", subtitle: "Preparation Guide for 5 Scenarios" },
+            {
+                type: 'essay',
+                title: "Topic 1: Social Engineering & Malware",
+                context: "Context: You will be presented with a scenario where an organization suffers a breach due to user interaction with a deceptive message.",
+                focus: [
+                    "Attack Vectors: Recognize different types of social engineering (e.g., Phishing, Vishing, Spoofing).",
+                    "Malware Types: Be able to identify malware based on its specific behavior (e.g., replicating, encrypting, or spying).",
+                    "Security Controls: Propose controls to prevent the attack (Technical, Operational, Managerial).",
+                    "Defense: Understand the critical role of data recovery strategies against destructive malware."
+                ],
+                tips: "Review the differences between Ransomware, Worms, and Trojans."
+            },
+            {
+                type: 'essay',
+                title: "Topic 2: Network & Physical Security",
+                context: "Context: You will analyze a small business network architecture and its physical environment.",
+                focus: [
+                    "Network Architecture: Understand the risks of non-segmented (flat) networks.",
+                    "Physical Security: Identify appropriate controls for protecting server hardware in public/semi-public spaces.",
+                    "Segmentation: Explain why different traffic types (Guest vs. Corporate) must be separated.",
+                    "Endpoint Protection: Recommend security measures for Point-of-Sale (POS) systems."
+                ],
+                tips: "Review concepts of Network Segmentation and Least Privilege."
+            },
+            {
+                type: 'essay',
+                title: "Topic 3: Authentication Hygiene",
+                context: "Context: You will evaluate an organization's current password and user authentication practices.",
+                focus: [
+                    "Password Attacks: Distinguish between Brute Force, Dictionary, and Spraying attacks.",
+                    "MFA: Explain the three factors of authentication (Knowledge, Possession, Inherence).",
+                    "Identity Verification: Propose methods beyond passwords to verify identity.",
+                    "Policy: Explain the security risks associated with shared credentials."
+                ],
+                tips: "Focus on Non-Repudiation and the benefits of MFA."
+            },
+            {
+                type: 'essay',
+                title: "Topic 4: Cloud Migration Strategy",
+                context: "Context: You will assess a business proposal to migrate data from on-premise storage to a cloud provider.",
+                focus: [
+                    "Cloud Benefits: Articulate advantages regarding Availability and Redundancy.",
+                    "Cloud Risks: Be prepared to discuss concerns regarding data control, privacy, and connectivity.",
+                    "Encryption: Explain the concept of data encryption at rest and in transit.",
+                    "Remote Access: Recommend secure protocols for accessing cloud resources from public networks."
+                ],
+                tips: "Review the Shared Responsibility Model and data protection standards."
+            },
+            {
+                type: 'essay',
+                title: "Topic 5: Incident Response",
+                context: "Context: You will act as IT support diagnosing a compromised workstation based on reported symptoms.",
+                focus: [
+                    "Malware Analysis: Differentiate between malware that mimics software (Trojans) and spyware.",
+                    "Incident Response Lifecycle: Memorize the 6 steps (Preparation, Identification, Containment, Eradication, Recovery, Lessons Learned).",
+                    "Indicators of Compromise (IoC): Identify physical or system-level signs of infection.",
+                    "Remediation: Provide advice on how to prevent future infections."
+                ],
+                tips: "Focus on the correct *order* of the Incident Response steps."
+            },
+            {
+                type: 'title',
+                title: "Good Luck!",
+                subtitle: "You've got this.",
+                content: "Review these slides and your notes. Focus on understanding the 'Why' behind every answer."
+            }
+        ];
+
+        // --- APP LOGIC ---
+        let currentIndex = 0;
+        const container = document.getElementById('slide-container');
+        const counter = document.getElementById('slide-counter');
+        const btnPrev = document.getElementById('btn-prev');
+        const btnNext = document.getElementById('btn-next');
+
+        function renderSlide(index) {
+            const slide = slides[index];
+            counter.innerText = `${index + 1} / ${slides.length}`;
+            
+            // Reset Container
+            container.innerHTML = '';
+            
+            const slideDiv = document.createElement('div');
+            slideDiv.className = "slide-enter w-full max-w-4xl bg-gray-800 rounded-xl shadow-2xl overflow-hidden border border-gray-700 min-h-[400px] flex flex-col";
+
+            let contentHTML = '';
+
+            // 1. TITLE SLIDE
+            if (slide.type === 'title') {
+                contentHTML = `
+                    <div class="flex-1 flex flex-col justify-center items-center p-12 text-center bg-gradient-to-br from-gray-800 to-gray-900">
+                        <h1 class="text-4xl md:text-6xl font-bold text-blue-400 mb-6">${slide.title}</h1>
+                        <h2 class="text-2xl text-gray-300 mb-8">${slide.subtitle}</h2>
+                        <p class="text-xl text-gray-400 max-w-2xl">${slide.content}</p>
+                    </div>
+                `;
+            }
+            // 2. SECTION HEADER
+            else if (slide.type === 'section') {
+                contentHTML = `
+                    <div class="flex-1 flex flex-col justify-center items-center p-12 text-center bg-blue-900">
+                        <h1 class="text-4xl font-bold text-white mb-4">${slide.title}</h1>
+                        <div class="w-24 h-1 bg-blue-400 mb-6"></div>
+                        <p class="text-xl text-blue-200">${slide.subtitle}</p>
+                    </div>
+                `;
+            }
+            // 3. MULTIPLE CHOICE
+            else if (slide.type === 'mc') {
+                const optionsHTML = slide.options.map((opt, i) => `
+                    <div class="flex items-center gap-3 p-3 rounded-lg border border-gray-700 hover:bg-gray-700 transition cursor-pointer group" onclick="revealAnswer()">
+                        <div class="w-6 h-6 rounded-full border-2 border-gray-500 group-hover:border-blue-400 flex items-center justify-center text-xs text-transparent group-hover:text-blue-400 font-bold">
+                            ${String.fromCharCode(65+i)}
+                        </div>
+                        <span class="text-lg">${opt}</span>
+                    </div>
+                `).join('');
+
+                contentHTML = `
+                    <div class="p-8 flex flex-col h-full">
+                        <div class="flex justify-between text-gray-400 text-sm mb-4 uppercase tracking-wider font-semibold">
+                            <span>Question ${slide.id}</span>
+                            <span>Multiple Choice</span>
+                        </div>
+                        <h2 class="text-2xl md:text-3xl font-semibold mb-8 text-blue-50">${slide.question}</h2>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                            ${optionsHTML}
+                        </div>
+
+                        <div class="mt-auto">
+                            <button id="reveal-btn" onclick="revealAnswer()" class="w-full md:w-auto bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-lg font-bold transition shadow-lg mb-4">
+                                <i class="fas fa-eye mr-2"></i> Reveal Answer
+                            </button>
+                            
+                            <div id="answer-box" class="hidden reveal-box bg-green-900/30 border border-green-700/50 p-6 rounded-lg">
+                                <div class="flex items-start gap-4">
+                                    <div class="bg-green-600 p-2 rounded-full mt-1"><i class="fas fa-check text-white"></i></div>
+                                    <div>
+                                        <p class="text-xl font-bold text-green-400 mb-2">${slide.answer}</p>
+                                        <p class="text-gray-300 leading-relaxed">${slide.explanation}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            // 4. ESSAY SCENARIO
+            else if (slide.type === 'essay') {
+                const focusList = slide.focus.map(item => `<li class="mb-3 text-lg"><i class="fas fa-angle-right text-blue-400 mr-2"></i>${item}</li>`).join('');
+                
+                contentHTML = `
+                    <div class="p-8 h-full flex flex-col">
+                        <div class="flex items-center gap-3 mb-6 border-b border-gray-700 pb-4">
+                            <i class="fas fa-pen-nib text-yellow-500 text-2xl"></i>
+                            <h2 class="text-2xl font-bold text-yellow-500">${slide.title}</h2>
+                        </div>
+                        
+                        <div class="bg-gray-700/50 p-4 rounded-lg mb-6 border-l-4 border-yellow-500">
+                            <p class="text-gray-300 italic text-lg">${slide.context}</p>
+                        </div>
+
+                        <div class="flex-1 overflow-y-auto">
+                            <h3 class="text-xl font-semibold text-blue-300 mb-4">Questions will require you to:</h3>
+                            <ul class="text-gray-200 mb-6 pl-2">
+                                ${focusList}
+                            </ul>
+                        </div>
+
+                        <div class="mt-4 bg-blue-900/30 p-4 rounded-lg border border-blue-800 flex items-center gap-3">
+                            <i class="fas fa-lightbulb text-yellow-400 text-xl"></i>
+                            <p class="text-blue-200 font-semibold">Study Tip: ${slide.tips}</p>
+                        </div>
+                    </div>
+                `;
+            }
+
+            slideDiv.innerHTML = contentHTML;
+            container.appendChild(slideDiv);
+
+            // Update button states
+            btnPrev.disabled = index === 0;
+            btnNext.disabled = index === slides.length - 1;
+        }
+
+        function revealAnswer() {
+            const box = document.getElementById('answer-box');
+            const btn = document.getElementById('reveal-btn');
+            if (box && box.classList.contains('hidden')) {
+                box.classList.remove('hidden');
+                btn.classList.add('hidden'); // Hide button after reveal
+            }
+        }
+
+        function nextSlide() {
+            if (currentIndex < slides.length - 1) {
+                currentIndex++;
+                renderSlide(currentIndex);
+            }
+        }
+
+        function prevSlide() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                renderSlide(currentIndex);
+            }
+        }
+
+        // Keyboard Navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+            if (e.key === ' ' || e.key === 'Enter') {
+                e.preventDefault();
+                revealAnswer();
+            }
+        });
+
+        // Touch Navigation (Swipe)
+        let touchStartX = 0;
+        let touchEndX = 0;
+        container.addEventListener('touchstart', e => touchStartX = e.changedTouches[0].screenX);
+        container.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            if (touchStartX - touchEndX > 50) nextSlide();
+            if (touchEndX - touchStartX > 50) prevSlide();
+        });
+
+        // Initial Render
+        renderSlide(0);
+    </script>
+</body>
+</html>

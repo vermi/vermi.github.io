@@ -1,0 +1,1716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Windows Security: From Sec+ Theory to the Microsoft Stack</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #18181b;
+        }
+        .slide {
+            display: none;
+            min-height: 100vh;
+            padding-bottom: 120px;
+        }
+        .slide.active {
+            display: flex;
+        }
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(to right, #f97316, #ef4444);
+            transition: width 0.3s ease;
+            z-index: 1000;
+        }
+        .nav-button { transition: all 0.2s; }
+        .nav-button:hover { transform: scale(1.05); }
+        ul { list-style-type: none; padding-left: 0; }
+        ul li:before {
+            content: "\25B8";
+            color: #f97316;
+            font-weight: bold;
+            display: inline-block;
+            width: 1.5em;
+            margin-left: 0;
+        }
+        code, .mono { font-family: 'JetBrains Mono', monospace; }
+        .img-placeholder {
+            background: repeating-linear-gradient(45deg, #27272a, #27272a 10px, #1f1f23 10px, #1f1f23 20px);
+            border: 2px dashed #f97316;
+            color: #fdba74;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-style: italic;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+        }
+    </style>
+</head>
+<body class="bg-zinc-900 text-gray-100">
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- ===== 1: Title ===== -->
+    <div class="slide active flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto text-center">
+            <h1 class="text-6xl font-bold mb-4 bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">
+                Windows Security
+            </h1>
+            <h2 class="text-3xl text-gray-300 mb-8">From Security+ Theory to the Microsoft Stack</h2>
+            <div class="w-32 h-1 bg-gradient-to-r from-orange-400 to-red-400 mx-auto mb-8"></div>
+            <p class="text-xl text-gray-400">You've studied the concepts. Now meet the operating system that runs most of the enterprise world.</p>
+        </div>
+    </div>
+
+    <!-- ===== 2: Why Windows ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Why Windows Matters</h2>
+            <div class="grid grid-cols-2 gap-5 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold mb-2 text-orange-300">Where the users are</h3>
+                    <p class="text-gray-300">Roughly 70% of desktop and laptop endpoints worldwide run Windows. The vast majority of corporate workstations you'll defend are Windows.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold mb-2 text-red-300">Where the attackers are</h3>
+                    <p class="text-gray-300">Most ransomware, most commodity malware, and most enterprise breaches target Windows endpoints &mdash; especially Active Directory.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold mb-2 text-orange-300">Where identity lives</h3>
+                    <p class="text-gray-300">Active Directory and Entra ID (Azure AD) are still the identity backbone for most enterprises. Compromise AD, you compromise everything.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold mb-2 text-red-300">Where you'll work</h3>
+                    <p class="text-gray-300">Help desk, SOC analyst, sysadmin, IR, pentester &mdash; every entry-level cyber role demands Windows fluency.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 3: Objectives ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Today's Objectives</h2>
+            <div class="grid grid-cols-2 gap-5 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold mb-2 text-orange-300">Architecture &amp; Accounts</h3>
+                    <p class="text-gray-300">How Windows is built, how identity works locally, and how it differs from the Linux model you already know.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold mb-2 text-red-300">Active Directory</h3>
+                    <p class="text-gray-300">Domains, OUs, trusts, Kerberos, NTLM, and how a domain controller becomes the crown jewel.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold mb-2 text-orange-300">Hardening &amp; Policy</h3>
+                    <p class="text-gray-300">Group Policy, password policy, the Windows Firewall, BitLocker, Defender, and the modern Microsoft security baseline.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold mb-2 text-red-300">Tooling &amp; Threats</h3>
+                    <p class="text-gray-300">Sysinternals, Event Viewer, PowerShell, and the attacks (PtH, Kerberoast, Mimikatz) every Windows defender must recognize.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 4: Linux to Windows mental model ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Linux &rarr; Windows: A Translation Guide</h2>
+            <div class="overflow-hidden rounded-lg">
+                <table class="w-full text-left text-lg">
+                    <thead class="bg-zinc-700 text-orange-300">
+                        <tr><th class="p-3">Linux concept</th><th class="p-3">Windows equivalent</th><th class="p-3">Note</th></tr>
+                    </thead>
+                    <tbody class="bg-zinc-800 divide-y divide-zinc-700 text-gray-300">
+                        <tr><td class="p-3 mono">root / sudo</td><td class="p-3">Administrator, SYSTEM, UAC elevation</td><td class="p-3">SYSTEM is more powerful than Administrator</td></tr>
+                        <tr><td class="p-3 mono">/etc/passwd, /etc/shadow</td><td class="p-3">SAM database, NTDS.dit (AD)</td><td class="p-3">Hashes, not passwords</td></tr>
+                        <tr><td class="p-3 mono">UID / GID</td><td class="p-3">SID (Security Identifier)</td><td class="p-3">Long string, globally unique</td></tr>
+                        <tr><td class="p-3 mono">chmod / POSIX bits</td><td class="p-3">NTFS ACLs (DACL/SACL)</td><td class="p-3">Far more granular than rwx</td></tr>
+                        <tr><td class="p-3 mono">systemd / init.d</td><td class="p-3">Services (services.msc)</td><td class="p-3">Run as accounts, configurable</td></tr>
+                        <tr><td class="p-3 mono">cron</td><td class="p-3">Task Scheduler</td><td class="p-3">Common malware persistence spot</td></tr>
+                        <tr><td class="p-3 mono">syslog / journalctl</td><td class="p-3">Event Viewer / Windows Event Log</td><td class="p-3">XML-based, channel-organized</td></tr>
+                        <tr><td class="p-3 mono">/etc config files</td><td class="p-3">Registry (HKLM, HKCU)</td><td class="p-3">Hierarchical, binary-backed</td></tr>
+                        <tr><td class="p-3 mono">bash</td><td class="p-3">PowerShell (cmd.exe is legacy)</td><td class="p-3">Object pipeline, not text</td></tr>
+                        <tr><td class="p-3 mono">iptables / nftables</td><td class="p-3">Windows Defender Firewall</td><td class="p-3">Profile-aware (Domain/Private/Public)</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 5: Part 1 Divider ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-6xl font-bold mb-6 bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">Part 1: Architecture &amp; Identity</h2>
+            <div class="w-24 h-1 bg-gradient-to-r from-orange-400 to-red-400 mx-auto mb-6"></div>
+            <p class="text-xl text-gray-400">How Windows is built, and who is allowed to do what</p>
+        </div>
+    </div>
+
+    <!-- ===== 6: Windows Architecture ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Windows Architecture, Briefly</h2>
+            <div class="grid grid-cols-2 gap-5 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold mb-2 text-orange-300">User Mode</h3>
+                    <p class="text-gray-300">Where applications, services, and most attacks live. Includes <span class="mono text-orange-200">explorer.exe</span>, <span class="mono text-orange-200">svchost.exe</span>, browsers, your PowerShell session.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold mb-2 text-red-300">Kernel Mode</h3>
+                    <p class="text-gray-300"><span class="mono text-red-200">ntoskrnl.exe</span>, drivers, hardware abstraction layer (HAL). Code here can do anything &mdash; rootkits and Pluton/Secure Boot defenses both target this layer.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold mb-2 text-orange-300">Local Security Authority (LSA)</h3>
+                    <p class="text-gray-300"><span class="mono text-orange-200">lsass.exe</span> validates logons and stores secrets in memory. Attackers love it. Windows now ships LSA Protection (RunAsPPL) on by default.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold mb-2 text-red-300">Subsystems</h3>
+                    <p class="text-gray-300">Win32 (apps), WSL2 (Linux kernel inside Windows), and the .NET runtime. Each is an attack surface.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 7: Editions ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Windows Editions You'll See</h2>
+            <div class="space-y-4 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold text-orange-300">Windows 11 Home</h3>
+                    <p class="text-gray-300">Consumer. <span class="font-bold">Cannot join a domain.</span> No Group Policy editor. BitLocker is the basic "Device Encryption" only.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold text-orange-300">Windows 11 Pro</h3>
+                    <p class="text-gray-300">Domain join, Group Policy, full BitLocker, Hyper-V, Windows Sandbox. The minimum bar for a workstation in a real environment.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold text-red-300">Windows 11 Enterprise / Education</h3>
+                    <p class="text-gray-300">Adds Credential Guard, Application Guard, AppLocker, WDAC, Defender for Endpoint integration, advanced telemetry control.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold text-red-300">Windows Server 2022 / 2025</h3>
+                    <p class="text-gray-300">Runs domain controllers, file servers, IIS, Hyper-V hosts. Server 2025 enables stronger NTLM blocking and Local KDC by default.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 8: Local Accounts & SIDs ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Local Accounts &amp; SIDs</h2>
+            <div class="bg-zinc-800 p-5 rounded-lg mb-4">
+                <p class="text-lg text-gray-300">Every security principal &mdash; user, group, computer &mdash; has a <span class="font-bold text-orange-300">Security Identifier (SID)</span>. The SID, not the name, is what Windows actually checks.</p>
+                <p class="mono text-sm text-orange-200 mt-3">S-1-5-21-3623811015-3361044348-30300820-1013</p>
+                <p class="text-sm text-gray-500 mt-1">Domain/machine identifier &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&rarr; RID</p>
+            </div>
+            <div class="grid grid-cols-2 gap-5 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold mb-2 text-orange-300">Well-known SIDs</h3>
+                    <ul class="text-gray-300 space-y-1 text-base">
+                        <li><span class="mono text-orange-200">S-1-5-18</span> &mdash; SYSTEM</li>
+                        <li><span class="mono text-orange-200">S-1-5-19</span> &mdash; LOCAL SERVICE</li>
+                        <li><span class="mono text-orange-200">S-1-5-20</span> &mdash; NETWORK SERVICE</li>
+                        <li><span class="mono text-orange-200">RID 500</span> &mdash; built-in Administrator</li>
+                        <li><span class="mono text-orange-200">RID 501</span> &mdash; Guest</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold mb-2 text-red-300">Where they live</h3>
+                    <p class="text-gray-300">Local accounts and password hashes live in the <span class="font-bold">SAM</span> hive on every machine (<span class="mono text-red-200">C:\Windows\System32\config\SAM</span>). Domain accounts live in <span class="mono text-red-200">NTDS.dit</span> on the domain controller.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 9: Built-in Groups ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Built-in Groups That Matter</h2>
+            <div class="space-y-3 text-lg">
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4 border-l-4 border-red-500">
+                    <span class="text-2xl text-red-400 font-bold mono shrink-0">Administrators</span>
+                    <p class="text-gray-300">Full local control. Can install drivers, change any setting, read any file. Treat membership like a loaded weapon.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4 border-l-4 border-red-500">
+                    <span class="text-2xl text-red-400 font-bold mono shrink-0">Domain Admins</span>
+                    <p class="text-gray-300">Administrator on every machine in the domain. The single most-targeted group in any breach.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4 border-l-4 border-orange-500">
+                    <span class="text-2xl text-orange-400 font-bold mono shrink-0">Users</span>
+                    <p class="text-gray-300">Standard logon rights, no admin power. This is where most accounts should live.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4 border-l-4 border-orange-500">
+                    <span class="text-2xl text-orange-400 font-bold mono shrink-0">Power Users</span>
+                    <p class="text-gray-300">Legacy. Microsoft kept the group for compatibility but it's largely equivalent to Users now &mdash; do not rely on it.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4 border-l-4 border-orange-500">
+                    <span class="text-2xl text-orange-400 font-bold mono shrink-0">Remote Desktop Users</span>
+                    <p class="text-gray-300">Allowed to log in via RDP. Audit aggressively &mdash; RDP is one of the most-attacked services on the internet.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4 border-l-4 border-red-500">
+                    <span class="text-2xl text-red-400 font-bold mono shrink-0">Backup Operators</span>
+                    <p class="text-gray-300">Can read &amp; write any file, bypassing ACLs, "for backup purposes." Effectively admin. Audit accordingly.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 10: NTFS Permissions ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">NTFS Permissions &amp; ACLs</h2>
+            <div class="bg-zinc-800 p-5 rounded-lg mb-4 text-lg">
+                <p class="text-gray-300">Every NTFS object (file, folder, registry key) carries an <span class="font-bold text-orange-300">ACL</span> made of <span class="font-bold">ACEs</span>. Each ACE says "principal X is allowed/denied permission Y." Far richer than Linux <span class="mono">rwx</span>.</p>
+            </div>
+            <div class="grid grid-cols-2 gap-5 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold mb-2 text-orange-300">Standard rights</h3>
+                    <ul class="text-gray-300 space-y-1 text-base">
+                        <li>Read</li>
+                        <li>Write</li>
+                        <li>Read &amp; Execute</li>
+                        <li>Modify</li>
+                        <li>Full Control (includes Take Ownership / Change Permissions)</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold mb-2 text-red-300">Inheritance &amp; Deny</h3>
+                    <p class="text-gray-300">Permissions <span class="font-bold">inherit</span> from parent folders by default. <span class="font-bold text-red-300">Deny ACEs win</span> over Allow. SACLs (System ACL) drive auditing &mdash; what gets logged in Event Viewer.</p>
+                    <p class="text-gray-400 mt-2 text-sm mono">icacls C:\Data /grant "Domain Users":(RX)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 11: UAC ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">User Account Control (UAC)</h2>
+            <div class="bg-zinc-800 p-5 rounded-lg mb-4 text-lg">
+                <p class="text-gray-300">When an admin logs in, Windows hands them <span class="font-bold text-orange-300">two tokens</span>: a standard one for normal work and a filtered <span class="font-bold">elevated</span> one. UAC is the prompt that swaps in the elevated token.</p>
+            </div>
+            <div class="grid grid-cols-2 gap-5 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold mb-2 text-orange-300">What UAC is</h3>
+                    <ul class="text-gray-300 space-y-1 text-base">
+                        <li>A least-privilege boundary, not a security boundary</li>
+                        <li>Triggered by elevation requests (manifest, RunAs)</li>
+                        <li>Configured via Control Panel or GPO</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold mb-2 text-red-300">What's coming: Administrator Protection</h3>
+                    <p class="text-gray-300">In Windows 11 25H2, Microsoft is rolling out <span class="font-bold">Administrator Protection</span>: admins run as standard users by default and use just-in-time, isolated admin tokens that don't persist. Goal: kill the entire UAC bypass class.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 12: Registry ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">The Registry</h2>
+            <div class="bg-zinc-800 p-5 rounded-lg mb-4 text-lg">
+                <p class="text-gray-300">A hierarchical key/value database storing OS, driver, and app configuration. Think of it as <span class="mono">/etc</span> + parts of <span class="mono">/proc</span> + parts of GConf, all merged.</p>
+            </div>
+            <div class="grid grid-cols-2 gap-4 text-base">
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-lg font-bold text-orange-300 mono">HKLM</h3>
+                    <p class="text-gray-300">Local Machine. System-wide settings: services, drivers, software policies. Requires admin to write.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-lg font-bold text-orange-300 mono">HKCU</h3>
+                    <p class="text-gray-300">Current User. Per-user preferences, including auto-run entries. Writable by the user &mdash; common malware home.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-lg font-bold text-red-300 mono">HKU</h3>
+                    <p class="text-gray-300">All user hives. HKCU is just a view onto the current user's subkey here.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-lg font-bold text-red-300 mono">HKCR / HKCC</h3>
+                    <p class="text-gray-300">File associations &amp; current hardware profile. Mostly views onto HKLM.</p>
+                </div>
+            </div>
+            <div class="bg-gradient-to-r from-orange-900/40 to-red-900/40 p-4 rounded-lg border border-orange-500 mt-4">
+                <p class="text-base text-orange-200">Notorious persistence keys: <span class="mono">HKCU\Software\Microsoft\Windows\CurrentVersion\Run</span> and the <span class="mono">RunOnce</span> sibling. Always check these.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 13: Services ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Services &amp; svchost</h2>
+            <div class="grid grid-cols-2 gap-5 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold mb-2 text-orange-300">What a service is</h3>
+                    <p class="text-gray-300">A long-running background process started by the Service Control Manager (SCM). Runs as a configured account: SYSTEM, LOCAL SERVICE, NETWORK SERVICE, or a custom user.</p>
+                    <p class="text-gray-400 mt-2 text-sm mono">services.msc &nbsp;|&nbsp; sc.exe query &nbsp;|&nbsp; Get-Service</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold mb-2 text-red-300">Why attackers care</h3>
+                    <ul class="text-gray-300 space-y-1 text-base">
+                        <li>Services start automatically &mdash; great persistence</li>
+                        <li>Misconfigured ACLs allow privilege escalation</li>
+                        <li><span class="mono">svchost.exe</span> hosts dozens of OS services &mdash; a perfect place to hide</li>
+                    </ul>
+                </div>
+            </div>
+            <img src="../winsec/services.png" alt="services.msc console" class="mt-5 rounded-lg w-full max-h-72 object-contain bg-zinc-950 p-2">
+
+        </div>
+    </div>
+
+    <!-- ===== 14: Event Viewer ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Event Viewer &amp; The Windows Event Log</h2>
+            <div class="bg-zinc-800 p-5 rounded-lg mb-4 text-lg">
+                <p class="text-gray-300">XML-structured logs grouped into <span class="font-bold text-orange-300">channels</span>. The four classic logs &mdash; Application, Security, System, Setup &mdash; are joined by hundreds of "Applications and Services" channels.</p>
+            </div>
+            <div class="space-y-3 text-base">
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4 border-l-4 border-orange-500">
+                    <span class="text-xl text-orange-400 font-bold mono shrink-0">4624 / 4625</span>
+                    <p class="text-gray-300">Successful / failed logon. Includes Logon Type (2 = interactive, 3 = network, 10 = RDP).</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4 border-l-4 border-orange-500">
+                    <span class="text-xl text-orange-400 font-bold mono shrink-0">4688</span>
+                    <p class="text-gray-300">Process creation. With command-line auditing enabled, this is gold for IR.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4 border-l-4 border-red-500">
+                    <span class="text-xl text-red-400 font-bold mono shrink-0">4672</span>
+                    <p class="text-gray-300">Special privileges assigned to a new logon &mdash; an admin just signed in.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4 border-l-4 border-red-500">
+                    <span class="text-xl text-red-400 font-bold mono shrink-0">4720 / 4732</span>
+                    <p class="text-gray-300">User account created / member added to a privileged group.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4 border-l-4 border-orange-500">
+                    <span class="text-xl text-orange-400 font-bold mono shrink-0">1102</span>
+                    <p class="text-gray-300">The audit log was cleared. Always investigate.</p>
+                </div>
+            </div>
+            <img src="../winsec/ev-logon.png" alt="Event Viewer logon event" class="mt-4 rounded-lg w-full max-h-64 object-contain bg-zinc-950 p-2">
+        </div>
+    </div>
+
+    <!-- ===== 15: PowerShell ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">PowerShell: Friend and Foe</h2>
+            <div class="bg-zinc-800 p-5 rounded-lg mb-4 text-lg">
+                <p class="text-gray-300">PowerShell is an object-pipeline shell and scripting language. It is the standard admin interface for Windows and AD &mdash; and the most-abused offensive tool on the platform.</p>
+            </div>
+            <div class="grid grid-cols-2 gap-5 text-base">
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-lg font-bold mb-2 text-orange-300">Useful right now</h3>
+                    <pre class="mono text-orange-200 text-sm whitespace-pre-wrap">Get-Process | Sort-Object CPU -Desc
+Get-Service | Where Status -eq Running
+Get-LocalUser
+Get-EventLog Security -Newest 50
+Get-NetTCPConnection -State Listen</pre>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-lg font-bold mb-2 text-red-300">Defense settings</h3>
+                    <ul class="text-gray-300 space-y-1">
+                        <li>Execution policy (a speed bump, not security)</li>
+                        <li>Constrained Language Mode</li>
+                        <li>Script Block Logging (Event 4104)</li>
+                        <li>Module Logging</li>
+                        <li>Transcription</li>
+                        <li>AMSI &mdash; scans script content as it runs</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 16: Part 2 Divider ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-6xl font-bold mb-6 bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">Part 2: Active Directory</h2>
+            <div class="w-24 h-1 bg-gradient-to-r from-orange-400 to-red-400 mx-auto mb-6"></div>
+            <p class="text-xl text-gray-400">The directory that runs the enterprise &mdash; and the prize attackers want most</p>
+        </div>
+    </div>
+
+    <!-- ===== 17: Workgroup vs Domain ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Workgroup vs. Domain</h2>
+            <div class="grid grid-cols-2 gap-5 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold mb-2 text-orange-300">Workgroup</h3>
+                    <ul class="text-gray-300 space-y-1 text-base">
+                        <li>Peer-to-peer; no central authority</li>
+                        <li>Each PC has its own SAM and accounts</li>
+                        <li>You manage every machine individually</li>
+                        <li>Fine for &lt;10 machines, painful past that</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold mb-2 text-red-300">Domain</h3>
+                    <ul class="text-gray-300 space-y-1 text-base">
+                        <li>Centralized authentication via Domain Controllers</li>
+                        <li>One account works on every joined machine</li>
+                        <li>Group Policy pushes settings to thousands of PCs</li>
+                        <li>Foundation of Active Directory &mdash; what enterprises use</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="bg-gradient-to-r from-orange-900/40 to-red-900/40 p-4 rounded-lg border border-orange-500 mt-5">
+                <p class="text-lg text-center text-orange-200">"Joining a domain" means: this PC trusts the DCs to authenticate users and accepts policy from them.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 18: AD Structure ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">AD Structure: Forest &rarr; Domain &rarr; OU</h2>
+            <div class="space-y-4 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold text-red-300">Forest</h3>
+                    <p class="text-gray-300">The top-level security boundary in AD. One or more domain trees that share a schema and global catalog. <span class="font-bold">Cross-forest trust is the real trust boundary.</span></p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold text-orange-300">Domain</h3>
+                    <p class="text-gray-300">A namespace and replication unit (e.g. <span class="mono">corp.contoso.com</span>). Holds users, computers, groups. Contains its own DCs.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold text-orange-300">Organizational Unit (OU)</h3>
+                    <p class="text-gray-300">A container inside a domain for organizing objects. The unit you target with <span class="font-bold">Group Policy</span> and delegated administration.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold text-orange-300">Objects</h3>
+                    <p class="text-gray-300">Users, Groups, Computers, Service Accounts, GPOs, Printers. Each has attributes and a SID.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 19: Domain Controllers ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Domain Controllers</h2>
+            <div class="grid grid-cols-2 gap-5 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold mb-2 text-orange-300">What a DC does</h3>
+                    <ul class="text-gray-300 space-y-1 text-base">
+                        <li>Authenticates users and computers</li>
+                        <li>Issues Kerberos tickets</li>
+                        <li>Hosts the AD database (<span class="mono">NTDS.dit</span>)</li>
+                        <li>Replicates with other DCs</li>
+                        <li>Hosts SYSVOL (where GPOs live)</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold mb-2 text-red-300">Why DCs are sacred</h3>
+                    <p class="text-gray-300">A DC contains every credential in the domain. Compromising one = compromising the entire domain. Protect with: physical security, separate Tier-0 admins, no general-purpose software, no internet browsing, dedicated jump hosts (PAW &mdash; Privileged Access Workstations).</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 20: AD Tools ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">AD Admin Tools You'll Touch</h2>
+            <div class="space-y-3 text-lg">
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold text-orange-300 mono">dsa.msc &mdash; Active Directory Users and Computers</h3>
+                    <p class="text-gray-300">Create/manage users, groups, OUs. The classic GUI.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold text-orange-300 mono">gpmc.msc &mdash; Group Policy Management Console</h3>
+                    <p class="text-gray-300">Create and link GPOs to OUs/domains/sites.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold text-red-300 mono">PowerShell: ActiveDirectory module</h3>
+                    <p class="text-gray-300"><span class="mono text-red-200">Get-ADUser, New-ADUser, Get-ADGroupMember, Set-ADAccountPassword</span></p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold text-orange-300 mono">RSAT</h3>
+                    <p class="text-gray-300">Remote Server Administration Tools &mdash; lets a workstation manage AD without logging into the DC. Standard for sysadmins.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold text-red-300 mono">ADUC vs. AD Admin Center</h3>
+                    <p class="text-gray-300">AC has the recycle bin, fine-grained password policies UI, and a PowerShell history pane. ADUC is faster muscle-memory.</p>
+                </div>
+            </div>
+            <img src="../winsec/aduc.jpg" alt="Active Directory Users and Computers" class="mt-4 rounded-lg w-full max-h-64 object-contain bg-zinc-950 p-2">
+        </div>
+    </div>
+
+    <!-- ===== 21: Authentication overview ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Authentication on Windows</h2>
+            <div class="grid grid-cols-2 gap-5 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold mb-2 text-orange-300">Kerberos (preferred)</h3>
+                    <ul class="text-gray-300 space-y-1 text-base">
+                        <li>Used in domains since Windows 2000</li>
+                        <li>Ticket-based, mutual authentication</li>
+                        <li>No password ever leaves the DC after the first request</li>
+                        <li>UDP/TCP 88, plus 464 for password change</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold mb-2 text-red-300">NTLM (legacy)</h3>
+                    <ul class="text-gray-300 space-y-1 text-base">
+                        <li>Challenge/response, no central authority needed</li>
+                        <li>Used for local logons, non-domain resources, older protocols</li>
+                        <li>Vulnerable to relay and pass-the-hash</li>
+                        <li>Microsoft is actively phasing it out</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 22: Kerberos ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Kerberos in 90 Seconds</h2>
+            <div class="space-y-3 text-lg">
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4">
+                    <span class="text-2xl text-orange-400 font-bold shrink-0">1</span>
+                    <p class="text-gray-300"><span class="font-bold text-orange-300">AS-REQ / AS-REP</span>: User proves they know the password. KDC (the DC) hands back a <span class="font-bold">TGT</span> (Ticket Granting Ticket) encrypted with the krbtgt account's key.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4">
+                    <span class="text-2xl text-orange-400 font-bold shrink-0">2</span>
+                    <p class="text-gray-300"><span class="font-bold text-orange-300">TGS-REQ / TGS-REP</span>: User presents the TGT and asks for a service ticket for, say, a file share. KDC returns a service ticket encrypted with the target service's key.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4">
+                    <span class="text-2xl text-orange-400 font-bold shrink-0">3</span>
+                    <p class="text-gray-300"><span class="font-bold text-orange-300">AP-REQ</span>: User presents the service ticket directly to the file server. Server decrypts it with its own key and grants access.</p>
+                </div>
+            </div>
+            <div class="bg-gradient-to-r from-orange-900/40 to-red-900/40 p-4 rounded-lg border border-orange-500 mt-4">
+                <p class="text-base text-orange-200">Two attack-relevant facts: <span class="font-bold">krbtgt</span>'s hash signs every TGT (golden ticket), and <span class="font-bold">service tickets</span> are encrypted with the service account's password hash (kerberoasting).</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 23: NTLM phaseout ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">The NTLM Phase-Out (Happening Now)</h2>
+            <div class="space-y-3 text-lg">
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4 border-l-4 border-orange-500">
+                    <span class="text-xl text-orange-400 font-bold shrink-0">Phase 1</span>
+                    <p class="text-gray-300">Audit. Windows 11 24H2 and Server 2025 ship enhanced NTLM auditing so admins can find what still uses it.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4 border-l-4 border-orange-500">
+                    <span class="text-xl text-orange-400 font-bold shrink-0">Phase 2</span>
+                    <p class="text-gray-300"><span class="font-bold">IAKerb</span> lets Kerberos work even when the client can't reach a DC directly. <span class="font-bold">Local KDC</span> brings Kerberos to local accounts &mdash; killing the most common reason NTLM fires.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4 border-l-4 border-red-500">
+                    <span class="text-xl text-red-400 font-bold shrink-0">Phase 3</span>
+                    <p class="text-gray-300">Network NTLM disabled by default. Re-enabling requires explicit policy. NTLMv1 is being force-blocked October 2026.</p>
+                </div>
+            </div>
+            <div class="bg-zinc-800 p-4 rounded-lg mt-4 text-base text-gray-300">
+                <span class="font-bold text-red-300">Why it matters:</span> NTLM relay attacks (PetitPotam, Coerce, etc.) have driven dozens of major breaches. Killing NTLM kills an entire attack class.
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 24: Hashes ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Where Credentials Live (and Leak)</h2>
+            <div class="space-y-3 text-lg">
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold text-orange-300">SAM &mdash; local accounts on every PC</h3>
+                    <p class="text-gray-300">Stores NT hashes (MD4 of the UTF-16 password). Only readable as SYSTEM. Tools like Mimikatz dump it.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold text-red-300">NTDS.dit &mdash; the entire AD</h3>
+                    <p class="text-gray-300">Every domain user's hash, on every DC. The crown jewels file. Read-protected by SYSTEM and the DC's BootKey.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold text-orange-300">LSASS process memory</h3>
+                    <p class="text-gray-300">Holds tickets, hashes, and (historically) cleartext passwords for currently logged-on users. Defended by LSA Protection (RunAsPPL) and Credential Guard.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold text-orange-300">DPAPI vault</h3>
+                    <p class="text-gray-300">Per-user encrypted blob storage: browser passwords, RDP creds, Wi-Fi keys. Decryptable as the user.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 25: Part 3 Divider ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-6xl font-bold mb-6 bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">Part 3: Group Policy &amp; Hardening</h2>
+            <div class="w-24 h-1 bg-gradient-to-r from-orange-400 to-red-400 mx-auto mb-6"></div>
+            <p class="text-xl text-gray-400">How thousands of machines stay configured the same way</p>
+        </div>
+    </div>
+
+    <!-- ===== 26: Group Policy ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Group Policy: What &amp; Why</h2>
+            <div class="bg-zinc-800 p-5 rounded-lg mb-4 text-lg">
+                <p class="text-gray-300">A <span class="font-bold text-orange-300">Group Policy Object (GPO)</span> is a bundle of settings &mdash; security, software, scripts, registry &mdash; that AD pushes to users and computers. The most powerful management tool in the Windows world.</p>
+            </div>
+            <div class="grid grid-cols-2 gap-5 text-base">
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-lg font-bold mb-2 text-orange-300">Computer Configuration</h3>
+                    <p class="text-gray-300">Applies at boot. Settings about the machine itself: services, firewall rules, BitLocker, security options, software install, logon scripts.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-lg font-bold mb-2 text-red-300">User Configuration</h3>
+                    <p class="text-gray-300">Applies at logon. Settings that follow the user: drive maps, printers, redirected folders, desktop restrictions, browser policy.</p>
+                </div>
+            </div>
+            <div class="bg-zinc-800 p-4 rounded-lg mt-4 text-base text-gray-300">
+                Refresh: every 90 minutes (with random offset) on workstations, every 5 on DCs. Force with <span class="mono text-orange-200">gpupdate /force</span>.
+            </div>
+            <img src="../winsec/gpmc.JPG" alt="Group Policy Management Console" class="mt-4 rounded-lg w-full max-h-64 object-contain bg-zinc-950 p-2">
+        </div>
+    </div>
+
+    <!-- ===== 27: GPO Order ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">GPO Processing Order: LSDOU</h2>
+            <div class="space-y-3 text-lg">
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4 border-l-4 border-orange-500">
+                    <span class="text-2xl text-orange-400 font-bold shrink-0 mono">L</span>
+                    <p class="text-gray-300"><span class="font-bold">Local</span> &mdash; the machine's own Local Group Policy. Applied first.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4 border-l-4 border-orange-500">
+                    <span class="text-2xl text-orange-400 font-bold shrink-0 mono">S</span>
+                    <p class="text-gray-300"><span class="font-bold">Site</span> &mdash; AD-site-linked GPOs. Useful for VPN, geo-specific rules.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4 border-l-4 border-orange-500">
+                    <span class="text-2xl text-orange-400 font-bold shrink-0 mono">D</span>
+                    <p class="text-gray-300"><span class="font-bold">Domain</span> &mdash; GPOs linked to the domain root. Affects everyone.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4 border-l-4 border-red-500">
+                    <span class="text-2xl text-red-400 font-bold shrink-0 mono">OU</span>
+                    <p class="text-gray-300"><span class="font-bold">Organizational Unit</span> &mdash; closest OU wins by default. Last writer, last word.</p>
+                </div>
+            </div>
+            <div class="bg-gradient-to-r from-orange-900/40 to-red-900/40 p-4 rounded-lg border border-orange-500 mt-4">
+                <p class="text-base text-orange-200">Modifiers: <span class="font-bold">Block Inheritance</span> stops parent GPOs. <span class="font-bold">Enforced</span> overrides Block Inheritance. <span class="font-bold">Security Filtering</span> targets specific groups. Use <span class="mono">gpresult /h</span> to see what actually applied.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 28: Password policy ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Password Policy via GPO</h2>
+            <div class="bg-zinc-800 p-5 rounded-lg mb-4 text-base text-gray-300">
+                Configured at <span class="mono text-orange-200">Computer Config &rarr; Policies &rarr; Windows Settings &rarr; Security Settings &rarr; Account Policies &rarr; Password Policy</span>. The <span class="font-bold">Default Domain Policy</span> is the canonical place for the domain-wide policy.
+            </div>
+            <div class="grid grid-cols-2 gap-4 text-base">
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-lg font-bold text-orange-300">Length</h3>
+                    <p class="text-gray-300">Modern guidance: 14+ characters. Microsoft baseline allows up to 128.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-lg font-bold text-orange-300">Complexity</h3>
+                    <p class="text-gray-300">Three of four character classes if enabled. NIST SP 800-63B no longer requires this if length is sufficient.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-lg font-bold text-orange-300">History</h3>
+                    <p class="text-gray-300">Remember last 24 passwords; prevent reuse.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-lg font-bold text-red-300">Age (max)</h3>
+                    <p class="text-gray-300">Modern NIST guidance: <span class="font-bold">don't</span> force periodic rotation unless compromise is suspected. Microsoft's baseline removed mandatory rotation in 2019.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-lg font-bold text-orange-300">Min age</h3>
+                    <p class="text-gray-300">Set to 1+ day so users can't cycle back to the old password.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-lg font-bold text-red-300">Reversibly encrypted</h3>
+                    <p class="text-gray-300">Always Disabled. Yes, the option still exists.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 29: Account lockout ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Account Lockout</h2>
+            <div class="bg-zinc-800 p-5 rounded-lg mb-4 text-lg">
+                <p class="text-gray-300">Slows brute-force and password spraying. Tune carefully &mdash; too aggressive = self-inflicted denial of service.</p>
+            </div>
+            <div class="grid grid-cols-3 gap-4 text-base">
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-lg font-bold text-orange-300">Threshold</h3>
+                    <p class="text-gray-300">Microsoft baseline: <span class="font-bold">10</span> bad attempts. (0 = never lock, dangerous.)</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-lg font-bold text-orange-300">Duration</h3>
+                    <p class="text-gray-300">15 minutes is standard. Auto-unlocks afterward.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-lg font-bold text-orange-300">Reset counter</h3>
+                    <p class="text-gray-300">15 minutes &mdash; how long bad attempts are remembered.</p>
+                </div>
+            </div>
+            <div class="bg-zinc-800 p-4 rounded-lg mt-4 text-base text-gray-300">
+                <span class="font-bold text-orange-300">Newer hotness:</span> Windows 11 also gates the built-in Administrator account behind a default lockout policy &mdash; closing one of the oldest brute-force vectors.
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 30: Fine-grained password policy ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Fine-Grained Password Policies (FGPP)</h2>
+            <div class="bg-zinc-800 p-5 rounded-lg mb-4 text-lg">
+                <p class="text-gray-300">A domain has one Default Domain Policy &mdash; but you often want admins to have stricter rules than ordinary users. FGPP solves this with <span class="font-bold text-orange-300">Password Settings Objects (PSOs)</span> applied to specific groups.</p>
+            </div>
+            <div class="grid grid-cols-2 gap-5 text-base">
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-lg font-bold mb-2 text-orange-300">Use cases</h3>
+                    <ul class="text-gray-300 space-y-1">
+                        <li>Tier-0 admins: 25-char minimum</li>
+                        <li>Service accounts: very long, never expires</li>
+                        <li>Help desk: stricter lockout</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-lg font-bold mb-2 text-red-300">Where to configure</h3>
+                    <p class="text-gray-300">AD Administrative Center &rarr; System &rarr; Password Settings Container. Apply via group membership, not OU.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 31: Security baseline ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Microsoft Security Baseline</h2>
+            <div class="bg-zinc-800 p-5 rounded-lg mb-4 text-lg">
+                <p class="text-gray-300">A free, Microsoft-published bundle of GPOs and Intune policies that hardens Windows to a sensible default. The 2026 baseline tracks Windows 11 25H2 and Server 2025.</p>
+            </div>
+            <div class="grid grid-cols-2 gap-5 text-base">
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-lg font-bold mb-2 text-orange-300">What it hardens</h3>
+                    <ul class="text-gray-300 space-y-1">
+                        <li>NetBIOS &amp; LLMNR &mdash; disabled</li>
+                        <li>SMB signing &mdash; required</li>
+                        <li>NTLM &mdash; audit, then restrict</li>
+                        <li>Defender ASR rules</li>
+                        <li>BitLocker &amp; Credential Guard</li>
+                        <li>Print Spooler hardening</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-lg font-bold mb-2 text-red-300">Get it / compare it</h3>
+                    <ul class="text-gray-300 space-y-1">
+                        <li>Microsoft Security Compliance Toolkit</li>
+                        <li><span class="mono">PolicyAnalyzer.exe</span> diffs your GPOs against baseline</li>
+                        <li>Also see CIS Benchmarks &mdash; community equivalent</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 32: Windows Firewall ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Windows Defender Firewall</h2>
+            <div class="bg-zinc-800 p-5 rounded-lg mb-4 text-lg">
+                <p class="text-gray-300">Host-based, stateful, and on by default. Far more capable than people assume &mdash; per-app, per-protocol, with three independent profiles.</p>
+            </div>
+            <div class="grid grid-cols-3 gap-4 text-base">
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-lg font-bold text-orange-300">Domain</h3>
+                    <p class="text-gray-300">Active when the PC sees its DC. Usually most permissive (file shares, RDP for admins).</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-lg font-bold text-orange-300">Private</h3>
+                    <p class="text-gray-300">Trusted home network. Discovery on, sharing optional.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-lg font-bold text-red-300">Public</h3>
+                    <p class="text-gray-300">Coffee shops, airports. Strict &mdash; almost everything inbound denied.</p>
+                </div>
+            </div>
+            <div class="bg-zinc-800 p-4 rounded-lg mt-4 text-base">
+                <p class="text-gray-300"><span class="font-bold text-orange-300">Two console choices:</span> Settings app (basic) and <span class="mono">wf.msc</span> &mdash; Windows Firewall with Advanced Security &mdash; for full rule editing.</p>
+                <p class="text-gray-400 mt-2 mono text-sm">Get-NetFirewallRule | Where Enabled -eq True | Select DisplayName,Direction,Action</p>
+            </div>
+            <img src="../winsec/wfmsc.png" alt="Windows Firewall with Advanced Security" class="mt-4 rounded-lg w-full max-h-56 object-contain bg-zinc-950 p-2">
+        </div>
+    </div>
+
+    <!-- ===== 33: Microsoft Defender ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Microsoft Defender Antivirus</h2>
+            <div class="grid grid-cols-2 gap-5 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold mb-2 text-orange-300">What's built in (free)</h3>
+                    <ul class="text-gray-300 space-y-1 text-base">
+                        <li>Real-time protection</li>
+                        <li>Cloud-delivered + heuristic detection</li>
+                        <li>Tamper Protection (default on)</li>
+                        <li>Controlled Folder Access (anti-ransomware)</li>
+                        <li>Exploit Protection (DEP, ASLR, CFG)</li>
+                        <li>SmartScreen URL/file reputation</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold mb-2 text-red-300">Defender for Endpoint (paid)</h3>
+                    <ul class="text-gray-300 space-y-1 text-base">
+                        <li>EDR &mdash; rich telemetry to Microsoft cloud</li>
+                        <li>Threat &amp; vulnerability management</li>
+                        <li>Automated investigation &amp; response</li>
+                        <li>Attack surface reduction (ASR) rules</li>
+                        <li>Live Response shell into endpoints</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 34: ASR ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Attack Surface Reduction (ASR) Rules</h2>
+            <div class="bg-zinc-800 p-5 rounded-lg mb-4 text-lg">
+                <p class="text-gray-300">~20 named rules that block common attacker behaviors. Enabled via GPO, Intune, PowerShell, or registry. Each rule has Audit, Block, and Warn modes.</p>
+            </div>
+            <div class="grid grid-cols-2 gap-4 text-base">
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <p class="text-gray-300">Block Office apps from creating child processes</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <p class="text-gray-300">Block executable content from email/webmail</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500">
+                    <p class="text-gray-300">Block credential stealing from LSASS (anti-Mimikatz)</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500">
+                    <p class="text-gray-300">Block process creations from PSExec / WMI</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <p class="text-gray-300">Block JavaScript/VBScript from launching downloaded executables</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <p class="text-gray-300">Block Office macros from making Win32 API calls</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500">
+                    <p class="text-gray-300">Block persistence through WMI event subscription</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <p class="text-gray-300">Use advanced ransomware protection (cloud-driven)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 35: Smart App Control ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Smart App Control, AppLocker &amp; WDAC</h2>
+            <div class="space-y-3 text-lg">
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold text-orange-300">Smart App Control (Windows 11)</h3>
+                    <p class="text-gray-300">AI + signing-based allow/deny built into the OS. Only enabled on clean installs. For consumer-grade allowlisting.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold text-orange-300">AppLocker</h3>
+                    <p class="text-gray-300">Path/publisher/hash-based application control via GPO. Easier to deploy than WDAC, weaker against determined attackers.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold text-red-300">Windows Defender Application Control (WDAC)</h3>
+                    <p class="text-gray-300">Kernel-enforced code integrity policy. Blocks unsigned drivers, unsigned binaries, dangerous "LOLBins." Modern replacement for AppLocker, but harder to author.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 36: BitLocker ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">BitLocker Drive Encryption</h2>
+            <div class="grid grid-cols-2 gap-5 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold mb-2 text-orange-300">How it works</h3>
+                    <ul class="text-gray-300 space-y-1 text-base">
+                        <li>AES-XTS full-volume encryption</li>
+                        <li>Key sealed in the <span class="font-bold">TPM 2.0</span></li>
+                        <li>Optional PIN / startup key for pre-boot</li>
+                        <li>Recovery key escrowed to AD or Entra ID</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold mb-2 text-red-300">What it protects against</h3>
+                    <ul class="text-gray-300 space-y-1 text-base">
+                        <li>Stolen / lost laptop &mdash; data unreadable</li>
+                        <li>Boot tampering &mdash; PCRs change, TPM seals key</li>
+                        <li>Offline SAM/NTDS theft from disk</li>
+                        <li>Does <span class="font-bold">not</span> protect a running, logged-in machine</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="bg-zinc-800 p-4 rounded-lg mt-4 text-base text-gray-300">
+                Manage with <span class="mono text-orange-200">manage-bde</span> or PowerShell <span class="mono text-orange-200">BitLocker</span> module. Always store recovery keys centrally &mdash; users will lose them.
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 37: TPM, Secure Boot, VBS ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Hardware-Rooted Trust</h2>
+            <div class="space-y-3 text-lg">
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold text-orange-300">TPM 2.0</h3>
+                    <p class="text-gray-300">Crypto coprocessor on the motherboard. Stores BitLocker keys, performs attestation, generates randomness. Required for Windows 11.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold text-orange-300">Secure Boot (UEFI)</h3>
+                    <p class="text-gray-300">Firmware verifies the bootloader's signature before running it. Stops bootkits.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold text-red-300">VBS &mdash; Virtualization-Based Security</h3>
+                    <p class="text-gray-300">Hyper-V runs a tiny secure kernel that the regular kernel can't see into. Hosts <span class="font-bold">HVCI</span> (memory integrity) and <span class="font-bold">Credential Guard</span>.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold text-red-300">Microsoft Pluton</h3>
+                    <p class="text-gray-300">Newer security processor integrated directly into the CPU. Replaces discrete TPM on supported chips, and gets firmware updates via Windows Update.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 38: Credential Guard ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Credential Guard &amp; LSA Protection</h2>
+            <div class="grid grid-cols-2 gap-5 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold mb-2 text-orange-300">LSA Protection (RunAsPPL)</h3>
+                    <p class="text-gray-300">Marks <span class="mono">lsass.exe</span> as a Protected Process Light. Other processes (even admins) can't read its memory or inject code. Default-enabled on new Windows 11 installs.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold mb-2 text-red-300">Credential Guard</h3>
+                    <p class="text-gray-300">Goes further: NTLM hashes, Kerberos TGTs, and cached credentials live in an isolated VBS enclave (<span class="mono">LsaIso.exe</span>) the OS itself can't read. Mimikatz can't dump what isn't there.</p>
+                </div>
+            </div>
+            <div class="bg-zinc-800 p-4 rounded-lg mt-4 text-base text-gray-300">
+                Both are now standard in Windows 11 Enterprise &amp; Education. Together they neuter the classic pass-the-hash attack on a single machine.
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 39: Windows Update ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Windows Update &amp; Patching</h2>
+            <div class="grid grid-cols-2 gap-5 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold mb-2 text-orange-300">Cadence</h3>
+                    <ul class="text-gray-300 space-y-1 text-base">
+                        <li><span class="font-bold">Patch Tuesday</span> &mdash; second Tuesday each month</li>
+                        <li>Out-of-band patches for critical zero-days</li>
+                        <li>Annual feature updates (e.g. 24H2 &rarr; 25H2)</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold mb-2 text-red-300">Enterprise tooling</h3>
+                    <ul class="text-gray-300 space-y-1 text-base">
+                        <li><span class="font-bold">WSUS</span> &mdash; on-prem update server (legacy but common)</li>
+                        <li><span class="font-bold">Microsoft Update for Business</span> &mdash; cloud, GPO/Intune-driven</li>
+                        <li><span class="font-bold">Intune</span> &mdash; cloud MDM with update rings</li>
+                        <li>Servicing channels: General Availability vs LTSC</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="bg-gradient-to-r from-orange-900/40 to-red-900/40 p-4 rounded-lg border border-orange-500 mt-4">
+                <p class="text-base text-orange-200 text-center">Most successful breaches still exploit patches that have been available for months. Patch latency is a security control.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 40: Part 4 Divider ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-6xl font-bold mb-6 bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">Part 4: Tools of the Trade</h2>
+            <div class="w-24 h-1 bg-gradient-to-r from-orange-400 to-red-400 mx-auto mb-6"></div>
+            <p class="text-xl text-gray-400">What every Windows defender keeps in their toolbox</p>
+        </div>
+    </div>
+
+    <!-- ===== 41: Sysinternals overview ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Sysinternals: The Power Tools</h2>
+            <div class="bg-zinc-800 p-5 rounded-lg mb-4 text-lg">
+                <p class="text-gray-300">Free Microsoft-published utilities created by Mark Russinovich. Originally an outside company; bought by Microsoft in 2006 and still updated quarterly. Live download: <span class="mono text-orange-200">https://live.sysinternals.com</span></p>
+            </div>
+            <div class="grid grid-cols-2 gap-4 text-base">
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="font-bold text-orange-300 mono">Process Explorer</h3>
+                    <p class="text-gray-300">Task Manager on steroids. Process tree, signatures, VirusTotal hashes.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="font-bold text-orange-300 mono">Autoruns</h3>
+                    <p class="text-gray-300">Every auto-start location on the system. ~90+ persistence vectors.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500">
+                    <h3 class="font-bold text-red-300 mono">Process Monitor (ProcMon)</h3>
+                    <p class="text-gray-300">Real-time file, registry, and process events. Essential for triage.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500">
+                    <h3 class="font-bold text-red-300 mono">Sysmon</h3>
+                    <p class="text-gray-300">Service that adds rich detection events to the Windows Event Log.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="font-bold text-orange-300 mono">TCPView</h3>
+                    <p class="text-gray-300">Live network connections by process &mdash; <span class="mono">netstat</span> with a UI.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="font-bold text-orange-300 mono">PsExec, Sigcheck, Handle</h3>
+                    <p class="text-gray-300">Remote exec, signature audits, file-handle inspection.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 42: Process Explorer ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Process Explorer in Practice</h2>
+            <div class="space-y-3 text-base">
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-lg font-bold text-orange-300">Triage workflow</h3>
+                    <ul class="text-gray-300 space-y-1">
+                        <li>Sort by CPU, then by Private Bytes &mdash; spot oddballs</li>
+                        <li>Hover any process for parent + command line</li>
+                        <li>Right-click &rarr; "Check VirusTotal" sends the hash, not the file</li>
+                        <li>Look for unsigned binaries running as SYSTEM</li>
+                        <li>Look for <span class="mono">svchost.exe</span> with the wrong parent</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-lg font-bold text-red-300">Run As Administrator + verify signatures</h3>
+                    <p class="text-gray-300">Options &rarr; Verify Image Signatures. Options &rarr; VirusTotal.com. Once you see "Not Verified" next to a SYSTEM-level process, your day just got interesting.</p>
+                </div>
+            </div>
+            <img src="../winsec/procexp.png" alt="Process Explorer" class="mt-4 rounded-lg w-full max-h-72 object-contain bg-zinc-950 p-2">
+        </div>
+    </div>
+
+    <!-- ===== 43: Autoruns ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Autoruns: Hunting Persistence</h2>
+            <div class="bg-zinc-800 p-5 rounded-lg mb-4 text-lg">
+                <p class="text-gray-300">Lists every place Windows or its apps automatically run code: Run keys, Services, Scheduled Tasks, WMI subscriptions, Winlogon, Print Monitors, AppInit DLLs, and dozens more.</p>
+            </div>
+            <div class="grid grid-cols-2 gap-5 text-base">
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-lg font-bold mb-2 text-orange-300">Standard hunt</h3>
+                    <ul class="text-gray-300 space-y-1">
+                        <li>Options &rarr; Hide Microsoft + Windows Entries</li>
+                        <li>Options &rarr; Verify Code Signatures</li>
+                        <li>Options &rarr; Check VirusTotal.com</li>
+                        <li>Right-click suspicious entry &rarr; Jump to Image</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-lg font-bold mb-2 text-red-300">Common bad spots</h3>
+                    <ul class="text-gray-300 space-y-1">
+                        <li>Scheduled Tasks running PowerShell from %TEMP%</li>
+                        <li>WMI Event Filter/Consumer pairs</li>
+                        <li>Image File Execution Options (debugger hijack)</li>
+                        <li>Office add-ins / Outlook home page</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 44: ProcMon ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Process Monitor (ProcMon)</h2>
+            <div class="bg-zinc-800 p-5 rounded-lg mb-4 text-lg">
+                <p class="text-gray-300">A merged real-time stream of every file, registry, network, and process event &mdash; with full stack traces. Generates millions of events fast; <span class="font-bold text-orange-300">filtering is everything</span>.</p>
+            </div>
+            <div class="grid grid-cols-2 gap-5 text-base">
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-lg font-bold mb-2 text-orange-300">Common questions it answers</h3>
+                    <ul class="text-gray-300 space-y-1">
+                        <li>"Why is this app failing to start?"</li>
+                        <li>"What registry key does this setting actually write?"</li>
+                        <li>"Is this process touching files it shouldn't?"</li>
+                        <li>"Where is this DLL being loaded from?"</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-lg font-bold mb-2 text-red-300">Filter recipe</h3>
+                    <p class="text-gray-300">Filter &rarr; Process Name is &lt;target&gt;. Then exclude SUCCESS results, exclude common noise paths. Save the filter for next time.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 45: Sysmon ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Sysmon: Detection-Grade Telemetry</h2>
+            <div class="bg-zinc-800 p-5 rounded-lg mb-4 text-lg">
+                <p class="text-gray-300">A driver + service that writes detailed events to <span class="mono text-orange-200">Microsoft-Windows-Sysmon/Operational</span>. Survives reboot, applies an XML config, ships rich attacker-relevant fields the default log doesn't have.</p>
+            </div>
+            <div class="grid grid-cols-2 gap-4 text-base">
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500"><h3 class="text-lg font-bold text-orange-300 mono">EID 1</h3><p class="text-gray-300">Process create &mdash; with hashes, parent, full command line</p></div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500"><h3 class="text-lg font-bold text-orange-300 mono">EID 3</h3><p class="text-gray-300">Network connection &mdash; which process, which IP, which port</p></div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500"><h3 class="text-lg font-bold text-orange-300 mono">EID 7</h3><p class="text-gray-300">Image (DLL) loaded &mdash; great for unsigned DLL hunting</p></div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500"><h3 class="text-lg font-bold text-red-300 mono">EID 10</h3><p class="text-gray-300">Process accessed &mdash; e.g. "something opened LSASS"</p></div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500"><h3 class="text-lg font-bold text-red-300 mono">EID 11</h3><p class="text-gray-300">File create &mdash; which process wrote what</p></div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500"><h3 class="text-lg font-bold text-orange-300 mono">EID 22</h3><p class="text-gray-300">DNS query &mdash; per process</p></div>
+            </div>
+            <div class="bg-zinc-800 p-3 rounded-lg mt-4 text-sm text-gray-300">
+                Start with the SwiftOnSecurity or Olaf Hartong sysmon-modular configs &mdash; do <span class="font-bold">not</span> deploy with the default config.
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 46: Part 5 Divider ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-6xl font-bold mb-6 bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">Part 5: Common Attacks</h2>
+            <div class="w-24 h-1 bg-gradient-to-r from-orange-400 to-red-400 mx-auto mb-6"></div>
+            <p class="text-xl text-gray-400">If you defend Windows, these are the names you must know</p>
+        </div>
+    </div>
+
+    <!-- ===== 47: Pass the Hash ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Pass-the-Hash (PtH)</h2>
+            <div class="bg-zinc-800 p-5 rounded-lg mb-4 text-lg">
+                <p class="text-gray-300">For NTLM, the <span class="font-bold text-orange-300">hash IS the password</span>. If an attacker steals an NT hash from one machine's memory or SAM, they can authenticate as that user anywhere NTLM is accepted &mdash; without ever cracking it.</p>
+            </div>
+            <div class="grid grid-cols-2 gap-5 text-base">
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-lg font-bold mb-2 text-orange-300">Typical chain</h3>
+                    <ol class="text-gray-300 space-y-1 list-decimal list-inside">
+                        <li>Phish a workstation user</li>
+                        <li>Local privilege escalation to SYSTEM</li>
+                        <li>Dump LSASS or SAM</li>
+                        <li>Reuse a more privileged hash on the next box</li>
+                        <li>Repeat until a Domain Admin logs in somewhere you control</li>
+                    </ol>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-lg font-bold mb-2 text-red-300">Defenses</h3>
+                    <ul class="text-gray-300 space-y-1">
+                        <li>Credential Guard / LSA Protection</li>
+                        <li>Disable NTLM where possible</li>
+                        <li>LAPS &mdash; unique local admin password per host</li>
+                        <li>Tier model &mdash; admins don't log into low-tier boxes</li>
+                        <li>ASR rule: block credential stealing from LSASS</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 48: Kerberoasting ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Kerberoasting</h2>
+            <div class="bg-zinc-800 p-5 rounded-lg mb-4 text-lg">
+                <p class="text-gray-300">Any authenticated domain user can request a service ticket for any SPN. The ticket is encrypted with the service account's password hash &mdash; offline-crackable.</p>
+            </div>
+            <div class="grid grid-cols-2 gap-5 text-base">
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-lg font-bold mb-2 text-orange-300">Why it works</h3>
+                    <ul class="text-gray-300 space-y-1">
+                        <li>Service accounts rarely rotate passwords</li>
+                        <li>Often have weak, human-set passwords</li>
+                        <li>Often hold high privileges</li>
+                        <li>Request itself is normal Kerberos &mdash; hard to detect</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-lg font-bold mb-2 text-red-300">Defenses</h3>
+                    <ul class="text-gray-300 space-y-1">
+                        <li><span class="font-bold">Group Managed Service Accounts (gMSA)</span> &mdash; 240-char auto-rotated</li>
+                        <li>Force AES-only Kerberos (ditch RC4)</li>
+                        <li>Long, random passwords for legacy svc accounts</li>
+                        <li>Honeypot SPN with monitoring</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 49: Golden / Silver Ticket ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Golden &amp; Silver Tickets</h2>
+            <div class="grid grid-cols-2 gap-5 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold mb-2 text-red-300">Golden Ticket</h3>
+                    <p class="text-gray-300">If an attacker steals the <span class="mono">krbtgt</span> hash from a DC, they can forge a TGT for any user, with any group membership, valid for years. Total domain compromise.</p>
+                    <p class="text-gray-400 mt-2 text-sm">Defense: rotate krbtgt twice when DC compromise is suspected. After that, rebuild the forest.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold mb-2 text-red-300">Silver Ticket</h3>
+                    <p class="text-gray-300">Forged service ticket signed with a single service account's hash. Bypasses the DC entirely &mdash; the target service trusts the ticket on its own.</p>
+                    <p class="text-gray-400 mt-2 text-sm">Defense: enable PAC validation, rotate service-account passwords, ditch RC4.</p>
+                </div>
+            </div>
+            <div class="bg-zinc-800 p-4 rounded-lg mt-4 text-base text-gray-300">
+                Both attacks were popularized by Mimikatz. Both are still effective on under-hardened domains in 2026.
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 50: NTLM Relay ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">NTLM Relay</h2>
+            <div class="bg-zinc-800 p-5 rounded-lg mb-4 text-lg">
+                <p class="text-gray-300">Attacker stands between a victim and a server. Coerces the victim to authenticate to them, then relays that authentication to a real server &mdash; and gets in as the victim. <span class="font-bold text-red-300">No password ever cracked.</span></p>
+            </div>
+            <div class="grid grid-cols-2 gap-5 text-base">
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-lg font-bold mb-2 text-orange-300">Famous variants</h3>
+                    <ul class="text-gray-300 space-y-1">
+                        <li>PetitPotam, PrinterBug, Coerce</li>
+                        <li>LLMNR / mDNS / NBT-NS poisoning</li>
+                        <li>WPAD-based relay</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-lg font-bold mb-2 text-red-300">Defenses</h3>
+                    <ul class="text-gray-300 space-y-1">
+                        <li>Disable NTLM (Microsoft's whole reason for the phase-out)</li>
+                        <li>Require SMB signing &amp; LDAP signing/channel binding</li>
+                        <li>Disable LLMNR &amp; NetBIOS over TCP/IP</li>
+                        <li>Extended Protection for Authentication (EPA)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 51: Living off the Land ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Living Off the Land (LOLBins)</h2>
+            <div class="bg-zinc-800 p-5 rounded-lg mb-4 text-lg">
+                <p class="text-gray-300">Why drop malware when Windows ships signed binaries that can do it for you? "LOLBins" are legitimate Microsoft executables abused for download, execute, persistence, or evasion.</p>
+            </div>
+            <div class="grid grid-cols-2 gap-3 text-base">
+                <div class="bg-zinc-800 p-3 rounded-lg border-l-4 border-orange-500"><span class="mono text-orange-200">powershell.exe</span> &mdash; everything</div>
+                <div class="bg-zinc-800 p-3 rounded-lg border-l-4 border-orange-500"><span class="mono text-orange-200">certutil.exe</span> &mdash; downloads files, decodes base64</div>
+                <div class="bg-zinc-800 p-3 rounded-lg border-l-4 border-orange-500"><span class="mono text-orange-200">bitsadmin.exe</span> &mdash; background download</div>
+                <div class="bg-zinc-800 p-3 rounded-lg border-l-4 border-red-500"><span class="mono text-red-200">mshta.exe</span> &mdash; runs HTML+JS as code</div>
+                <div class="bg-zinc-800 p-3 rounded-lg border-l-4 border-red-500"><span class="mono text-red-200">rundll32.exe</span> &mdash; runs arbitrary DLL exports</div>
+                <div class="bg-zinc-800 p-3 rounded-lg border-l-4 border-orange-500"><span class="mono text-orange-200">regsvr32.exe</span> &mdash; "Squiblydoo" remote-script bypass</div>
+                <div class="bg-zinc-800 p-3 rounded-lg border-l-4 border-orange-500"><span class="mono text-orange-200">wmic.exe</span> &mdash; remote exec, query, persistence</div>
+                <div class="bg-zinc-800 p-3 rounded-lg border-l-4 border-red-500"><span class="mono text-red-200">msbuild.exe</span> &mdash; compiles &amp; runs C# inline</div>
+            </div>
+            <div class="bg-zinc-800 p-3 rounded-lg mt-3 text-sm text-gray-300">
+                Reference catalog: <span class="mono">lolbas-project.github.io</span>. ASR rules and WDAC neutralize most of these.
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 52: Phishing/Macros ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Phishing &amp; Office on Windows</h2>
+            <div class="grid grid-cols-2 gap-5 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold mb-2 text-orange-300">The classic chain</h3>
+                    <p class="text-gray-300">Email &rarr; Word/Excel attachment &rarr; macro &rarr; <span class="mono">powershell.exe</span> with encoded payload &rarr; download stage 2 &rarr; persistence.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold mb-2 text-red-300">What changed</h3>
+                    <p class="text-gray-300">Microsoft now <span class="font-bold">blocks macros from internet-zone Office files by default</span>. Attackers pivoted to ISO/IMG/LNK, OneNote, HTML smuggling, and ClickOnce/MSI tricks.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold mb-2 text-orange-300">Defenses</h3>
+                    <ul class="text-gray-300 space-y-1 text-base">
+                        <li>Mark of the Web propagation (containers preserve it)</li>
+                        <li>SmartScreen / Defender Cloud Protection</li>
+                        <li>Block Office child-process creation (ASR)</li>
+                        <li>Disable old script formats: HTA, WSH</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold mb-2 text-red-300">User-side</h3>
+                    <p class="text-gray-300">Training won't carry the load alone. Configuration controls do most of the work.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 53: LAPS ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Windows LAPS</h2>
+            <div class="bg-zinc-800 p-5 rounded-lg mb-4 text-lg">
+                <p class="text-gray-300">Local Administrator Password Solution. Every joined machine gets a <span class="font-bold text-orange-300">unique, randomly generated</span> local admin password, rotated on a schedule, escrowed encrypted in AD or Entra ID. Built into Windows 11 / Server 2022+.</p>
+            </div>
+            <div class="grid grid-cols-2 gap-5 text-base">
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-lg font-bold mb-2 text-orange-300">Why it matters</h3>
+                    <p class="text-gray-300">Without LAPS, every workstation in the org has the <span class="font-bold">same</span> local admin password. Compromise one, you've compromised them all (Pass-the-Hash heaven).</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-lg font-bold mb-2 text-red-300">Operational notes</h3>
+                    <ul class="text-gray-300 space-y-1">
+                        <li>Configured via GPO or Intune</li>
+                        <li>Read access is its own permission &mdash; audit it</li>
+                        <li>Supports password history and post-auth rotation</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 54: MFA / Hello ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Multifactor &amp; Passwordless on Windows</h2>
+            <div class="space-y-3 text-lg">
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold text-orange-300">Windows Hello for Business</h3>
+                    <p class="text-gray-300">PIN, fingerprint, or face unlocks a <span class="font-bold">device-bound</span> credential held in the TPM. The PIN never leaves the device; the cloud sees a public key. Phishing-resistant by design.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold text-orange-300">Smart cards / FIDO2 keys</h3>
+                    <p class="text-gray-300">PIV / CAC cards, YubiKeys. AD has supported smart card logon for decades; Entra ID and Windows 11 add native FIDO2 / passkey logon.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold text-red-300">Conditional Access (Entra ID)</h3>
+                    <p class="text-gray-300">"Require compliant device + MFA + known location for this app" &mdash; the modern policy layer above plain MFA.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 55: SMB / Remote ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">SMB &amp; Remote Access Hygiene</h2>
+            <div class="grid grid-cols-2 gap-5 text-base">
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-lg font-bold mb-2 text-orange-300">SMB</h3>
+                    <ul class="text-gray-300 space-y-1">
+                        <li>SMB1: <span class="font-bold text-red-300">disable</span>. WannaCry's path.</li>
+                        <li>SMB2/3: required signing &amp; encryption</li>
+                        <li>Block SMB at the perimeter (TCP 445)</li>
+                        <li>Windows 11 now blocks anonymous SMB access</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-lg font-bold mb-2 text-red-300">RDP (TCP 3389)</h3>
+                    <ul class="text-gray-300 space-y-1">
+                        <li>Never expose to the internet</li>
+                        <li>Require Network Level Authentication (NLA)</li>
+                        <li>Enforce MFA &mdash; via RD Gateway, Azure MFA, or Duo</li>
+                        <li>Limit who's in <span class="mono">Remote Desktop Users</span></li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-lg font-bold mb-2 text-orange-300">WinRM / PowerShell Remoting</h3>
+                    <p class="text-gray-300">HTTPS by default since 2022. Constrain with JEA (Just Enough Administration) endpoints.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-lg font-bold mb-2 text-orange-300">SSH on Windows</h3>
+                    <p class="text-gray-300">Yes, OpenSSH ships in the box now. Treat it the same way you'd treat it on Linux.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 56: Backup / Recovery ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Backup, Snapshots &amp; Recovery</h2>
+            <div class="grid grid-cols-2 gap-5 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold mb-2 text-orange-300">Volume Shadow Copy (VSS)</h3>
+                    <p class="text-gray-300">Block-level snapshots used by System Restore, Previous Versions, and most third-party backup software. Ransomware deletes these first &mdash; so monitor <span class="mono">vssadmin delete shadows</span>.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold mb-2 text-red-300">3-2-1 still rules</h3>
+                    <ul class="text-gray-300 space-y-1 text-base">
+                        <li>3 copies of data</li>
+                        <li>2 different media</li>
+                        <li>1 copy <span class="font-bold">offline</span> / immutable</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold mb-2 text-orange-300">Recovery surfaces</h3>
+                    <ul class="text-gray-300 space-y-1 text-base">
+                        <li>Windows Recovery Environment (WinRE)</li>
+                        <li>System Restore / Reset This PC</li>
+                        <li>Active Directory Recycle Bin</li>
+                        <li>OneDrive Known Folder Move + Files Restore</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold mb-2 text-red-300">Test the restore</h3>
+                    <p class="text-gray-300">A backup nobody has restored is a hope, not a control.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 57: Hardening Checklist ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">A Sane Windows Hardening Checklist</h2>
+            <div class="grid grid-cols-2 gap-3 text-base">
+                <div class="bg-zinc-800 p-3 rounded-lg border-l-4 border-orange-500">Apply Microsoft Security Baseline (or CIS L1)</div>
+                <div class="bg-zinc-800 p-3 rounded-lg border-l-4 border-orange-500">BitLocker on every endpoint, keys escrowed</div>
+                <div class="bg-zinc-800 p-3 rounded-lg border-l-4 border-orange-500">TPM 2.0 + Secure Boot + VBS + HVCI enabled</div>
+                <div class="bg-zinc-800 p-3 rounded-lg border-l-4 border-red-500">Credential Guard + LSA Protection on</div>
+                <div class="bg-zinc-800 p-3 rounded-lg border-l-4 border-red-500">SMB1 off, NTLMv1 off, LLMNR/NBT off</div>
+                <div class="bg-zinc-800 p-3 rounded-lg border-l-4 border-orange-500">LAPS deployed for local admin</div>
+                <div class="bg-zinc-800 p-3 rounded-lg border-l-4 border-orange-500">ASR rules in Block mode after audit</div>
+                <div class="bg-zinc-800 p-3 rounded-lg border-l-4 border-orange-500">Defender + Tamper Protection + cloud protection</div>
+                <div class="bg-zinc-800 p-3 rounded-lg border-l-4 border-red-500">Patching SLA: critical &lt; 7 days, others &lt; 30</div>
+                <div class="bg-zinc-800 p-3 rounded-lg border-l-4 border-orange-500">Sysmon + WEC for centralized event logs</div>
+                <div class="bg-zinc-800 p-3 rounded-lg border-l-4 border-orange-500">PowerShell logging: ScriptBlock + Module + Transcript</div>
+                <div class="bg-zinc-800 p-3 rounded-lg border-l-4 border-red-500">MFA on every privileged + remote logon</div>
+                <div class="bg-zinc-800 p-3 rounded-lg border-l-4 border-red-500">Tier-0 admins with PAWs &amp; separate accounts</div>
+                <div class="bg-zinc-800 p-3 rounded-lg border-l-4 border-orange-500">Backups: offline, tested, monitored</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 58: WEF/SIEM ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Centralizing Logs: WEF, SIEM, XDR</h2>
+            <div class="grid grid-cols-2 gap-5 text-lg">
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold mb-2 text-orange-300">Windows Event Forwarding (WEF)</h3>
+                    <p class="text-gray-300">Built-in. Endpoints push selected events to a Windows Event Collector via WinRM. Free, enterprise-scale, no agent needed.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold mb-2 text-red-300">SIEM</h3>
+                    <p class="text-gray-300">Splunk, Sentinel, Elastic, Chronicle. Ingests logs, correlates, alerts. The analyst's main lens.</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-xl font-bold mb-2 text-orange-300">XDR / EDR</h3>
+                    <p class="text-gray-300">Defender for Endpoint, CrowdStrike, SentinelOne. Live process telemetry, automated response, threat hunting queries (KQL).</p>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-xl font-bold mb-2 text-red-300">Practical truth</h3>
+                    <p class="text-gray-300">A SIEM nobody reads catches nothing. Detection engineering &mdash; tuning, content, runbooks &mdash; is half the job.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 59: Defense in Depth recap ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Defense in Depth, Windows Edition</h2>
+            <div class="space-y-3 text-base">
+                <div class="bg-zinc-800 p-3 rounded-lg flex items-start gap-4 border-l-4 border-orange-500">
+                    <span class="text-lg font-bold text-orange-400 shrink-0 w-32">Hardware</span>
+                    <p class="text-gray-300">TPM 2.0, Pluton, Secure Boot, DMA protection</p>
+                </div>
+                <div class="bg-zinc-800 p-3 rounded-lg flex items-start gap-4 border-l-4 border-orange-500">
+                    <span class="text-lg font-bold text-orange-400 shrink-0 w-32">Boot &amp; Kernel</span>
+                    <p class="text-gray-300">Measured boot, ELAM, HVCI, signed drivers</p>
+                </div>
+                <div class="bg-zinc-800 p-3 rounded-lg flex items-start gap-4 border-l-4 border-orange-500">
+                    <span class="text-lg font-bold text-orange-400 shrink-0 w-32">Identity</span>
+                    <p class="text-gray-300">Hello, FIDO2, Credential Guard, LAPS, MFA</p>
+                </div>
+                <div class="bg-zinc-800 p-3 rounded-lg flex items-start gap-4 border-l-4 border-red-500">
+                    <span class="text-lg font-bold text-red-400 shrink-0 w-32">OS Policy</span>
+                    <p class="text-gray-300">Group Policy / Intune, Security Baseline, ASR</p>
+                </div>
+                <div class="bg-zinc-800 p-3 rounded-lg flex items-start gap-4 border-l-4 border-red-500">
+                    <span class="text-lg font-bold text-red-400 shrink-0 w-32">Apps</span>
+                    <p class="text-gray-300">SmartScreen, WDAC, AppLocker, Smart App Control</p>
+                </div>
+                <div class="bg-zinc-800 p-3 rounded-lg flex items-start gap-4 border-l-4 border-red-500">
+                    <span class="text-lg font-bold text-red-400 shrink-0 w-32">Data</span>
+                    <p class="text-gray-300">BitLocker, EFS, Information Protection, DLP</p>
+                </div>
+                <div class="bg-zinc-800 p-3 rounded-lg flex items-start gap-4 border-l-4 border-orange-500">
+                    <span class="text-lg font-bold text-orange-400 shrink-0 w-32">Network</span>
+                    <p class="text-gray-300">Firewall profiles, IPsec, VPN, segmentation</p>
+                </div>
+                <div class="bg-zinc-800 p-3 rounded-lg flex items-start gap-4 border-l-4 border-orange-500">
+                    <span class="text-lg font-bold text-orange-400 shrink-0 w-32">Detect &amp; Respond</span>
+                    <p class="text-gray-300">Defender, Sysmon, WEF, SIEM, EDR, IR runbooks</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 60: Top Takeaways ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Top Takeaways</h2>
+            <div class="space-y-3 text-base">
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4">
+                    <span class="text-2xl text-orange-400 font-bold shrink-0">1</span>
+                    <p class="text-gray-300">SIDs, not names, are how Windows identifies principals. Tokens carry SIDs through every access check.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4">
+                    <span class="text-2xl text-orange-400 font-bold shrink-0">2</span>
+                    <p class="text-gray-300">Active Directory is the enterprise &mdash; protect the DCs and the krbtgt account like the crown jewels they are.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4">
+                    <span class="text-2xl text-orange-400 font-bold shrink-0">3</span>
+                    <p class="text-gray-300">Group Policy applies <span class="font-bold">Local &rarr; Site &rarr; Domain &rarr; OU</span>. Closest OU usually wins. Use <span class="mono">gpresult</span> when in doubt.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4">
+                    <span class="text-2xl text-red-400 font-bold shrink-0">4</span>
+                    <p class="text-gray-300">Modern password policy = long, screened against breach lists, no forced rotation. Lockout protects against spraying.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4">
+                    <span class="text-2xl text-red-400 font-bold shrink-0">5</span>
+                    <p class="text-gray-300">NTLM is dying. Kerberos-only, SMB signing, LDAP channel binding, no LLMNR &mdash; that's the path.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4">
+                    <span class="text-2xl text-red-400 font-bold shrink-0">6</span>
+                    <p class="text-gray-300">Defender + ASR + Credential Guard + LAPS + Smart App Control / WDAC neutralizes most commodity Windows attacks.</p>
+                </div>
+                <div class="bg-zinc-800 p-4 rounded-lg flex items-start gap-4">
+                    <span class="text-2xl text-orange-400 font-bold shrink-0">7</span>
+                    <p class="text-gray-300">Sysinternals + Event Viewer + PowerShell are your eyes. Sysmon plus a SIEM are your memory.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 61: Resources ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-5xl font-bold mb-8 text-orange-400">Where to Go Next</h2>
+            <div class="grid grid-cols-2 gap-5 text-base">
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-lg font-bold mb-2 text-orange-300">Microsoft official</h3>
+                    <ul class="text-gray-300 space-y-1">
+                        <li>learn.microsoft.com/windows/security</li>
+                        <li>Microsoft Security Compliance Toolkit</li>
+                        <li>Sysinternals Live: live.sysinternals.com</li>
+                        <li>Microsoft Security Baselines blog</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-orange-500">
+                    <h3 class="text-lg font-bold mb-2 text-orange-300">Community references</h3>
+                    <ul class="text-gray-300 space-y-1">
+                        <li>CIS Benchmarks (Windows 11, Server 2025)</li>
+                        <li>NIST SP 800-63B (passwords)</li>
+                        <li>MITRE ATT&amp;CK &mdash; Windows matrix</li>
+                        <li>LOLBAS Project &mdash; lolbas-project.github.io</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-lg font-bold mb-2 text-red-300">Hands-on labs</h3>
+                    <ul class="text-gray-300 space-y-1">
+                        <li>TryHackMe &mdash; Windows / AD paths</li>
+                        <li>HackTheBox Academy &mdash; AD modules</li>
+                        <li>Microsoft Learn sandboxes</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-800 p-5 rounded-lg border-l-4 border-red-500">
+                    <h3 class="text-lg font-bold mb-2 text-red-300">Books worth your time</h3>
+                    <ul class="text-gray-300 space-y-1">
+                        <li>Windows Internals (Russinovich et al.)</li>
+                        <li>Securing Active Directory (Metcalf, ADSecurity.org)</li>
+                        <li>The Practice of System &amp; Network Administration</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== 62: Closing ===== -->
+    <div class="slide flex-col justify-center items-center p-8">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-6xl font-bold mb-6 bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">You Now Speak Windows</h2>
+            <div class="w-24 h-1 bg-gradient-to-r from-orange-400 to-red-400 mx-auto mb-6"></div>
+            <p class="text-xl text-gray-400 mb-4">The Sec+ vocabulary you already had &mdash; identity, AAA, least privilege, defense in depth, IR &mdash; just got a Microsoft accent.</p>
+            <p class="text-lg text-gray-500">Time to put hands on keyboards.</p>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="fixed bottom-8 left-1/2 transform -translate-x-1/2 flex gap-4 z-50">
+        <button id="prevBtn" class="nav-button bg-orange-600 hover:bg-orange-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg">
+            &larr; Previous
+        </button>
+        <div class="bg-zinc-800 text-white font-semibold py-3 px-6 rounded-lg shadow-lg">
+            <span id="slideNumber">1</span> / <span id="totalSlides">62</span>
+        </div>
+        <button id="nextBtn" class="nav-button bg-orange-600 hover:bg-orange-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg">
+            Next &rarr;
+        </button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const progressBar = document.getElementById('progressBar');
+        const slideNumber = document.getElementById('slideNumber');
+        const totalSlidesSpan = document.getElementById('totalSlides');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        totalSlidesSpan.textContent = totalSlides;
+
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+            slideNumber.textContent = currentSlide + 1;
+            window.scrollTo(0, 0);
+            const progress = ((currentSlide + 1) / totalSlides) * 100;
+            progressBar.style.width = progress + '%';
+        }
+
+        function nextSlide() { showSlide(currentSlide + 1); }
+        function prevSlide() { showSlide(currentSlide - 1); }
+
+        prevBtn.addEventListener('click', prevSlide);
+        nextBtn.addEventListener('click', nextSlide);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') prevSlide();
+            if (e.key === 'ArrowRight') nextSlide();
+        });
+
+        showSlide(0);
+    </script>
+</body>
+</html>

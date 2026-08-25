@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CompTIA Security+ Ch. 7: Cryptography and PKI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #18181b; /* True Dark Grey (zinc-900) */
+            color: #e4e4e7; /* Light text */
+            overflow: hidden; /* Prevent scrolling the whole page */
+        }
+        .slide {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 80px; /* Space for navigation */
+            overflow-y: auto; /* Allow individual slides to scroll if content overflows */
+        }
+        .slide.active {
+            display: block;
+            opacity: 1;
+        }
+        /* Custom scrollbar for webkit browsers */
+        .slide::-webkit-scrollbar {
+            width: 8px;
+        }
+        .slide::-webkit-scrollbar-track {
+            background: #27272a;
+        }
+        .slide::-webkit-scrollbar-thumb {
+            background-color: #52525b;
+            border-radius: 10px;
+            border: 2px solid #27272a;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div id="presentation-container" class="relative w-full h-screen">
+
+        <!-- Slide 1: Title -->
+        <div class="slide active p-6 md:p-12">
+            <div class="w-full h-full flex items-center justify-center">
+                <div class="text-center max-w-4xl mx-auto">
+                    <h1 class="text-4xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-slate-400 to-cyan-400 mb-4">CompTIA Security+ Chapter 7</h1>
+                    <h2 class="text-2xl md:text-4xl font-bold text-gray-300 mb-8">Cryptography and the Public Key Infrastructure (PKI)</h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Learning Objectives -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center text-gray-300">Learning Objectives</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-slate-400 mb-2">🎯 Understand the Goals of Cryptography</h3>
+                        <p class="text-gray-400">Explain the core goals of Confidentiality, Integrity, Authentication, and Non-repudiation.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-slate-400 mb-2">🔑 Differentiate Symmetric vs. Asymmetric Encryption</h3>
+                        <p class="text-gray-400">Compare and contrast the use cases, strengths, and weaknesses of shared-secret and public-private key cryptography.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-slate-400 mb-2">#️⃣ Grasp Hashing and Digital Signatures</h3>
+                        <p class="text-gray-400">Learn how hashing provides integrity and how it is combined with asymmetric crypto to create digital signatures.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-slate-400 mb-2">📜 Navigate the Public Key Infrastructure (PKI)</h3>
+                        <p class="text-gray-400">Understand the roles of Certificate Authorities (CAs), digital certificates, and the chain of trust.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Goals of Cryptography -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-8 text-gray-300">The Four Goals of Cryptography</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-slate-400 mb-2">Confidentiality</h3>
+                        <p class="text-gray-400">Ensures data remains private and is only seen by authorized parties.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-slate-400 mb-2">Integrity</h3>
+                        <p class="text-gray-400">Ensures that data has not been altered or tampered with in transit.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-slate-400 mb-2">Authentication</h3>
+                        <p class="text-gray-400">Verifies the identity of the sender and receiver of the information.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-slate-400 mb-2">Non-repudiation</h3>
+                        <p class="text-gray-400">Provides proof that a sender actually sent a message, preventing them from denying it later.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Symmetric vs Asymmetric -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Symmetric vs. Asymmetric Encryption</h2>
+                <div class="grid md:grid-cols-2 gap-6 text-left">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-slate-400 mb-3">Symmetric (Shared Secret)</h3>
+                        <ul class="space-y-2 text-gray-400 list-disc list-inside">
+                            <li>Uses a <strong>single key</strong> for both encryption and decryption.</li>
+                            <li><strong>Extremely fast</strong>; ideal for bulk data encryption (e.g., AES).</li>
+                            <li><strong>Major Weakness:</strong> How do you securely share the secret key in the first place? (Key exchange problem).</li>
+                             <li>Provides confidentiality only.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-slate-400 mb-3">Asymmetric (Public Key)</h3>
+                        <ul class="space-y-2 text-gray-400 list-disc list-inside">
+                             <li>Uses a <strong>key pair</strong>: a public key to encrypt and a private key to decrypt.</li>
+                             <li><strong>Very slow</strong> compared to symmetric encryption (e.g., RSA).</li>
+                             <li><strong>Major Strength:</strong> Solves the key exchange problem; you can share your public key openly.</li>
+                             <li>Provides confidentiality, integrity, authentication, and non-repudiation.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mt-6 bg-green-900/20 border border-green-500/30 rounded-lg p-4 text-center">
+                    <p class="text-lg text-green-300"><strong>Hybrid Approach:</strong> Most systems (like TLS/SSL) use slow asymmetric encryption to securely exchange a fast symmetric key for the actual communication session.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 5: Common Algorithms -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Common Encryption Algorithms</h2>
+                <div class="grid md:grid-cols-2 gap-6 text-left">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-slate-400 mb-3">Symmetric</h3>
+                        <ul class="space-y-2 text-gray-400 list-disc list-inside">
+                            <li><strong>AES (Advanced Encryption Standard):</strong> The modern standard for bulk encryption, using key sizes of 128, 192, or 256 bits.</li>
+                            <li><strong>DES/3DES:</strong> Older, deprecated standards. No longer considered secure.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-slate-400 mb-3">Asymmetric</h3>
+                        <ul class="space-y-2 text-gray-400 list-disc list-inside">
+                             <li><strong>RSA:</strong> The original public key algorithm, based on the difficulty of factoring large prime numbers.</li>
+                             <li><strong>ECC (Elliptic Curve Cryptography):</strong> A more modern approach that provides the same level of security as RSA with much smaller key sizes, making it ideal for mobile and low-power devices.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Hashing -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Hashing: The Digital Fingerprint</h2>
+                <div class="bg-slate-900/20 border border-slate-500/30 rounded-lg p-5 text-center mb-6">
+                    <p class="text-lg text-slate-300">A hash function takes an input of any length and produces a unique, fixed-length output (the "hash" or "digest"). It's a one-way process; you can't reverse it to get the original input.</p>
+                </div>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                    <h3 class="text-xl font-semibold text-slate-400 mb-3">Key Properties</h3>
+                    <ul class="space-y-2 text-gray-400 list-disc list-inside">
+                        <li><strong>Integrity:</strong> Changing even one bit in the input file will produce a completely different hash. This is how we verify file integrity.</li>
+                        <li><strong>Collision Resistant:</strong> It should be computationally impossible to find two different inputs that produce the same hash.</li>
+                    </ul>
+                </div>
+                <div class="mt-6 bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                    <h4 class="text-lg font-semibold text-gray-300 mb-2">Common Algorithms</h4>
+                    <p class="text-gray-400">MD5 (broken), SHA-1 (deprecated), and <strong>SHA-256</strong> (current standard).</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 7: Digital Signatures -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-gray-300">Digital Signatures: How They Work</h2>
+                <p class="text-lg text-gray-400 mb-6">Digital signatures combine hashing and asymmetric cryptography to provide integrity, authentication, and non-repudiation.</p>
+                <div class="grid md:grid-cols-2 gap-6 text-left">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-slate-400 mb-3">Signing a Message</h3>
+                        <ol class="space-y-2 text-gray-400 list-decimal list-inside">
+                            <li>Create a hash of the original message.</li>
+                            <li>Encrypt that hash with your <strong>private key</strong>. This encrypted hash is the signature.</li>
+                            <li>Send the original message + the signature.</li>
+                        </ol>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-slate-400 mb-3">Verifying a Signature</h3>
+                        <ol class="space-y-2 text-gray-400 list-decimal list-inside">
+                            <li>Create a new hash of the received message.</li>
+                            <li>Decrypt the received signature with the sender's <strong>public key</strong> to reveal the original hash.</li>
+                            <li>If the two hashes match, the signature is valid.</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Think-Pair-Share -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-gray-300">🤔 Think-Pair-Share: Key Selection</h2>
+                <div class="bg-yellow-900/20 border border-yellow-500/30 rounded-lg p-5 text-left mb-6">
+                    <h3 class="text-xl font-semibold text-yellow-300 mb-3 text-center">Scenario</h3>
+                    <p class="text-yellow-200">Alice wants to send a confidential message to Bob. She also wants Bob to be sure the message truly came from her and was not altered.</p>
+                </div>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5 text-left">
+                    <h3 class="text-xl font-semibold text-gray-300 mb-3 text-center">Your Task (5 minutes)</h3>
+                    <ul class="space-y-3 text-gray-400 list-decimal list-inside">
+                        <li>To <strong>sign</strong> the message (prove it's from her), which key does Alice use?</li>
+                        <li>To <strong>encrypt</strong> the message (make it confidential), which key does Alice use?</li>
+                        <li>To <strong>verify</strong> Alice's signature, which key does Bob use?</li>
+                        <li>To <strong>decrypt</strong> the message, which key does Bob use?</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Public Key Infrastructure (PKI) -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Public Key Infrastructure (PKI)</h2>
+                <div class="bg-slate-900/20 border border-slate-500/30 rounded-lg p-5 text-center mb-6">
+                    <p class="text-lg text-slate-300">PKI is the framework of hardware, software, policies, and procedures required to create, manage, distribute, use, store, and revoke digital certificates.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-slate-400 mb-2">Digital Certificate (X.509)</h3>
+                        <p class="text-gray-400">An electronic document that binds a public key to an identity (a person, a server) and is signed by a trusted third party.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-slate-400 mb-2">Certificate Authority (CA)</h3>
+                        <p class="text-gray-400">The trusted third party that issues digital certificates. Your browser has a built-in list of trusted CAs.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: The Chain of Trust -->
+        <div class="slide p-6 md:p-12">
+             <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-gray-300">The Chain of Trust</h2>
+                <p class="text-lg text-gray-400 mb-6">Your browser doesn't trust a website's certificate directly. It trusts the CA that signed it. This creates a "chain of trust."</p>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800 p-4 rounded-lg">
+                        <p class="font-semibold text-slate-400">Root CA Certificate</p>
+                        <p class="text-sm text-gray-500">(Self-signed, stored in your browser's trust store)</p>
+                    </div>
+                     <div class="text-center text-3xl text-gray-600">↓ signs</div>
+                     <div class="bg-zinc-800 p-4 rounded-lg">
+                        <p class="font-semibold text-slate-400">Intermediate CA Certificate</p>
+                    </div>
+                    <div class="text-center text-3xl text-gray-600">↓ signs</div>
+                     <div class="bg-zinc-800 p-4 rounded-lg">
+                        <p class="font-semibold text-slate-400">End-Entity (Server) Certificate</p>
+                        <p class="text-sm text-gray-500">(e.g., for `www.google.com`)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 11: Certificate Revocation -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Certificate Revocation</h2>
+                <p class="text-center text-gray-400 mb-6">What happens if a private key is stolen? The CA must revoke the certificate.</p>
+                <div class="grid md:grid-cols-2 gap-6 text-left">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-slate-400 mb-3">Certificate Revocation List (CRL)</h3>
+                        <p class="text-gray-400">A "blacklist" of revoked certificate serial numbers published by the CA. Browsers must periodically download this large list, which can be slow and inefficient.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-slate-400 mb-3">Online Certificate Status Protocol (OCSP)</h3>
+                        <p class="text-gray-400">A real-time protocol. The browser sends a request to the CA's server asking for the status of a specific certificate. It's more efficient but can cause performance bottlenecks and privacy concerns.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Micro-Lab Certificate -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-gray-300">🔬 Micro-Lab: Analyze a Certificate</h2>
+                 <div class="bg-yellow-900/20 border border-yellow-500/30 rounded-lg p-5 text-left mb-6">
+                    <h3 class="text-xl font-semibold text-yellow-300 mb-3 text-center">Task: Inspect a Live Certificate</h3>
+                    <p class="text-yellow-200">In your web browser (Chrome, Firefox, etc.), go to `www.google.com`. Click the padlock icon in the address bar, and find the option to view the certificate details.</p>
+                </div>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5 text-left">
+                    <h3 class="text-xl font-semibold text-gray-300 mb-3 text-center">Your Mission (5 minutes)</h3>
+                    <ul class="space-y-2 text-gray-400 list-decimal list-inside">
+                        <li>Who is the <strong>Issuer</strong> (the CA) of Google's certificate?</li>
+                        <li>What is the certificate's <strong>validity period</strong> (start and end dates)?</li>
+                        <li>What is the <strong>Signature Algorithm</strong> used?</li>
+                        <li>Find the "Subject Alternative Name" (SAN) section. List two other domain names that this single certificate is valid for.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 13: Certificate Formats -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Certificate Formats</h2>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="font-semibold text-slate-400">PEM (.pem, .crt)</h3>
+                        <p class="text-sm text-gray-400">ASCII (text-based) format. Often starts with `-----BEGIN CERTIFICATE-----`.</p>
+                    </div>
+                     <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="font-semibold text-slate-400">DER (.der, .cer)</h3>
+                        <p class="text-sm text-gray-400">A binary format of the certificate. Windows often uses this.</p>
+                    </div>
+                     <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="font-semibold text-slate-400">PFX/P12 (.pfx, .p12)</h3>
+                        <p class="text-sm text-gray-400">A binary format that can contain the entire certificate chain and, optionally, the private key.</p>
+                    </div>
+                     <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="font-semibold text-slate-400">P7B (.p7b)</h3>
+                        <p class="text-sm text-gray-400">An ASCII format that contains certificates and the chain, but not the private key.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 14: Steganography -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Obfuscation: Steganography</h2>
+                <div class="bg-slate-900/20 border border-slate-500/30 rounded-lg p-5 text-center mb-6">
+                    <p class="text-lg text-slate-300">The art of hiding secret messages within an ordinary, non-secret file (like an image, audio, or video file) to conceal its existence.</p>
+                </div>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                    <h3 class="text-xl font-semibold text-slate-400 mb-3">How it Works</h3>
+                    <p class="text-gray-400">Steganographic algorithms make alterations to the least significant bits (LSBs) of the data that makes up an image or audio file. These changes are so minor that they are imperceptible to the human eye or ear, but can be extracted with the right tool and key.</p>
+                </div>
+                 <div class="mt-6 bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                    <h4 class="text-lg font-semibold text-gray-300 mb-2">Real-World Use Case: Digital Watermarking</h4>
+                    <p class="text-gray-400">A hidden copyright notice embedded in an image is a form of steganography used to protect intellectual property.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 15: Cryptographic Attacks (Part 1) -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Cryptographic Attacks (Part 1)</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-slate-400 mb-2">Birthday Attack</h3>
+                        <p class="text-gray-400">A brute-force attack against hash functions. Based on the "birthday paradox," which shows that it's statistically much easier to find two random inputs that generate the same hash (a collision) than it is to find an input that generates a specific, predetermined hash.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-slate-400 mb-2">Collision Attack</h3>
+                        <p class="text-gray-400">The specific goal of a birthday attack. The attacker seeks to find any two different messages that produce the exact same hash value. A successful collision undermines the integrity guarantees of a hashing algorithm.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 16: Cryptographic Attacks (Part 2) -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Cryptographic Attacks (Part 2)</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-slate-400 mb-2">Downgrade Attack</h3>
+                        <p class="text-gray-400">An on-path attacker intercepts a connection and forces the two parties to negotiate a weaker, less secure version of a protocol (like an old version of TLS) that the attacker knows how to break.</p>
+                    </div>
+                     <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-slate-400 mb-2">Replay Attack</h3>
+                        <p class="text-gray-400">An attacker captures a valid data transmission (e.g., a login session with a cookie) and re-transmits it later to impersonate the legitimate user. This is why anti-replay mechanisms like timestamps and sequence numbers are crucial.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 17: Cryptographic Attacks (Part 3) -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Cryptographic Attacks (Part 3)</h2>
+                <div class="space-y-4">
+                     <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-slate-400 mb-2">Weak Implementations</h3>
+                        <p class="text-gray-400">Using a strong algorithm (like AES) but implementing it incorrectly. A famous example is the WEP protocol, which used the RC4 stream cipher in a way that made the keys easily crackable.</p>
+                    </div>
+                     <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-slate-400 mb-2">Improper Key Management</h3>
+                        <p class="text-gray-400">The root cause of many breaches. This includes hard-coding keys in software, reusing keys across multiple systems, or failing to protect private keys, making the entire cryptographic system worthless.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 18: Advanced Concepts -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                 <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Advanced & Emerging Concepts</h2>
+                 <div class="grid md:grid-cols-2 gap-6">
+                     <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-slate-400 mb-2">Blockchain</h3>
+                        <p class="text-gray-400">A distributed, immutable public ledger. It stores records in a way that prevents tampering, forming the basis for cryptocurrencies like Bitcoin.</p>
+                    </div>
+                     <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-slate-400 mb-2">Homomorphic Encryption</h3>
+                        <p class="text-gray-400">A cutting-edge form of encryption that allows computation to be performed on ciphertext, generating an encrypted result which, when decrypted, matches the result of operations performed on the plaintext.</p>
+                    </div>
+                      <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5 col-span-1 md:col-span-2">
+                        <h3 class="text-xl font-semibold text-slate-400 mb-2">Post-Quantum Cryptography (PQC)</h3>
+                        <p class="text-gray-400">New cryptographic algorithms that are secure against attacks from both classical and future quantum computers. NIST is standardizing algorithms like CRYSTALS-Kyber (for key exchange) and CRYSTALS-Dilithium (for digital signatures) to prepare for this future threat.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 19: Summary -->
+        <div class="slide p-6 md:p-12">
+            <div class="w-full h-full flex items-center justify-center">
+                <div class="max-w-4xl mx-auto">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center text-gray-300 border-b-2 border-gray-600 pb-4">Chapter Summary</h2>
+                    <div class="space-y-4">
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold text-slate-400 mb-2">Cryptography Provides Four Goals</h3>
+                            <p class="text-gray-400">Confidentiality, Integrity, Authentication, and Non-repudiation are the pillars of secure communication.</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold text-slate-400 mb-2">Use the Right Tool for the Job</h3>
+                            <p class="text-gray-400">Symmetric crypto is for speed and bulk encryption. Asymmetric crypto is for key exchange and digital signatures.</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold text-slate-400 mb-2">PKI Enables Trust at Scale</h3>
+                            <p class="text-gray-400">The Public Key Infrastructure, built on Certificate Authorities and a chain of trust, is what allows secure communication across the global internet.</p>
+                        </div>
+                        <div class="bg-red-900/50 border border-red-500/50 rounded-lg p-5">
+                            <h3 class="text-xl font-semibold text-red-300 mb-2">🚨 Bottom Line</h3>
+                            <p class="text-gray-300">Modern security is built on a hybrid model that uses the strengths of each cryptographic primitive to create a secure, scalable, and trustworthy system.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div id="navigation" class="fixed bottom-0 left-0 right-0 h-20 bg-zinc-900/80 backdrop-blur-sm border-t border-zinc-700 flex items-center justify-center px-6">
+        <div class="w-full max-w-4xl flex items-center justify-between">
+            <button id="prevBtn" class="bg-zinc-700 text-white font-bold py-2 px-4 rounded-md hover:bg-zinc-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">Previous</button>
+            <div class="flex-grow mx-4">
+                 <div class="w-full bg-zinc-700 rounded-full h-2.5">
+                    <div id="progressBar" class="bg-slate-500 h-2.5 rounded-full" style="width: 0%"></div>
+                </div>
+            </div>
+            <button id="nextBtn" class="bg-slate-600 text-white font-bold py-2 px-4 rounded-md hover:bg-slate-500 transition-colors">Next</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const progressBar = document.getElementById('progressBar');
+            let currentSlide = 0;
+            const totalSlides = slides.length;
+
+            function showSlide(index) {
+                const activeSlide = document.querySelector('.slide.active');
+                if (activeSlide) activeSlide.classList.remove('active');
+                slides[index].classList.add('active');
+                const progressPercentage = ((index + 1) / totalSlides) * 100;
+                progressBar.style.width = `${progressPercentage}%`;
+                prevBtn.disabled = index === 0;
+                nextBtn.disabled = index === totalSlides - 1;
+                nextBtn.textContent = index === totalSlides - 1 ? 'Finish' : 'Next';
+            }
+
+            nextBtn.addEventListener('click', () => {
+                if (currentSlide < totalSlides - 1) {
+                    currentSlide++;
+                    showSlide(currentSlide);
+                }
+            });
+
+            prevBtn.addEventListener('click', () => {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    showSlide(currentSlide);
+                }
+            });
+            
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight' && !nextBtn.disabled) {
+                    nextBtn.click();
+                } else if (e.key === 'ArrowLeft' && !prevBtn.disabled) {
+                    prevBtn.click();
+                }
+            });
+
+            showSlide(currentSlide);
+        });
+    </script>
+</body>
+</html>
+
+

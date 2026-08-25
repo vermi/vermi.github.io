@@ -1,0 +1,1564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CompTIA Security+ Ch. 8: Identity and Access Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #18181b;
+            color: #e4e4e7;
+            overflow: hidden;
+        }
+        .slide {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 80px;
+            overflow-y: auto;
+        }
+        .slide.active {
+            display: block;
+            opacity: 1;
+        }
+        .slide::-webkit-scrollbar {
+            width: 8px;
+        }
+        .slide::-webkit-scrollbar-track {
+            background: #27272a;
+        }
+        .slide::-webkit-scrollbar-thumb {
+            background-color: #52525b;
+            border-radius: 10px;
+            border: 2px solid #27272a;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div id="presentation-container" class="relative w-full h-screen">
+
+        <!-- Slide 1: Title -->
+        <div class="slide active p-6 md:p-12">
+            <div class="w-full h-full flex items-center justify-center">
+                <div class="text-center max-w-4xl mx-auto">
+                    <h1 class="text-4xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-cyan-500 mb-4">CompTIA Security+ Chapter 8</h1>
+                    <h2 class="text-2xl md:text-4xl font-bold text-gray-300 mb-8">Identity and Access Management</h2>
+                    <div class="bg-zinc-800 border border-zinc-700 rounded-lg p-6 inline-block">
+                        <p class="text-lg font-semibold text-gray-300">Exam Objectives: Domain 1.2, 2.5 & 4.6</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Learning Objectives -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center text-gray-300">Learning Objectives</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-green-400 mb-2">🆔 Understand Identity Concepts</h3>
+                        <p class="text-gray-400">Learn how identities are established, claimed, and verified through authentication processes.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-green-400 mb-2">🔐 Master Authentication Technologies</h3>
+                        <p class="text-gray-400">Understand AAA, RADIUS, Kerberos, LDAP, SAML, OAuth, and federation concepts.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-green-400 mb-2">🔑 Implement MFA & Password Best Practices</h3>
+                        <p class="text-gray-400">Learn multifactor authentication factors, biometrics, OTP, and modern password guidelines.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-green-400 mb-2">🛡️ Apply Access Control Schemes</h3>
+                        <p class="text-gray-400">Differentiate between MAC, DAC, RBAC, ABAC, and understand privileged access management.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Exam Objectives -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Exam Objectives Covered</h2>
+                <div class="space-y-4">
+                    <div class="bg-green-900/20 border border-green-500/30 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold text-green-400">Domain 1.0: General Security Concepts</h3>
+                        <p class="text-gray-400 mt-2">1.2 - Summarize fundamental security concepts (AAA, Authentication, Authorization models)</p>
+                    </div>
+                    <div class="bg-blue-900/20 border border-blue-500/30 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold text-blue-400">Domain 2.0: Threats, Vulnerabilities, and Mitigations</h3>
+                        <p class="text-gray-400 mt-2">2.5 - Explain mitigation techniques (Access control, ACLs, Permissions)</p>
+                    </div>
+                    <div class="bg-purple-900/20 border border-purple-500/30 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold text-purple-400">Domain 4.0: Security Operations</h3>
+                        <p class="text-gray-400 mt-2">4.6 - Implement and maintain identity and access management (Provisioning, SSO, MFA, Access controls, PAM)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: What is Identity? -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">What is Identity?</h2>
+                <div class="bg-green-900/20 border border-green-500/30 rounded-lg p-4 text-center mb-6">
+                    <p class="text-lg text-green-300">Identities are the <strong>sets of claims</strong> made about a subject (person, application, device, system, or organization).</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-green-400 mb-3">📋 Attributes</h3>
+                        <p class="text-gray-400">Information about the subject that can <strong>change</strong> over time.</p>
+                        <ul class="text-sm mt-2 text-gray-500 list-disc list-inside">
+                            <li>Name, job title</li>
+                            <li>Address, department</li>
+                            <li>Phone number, email</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-green-400 mb-3">🧬 Traits</h3>
+                        <p class="text-gray-400">Characteristics that are <strong>inherent</strong> to the subject.</p>
+                        <ul class="text-sm mt-2 text-gray-500 list-disc list-inside">
+                            <li>Height, eye color</li>
+                            <li>Place of birth</li>
+                            <li>Fingerprint pattern</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Ways to Claim Identity -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Ways to Claim an Identity</h2>
+                <div class="grid md:grid-cols-3 gap-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold text-green-400 mb-2">👤 Usernames</h3>
+                        <p class="text-sm text-gray-400">Most common way to claim identity. Not an authentication factor by itself.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold text-green-400 mb-2">📜 Certificates</h3>
+                        <p class="text-sm text-gray-400">Digital certificates stored on systems or security tokens. Used for systems and individuals.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold text-green-400 mb-2">🔑 Tokens</h3>
+                        <p class="text-sm text-gray-400">Physical devices that generate codes, plug in via USB, or connect via Bluetooth.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold text-green-400 mb-2">🔐 SSH Keys</h3>
+                        <p class="text-sm text-gray-400">Cryptographic key pairs that replace username/password authentication.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold text-green-400 mb-2">💳 Smartcards</h3>
+                        <p class="text-sm text-gray-400">Embedded chips (contactless or physical). Can generate key pairs on the card itself.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Real-World - Lost Key Pairs -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Real-World: Lost Key Pairs</h2>
+                <div class="bg-red-900/20 border border-red-500/30 rounded-lg p-5 mb-6">
+                    <h3 class="text-xl font-semibold text-red-400 mb-3">🚨 The Danger of Exposed Keys</h3>
+                    <p class="text-gray-300">Uploading private keys to public code repositories (like GitHub) is a common security incident.</p>
+                </div>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <p class="text-gray-400"><strong>Poor Practices:</strong> Using blank passphrases for SSH keys, storing keys in insecure locations.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <p class="text-gray-400"><strong>Cloud Monitoring:</strong> AWS, Azure, and GCP actively monitor for key exposures and exploits that follow.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <p class="text-gray-400"><strong>Smartcard Security:</strong> Well-designed smartcards generate key pairs ON the card to prevent copies.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Authentication vs Authorization -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Authentication vs Authorization</h2>
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <div class="bg-green-900/20 border border-green-500/30 rounded-lg p-5">
+                        <h3 class="text-2xl font-semibold text-green-400 mb-3 text-center">🔐 Authentication</h3>
+                        <p class="text-green-200 text-center text-lg mb-2">Proves WHO you are</p>
+                        <p class="text-gray-400 text-center">Verifies the identity belongs to the person claiming it.</p>
+                    </div>
+                    <div class="bg-blue-900/20 border border-blue-500/30 rounded-lg p-5">
+                        <h3 class="text-2xl font-semibold text-blue-400 mb-3 text-center">✅ Authorization</h3>
+                        <p class="text-blue-200 text-center text-lg mb-2">Verifies WHAT you can access</p>
+                        <p class="text-gray-400 text-center">Determines permissions and rights based on your identity.</p>
+                    </div>
+                </div>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 text-center">
+                    <p class="text-gray-300"><strong>Combined:</strong> First verify who you are (authentication), then allow access based on what you're authorized to use (authorization).</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: AAA Model -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">The AAA Model</h2>
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5 text-center">
+                        <h3 class="text-2xl font-bold text-green-400 mb-3">Authentication</h3>
+                        <p class="text-gray-400">Users must first prove their identity, typically with username and password (or other factors).</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5 text-center">
+                        <h3 class="text-2xl font-bold text-blue-400 mb-3">Authorization</h3>
+                        <p class="text-gray-400">System determines what actions the authenticated user is permitted to perform.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5 text-center">
+                        <h3 class="text-2xl font-bold text-purple-400 mb-3">Accounting</h3>
+                        <p class="text-gray-400">Tracks resource utilization: time, bandwidth, CPU usage, actions performed.</p>
+                    </div>
+                </div>
+                <div class="mt-6 bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 text-center">
+                    <p class="text-gray-300"><strong>Key Protocols:</strong> RADIUS and TACACS+ are commonly associated with AAA systems.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Authentication Technologies Overview -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Authentication Technologies</h2>
+                <div class="bg-green-900/20 border border-green-500/30 rounded-lg p-4 text-center mb-6">
+                    <p class="text-lg text-green-300">The Security+ exam focuses on SSO-related technologies: LDAP, OAuth, SAML, 802.1X, and EAP.</p>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-3 text-center">
+                        <h4 class="font-semibold text-green-400">EAP</h4>
+                        <p class="text-xs text-gray-500">Extensible Authentication Protocol</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-3 text-center">
+                        <h4 class="font-semibold text-green-400">CHAP</h4>
+                        <p class="text-xs text-gray-500">Challenge Handshake Auth Protocol</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-3 text-center">
+                        <h4 class="font-semibold text-green-400">802.1X</h4>
+                        <p class="text-xs text-gray-500">Network Access Control</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-3 text-center">
+                        <h4 class="font-semibold text-green-400">RADIUS</h4>
+                        <p class="text-xs text-gray-500">Remote Auth Dial-In User Service</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-3 text-center">
+                        <h4 class="font-semibold text-green-400">TACACS+</h4>
+                        <p class="text-xs text-gray-500">Terminal Access Controller</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-3 text-center">
+                        <h4 class="font-semibold text-green-400">Kerberos</h4>
+                        <p class="text-xs text-gray-500">Ticket-based Authentication</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: EAP -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">EAP - Extensible Authentication Protocol</h2>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5 mb-6">
+                    <p class="text-gray-300 text-center">An authentication <strong>framework</strong> commonly used for wireless networks.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="space-y-3">
+                        <h3 class="text-xl font-semibold text-green-400">Common EAP Methods:</h3>
+                        <ul class="text-gray-400 space-y-2 list-disc list-inside">
+                            <li><strong>EAP-TLS:</strong> Uses certificates (most secure)</li>
+                            <li><strong>EAP-TTLS:</strong> Tunneled TLS</li>
+                            <li><strong>PEAP:</strong> Protected EAP (Microsoft)</li>
+                            <li><strong>LEAP:</strong> Lightweight EAP (Cisco, deprecated)</li>
+                        </ul>
+                    </div>
+                    <div class="bg-blue-900/20 border border-blue-500/30 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold text-blue-400 mb-2">Key Points:</h3>
+                        <ul class="text-gray-400 text-sm space-y-1 list-disc list-inside">
+                            <li>Framework, not a single protocol</li>
+                            <li>Primary use: Wireless authentication</li>
+                            <li>Works with 802.1X</li>
+                            <li>Multiple implementations exist</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: CHAP -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">CHAP - Challenge Handshake Authentication Protocol</h2>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5 mb-6">
+                    <p class="text-gray-300 text-center">Uses an <strong>encrypted challenge</strong> and <strong>three-way handshake</strong> to send credentials securely.</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-4 text-center">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <div class="text-3xl mb-2">1️⃣</div>
+                        <h4 class="font-semibold text-green-400">Challenge</h4>
+                        <p class="text-sm text-gray-400">Server sends a random challenge to client</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <div class="text-3xl mb-2">2️⃣</div>
+                        <h4 class="font-semibold text-green-400">Response</h4>
+                        <p class="text-sm text-gray-400">Client responds with username and hashed password + challenge</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <div class="text-3xl mb-2">3️⃣</div>
+                        <h4 class="font-semibold text-green-400">Accept/Reject</h4>
+                        <p class="text-sm text-gray-400">Server verifies and accepts or rejects</p>
+                    </div>
+                </div>
+                <div class="mt-4 bg-yellow-900/20 border border-yellow-500/30 rounded-lg p-3 text-center">
+                    <p class="text-yellow-300 text-sm">More secure than PAP (Password Authentication Protocol), which sends passwords in cleartext.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: 802.1X -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">802.1X - Network Access Control</h2>
+                <div class="bg-green-900/20 border border-green-500/30 rounded-lg p-4 text-center mb-6">
+                    <p class="text-lg text-green-300">IEEE standard for <strong>port-based network access control</strong> (NAC).</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-4 mb-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 text-center">
+                        <h4 class="text-lg font-semibold text-green-400 mb-2">💻 Supplicant</h4>
+                        <p class="text-sm text-gray-400">The client device requesting network access</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 text-center">
+                        <h4 class="text-lg font-semibold text-green-400 mb-2">🔌 Authenticator</h4>
+                        <p class="text-sm text-gray-400">Network switch, AP, or wireless controller</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 text-center">
+                        <h4 class="text-lg font-semibold text-green-400 mb-2">🖥️ Auth Server</h4>
+                        <p class="text-sm text-gray-400">RADIUS server that validates credentials</p>
+                    </div>
+                </div>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                    <p class="text-gray-300 text-center"><strong>Flow:</strong> Supplicant → (EAP) → Authenticator → (RADIUS) → Auth Server → (LDAP) → Directory</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 13: RADIUS -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">RADIUS</h2>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 text-center mb-6">
+                    <p class="text-lg text-gray-300"><strong>Remote Authentication Dial-In User Service</strong></p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="space-y-4">
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                            <h4 class="font-semibold text-green-400 mb-2">Key Characteristics:</h4>
+                            <ul class="text-gray-400 text-sm space-y-1 list-disc list-inside">
+                                <li>Client-server model</li>
+                                <li>Uses UDP (or TCP)</li>
+                                <li>Provides AAA services</li>
+                                <li>Common for network devices, wireless</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="bg-red-900/20 border border-red-500/30 rounded-lg p-4">
+                            <h4 class="font-semibold text-red-400 mb-2">⚠️ Security Consideration:</h4>
+                            <p class="text-gray-400 text-sm">Passwords obfuscated with shared secret + MD5 hash (not strong). Traffic should be encrypted with IPSec tunnels.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 14: TACACS+ -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">TACACS+</h2>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 text-center mb-6">
+                    <p class="text-lg text-gray-300"><strong>Terminal Access Controller Access Control System Plus</strong> (Cisco)</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <div class="bg-green-900/20 border border-green-500/30 rounded-lg p-4">
+                        <h4 class="font-semibold text-green-400 mb-2">✅ Advantages over RADIUS:</h4>
+                        <ul class="text-gray-400 text-sm space-y-1 list-disc list-inside">
+                            <li>Uses TCP (more reliable)</li>
+                            <li><strong>Full packet encryption</strong></li>
+                            <li>Granular command controls</li>
+                            <li>Separates AAA functions</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h4 class="font-semibold text-blue-400 mb-2">Common Use Cases:</h4>
+                        <ul class="text-gray-400 text-sm space-y-1 list-disc list-inside">
+                            <li>Network device administration</li>
+                            <li>Router/switch management</li>
+                            <li>Per-command authorization</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-3 text-center">
+                    <p class="text-gray-400 text-sm"><strong>RADIUS vs TACACS+:</strong> RADIUS combines auth+authz; TACACS+ separates all three AAA functions.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 15: Kerberos -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Kerberos Authentication</h2>
+                <div class="bg-green-900/20 border border-green-500/30 rounded-lg p-4 text-center mb-6">
+                    <p class="text-lg text-green-300">A protocol for authenticating service requests between <strong>trusted hosts</strong> across <strong>untrusted networks</strong>.</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-4 mb-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 text-center">
+                        <h4 class="font-semibold text-green-400">Primary</h4>
+                        <p class="text-sm text-gray-400">Typically the username</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 text-center">
+                        <h4 class="font-semibold text-green-400">Instance</h4>
+                        <p class="text-sm text-gray-400">Differentiates similar primaries</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 text-center">
+                        <h4 class="font-semibold text-green-400">Realms</h4>
+                        <p class="text-sm text-gray-400">Groups of users (trust boundaries)</p>
+                    </div>
+                </div>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                    <h4 class="font-semibold text-gray-300 mb-2">Key Components:</h4>
+                    <ul class="text-gray-400 text-sm space-y-1 list-disc list-inside">
+                        <li><strong>KDC:</strong> Key Distribution Center</li>
+                        <li><strong>TGT:</strong> Ticket-Granting Ticket</li>
+                        <li><strong>TGS:</strong> Ticket-Granting Service</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 16: Kerberos Flow -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Kerberos Authentication Flow</h2>
+                <div class="space-y-4">
+                    <div class="flex items-center bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <span class="text-2xl mr-4">1️⃣</span>
+                        <div>
+                            <h4 class="font-semibold text-green-400">Client → Authentication Server</h4>
+                            <p class="text-sm text-gray-400">Client requests a Ticket-Granting Ticket (TGT)</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <span class="text-2xl mr-4">2️⃣</span>
+                        <div>
+                            <h4 class="font-semibold text-green-400">Auth Server → Client</h4>
+                            <p class="text-sm text-gray-400">Server validates credentials, returns TGT (encrypted with TGS secret key)</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <span class="text-2xl mr-4">3️⃣</span>
+                        <div>
+                            <h4 class="font-semibold text-green-400">Client → TGS</h4>
+                            <p class="text-sm text-gray-400">Client sends TGT + requested service name to get a service ticket</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <span class="text-2xl mr-4">4️⃣</span>
+                        <div>
+                            <h4 class="font-semibold text-green-400">Client → Service Server</h4>
+                            <p class="text-sm text-gray-400">Client presents service ticket to access the service</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 17: Single Sign-On -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Single Sign-On (SSO)</h2>
+                <div class="bg-green-900/20 border border-green-500/30 rounded-lg p-4 text-center mb-6">
+                    <p class="text-lg text-green-300">Log in <strong>once</strong>, access <strong>multiple</strong> systems or services without re-authenticating.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h4 class="font-semibold text-green-400 mb-2">✅ Advantages:</h4>
+                        <ul class="text-gray-400 text-sm space-y-1 list-disc list-inside">
+                            <li>Simplified user experience</li>
+                            <li>Reduced password fatigue</li>
+                            <li>Fewer help desk calls</li>
+                            <li>Centralized authentication</li>
+                        </ul>
+                    </div>
+                    <div class="bg-red-900/20 border border-red-500/30 rounded-lg p-4">
+                        <h4 class="font-semibold text-red-400 mb-2">⚠️ Trade-offs:</h4>
+                        <ul class="text-gray-400 text-sm space-y-1 list-disc list-inside">
+                            <li>Single point of failure</li>
+                            <li>If SSO is compromised, all systems are at risk</li>
+                            <li>May need additional auth for high-security systems</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mt-4 bg-zinc-800/50 border border-zinc-700 rounded-lg p-3 text-center">
+                    <p class="text-gray-400 text-sm"><strong>Example:</strong> Log into Gmail → automatically authenticated to YouTube, Google Drive, etc.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 18: LDAP -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">LDAP - Lightweight Directory Access Protocol</h2>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 text-center mb-6">
+                    <p class="text-lg text-gray-300">A <strong>directory service</strong> that provides hierarchically organized information about an organization.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="space-y-3">
+                        <h4 class="font-semibold text-green-400">Directory Structure:</h4>
+                        <ul class="text-gray-400 text-sm space-y-1 list-disc list-inside">
+                            <li><strong>DC:</strong> Domain Component (e.g., dc=example,dc=com)</li>
+                            <li><strong>OU:</strong> Organizational Unit (e.g., ou=security)</li>
+                            <li><strong>CN:</strong> Common Name (e.g., cn=johndoe)</li>
+                            <li><strong>DN:</strong> Distinguished Name (full path)</li>
+                        </ul>
+                    </div>
+                    <div class="space-y-3">
+                        <h4 class="font-semibold text-blue-400">Common Uses:</h4>
+                        <ul class="text-gray-400 text-sm space-y-1 list-disc list-inside">
+                            <li>Email/contact directories</li>
+                            <li>Authentication backend</li>
+                            <li>Active Directory integration</li>
+                            <li>SSO infrastructure</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 19: SAML -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">SAML - Security Assertion Markup Language</h2>
+                <div class="bg-green-900/20 border border-green-500/30 rounded-lg p-4 text-center mb-6">
+                    <p class="text-lg text-green-300">XML-based open standard for exchanging <strong>authentication and authorization</strong> information.</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-4 mb-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 text-center">
+                        <h4 class="font-semibold text-green-400">Principal</h4>
+                        <p class="text-sm text-gray-400">The user requesting access</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 text-center">
+                        <h4 class="font-semibold text-green-400">Identity Provider (IdP)</h4>
+                        <p class="text-sm text-gray-400">Authenticates the user</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 text-center">
+                        <h4 class="font-semibold text-green-400">Service Provider (SP)</h4>
+                        <p class="text-sm text-gray-400">Provides the service/resource</p>
+                    </div>
+                </div>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                    <p class="text-gray-300 text-center"><strong>Primary Use:</strong> Web-based SSO between identity providers and service providers. Common in federated environments.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 20: OAuth -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">OAuth - Open Authorization</h2>
+                <div class="bg-blue-900/20 border border-blue-500/30 rounded-lg p-4 text-center mb-6">
+                    <p class="text-lg text-blue-300">Open standard for <strong>authorization</strong> (not authentication!) - allows limited access without sharing credentials.</p>
+                </div>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5 mb-4">
+                    <h4 class="font-semibold text-green-400 mb-3">How OAuth Works:</h4>
+                    <ol class="text-gray-400 space-y-2 list-decimal list-inside">
+                        <li>App requests access to your data (e.g., Google Drive)</li>
+                        <li>You're redirected to authorize specific permissions</li>
+                        <li>You grant access without sharing your password</li>
+                        <li>App receives an access token with limited scope</li>
+                    </ol>
+                </div>
+                <div class="bg-yellow-900/20 border border-yellow-500/30 rounded-lg p-3 text-center">
+                    <p class="text-yellow-300 text-sm"><strong>Example:</strong> "Allow Zoom to access your Google Calendar?" - OAuth handles the authorization.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 21: OpenID -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">OpenID (Connect)</h2>
+                <div class="bg-purple-900/20 border border-purple-500/30 rounded-lg p-4 text-center mb-6">
+                    <p class="text-lg text-purple-300">Open standard for <strong>decentralized authentication</strong> - "Log in with Google/Microsoft/etc."</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h4 class="font-semibold text-green-400 mb-2">Identity Providers (IdPs):</h4>
+                        <ul class="text-gray-400 text-sm space-y-1 list-disc list-inside">
+                            <li>Google</li>
+                            <li>Microsoft</li>
+                            <li>Amazon</li>
+                            <li>Facebook</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h4 class="font-semibold text-blue-400 mb-2">How It Works:</h4>
+                        <ol class="text-gray-400 text-sm space-y-1 list-decimal list-inside">
+                            <li>Relying Party redirects to IdP</li>
+                            <li>User authenticates with IdP</li>
+                            <li>IdP returns assertion</li>
+                            <li>User logged in via OpenID</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 22: Comparing SSO Technologies -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Comparing SSO Technologies</h2>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left">
+                        <thead class="text-gray-300 bg-zinc-800">
+                            <tr>
+                                <th class="p-3 border border-zinc-700">Technology</th>
+                                <th class="p-3 border border-zinc-700">Purpose</th>
+                                <th class="p-3 border border-zinc-700">Format</th>
+                                <th class="p-3 border border-zinc-700">Use Case</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-400">
+                            <tr>
+                                <td class="p-3 border border-zinc-700 font-semibold text-green-400">SAML</td>
+                                <td class="p-3 border border-zinc-700">Authentication + Authorization</td>
+                                <td class="p-3 border border-zinc-700">XML</td>
+                                <td class="p-3 border border-zinc-700">Enterprise SSO, Federation</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 border border-zinc-700 font-semibold text-blue-400">OAuth</td>
+                                <td class="p-3 border border-zinc-700">Authorization only</td>
+                                <td class="p-3 border border-zinc-700">JSON</td>
+                                <td class="p-3 border border-zinc-700">API access, delegated auth</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 border border-zinc-700 font-semibold text-purple-400">OpenID</td>
+                                <td class="p-3 border border-zinc-700">Authentication only</td>
+                                <td class="p-3 border border-zinc-700">JSON</td>
+                                <td class="p-3 border border-zinc-700">"Login with..." buttons</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 border border-zinc-700 font-semibold text-yellow-400">LDAP</td>
+                                <td class="p-3 border border-zinc-700">Directory services</td>
+                                <td class="p-3 border border-zinc-700">Binary</td>
+                                <td class="p-3 border border-zinc-700">Backend identity store</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 23: Federation -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Federation</h2>
+                <div class="bg-green-900/20 border border-green-500/30 rounded-lg p-4 text-center mb-6">
+                    <p class="text-lg text-green-300">Allows users authenticated by one organization to access resources at partner organizations.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h4 class="font-semibold text-green-400 mb-2">Key Terms:</h4>
+                        <ul class="text-gray-400 text-sm space-y-2">
+                            <li><strong>Principal:</strong> The user</li>
+                            <li><strong>Identity Provider (IdP):</strong> Authenticates users</li>
+                            <li><strong>Service Provider (SP):</strong> Provides services</li>
+                            <li><strong>Relying Party (RP):</strong> Trusts the IdP</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h4 class="font-semibold text-blue-400 mb-2">Attestation:</h4>
+                        <p class="text-gray-400 text-sm">Formal verification that something is true. The IdP <strong>attests</strong> that a user is who they claim to be.</p>
+                    </div>
+                </div>
+                <div class="mt-4 bg-zinc-800/50 border border-zinc-700 rounded-lg p-3 text-center">
+                    <p class="text-gray-400 text-sm"><strong>Interoperability:</strong> SAML, OAuth, and OpenID enable standards-based federation between different systems.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 24: Password Best Practices -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Password Best Practices</h2>
+                <div class="bg-green-900/20 border border-green-500/30 rounded-lg p-4 text-center mb-6">
+                    <p class="text-lg text-green-300">NIST SP 800-63B provides modern guidelines for password security.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h4 class="font-semibold text-green-400 mb-2">✅ NIST Recommends:</h4>
+                        <ul class="text-gray-400 text-sm space-y-1 list-disc list-inside">
+                            <li>Emphasize <strong>length</strong> over complexity</li>
+                            <li>Allow all ASCII/Unicode characters</li>
+                            <li>Allow paste into password fields</li>
+                            <li>Check against breached password lists</li>
+                            <li>Eliminate password hints</li>
+                        </ul>
+                    </div>
+                    <div class="bg-red-900/20 border border-red-500/30 rounded-lg p-4">
+                        <h4 class="font-semibold text-red-400 mb-2">❌ NIST Discourages:</h4>
+                        <ul class="text-gray-400 text-sm space-y-1 list-disc list-inside">
+                            <li>Mandatory special characters</li>
+                            <li>Frequent password rotation</li>
+                            <li>Security questions</li>
+                            <li>SMS-only 2FA</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 25: Password Configuration Settings -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Password Configuration Settings</h2>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h4 class="font-semibold text-green-400 mb-2">📏 Length</h4>
+                        <p class="text-sm text-gray-400">Minimum characters required. Best defense against brute-force.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h4 class="font-semibold text-green-400 mb-2">🔤 Complexity</h4>
+                        <p class="text-sm text-gray-400">Requires mix of uppercase, lowercase, numbers, symbols.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h4 class="font-semibold text-green-400 mb-2">🔄 Reuse</h4>
+                        <p class="text-sm text-gray-400">Prevents using previous X passwords again.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h4 class="font-semibold text-green-400 mb-2">⏰ Expiration</h4>
+                        <p class="text-sm text-gray-400">Maximum password age before forced change.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h4 class="font-semibold text-green-400 mb-2">📅 Age (Minimum)</h4>
+                        <p class="text-sm text-gray-400">Prevents rapid cycling through passwords.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h4 class="font-semibold text-green-400 mb-2">🔒 Lockout</h4>
+                        <p class="text-sm text-gray-400">Account locks after X failed attempts.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 26: Password Managers -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Password Managers</h2>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 text-center mb-6">
+                    <p class="text-lg text-gray-300">Tools that help create, store, and manage passwords securely.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h4 class="font-semibold text-green-400 mb-2">Third-Party Managers:</h4>
+                        <ul class="text-gray-400 text-sm space-y-1 list-disc list-inside">
+                            <li>1Password</li>
+                            <li>Bitwarden</li>
+                            <li>LastPass</li>
+                            <li>Dashlane</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h4 class="font-semibold text-blue-400 mb-2">Built-in Options:</h4>
+                        <ul class="text-gray-400 text-sm space-y-1 list-disc list-inside">
+                            <li>Windows Credential Manager</li>
+                            <li>Apple Keychain (iCloud sync)</li>
+                            <li>Browser-based managers</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mt-4 bg-green-900/20 border border-green-500/30 rounded-lg p-3 text-center">
+                    <p class="text-green-300 text-sm"><strong>Benefits:</strong> Reduces password reuse, enables complex unique passwords, secure encrypted storage.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 27: Real-World - LastPass Breach -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Real-World: LastPass Breach (2022-2023)</h2>
+                <div class="bg-red-900/20 border border-red-500/30 rounded-lg p-5 mb-6">
+                    <h3 class="text-xl font-semibold text-red-400 mb-3">🚨 What Happened:</h3>
+                    <ul class="text-gray-300 space-y-2 list-disc list-inside">
+                        <li>First incident led to second, more severe breach</li>
+                        <li>Customer vault backups were stolen</li>
+                        <li>MFA seeds and phone numbers exposed</li>
+                        <li>Attackers obtained encrypted vaults</li>
+                    </ul>
+                </div>
+                <div class="bg-yellow-900/20 border border-yellow-500/30 rounded-lg p-4">
+                    <h4 class="font-semibold text-yellow-400 mb-2">Lessons Learned:</h4>
+                    <ul class="text-gray-400 text-sm space-y-1 list-disc list-inside">
+                        <li>Password managers are targets themselves</li>
+                        <li>Strong master passwords are critical</li>
+                        <li>Consider local-only or self-hosted options for high security</li>
+                        <li>Have a breach response plan for credential rotation</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 28: Passwordless Authentication -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Passwordless Authentication</h2>
+                <div class="bg-green-900/20 border border-green-500/30 rounded-lg p-4 text-center mb-6">
+                    <p class="text-lg text-green-300">Authentication without passwords using "something you have" or "something you are."</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h4 class="font-semibold text-green-400 mb-2">🔑 Security Keys</h4>
+                        <ul class="text-gray-400 text-sm space-y-1 list-disc list-inside">
+                            <li>Hardware devices (YubiKey, Titan)</li>
+                            <li>Support FIDO2, U2F protocols</li>
+                            <li>USB, NFC, or Bluetooth</li>
+                            <li>Public key cryptography</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h4 class="font-semibold text-blue-400 mb-2">📱 Other Methods:</h4>
+                        <ul class="text-gray-400 text-sm space-y-1 list-disc list-inside">
+                            <li>Biometrics (fingerprint, face)</li>
+                            <li>Magic links (email)</li>
+                            <li>Authenticator apps</li>
+                            <li>Passkeys (FIDO2)</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mt-4 bg-zinc-800/50 border border-zinc-700 rounded-lg p-3 text-center">
+                    <p class="text-gray-400 text-sm"><strong>FIDO2:</strong> Open standard supporting W3C Web Authentication and Client to Authenticator Protocol (CTAP).</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 29: Multifactor Authentication Overview -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Multifactor Authentication (MFA)</h2>
+                <div class="bg-green-900/20 border border-green-500/30 rounded-lg p-4 text-center mb-6">
+                    <p class="text-lg text-green-300">Requires <strong>two or more</strong> authentication factors from <strong>different categories</strong>.</p>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 text-center">
+                        <div class="text-3xl mb-2">🧠</div>
+                        <h4 class="font-semibold text-green-400">Something You Know</h4>
+                        <p class="text-xs text-gray-400 mt-1">Passwords, PINs, security questions</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 text-center">
+                        <div class="text-3xl mb-2">🔑</div>
+                        <h4 class="font-semibold text-green-400">Something You Have</h4>
+                        <p class="text-xs text-gray-400 mt-1">Tokens, smartcards, phones</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 text-center">
+                        <div class="text-3xl mb-2">👤</div>
+                        <h4 class="font-semibold text-green-400">Something You Are</h4>
+                        <p class="text-xs text-gray-400 mt-1">Biometrics (fingerprint, face)</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 text-center">
+                        <div class="text-3xl mb-2">📍</div>
+                        <h4 class="font-semibold text-green-400">Somewhere You Are</h4>
+                        <p class="text-xs text-gray-400 mt-1">GPS, network location</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 30: MFA Implementations -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">MFA Implementations</h2>
+                <div class="grid md:grid-cols-3 gap-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h4 class="font-semibold text-green-400 mb-2">🔐 Hard Tokens</h4>
+                        <ul class="text-gray-400 text-sm space-y-1 list-disc list-inside">
+                            <li>Security keys (YubiKey)</li>
+                            <li>RSA SecurID tokens</li>
+                            <li>Smartcards</li>
+                            <li>Physical OTP generators</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h4 class="font-semibold text-blue-400 mb-2">📱 Soft Tokens</h4>
+                        <ul class="text-gray-400 text-sm space-y-1 list-disc list-inside">
+                            <li>Authenticator apps</li>
+                            <li>SMS codes</li>
+                            <li>Email codes</li>
+                            <li>Push notifications</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h4 class="font-semibold text-purple-400 mb-2">👆 Biometrics</h4>
+                        <ul class="text-gray-400 text-sm space-y-1 list-disc list-inside">
+                            <li>Fingerprint</li>
+                            <li>Facial recognition</li>
+                            <li>Retina/iris scan</li>
+                            <li>Voice recognition</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 31: One-Time Passwords -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">One-Time Passwords (OTP)</h2>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 text-center mb-6">
+                    <p class="text-lg text-gray-300">Passwords valid for only <strong>one use</strong> or <strong>one time period</strong>.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-green-900/20 border border-green-500/30 rounded-lg p-4">
+                        <h4 class="font-semibold text-green-400 mb-2">⏰ TOTP (Time-Based)</h4>
+                        <ul class="text-gray-400 text-sm space-y-1 list-disc list-inside">
+                            <li>Uses current time in algorithm</li>
+                            <li>Valid for set period (30-60 seconds)</li>
+                            <li>Google Authenticator, Authy</li>
+                            <li>Requires synced clocks</li>
+                        </ul>
+                    </div>
+                    <div class="bg-blue-900/20 border border-blue-500/30 rounded-lg p-4">
+                        <h4 class="font-semibold text-blue-400 mb-2">🔢 HOTP (HMAC-Based)</h4>
+                        <ul class="text-gray-400 text-sm space-y-1 list-disc list-inside">
+                            <li>Uses counter value</li>
+                            <li>Valid until used</li>
+                            <li>Button-press tokens</li>
+                            <li>Counter syncs on use</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 32: SMS OTP & Push -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">SMS OTP & Push Notifications</h2>
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <div class="bg-yellow-900/20 border border-yellow-500/30 rounded-lg p-4">
+                        <h4 class="font-semibold text-yellow-400 mb-2">📱 SMS OTP</h4>
+                        <p class="text-gray-400 text-sm mb-2">Code sent via text message</p>
+                        <p class="text-red-400 text-sm"><strong>Vulnerabilities:</strong> SIM swapping, SS7 attacks, VoIP interception</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h4 class="font-semibold text-green-400 mb-2">🔔 Push Notifications</h4>
+                        <p class="text-gray-400 text-sm mb-2">Approve/deny on your phone</p>
+                        <p class="text-yellow-400 text-sm"><strong>Risk:</strong> "MFA fatigue" attacks - users approve to stop notifications</p>
+                    </div>
+                </div>
+                <div class="bg-red-900/20 border border-red-500/30 rounded-lg p-4">
+                    <h4 class="font-semibold text-red-400 mb-2">🚨 Attacking OTPs:</h4>
+                    <ul class="text-gray-400 text-sm space-y-1 list-disc list-inside">
+                        <li>TOTP theft via phishing (must use immediately)</li>
+                        <li>SIM cloning/swapping for SMS</li>
+                        <li>MFA bombing/fatigue attacks</li>
+                        <li>Real-time phishing proxies (evilginx)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 33: Biometric Technologies -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Biometric Technologies</h2>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 text-center">
+                        <div class="text-2xl mb-2">👆</div>
+                        <h4 class="font-semibold text-green-400">Fingerprint</h4>
+                        <p class="text-xs text-gray-400">Ridge patterns via optical/capacitive/ultrasonic scanners</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 text-center">
+                        <div class="text-2xl mb-2">👁️</div>
+                        <h4 class="font-semibold text-green-400">Retina Scan</h4>
+                        <p class="text-xs text-gray-400">Blood vessel patterns in the retina</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 text-center">
+                        <div class="text-2xl mb-2">🔵</div>
+                        <h4 class="font-semibold text-green-400">Iris Recognition</h4>
+                        <p class="text-xs text-gray-400">Pattern recognition + infrared imaging</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 text-center">
+                        <div class="text-2xl mb-2">😊</div>
+                        <h4 class="font-semibold text-green-400">Facial Recognition</h4>
+                        <p class="text-xs text-gray-400">Feature matching (Face ID)</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 text-center">
+                        <div class="text-2xl mb-2">🎤</div>
+                        <h4 class="font-semibold text-green-400">Voice Recognition</h4>
+                        <p class="text-xs text-gray-400">Patterns, rhythms, voice characteristics</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 text-center">
+                        <div class="text-2xl mb-2">🚶</div>
+                        <h4 class="font-semibold text-green-400">Gait Analysis</h4>
+                        <p class="text-xs text-gray-400">Walking patterns</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 34: Evaluating Biometrics -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Evaluating Biometrics</h2>
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <div class="bg-red-900/20 border border-red-500/30 rounded-lg p-4">
+                        <h4 class="font-semibold text-red-400 mb-2">Type I Error - False Rejection Rate (FRR)</h4>
+                        <p class="text-gray-400 text-sm">Legitimate user is <strong>rejected</strong>. Frustrates users.</p>
+                    </div>
+                    <div class="bg-yellow-900/20 border border-yellow-500/30 rounded-lg p-4">
+                        <h4 class="font-semibold text-yellow-400 mb-2">Type II Error - False Acceptance Rate (FAR)</h4>
+                        <p class="text-gray-400 text-sm">Impostor is <strong>accepted</strong>. Security risk!</p>
+                    </div>
+                </div>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 mb-4">
+                    <h4 class="font-semibold text-green-400 mb-2">📊 Receiver Operating Characteristic (ROC)</h4>
+                    <p class="text-gray-400 text-sm">Graph comparing FRR vs FAR. Helps find optimal sensitivity setting.</p>
+                </div>
+                <div class="bg-blue-900/20 border border-blue-500/30 rounded-lg p-3 text-center">
+                    <p class="text-blue-300 text-sm"><strong>Trade-off:</strong> Decreasing FRR typically increases FAR, and vice versa. Balance security vs. usability.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 35: Account Types -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Account Types</h2>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h4 class="font-semibold text-green-400 mb-2">👤 User Accounts</h4>
+                        <p class="text-sm text-gray-400">Standard accounts for everyday users. Limited privileges.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h4 class="font-semibold text-red-400 mb-2">👑 Privileged/Admin</h4>
+                        <p class="text-sm text-gray-400">Root, Administrator, wheel group. Full system access.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h4 class="font-semibold text-yellow-400 mb-2">👥 Shared/Generic</h4>
+                        <p class="text-sm text-gray-400">Multiple users share one account. Generally discouraged.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h4 class="font-semibold text-blue-400 mb-2">🎫 Guest Accounts</h4>
+                        <p class="text-sm text-gray-400">Temporary, very limited privileges. Minimal tracking.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h4 class="font-semibold text-purple-400 mb-2">⚙️ Service Accounts</h4>
+                        <p class="text-sm text-gray-400">Used by applications/services. Should not allow interactive login.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 36: Provisioning Accounts -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Provisioning Accounts</h2>
+                <div class="bg-green-900/20 border border-green-500/30 rounded-lg p-4 text-center mb-6">
+                    <p class="text-lg text-green-300">The process of <strong>creating</strong> an account and assigning resources, permissions, and attributes.</p>
+                </div>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h4 class="font-semibold text-green-400 mb-2">🪪 Identity Proofing</h4>
+                        <p class="text-gray-400 text-sm">Verifying the person is who they claim to be (government ID, personal info verification).</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h4 class="font-semibold text-blue-400 mb-2">📋 Onboarding Tasks</h4>
+                        <ul class="text-gray-400 text-sm space-y-1 list-disc list-inside">
+                            <li>Add to appropriate groups</li>
+                            <li>Assign permissions based on role</li>
+                            <li>Provide security training</li>
+                            <li>Configure MFA</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 37: Permission Management -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Permission Management</h2>
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <div class="bg-green-900/20 border border-green-500/30 rounded-lg p-4">
+                        <h4 class="font-semibold text-green-400 mb-2">✅ Least Privilege</h4>
+                        <p class="text-gray-400 text-sm">Grant only the <strong>minimum permissions</strong> needed to perform a job function.</p>
+                    </div>
+                    <div class="bg-red-900/20 border border-red-500/30 rounded-lg p-4">
+                        <h4 class="font-semibold text-red-400 mb-2">⚠️ Permission Creep</h4>
+                        <p class="text-gray-400 text-sm">Users accumulate permissions over time as roles change. Creates excessive access.</p>
+                    </div>
+                </div>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                    <h4 class="font-semibold text-yellow-400 mb-2">Common Mistake:</h4>
+                    <p class="text-gray-400 text-sm">"Give the new hire the same permissions as the person they're replacing." If that person had permission creep, the new hire inherits the problem.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 38: Deprovisioning Accounts -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Deprovisioning Accounts</h2>
+                <div class="bg-red-900/20 border border-red-500/30 rounded-lg p-4 text-center mb-6">
+                    <p class="text-lg text-red-300">The process of <strong>terminating</strong> an account - removing access, permissions, and associated data.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h4 class="font-semibold text-green-400 mb-2">✅ Best Practice: Delete</h4>
+                        <ul class="text-gray-400 text-sm space-y-1 list-disc list-inside">
+                            <li>Completely removes account</li>
+                            <li>Prevents reactivation attacks</li>
+                            <li>Removes attack surface</li>
+                        </ul>
+                    </div>
+                    <div class="bg-yellow-900/20 border border-yellow-500/30 rounded-lg p-4">
+                        <h4 class="font-semibold text-yellow-400 mb-2">⚠️ Disable Only?</h4>
+                        <ul class="text-gray-400 text-sm space-y-1 list-disc list-inside">
+                            <li>May be required for audit trails</li>
+                            <li>Risk: Improperly re-enabled later</li>
+                            <li>Dormant accounts are targets</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 39: Privileged Access Management -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Privileged Access Management (PAM)</h2>
+                <div class="bg-green-900/20 border border-green-500/30 rounded-lg p-4 text-center mb-6">
+                    <p class="text-lg text-green-300">Tools and processes for managing <strong>administrative</strong> and <strong>privileged</strong> accounts.</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h4 class="font-semibold text-green-400 mb-2">⏱️ Just-In-Time (JIT)</h4>
+                        <p class="text-sm text-gray-400">Permissions granted only when needed, revoked when task is complete.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h4 class="font-semibold text-blue-400 mb-2">🔐 Password Vaulting</h4>
+                        <p class="text-sm text-gray-400">Secure storage for privileged credentials. Check-out system with logging.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h4 class="font-semibold text-purple-400 mb-2">⏳ Ephemeral Accounts</h4>
+                        <p class="text-sm text-gray-400">Temporary accounts with limited lifespan. Auto-expire after use.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 40: Access Control Schemes Overview -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Access Control Schemes</h2>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 text-center mb-6">
+                    <p class="text-lg text-gray-300">Determine which users, services, and programs can access files and objects.</p>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    <div class="bg-green-900/20 border border-green-500/30 rounded-lg p-3 text-center">
+                        <h4 class="font-semibold text-green-400">MAC</h4>
+                        <p class="text-xs text-gray-400">Mandatory Access Control</p>
+                    </div>
+                    <div class="bg-blue-900/20 border border-blue-500/30 rounded-lg p-3 text-center">
+                        <h4 class="font-semibold text-blue-400">DAC</h4>
+                        <p class="text-xs text-gray-400">Discretionary Access Control</p>
+                    </div>
+                    <div class="bg-purple-900/20 border border-purple-500/30 rounded-lg p-3 text-center">
+                        <h4 class="font-semibold text-purple-400">RBAC</h4>
+                        <p class="text-xs text-gray-400">Role-Based Access Control</p>
+                    </div>
+                    <div class="bg-yellow-900/20 border border-yellow-500/30 rounded-lg p-3 text-center">
+                        <h4 class="font-semibold text-yellow-400">Rule-Based</h4>
+                        <p class="text-xs text-gray-400">Rules/ACLs</p>
+                    </div>
+                    <div class="bg-red-900/20 border border-red-500/30 rounded-lg p-3 text-center">
+                        <h4 class="font-semibold text-red-400">ABAC</h4>
+                        <p class="text-xs text-gray-400">Attribute-Based Access Control</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 41: MAC -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Mandatory Access Control (MAC)</h2>
+                <div class="bg-green-900/20 border border-green-500/30 rounded-lg p-4 text-center mb-6">
+                    <p class="text-lg text-green-300">The <strong>operating system</strong> enforces access control set by <strong>security administrators</strong>.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h4 class="font-semibold text-green-400 mb-2">Key Characteristics:</h4>
+                        <ul class="text-gray-400 text-sm space-y-1 list-disc list-inside">
+                            <li>Users <strong>cannot</strong> change permissions</li>
+                            <li>Centrally controlled by admins</li>
+                            <li>Uses labels/classifications</li>
+                            <li>Highest security level</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h4 class="font-semibold text-blue-400 mb-2">Examples:</h4>
+                        <ul class="text-gray-400 text-sm space-y-1 list-disc list-inside">
+                            <li>SELinux</li>
+                            <li>Windows Mandatory Integrity Control (MIC)</li>
+                            <li>Military/government systems</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 42: DAC -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Discretionary Access Control (DAC)</h2>
+                <div class="bg-blue-900/20 border border-blue-500/30 rounded-lg p-4 text-center mb-6">
+                    <p class="text-lg text-blue-300">Owners of objects can <strong>delegate</strong> rights and permissions to others at their discretion.</p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h4 class="font-semibold text-green-400 mb-2">Key Characteristics:</h4>
+                        <ul class="text-gray-400 text-sm space-y-1 list-disc list-inside">
+                            <li>File/folder owners control access</li>
+                            <li>Most common in personal computers</li>
+                            <li>Flexible but less secure</li>
+                            <li>Users can share freely</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h4 class="font-semibold text-blue-400 mb-2">Examples:</h4>
+                        <ul class="text-gray-400 text-sm space-y-1 list-disc list-inside">
+                            <li>Standard Linux file permissions</li>
+                            <li>Windows NTFS (without MIC)</li>
+                            <li>macOS file sharing</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 43: RBAC -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Role-Based Access Control (RBAC)</h2>
+                <div class="bg-purple-900/20 border border-purple-500/30 rounded-lg p-4 text-center mb-6">
+                    <p class="text-lg text-purple-300">Access based on <strong>roles</strong> assigned to users. Roles have associated permissions.</p>
+                </div>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h4 class="font-semibold text-green-400 mb-2">Three Primary Rules:</h4>
+                        <ol class="text-gray-400 text-sm space-y-1 list-decimal list-inside">
+                            <li><strong>Role Assignment:</strong> Users can only use permissions of assigned roles</li>
+                            <li><strong>Role Authorization:</strong> User's active role must be authorized for them</li>
+                            <li><strong>Permission Authorization:</strong> Users can only use permissions their active role allows</li>
+                        </ol>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-3 text-center">
+                        <p class="text-gray-400 text-sm"><strong>Example:</strong> "Cashier" role vs "Database Administrator" role - different permissions for different job functions.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 44: Rule-Based & ABAC -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Rule-Based & Attribute-Based Access Control</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-yellow-900/20 border border-yellow-500/30 rounded-lg p-4">
+                        <h4 class="font-semibold text-yellow-400 mb-2">📋 Rule-Based (RuBAC)</h4>
+                        <p class="text-gray-400 text-sm mb-2">Access controlled by a set of rules or ACLs.</p>
+                        <ul class="text-gray-400 text-sm space-y-1 list-disc list-inside">
+                            <li>Firewall rules</li>
+                            <li>Router ACLs</li>
+                            <li>If-then conditions</li>
+                        </ul>
+                    </div>
+                    <div class="bg-red-900/20 border border-red-500/30 rounded-lg p-4">
+                        <h4 class="font-semibold text-red-400 mb-2">🏷️ Attribute-Based (ABAC)</h4>
+                        <p class="text-gray-400 text-sm mb-2">Policies driven by user attributes.</p>
+                        <ul class="text-gray-400 text-sm space-y-1 list-disc list-inside">
+                            <li>Very flexible</li>
+                            <li>Complex to manage</li>
+                            <li>Good for enterprise apps</li>
+                            <li>Microservices & APIs</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mt-4 bg-zinc-800/50 border border-zinc-700 rounded-lg p-3 text-center">
+                    <p class="text-gray-400 text-sm"><strong>ABAC Example:</strong> Allow access if user.department="Finance" AND user.clearance="Secret" AND time.hour > 9 AND time.hour < 17</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 45: Time-of-Day & Least Privilege -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Additional Access Controls</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-green-400 mb-3">⏰ Time-of-Day Restrictions</h3>
+                        <ul class="text-gray-400 space-y-2 list-disc list-inside">
+                            <li>Limit when users can log in</li>
+                            <li>Configured in Active Directory</li>
+                            <li>Prevents off-hours abuse</li>
+                            <li>Useful for shift workers</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-blue-400 mb-3">🔒 Least Privilege</h3>
+                        <ul class="text-gray-400 space-y-2 list-disc list-inside">
+                            <li>Minimum permissions needed</li>
+                            <li>Core security principle</li>
+                            <li>Reduces attack surface</li>
+                            <li>Limits blast radius of compromise</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 46: Linux Filesystem Permissions -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Linux Filesystem Permissions</h2>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 mb-4">
+                    <code class="text-green-400 text-lg">drwxrwxrwx</code>
+                    <p class="text-gray-400 text-sm mt-2">d=directory | user | group | others (world)</p>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left">
+                        <thead class="text-gray-300 bg-zinc-800">
+                            <tr>
+                                <th class="p-2 border border-zinc-700">Numeric</th>
+                                <th class="p-2 border border-zinc-700">Permission</th>
+                                <th class="p-2 border border-zinc-700">Letters</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-400">
+                            <tr><td class="p-2 border border-zinc-700">0</td><td class="p-2 border border-zinc-700">No permission</td><td class="p-2 border border-zinc-700">---</td></tr>
+                            <tr><td class="p-2 border border-zinc-700">1</td><td class="p-2 border border-zinc-700">Execute</td><td class="p-2 border border-zinc-700">--x</td></tr>
+                            <tr><td class="p-2 border border-zinc-700">4</td><td class="p-2 border border-zinc-700">Read</td><td class="p-2 border border-zinc-700">r--</td></tr>
+                            <tr><td class="p-2 border border-zinc-700">5</td><td class="p-2 border border-zinc-700">Read + Execute</td><td class="p-2 border border-zinc-700">r-x</td></tr>
+                            <tr><td class="p-2 border border-zinc-700">6</td><td class="p-2 border border-zinc-700">Read + Write</td><td class="p-2 border border-zinc-700">rw-</td></tr>
+                            <tr><td class="p-2 border border-zinc-700">7</td><td class="p-2 border border-zinc-700">Read + Write + Execute</td><td class="p-2 border border-zinc-700">rwx</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="mt-3 text-center">
+                    <code class="text-green-400">chmod 755 file.sh</code>
+                    <span class="text-gray-400 text-sm ml-2">= rwxr-xr-x (owner: full, group/others: read+execute)</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 47: Windows Filesystem Permissions -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Windows Filesystem Permissions</h2>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <div class="space-y-3">
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-3">
+                            <h4 class="font-semibold text-green-400">Full Control</h4>
+                            <p class="text-xs text-gray-400">All permissions including changing permissions</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-3">
+                            <h4 class="font-semibold text-green-400">Modify</h4>
+                            <p class="text-xs text-gray-400">Read, write, execute, delete</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-3">
+                            <h4 class="font-semibold text-green-400">Read & Execute</h4>
+                            <p class="text-xs text-gray-400">View and run files</p>
+                        </div>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-3">
+                            <h4 class="font-semibold text-blue-400">Read</h4>
+                            <p class="text-xs text-gray-400">View files and attributes</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-3">
+                            <h4 class="font-semibold text-blue-400">Write</h4>
+                            <p class="text-xs text-gray-400">Create and modify files</p>
+                        </div>
+                        <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-3">
+                            <h4 class="font-semibold text-purple-400">Special Permissions</h4>
+                            <p class="text-xs text-gray-400">Granular advanced permissions</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 bg-red-900/20 border border-red-500/30 rounded-lg p-3 text-center">
+                    <p class="text-red-300 text-sm"><strong>Security Note:</strong> Weak filesystem permissions enable attacks like directory traversal on web servers.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 48: Group Activity -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Group Activity: IAM Scenario</h2>
+                <div class="bg-yellow-900/20 border border-yellow-500/30 rounded-lg p-5 text-center mb-6">
+                    <h3 class="text-xl font-semibold text-yellow-300 mb-2">Scenario: New Employee Onboarding</h3>
+                    <p class="text-yellow-200">A new software developer is joining your team. Design their access.</p>
+                </div>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5 text-left">
+                    <h3 class="text-xl font-semibold text-gray-300 mb-3 text-center">Your Task (10 minutes)</h3>
+                    <ol class="space-y-3 text-gray-400 list-decimal list-inside">
+                        <li><strong>Identity Proofing:</strong> What verification would you require before creating their account?</li>
+                        <li><strong>Account Type:</strong> What type of account(s) should they have? (user, admin, service?)</li>
+                        <li><strong>Access Control:</strong> Which access control scheme would you use and why?</li>
+                        <li><strong>Authentication:</strong> What MFA factors would you require?</li>
+                        <li><strong>Permissions:</strong> How would you prevent permission creep over time?</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 49: Summary -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center text-gray-300 border-b-2 border-gray-600 pb-4">Chapter Summary</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold text-green-400 mb-2">🆔 Identity is Foundational</h3>
+                        <p class="text-gray-400 text-sm">Identities are claimed through usernames, certificates, tokens, SSH keys, or smartcards, then proven through authentication.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold text-blue-400 mb-2">🔐 SSO & Federation Enable Scale</h3>
+                        <p class="text-gray-400 text-sm">LDAP, SAML, OAuth, and OpenID allow single sign-on and cross-organization federation.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold text-purple-400 mb-2">🔑 MFA is Essential</h3>
+                        <p class="text-gray-400 text-sm">Multiple factors (know, have, are, location) protect against credential theft. TOTP/HOTP and biometrics are common implementations.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-4">
+                        <h3 class="text-lg font-semibold text-yellow-400 mb-2">🛡️ Access Control Protects Resources</h3>
+                        <p class="text-gray-400 text-sm">MAC, DAC, RBAC, Rule-based, and ABAC provide different approaches. PAM manages privileged accounts with JIT and vaulting.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 50: Exam Essentials -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Exam Essentials</h2>
+                <div class="space-y-3">
+                    <div class="bg-red-900/50 border border-red-500/50 rounded-lg p-4">
+                        <p class="text-gray-300"><strong>Know the four MFA factors:</strong> Something you know, have, are, and somewhere you are.</p>
+                    </div>
+                    <div class="bg-red-900/50 border border-red-500/50 rounded-lg p-4">
+                        <p class="text-gray-300"><strong>Understand SSO technologies:</strong> LDAP (directory), SAML (auth+authz), OAuth (authorization), OpenID (authentication).</p>
+                    </div>
+                    <div class="bg-red-900/50 border border-red-500/50 rounded-lg p-4">
+                        <p class="text-gray-300"><strong>Know access control schemes:</strong> MAC (system enforced), DAC (owner controlled), RBAC (roles), ABAC (attributes).</p>
+                    </div>
+                    <div class="bg-red-900/50 border border-red-500/50 rounded-lg p-4">
+                        <p class="text-gray-300"><strong>Understand account lifecycle:</strong> Provisioning, identity proofing, permission management, deprovisioning.</p>
+                    </div>
+                    <div class="bg-red-900/50 border border-red-500/50 rounded-lg p-4">
+                        <p class="text-gray-300"><strong>Know PAM concepts:</strong> Just-in-time permissions, password vaulting, ephemeral accounts.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Navigation -->
+    <div class="fixed bottom-0 left-0 right-0 bg-zinc-900/80 backdrop-blur-sm border-t border-zinc-700 p-4">
+        <div class="max-w-4xl mx-auto flex items-center justify-between">
+            <button id="prevBtn" class="bg-zinc-700 hover:bg-zinc-600 text-white font-semibold py-2 px-6 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                &larr; Previous
+            </button>
+            <div class="flex items-center space-x-4">
+                <span id="slideCounter" class="text-gray-400 font-mono"></span>
+                <div class="w-32 h-2 bg-zinc-700 rounded-full overflow-hidden">
+                    <div id="progressBar" class="h-full bg-gradient-to-r from-green-400 to-cyan-500 transition-all duration-300"></div>
+                </div>
+            </div>
+            <button id="nextBtn" class="bg-green-600 hover:bg-green-500 text-white font-semibold py-2 px-6 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                Next &rarr;
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const slideCounter = document.getElementById('slideCounter');
+        const progressBar = document.getElementById('progressBar');
+        let currentSlide = 0;
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.remove('active');
+                if (i === index) {
+                    slide.classList.add('active');
+                }
+            });
+            currentSlide = index;
+            updateControls();
+        }
+
+        function updateControls() {
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === slides.length - 1;
+            slideCounter.textContent = `${currentSlide + 1} / ${slides.length}`;
+            const progressPercentage = ((currentSlide + 1) / slides.length) * 100;
+            progressBar.style.width = `${progressPercentage}%`;
+        }
+
+        prevBtn.addEventListener('click', () => {
+            if (currentSlide > 0) {
+                showSlide(currentSlide - 1);
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentSlide < slides.length - 1) {
+                showSlide(currentSlide + 1);
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                if (currentSlide < slides.length - 1) {
+                    showSlide(currentSlide + 1);
+                }
+            } else if (e.key === 'ArrowLeft') {
+                if (currentSlide > 0) {
+                    showSlide(currentSlide - 1);
+                }
+            }
+        });
+
+        // Initialize
+        showSlide(0);
+    </script>
+
+</body>
+</html>

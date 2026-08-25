@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Justin Vermillion - Cybersecurity PhD Student</title>
+  <meta name="author" content="Justin Vermillion">
+  <meta name="description" content="Personal website of Justin Vermillion, Cybersecurity PhD Student at New Mexico Institute of Mining & Technology.">
+  <style>
+    /* Import Operator Mono font (Medium weight) */
+    @font-face {
+      font-family: 'Operator Mono';
+      src: url('OperatorMono-Medium.otf') format('opentype');
+      font-weight: normal;
+      font-style: normal;
+    }
+    :root {
+      --bg-color: #1a1a1a;
+      --container-bg: #2a2a2a;
+      --accent-color: #00ff00;
+      --text-color: #e0e0e0;
+      --font-family: 'Operator Mono', 'Courier New', Courier, monospace;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: var(--font-family);
+      background-color: #d0ccb9; /* Color matching the monitor frame */
+      color: var(--text-color);
+      line-height: 1.6;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    /* CRT Monitor Frame */
+    .monitor-frame {
+      position: relative;
+      width: 85vw;
+      max-width: 1200px;
+      height: 90vh;
+      background-color: #d0ccb9; /* Beige color of the monitor */
+      border-radius: 10px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+      padding: 30px 30px 50px 30px; /* Extra padding at bottom */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    /* Screen area */
+    .screen {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background-color: var(--bg-color);
+      border-radius: 5px;
+      overflow: hidden;
+    }
+    /* Brand badge at bottom left */
+    .brand-badge {
+      position: absolute;
+      bottom: 15px;
+      left: 25px;
+      background: linear-gradient(to right, #888, #ddd, #888);
+      padding: 2px 8px;
+      border-radius: 3px;
+      font-family: Arial, sans-serif;
+      font-size: 10px;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+      color: #333;
+      text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+    }
+    /* Controls at bottom right of monitor */
+    .monitor-controls {
+      position: absolute;
+      bottom: 15px;
+      right: 25px;
+      display: flex;
+      align-items: center;
+      height: 19px; /* Match the height of the brand badge */
+    }
+    .monitor-controls .indicator {
+      width: 8px;
+      height: 8px;
+      background-color: var(--accent-color);
+      border-radius: 50%;
+      box-shadow: 0 0 5px var(--accent-color);
+      margin: auto 0; /* Center vertically */
+    }
+    /* Content area with scrolling */
+    .content-area {
+      width: 100%;
+      height: 100%;
+      overflow-y: auto;
+      position: relative;
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* IE and Edge */
+    }
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    .content-area::-webkit-scrollbar {
+      display: none;
+    }
+    /* CRT screen effect with scanlines and subtle flicker */
+    .screen::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent,
+        transparent 1px,
+        rgba(0, 0, 0, 0.2) 2px,
+        transparent 3px
+      );
+      pointer-events: none;
+      z-index: 10;
+      animation: flicker 0.15s infinite alternate;
+    }
+    /* Ensure the screen and content background are the same */
+    .screen {
+      background-color: var(--container-bg);
+    }
+    @keyframes flicker {
+      0%, 100% { opacity: 0.95; }
+      50% { opacity: 1; }
+    }
+    /* Main content styling */
+    .container {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 1.5rem;
+      border-radius: 8px;
+      position: relative;
+      z-index: 1;
+    }
+    /* Add padding to the content area to prevent gaps */
+    .content-area {
+      padding-bottom: 40px;
+      background-color: var(--container-bg);
+    }
+    header, nav, main, footer {
+      margin-bottom: 1.5rem;
+    }
+    header {
+      text-align: center;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      font-family: 'Lucida Console', Monaco, monospace;
+    }
+    header p {
+      margin: 0.5rem 0;
+    }
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    nav a, .text-link {
+      color: var(--accent-color);
+      text-decoration: none;
+      font-weight: bold;
+      transition: text-decoration 0.2s;
+    }
+    nav a:hover, .text-link:hover {
+      text-decoration: underline;
+    }
+    .profile-img, .family-img {
+      display: block;
+      margin: 1rem auto;
+      border: 3px solid var(--accent-color);
+      border-radius: 50%;
+      max-width: 200px;
+      width: 100%;
+      height: auto;
+    }
+    main section {
+      margin-bottom: 2rem;
+    }
+    main h2 {
+      text-align: center;
+      margin-bottom: 1rem;
+      font-family: 'Lucida Console', Monaco, monospace;
+    }
+    ul {
+      list-style-type: disc;
+      padding-left: 1.5rem;
+    }
+    footer {
+      text-align: center;
+      font-size: 0.9rem;
+      border-top: 2px solid var(--accent-color);
+      padding-top: 1rem;
+    }
+    @media (max-width: 600px) {
+      .monitor-frame {
+        width: 95vw;
+        height: 95vh;
+        padding: 15px;
+      }
+      header h1 {
+        font-size: 2rem;
+      }
+      nav {
+        flex-direction: column;
+        gap: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="monitor-frame">
+    <div class="screen">
+      <div class="content-area">
+        <div class="container">
+          <header>
+            <h1>Justin Vermillion</h1>
+            <p>Cybersecurity PhD Student<br>New Mexico Institute of Mining &amp; Technology</p>
+            <img src="headshot.jpg" alt="Headshot of Justin Vermillion" class="profile-img">
+          </header>
+          <nav>
+            <a href="#about">About</a>
+            <a href="#research">Research Interests</a>
+            <a href="#hobbies">Hobbies</a>
+            <a href="#links">Links</a>
+          </nav>
+          <main>
+            <section id="about">
+              <h2>About</h2>
+              <p>
+                Hello! I'm Justin Vermillion, a Cybersecurity PhD Student at New Mexico Institute of Mining &amp; Technology.
+                I'm passionate about the evolving landscape of cybersecurity, particularly where it intersects with human factors engineering and the philosophy behind secure systems.
+              </p>
+              <p>
+                When I'm not deep in research, I'm enjoying life with my wife, Mono (an architect, painter, and tattoo artist), our three kids, and our dog, Taz.
+              </p>
+              <img src="family.jpg" alt="Family photo" class="family-img">
+            </section>
+            <section id="research">
+              <h2>Research Interests</h2>
+              <p>My research delves into:</p>
+              <ul>
+                <li>The cybersecurity of generative AI systems</li>
+                <li>The intersection of human factors engineering and cybersecurity</li>
+                <li>The philosophy of cybersecurity</li>
+              </ul>
+            </section>
+            <section id="hobbies">
+              <h2>Hobbies</h2>
+              <p>Outside of academia, I'm a creative at heart:</p>
+              <ul>
+                <li>Music: I play saxophone, violin, keyboard, and dabble in beatmaking</li>
+                <li>Art: Drawing and tattooing (I even own a tattoo studio)</li>
+                <li>Outdoors: I love hiking and exploring nature</li>
+                <li>Gaming: I'm an avid tabletop gaming enthusiast</li>
+              </ul>
+            </section>
+            <section id="links">
+              <h2>Links</h2>
+              <ul>
+                <li><a href="https://github.com/vermi" target="_blank" rel="noopener noreferrer" class="text-link">GitHub: github.com/vermi</a></li>
+                <li><a href="applied/" class="text-link">Applied Cybersecurity</a></li>
+              </ul>
+            </section>
+          </main>
+          <footer>
+            <p>&copy; 2025 Justin Vermillion. New Mexico Institute of Mining &amp; Technology.</p>
+            <p>"The Future Begins Here"</p>
+          </footer>
+        </div>
+      </div>
+    </div>
+    <div class="brand-badge">CYBERVISION-2000</div>
+    <div class="monitor-controls">
+      <div class="indicator"></div>
+    </div>
+  </div>
+</body>
+</html>
+
