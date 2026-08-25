@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CYBS 0189 & 0189L - Applied Cybersecurity I</title>
+    <title>CYBS 0189 &amp; 0189L - Applied Cybersecurity II</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
@@ -30,8 +30,8 @@
 
         <!-- Header Section -->
         <header class="text-center mb-8">
-            <h1 class="text-3xl md:text-4xl font-bold text-gray-900">CYBS 0189 & 0189L - Applied Cybersecurity I</h1>
-            <p class="text-xl text-gray-600 mt-2">Fall 2026</p>
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-900">CYBS 0189 &amp; 0189L - Applied Cybersecurity II</h1>
+            <p class="text-xl text-gray-600 mt-2">Spring 2027</p>
             <p class="text-lg text-gray-500">Online Course</p>
         </header>
 
@@ -67,19 +67,19 @@
             <!-- Course Description -->
             <section id="description">
                 <h2 class="text-2xl font-semibold text-gray-900">Course Description</h2>
-                <p>This course introduces the fundamental concepts and practices of cybersecurity, focusing on the core principles of information security including confidentiality, integrity, and availability. Students will explore security controls, threat vectors, vulnerability management, and cryptographic solutions as outlined in CompTIA Security+ certification objectives. The course combines theoretical instruction with hands-on laboratory experiences where students will practice implementing security controls, analyzing security postures, detecting threats, and configuring secure systems in controlled environments. Lab activities include vulnerability scanning, system hardening, encryption implementation, and network security configuration. This integrated approach provides a foundation for understanding enterprise security postures, hybrid environment security, and regulatory compliance within contemporary cybersecurity frameworks.</p>
+                <p>This course builds upon the foundation established in Applied Cybersecurity I, focusing on advanced security operations, incident response, and security program management. Students will examine security architecture, resilience and recovery strategies, identity and access management, and security automation as outlined in CompTIA Security+ certification objectives. The course combines theoretical instruction with hands-on laboratory experiences where students will practice implementing identity and access management solutions, performing incident response activities, analyzing security data, and conducting security assessments in controlled environments. Lab activities include security incident simulations, digital forensics tasks, security automation configurations, and penetration testing fundamentals. This integrated approach prepares students for security roles by emphasizing practical applications of security governance, risk management, and compliance requirements in enterprise environments and completes preparation for the CompTIA Security+ certification exam.</p>
             </section>
 
             <!-- Pre-requisites -->
             <section id="prerequisites">
                 <h2 class="text-2xl font-semibold text-gray-900">Pre-requisites/Co-requisites</h2>
-                <p>None</p>
+                <p>Prerequisites: Applied Cybersecurity I (CYBS 0189 &amp; 0189L)</p>
             </section>
 
             <!-- Place in Curriculum -->
             <section id="curriculum">
                 <h2 class="text-2xl font-semibold text-gray-900">Place in Curriculum</h2>
-                <p>This course is designed for students pursuing cybersecurity, computer science, or related fields. It helps prepare students for the CompTIA Security+ certification exam and serves as a prerequisite for CYBS 0189 Applied Cybersecurity II.</p>
+                <p>This course is the second in a sequence for students pursuing cybersecurity, information technology, or related fields. This course completes student preparation for the CompTIA Security+ certification exam.</p>
             </section>
 
             <!-- Learning Outcomes -->
@@ -87,12 +87,14 @@
                 <h2 class="text-2xl font-semibold text-gray-900">Course Learning Outcomes</h2>
                 <p>Upon successful completion of this course, students will be able to:</p>
                 <ol class="list-decimal list-inside space-y-2 mt-4">
-                    <li>Explain foundational cybersecurity concepts and principles.</li>
-                    <li>Identify and classify various types of security controls.</li>
-                    <li>Analyze common threat actors, vectors, and vulnerabilities.</li>
-                    <li>Apply appropriate cryptographic solutions to security challenges.</li>
-                    <li>Implement basic security architecture principles.</li>
-                    <li>Configure and manage basic security controls.</li>
+                    
+                    <li>Implement and maintain identity and access management solutions.</li>
+                    <li>Configure and monitor security alerting systems.</li>
+                    <li>Execute appropriate incident response procedures.</li>
+                    <li>Apply security automation and orchestration techniques.</li>
+                    <li>Demonstrate understanding of security governance and risk management.</li>
+                    <li>Conduct basic security assessments and audits.</li>
+                    <li>Prepare for the CompTIA Security+ certification exam.</li>
                 </ol>
             </section>
 
@@ -175,122 +177,115 @@
                 <h2 class="text-2xl font-semibold text-gray-900">Tentative Course Schedule</h2>
                 
                 
+                
                 <div class="p-4 my-4 border border-gray-200 rounded-lg">
-                    <h3 class="text-xl font-semibold">Week 1: Introduction to Cybersecurity and Today’s Security Professional</h3>
-                    <p><strong>Lecture Topics:</strong> Course overview and introduction, The cybersecurity professional’s role, CIA Triad (Confidentiality, Integrity, Availability), AAA (Authentication, Authorization, and Accounting).</p>
-                    <p><strong>Lab Activities:</strong> ACI Skill Labs: Security Concept Fundamentals, OSINT Mini-Lab: The Teapot Trail (bonus module).</p>
-                    <p><strong>Reading Assignment:</strong> Security+ Study Guide: Chapter 1 - Today’s Security Professional, CompTIA SY0-701 Objectives: Section 1.2 (Summarize fundamental security concepts).</p>
+                    <h3 class="text-xl font-semibold">Week 1: Identity and Access Management I</h3>
+                    <p><strong>Lecture Topics:</strong> Identity concepts and terminology, Authentication methods and multifactor authentication, Single sign-on and federation (LDAP, SAML, OAuth, OpenID), Account types and provisioning.</p>
+                    <p><strong>Lab Activities:</strong> ACI Skill Labs: Implement Identity &amp; Access Management, LEXX: Creating a Domain User, LEXX: Creating Linux Users and Groups, Group Activity: IAM Scenario - New Employee Onboarding.</p>
+                    <p><strong>Reading Assignment:</strong> Security+ Study Guide: Chapter 8 - Identity and Access Management, CompTIA SY0-701 Objectives: Section 4.6 (Given a scenario, implement and maintain identity and access management).</p>
                 </div>
 
                 <div class="p-4 my-4 border border-gray-200 rounded-lg">
-                    <h3 class="text-xl font-semibold">Week 2: Cybersecurity Threat Landscape</h3>
-                    <p><strong>Lecture Topics:</strong> The threat landscape and actors, Categories of security controls: Technical, Managerial, Operational, Physical, Control types: Preventive, Deterrent, Detective, Corrective, Compensating, Directive, Threat intelligence and vulnerability concepts.</p>
-                    <p><strong>Lab Activities:</strong> ACI Skill Labs: Threat Vectors and Attack Surfaces, ACI Skill Labs: Mitigation Techniques, LEXX: Gathering Site Information, LEXX: Footprinting a Website, Lab Module: Networking Basics.</p>
-                    <p><strong>Reading Assignment:</strong> Security+ Study Guide: Chapter 2 - Cybersecurity Threat Landscape, CompTIA SY0-701 Objectives: Section 1.1 (Compare and contrast various types of security controls), CompTIA SY0-701 Objectives: Section 2.1 (Compare and contrast common threat actors and motivations).</p>
+                    <h3 class="text-xl font-semibold">Week 2: Identity and Access Management II</h3>
+                    <p><strong>Lecture Topics:</strong> Access control schemes (RBAC, ABAC, MAC, DAC), Directory services and Kerberos authentication, Privileged access management, Permission creep and periodic access reviews.</p>
+                    <p><strong>Lab Activities:</strong> LEXX: Examining Kerberos Settings, LEXX: Examining Active Directory Objects, LEXX: Delegating Control in Active Directory.</p>
+                    <p><strong>Reading Assignment:</strong> Security+ Study Guide: Chapter 8 - Identity and Access Management (continued), CompTIA SY0-701 Objectives: Section 4.6.</p>
                 </div>
 
                 <div class="p-4 my-4 border border-gray-200 rounded-lg">
-                    <h3 class="text-xl font-semibold">Week 3: Malicious Code</h3>
-                    <p><strong>Lecture Topics:</strong> Types of malware and malicious code, Worms, viruses, Trojans, and ransomware, Indicators of compromise, Change management processes and security implications.</p>
-                    <p><strong>Lab Activities:</strong> ACI Skill Labs: Analyze Malicious Activity, LEXX: Examining Spyware, LEXX: Detecting Virtualization, Lab Module: File Integrity &amp; System Calls.</p>
-                    <p><strong>Reading Assignment:</strong> Security+ Study Guide: Chapter 3 - Malicious Code, CompTIA SY0-701 Objectives: Section 1.3 (Explain the importance of change management processes), CompTIA SY0-701 Objectives: Section 2.4 (Given a scenario, analyze indicators of malicious activity).</p>
+                    <h3 class="text-xl font-semibold">Week 3: Monitoring and Incident Response</h3>
+                    <p><strong>Lecture Topics:</strong> Security monitoring concepts and tools, Log analysis and security information and event management, Incident response lifecycle, Alerting, escalation, and threat hunting.</p>
+                    <p><strong>Lab Activities:</strong> ACI Skill Labs: Monitoring Computing Resources, LEXX: Viewing Windows Event Logs, LEXX: Viewing Linux Event Logs.</p>
+                    <p><strong>Reading Assignment:</strong> Security+ Study Guide: Chapter 14 - Monitoring and Incident Response, CompTIA SY0-701 Objectives: Section 4.4 (Explain security alerting and monitoring concepts and tools), CompTIA SY0-701 Objectives: Section 4.8 (Explain appropriate incident response activities).</p>
                 </div>
 
                 <div class="p-4 my-4 border border-gray-200 rounded-lg">
-                    <h3 class="text-xl font-semibold">Week 4: Social Engineering and Password Attacks</h3>
-                    <p><strong>Lecture Topics:</strong> Social engineering techniques and prevention, Phishing, vishing, smishing, and impersonation, Password attack methods, Password security best practices.</p>
-                    <p><strong>Lab Activities:</strong> LEXX: Using Anti-Phishing Tools, LEXX: Cracking Passwords, LEXX: Enforcing Password Policies, LEXX: Capturing Credentials via Packet Sniffing, Bonus Module: Supply Chain Risk, Bonus Lab: Malware Analysis.</p>
-                    <p><strong>Reading Assignment:</strong> Security+ Study Guide: Chapter 4 - Social Engineering and Password Attacks, CompTIA SY0-701 Objectives: Section 2.2 (Explain common threat vectors and attack surfaces).</p>
+                    <h3 class="text-xl font-semibold">Week 4: Digital Forensics</h3>
+                    <p><strong>Lecture Topics:</strong> Digital forensics principles and procedures, Evidence collection and handling, Chain of custody, Forensic tools and techniques.</p>
+                    <p><strong>Lab Activities:</strong> ACI Skill Labs: Investigative Data Sources, Group Activity: Mini Tabletop Exercise (ransomware incident scenario).</p>
+                    <p><strong>Reading Assignment:</strong> Security+ Study Guide: Chapter 15 - Digital Forensics, CompTIA SY0-701 Objectives: Section 4.9 (Given a scenario, use data sources to support an investigation).</p>
                 </div>
 
                 <div class="p-4 my-4 border border-gray-200 rounded-lg">
-                    <h3 class="text-xl font-semibold">Week 5: Security Assessment and Testing</h3>
-                    <p><strong>Lecture Topics:</strong> Security assessment types and methodologies, Vulnerability scanning and management, Penetration testing concepts, Assessment reporting and remediation.</p>
-                    <p><strong>Lab Activities:</strong> ACI Skill Labs: Identifying Security Vulnerabilities, ACI Skill Labs: Vulnerability Management, LEXX: Scanning the Network.</p>
-                    <p><strong>Reading Assignment:</strong> Security+ Study Guide: Chapter 5 - Security Assessment and Testing, CompTIA SY0-701 Objectives: Section 4.3 (Explain various activities associated with vulnerability management).</p>
+                    <h3 class="text-xl font-semibold">Week 5: Security Governance and Compliance</h3>
+                    <p><strong>Lecture Topics:</strong> Security governance frameworks, Policies, standards, and procedures, Regulatory and legal compliance requirements, Security awareness practices.</p>
+                    <p><strong>Lab Activities:</strong> Discussion-based module; no vendor lab this week.</p>
+                    <p><strong>Reading Assignment:</strong> Security+ Study Guide: Chapter 16 - Security Governance and Compliance, CompTIA SY0-701 Objectives: Sections 5.1, 5.4, and 5.6.</p>
                     <p class="text-sm font-semibold text-gray-700">📋 Project Milestone: Security Project Phase 1 Begins</p>
                 </div>
 
                 <div class="p-4 my-4 border border-gray-200 rounded-lg">
-                    <h3 class="text-xl font-semibold">Week 6: Application Security</h3>
-                    <p><strong>Lecture Topics:</strong> Application security concepts and vulnerabilities, Secure code development principles, Code testing and analysis, Web application security issues.</p>
-                    <p><strong>Lab Activities:</strong> LEXX: Performing SQL Injection in DVWA, LEXX: Performing a Reflected XSS Attack, LEXX: Examining Web Application Vulnerabilities, LEXX: Exploiting an Overflow Vulnerability, LEXX: Exploiting a TOCTOU Vulnerability, Bonus Lab: OWASP Top 10.</p>
-                    <p><strong>Reading Assignment:</strong> Security+ Study Guide: Chapter 6 - Application Security, CompTIA SY0-701 Objectives: Section 2.3 (Explain various types of vulnerabilities).</p>
+                    <h3 class="text-xl font-semibold">Week 6: Risk Management and Privacy</h3>
+                    <p><strong>Lecture Topics:</strong> Risk management process and concepts, Quantitative and qualitative risk analysis, Risk response strategies, Privacy principles, roles, and regulations.</p>
+                    <p><strong>Lab Activities:</strong> Activity: Risk Calculation Practice (SLE, ARO, and ALE scenarios), Activity: Identify the Strategy (risk management strategies), Activity: Name That Role (data privacy roles).</p>
+                    <p><strong>Reading Assignment:</strong> Security+ Study Guide: Chapter 17 - Risk Management and Privacy, CompTIA SY0-701 Objectives: Sections 5.2 and 5.3.</p>
                 </div>
 
                 <div class="p-4 my-4 border border-gray-200 rounded-lg">
-                    <h3 class="text-xl font-semibold">Week 7: Cryptography and the PKI</h3>
-                    <p><strong>Lecture Topics:</strong> Cryptographic concepts and algorithms, Symmetric vs. asymmetric encryption, Public Key Infrastructure (PKI), Digital certificates and signatures.</p>
-                    <p><strong>Lab Activities:</strong> ACI Skill Labs: Cryptographic Solutions, LEXX: Using Symmetric Encryption, LEXX: Creating Asymmetric Key Pairs, LEXX: Creating File Hashes, LEXX: Examining PKI Certificates, LEXX: Creating Certificates with OpenSSL, LEXX: Requesting a PKI Certificate in Windows.</p>
-                    <p><strong>Reading Assignment:</strong> Security+ Study Guide: Chapter 7 - Cryptography and the PKI, CompTIA SY0-701 Objectives: Section 1.4 (Explain the importance of using appropriate cryptographic solutions).</p>
+                    <h3 class="text-xl font-semibold">Week 7: Social Engineering and the Psychology of Security</h3>
+                    <p><strong>Lecture Topics:</strong> Social engineering techniques and pretexting, Psychological principles of influence, Case studies: Kevin Mitnick and Motorola, DEF CON SECTF, Guest Lecture: Psychology of security (tentative).</p>
+                    <p><strong>Lab Activities:</strong> Case study analysis, OSINT self-assessment exercise.</p>
+                    <p><strong>Reading Assignment:</strong> Review Security+ Study Guide: Chapter 4 - Social Engineering and Password Attacks, CompTIA SY0-701 Objectives: Section 2.2.</p>
                     <p class="text-sm font-semibold text-gray-700">📋 Project Milestone: Security Project Phase 1 Due</p>
                 </div>
 
                 <div class="p-4 my-4 border border-gray-200 rounded-lg">
                     <h3 class="text-xl font-semibold">Week 8: Midterm Review and Exam</h3>
-                    <p><strong>Lab Activities:</strong> Review of selected labs based on student needs.</p>
-                    <p><strong>Reading Assignment:</strong> Review of chapters 1-7 in the Security+ Study Guide, CompTIA SY0-701 Objectives: Sections 2.4 and 2.5 (Analyze indicators of malicious activity; Explain mitigation techniques).</p>
+                    <p><strong>Lab Activities:</strong> Review of selected labs based on student needs, Practice assessment activities.</p>
+                    <p><strong>Reading Assignment:</strong> Review of all previous materials.</p>
                     <p class="text-sm font-semibold text-gray-700">🎯 Important:</p>
                 </div>
 
                 <div class="p-4 my-4 border border-gray-200 rounded-lg">
-                    <h3 class="text-xl font-semibold">Week 9: Resilience and Physical Security</h3>
-                    <p><strong>Lecture Topics:</strong> Building resilient infrastructure, Physical security controls and considerations, Business continuity concepts, Backup strategies and disaster recovery.</p>
-                    <p><strong>Lab Activities:</strong> ACI Skill Labs: Resilience in Security Architecture, ACI Skill Labs: Data Protection Strategies, LEXX: Scheduling a Server Backup.</p>
-                    <p><strong>Reading Assignment:</strong> Security+ Study Guide: Chapter 9 - Resilience and Physical Security, CompTIA SY0-701 Objectives: Section 3.4 (Explain the importance of resilience and recovery in security architecture).</p>
+                    <h3 class="text-xl font-semibold">Week 9: Cybersecurity Ethics</h3>
+                    <p><strong>Lecture Topics:</strong> Ethical frameworks in cybersecurity, Common ethical challenges in professional practice, Exercising moral imagination, Responsible disclosure.</p>
+                    <p><strong>Lab Activities:</strong> Discussion-based module.</p>
+                    <p><strong>Reading Assignment:</strong> CompTIA SY0-701 Objectives: Section 5.1.</p>
                 </div>
 
                 <div class="p-4 my-4 border border-gray-200 rounded-lg">
-                    <h3 class="text-xl font-semibold">Week 10: Cloud and Virtualization Security</h3>
-                    <p><strong>Lecture Topics:</strong> Cloud service models and security, Virtualization concepts and risks, Container security, Cloud architecture security considerations.</p>
-                    <p><strong>Lab Activities:</strong> ACI Skill Labs: Security Architecture Models.</p>
-                    <p><strong>Reading Assignment:</strong> Security+ Study Guide: Chapter 10 - Cloud and Virtualization Security, CompTIA SY0-701 Objectives: Section 3.1 (Compare and contrast security implications of different architecture models).</p>
+                    <h3 class="text-xl font-semibold">Week 10: Cybersecurity Law</h3>
+                    <p><strong>Lecture Topics:</strong> The regulatory landscape, State privacy laws and sensitive data categories, Sector-specific requirements, Enforcement trends and liability.</p>
+                    <p><strong>Lab Activities:</strong> Discussion and Q&amp;A.</p>
+                    <p><strong>Reading Assignment:</strong> CompTIA SY0-701 Objectives: Sections 5.1 and 5.4.</p>
+                </div>
+
+                <div class="p-4 my-4 border border-gray-200 rounded-lg">
+                    <h3 class="text-xl font-semibold">Week 11: Malware Analysis and Reverse Engineering</h3>
+                    <p><strong>Lecture Topics:</strong> Static and dynamic malware analysis, Extracting indicators of compromise and assessing confidence, Reverse engineering fundamentals, Guest Lecture: Reversing malware (tentative).</p>
+                    <p><strong>Lab Activities:</strong> To be determined.</p>
+                    <p><strong>Reading Assignment:</strong> Review Security+ Study Guide: Chapter 3 - Malicious Code.</p>
                     <p class="text-sm font-semibold text-gray-700">📋 Project Milestone: Security Project Phase 2 Due</p>
                 </div>
 
                 <div class="p-4 my-4 border border-gray-200 rounded-lg">
-                    <h3 class="text-xl font-semibold">Week 11: Endpoint Security</h3>
-                    <p><strong>Lecture Topics:</strong> Endpoint protection strategies, Mobile device security, Embedded systems security, Endpoint detection and response.</p>
-                    <p><strong>Lab Activities:</strong> ACI Skill Labs: Securing Computing Resources, ACI Skill Labs: Asset Management Techniques, LEXX: Assigning NTFS Permissions, LEXX: Creating a Security Template, LEXX: Enforcing a Security Template, LEXX: Installing Uncomplicated Firewall in Linux.</p>
-                    <p><strong>Reading Assignment:</strong> Security+ Study Guide: Chapter 11 - Endpoint Security, CompTIA SY0-701 Objectives: Section 4.1 (Apply common security techniques to computing resources), CompTIA SY0-701 Objectives: Section 4.2 (Explain the security implications of proper hardware, software, and data asset management).</p>
+                    <h3 class="text-xl font-semibold">Week 12: Securing LLMs</h3>
+                    <p><strong>Lecture Topics:</strong> To be determined.</p>
+                    <p><strong>Lab Activities:</strong> To be determined.</p>
+                    <p><strong>Reading Assignment:</strong> To be determined.</p>
                     <p class="text-sm font-semibold text-gray-700">📋 Project Milestone: Security Project Phase 3 Begins</p>
                 </div>
 
                 <div class="p-4 my-4 border border-gray-200 rounded-lg">
-                    <h3 class="text-xl font-semibold">Week 12: Network Security</h3>
-                    <p><strong>Lecture Topics:</strong> Network security architecture and design, Network security devices and technologies, Network security protocols, Zero trust networking concepts.</p>
-                    <p><strong>Lab Activities:</strong> ACI Skill Labs: Securing Enterprise Infrastructures, ACI Skill Labs: Enhancing Enterprise Security, LEXX: Configuring a Network Firewall, LEXX: Launching a DoS Attack, LEXX: Installing a RADIUS Server.</p>
-                    <p><strong>Reading Assignment:</strong> Security+ Study Guide: Chapter 12 - Network Security, CompTIA SY0-701 Objectives: Section 3.2 (Apply security principles to secure enterprise infrastructure).</p>
+                    <h3 class="text-xl font-semibold">Week 13: Using LLMs for Security</h3>
+                    <p><strong>Lecture Topics:</strong> To be determined.</p>
+                    <p><strong>Lab Activities:</strong> To be determined.</p>
+                    <p><strong>Reading Assignment:</strong> To be determined.</p>
                 </div>
 
                 <div class="p-4 my-4 border border-gray-200 rounded-lg">
-                    <h3 class="text-xl font-semibold">Week 13: Wireless and Mobile Security</h3>
-                    <p><strong>Lecture Topics:</strong> Wireless network security, Mobile device management, Bluetooth and other wireless technologies, Securing wireless networks and devices.</p>
-                    <p><strong>Lab Activities:</strong> LEXX: Securing a Wi-Fi Hotspot.</p>
-                    <p><strong>Reading Assignment:</strong> Security+ Study Guide: Chapter 13 - Wireless and Mobile Security, CompTIA SY0-701 Objectives: Section 3.3 (Compare and contrast concepts and strategies to protect data).</p>
-                </div>
-
-                <div class="p-4 my-4 border border-gray-200 rounded-lg">
-                    <h3 class="text-xl font-semibold">Week 14: Security Architecture and Design</h3>
-                    <p><strong>Lecture Topics:</strong> Security architecture concepts.</p>
-                    <p><strong>Lab Activities:</strong> Review of selected ACI Skill Labs and LEXX labs from Chapters 9-13.</p>
-                    <p><strong>Reading Assignment:</strong> Security+ Study Guide: Review Chapters 9-13.</p>
-                </div>
-
-                <div class="p-4 my-4 border border-gray-200 rounded-lg">
-                    <h3 class="text-xl font-semibold">Week 15: Course Review</h3>
-                    <p><strong>Lecture Topics:</strong> Review of key concepts from all chapters, Final exam preparation, Security+ certification path discussion, Transition to CYBS 0189 Applied Cybersecurity II.</p>
-                    <p><strong>Lab Activities:</strong> Review of selected labs based on student needs.</p>
-                    <p><strong>Reading Assignment:</strong> Review of chapters 1-13 in the Security+ Study Guide.</p>
+                    <h3 class="text-xl font-semibold">Week 14: Comprehensive Security+ Review Part 1</h3>
+                    <p><strong>Lecture Topics:</strong> Review of Domains 1.0-3.0 from Security+ objectives, General Security Concepts, Threats, Vulnerabilities, and Mitigations, Security Architecture.</p>
+                    <p><strong>Lab Activities:</strong> Review of critical labs based on student needs, Practice assessment exercises covering Domains 1.0-3.0.</p>
+                    <p><strong>Reading Assignment:</strong> Review Security+ Study Guide: Chapters 1-13, CompTIA SY0-701 Exam Objectives (Domains 1.0-3.0).</p>
                     <p class="text-sm font-semibold text-gray-700">🎤 Project Milestone: Security Project Presentations</p>
-                    <p class="text-sm font-semibold text-gray-700">🎯 Important:</p>
                 </div>
 
                 <div class="p-4 my-4 border border-gray-200 rounded-lg">
-                    <h3 class="text-xl font-semibold">Week 16: Final Exam</h3>
-                    <p><strong>Lecture Topics:</strong> There will be no lecture this week.</p>
-                    <p><strong>Lab Activities:</strong> There will be no labs this week.</p>
-                    <p><strong>Reading Assignment:</strong> There will be no reading assignments this week..</p>
+                    <h3 class="text-xl font-semibold">Week 15: Comprehensive Security+ Review Part 2 and Final Exam</h3>
+                    <p><strong>Lecture Topics:</strong> Review of Domains 4.0-5.0 from Security+ objectives, Security Operations, Security Program Management and Oversight, Exam-taking strategies and preparation tips.</p>
+                    <p><strong>Lab Activities:</strong> Security+ practice exam, Review of critical labs based on student needs.</p>
+                    <p><strong>Reading Assignment:</strong> Review Security+ Study Guide: Chapters 14-17, CompTIA SY0-701 Exam Objectives (Domains 4.0-5.0).</p>
                     <p class="text-sm font-semibold text-gray-700">🎯 Important:</p>
                 </div>
 
