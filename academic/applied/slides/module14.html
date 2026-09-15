@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 14: Security Architecture and Design</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #18181b; /* True Dark Grey (zinc-900) */
+            color: #e4e4e7; /* Light text */
+            overflow: hidden; /* Prevent scrolling the whole page */
+        }
+        .slide {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 80px; /* Space for navigation */
+            overflow-y: auto; /* Allow individual slides to scroll if content overflows */
+        }
+        .slide.active {
+            display: block;
+            opacity: 1;
+        }
+        /* Custom scrollbar for webkit browsers */
+        .slide::-webkit-scrollbar {
+            width: 8px;
+        }
+        .slide::-webkit-scrollbar-track {
+            background: #27272a;
+        }
+        .slide::-webkit-scrollbar-thumb {
+            background-color: #52525b;
+            border-radius: 10px;
+            border: 2px solid #27272a;
+        }
+        /* Interactive answer styles */
+        .answer-option {
+            cursor: pointer;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+        .answer-option.correct {
+            background-color: rgba(34, 197, 94, 0.2);
+            border-color: rgba(74, 222, 128, 0.5);
+        }
+        .answer-option.incorrect {
+            background-color: rgba(239, 68, 68, 0.2);
+            border-color: rgba(248, 113, 113, 0.5);
+        }
+        .answer-option.disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div id="presentation-container" class="relative w-full h-screen">
+
+        <!-- Slide 1: Title -->
+        <div class="slide active p-6 md:p-12 flex items-center justify-center">
+            <div class="text-center max-w-4xl mx-auto">
+                <h1 class="text-4xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-teal-400 mb-4">Module 14</h1>
+                <h2 class="text-2xl md:text-4xl font-bold text-gray-300 mb-8">Security Architecture and Design</h2>
+                <div class="bg-zinc-800 border border-zinc-700 rounded-lg p-6 inline-block">
+                    <p class="text-lg font-semibold text-gray-300 mb-4">Exam Objectives Covered:</p>
+                    <ul class="text-left text-gray-300 space-y-2 text-md md:text-lg">
+                        <li><span class="text-gray-400 mr-2">►</span>3.1 Security implications of architecture models</li>
+                        <li><span class="text-gray-400 mr-2">►</span>3.2 Security principles for enterprise infrastructure</li>
+                        <li><span class="text-gray-400 mr-2">►</span>3.3 Concepts and strategies to protect data</li>
+                        <li><span class="text-gray-400 mr-2">►</span>3.4 Resilience and recovery in security architecture</li>
+                    </ul>
+                    <p class="text-sm text-gray-400 mt-4">Pulls together Chapters 9–13 of the Security+ Study Guide</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Learning Objectives -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center text-gray-300">Learning Objectives</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-sky-400 mb-2">🏛️ Think Like an Architect</h3>
+                        <p class="text-gray-400">Explain how architecture decisions are made before a single control is deployed, and why they matter more than any one tool.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-sky-400 mb-2">⚖️ Compare Architecture Models</h3>
+                        <p class="text-gray-400">Weigh the security trade-offs of on-premises, cloud, hybrid, virtualized, and embedded environments.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-sky-400 mb-2">🧱 Design Secure Infrastructure</h3>
+                        <p class="text-gray-400">Place devices, zones, and connections deliberately, and apply Zero Trust concepts to an enterprise network.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-sky-400 mb-2">🛟 Build for Failure</h3>
+                        <p class="text-gray-400">Protect data in every state and design systems that keep running, or recover quickly, when something breaks.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: What is Security Architecture -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-5xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">What Is Security Architecture?</h2>
+                <p class="text-lg text-gray-400 mb-8 text-center">The blueprint that decides <strong class="text-gray-200">where</strong> controls live, <strong class="text-gray-200">how</strong> they work together, and <strong class="text-gray-200">why</strong> they support the business.</p>
+                <div class="grid md:grid-cols-3 gap-6 text-center">
+                    <div class="bg-gradient-to-br from-zinc-900 to-zinc-800 border border-zinc-700 rounded-xl p-6 shadow-lg">
+                        <h3 class="text-2xl font-bold text-white mb-3">📐 Architecture</h3>
+                        <p class="text-gray-300">The big picture: zones, trust boundaries, data flows, and which models (cloud, on-prem, hybrid) the organization uses.</p>
+                    </div>
+                    <div class="bg-gradient-to-br from-zinc-900 to-zinc-800 border border-zinc-700 rounded-xl p-6 shadow-lg">
+                        <h3 class="text-2xl font-bold text-white mb-3">✏️ Design</h3>
+                        <p class="text-gray-300">The specific choices: which firewall goes where, how VPN access works, what gets encrypted and with what.</p>
+                    </div>
+                    <div class="bg-gradient-to-br from-zinc-900 to-zinc-800 border border-zinc-700 rounded-xl p-6 shadow-lg">
+                        <h3 class="text-2xl font-bold text-white mb-3">🔧 Implementation</h3>
+                        <p class="text-gray-300">Building and configuring it: rule sets, hardening baselines, backup jobs, and monitoring.</p>
+                    </div>
+                </div>
+                <div class="mt-8 bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 text-center">
+                    <p class="text-gray-300"><strong class="text-gray-100">Why it matters:</strong> Security bolted on after the fact is expensive and full of gaps. Security designed in from the start is cheaper, simpler, and harder to bypass.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Secure Design Principles -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-5xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center text-gray-300">Secure Design Principles</h2>
+                <div class="grid md:grid-cols-2 gap-5">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-teal-400 mb-2">🔑 Least Privilege</h3>
+                        <p class="text-gray-400">Every user, service, and system gets only the access it needs, and nothing more.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-teal-400 mb-2">🧅 Defense in Depth</h3>
+                        <p class="text-gray-400">Layer controls so that when one fails, another still stands between the attacker and the asset.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-teal-400 mb-2">🔒 Secure by Default</h3>
+                        <p class="text-gray-400">Ship and deploy with the safe settings turned on. Users should have to opt out of security, not opt in.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-teal-400 mb-2">🧯 Fail Securely</h3>
+                        <p class="text-gray-400">Decide in advance what happens when a control breaks: stay open for availability or close for confidentiality.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-teal-400 mb-2">👥 Separation of Duties</h3>
+                        <p class="text-gray-400">No single person or component can complete a sensitive action alone.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-teal-400 mb-2">✂️ Minimize Attack Surface</h3>
+                        <p class="text-gray-400">Remove unused services, ports, accounts, and features. What isn't there can't be exploited.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Architecture Models -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-5xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center text-gray-300">Comparing Architecture Models</h2>
+                <div class="grid md:grid-cols-2 gap-5">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-sky-400 mb-2">🏢 On-Premises</h3>
+                        <p class="text-gray-400">Full control of hardware, data location, and physical security. You also own every patch, every failure, and every upgrade.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-sky-400 mb-2">☁️ Cloud (IaaS / PaaS / SaaS)</h3>
+                        <p class="text-gray-400">Fast scaling and built-in redundancy under a <strong class="text-gray-200">shared responsibility model</strong>. Misconfiguration is the leading risk.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-sky-400 mb-2">🔀 Hybrid</h3>
+                        <p class="text-gray-400">Mixes on-prem and cloud. Flexible, but identity, logging, and policy must stay consistent across both sides.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-sky-400 mb-2">📦 Virtualization &amp; Containers</h3>
+                        <p class="text-gray-400">Efficient isolation on shared hardware. Watch for VM escape, image sprawl, and vulnerable base images.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-sky-400 mb-2">⚡ Serverless &amp; Microservices</h3>
+                        <p class="text-gray-400">Small, independent pieces with less server management, but many more APIs and permissions to secure.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-sky-400 mb-2">🏭 IoT, ICS/SCADA &amp; Embedded</h3>
+                        <p class="text-gray-400">Long lifespans, limited compute, and often no way to patch. Segment them and monitor closely.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: Architecture Considerations -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-5xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Architecture Considerations</h2>
+                <p class="text-lg text-gray-400 mb-8 text-center">Every model is a trade-off. Architects weigh these factors against the organization's needs and risk tolerance.</p>
+                <div class="grid md:grid-cols-3 gap-5">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-lg font-semibold text-teal-400 mb-3">Operations</h3>
+                        <ul class="space-y-2 text-gray-400 list-disc list-inside">
+                            <li>Availability</li>
+                            <li>Resilience</li>
+                            <li>Responsiveness</li>
+                            <li>Scalability</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-lg font-semibold text-teal-400 mb-3">Management</h3>
+                        <ul class="space-y-2 text-gray-400 list-disc list-inside">
+                            <li>Ease of deployment</li>
+                            <li>Ease of recovery</li>
+                            <li>Patch availability</li>
+                            <li>Inability to patch</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-lg font-semibold text-teal-400 mb-3">Business</h3>
+                        <ul class="space-y-2 text-gray-400 list-disc list-inside">
+                            <li>Cost</li>
+                            <li>Risk transference</li>
+                            <li>Power</li>
+                            <li>Compute</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mt-8 bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 text-center">
+                    <p class="text-gray-300"><strong class="text-gray-100">Exam Note:</strong> Moving to the cloud can <strong>transfer</strong> some risk to a provider, but it never transfers <strong>accountability</strong>. The organization still owns its data.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Enterprise Infrastructure -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-5xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center text-gray-300">Designing Enterprise Infrastructure</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-sky-400 mb-3">🗺️ Security Zones</h3>
+                        <p class="text-gray-400">Group systems by trust level (internet, screened subnet/DMZ, internal, restricted) and control every crossing between zones.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-sky-400 mb-3">📍 Device Placement</h3>
+                        <p class="text-gray-400">Put controls at the boundaries they protect: firewalls between zones, sensors where traffic concentrates, WAFs in front of web apps.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-sky-400 mb-3">🚦 Failure Modes</h3>
+                        <ul class="space-y-2 text-gray-400 list-disc list-inside">
+                            <li><strong class="text-gray-200">Fail-open:</strong> traffic flows if the device dies (favors availability)</li>
+                            <li><strong class="text-gray-200">Fail-closed:</strong> traffic stops if the device dies (favors security)</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-sky-400 mb-3">🔌 Active vs. Passive</h3>
+                        <ul class="space-y-2 text-gray-400 list-disc list-inside">
+                            <li><strong class="text-gray-200">Inline / active:</strong> sits in the traffic path and can block (IPS)</li>
+                            <li><strong class="text-gray-200">Tap / monitor / passive:</strong> sees a copy of traffic and alerts (IDS)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Network Appliances -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-5xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center text-gray-300">Infrastructure Building Blocks</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-teal-400 mb-3">Network Appliances</h3>
+                        <ul class="space-y-2 text-gray-400 list-disc list-inside">
+                            <li><strong class="text-gray-200">Jump server:</strong> a hardened entry point for admin access</li>
+                            <li><strong class="text-gray-200">Proxy:</strong> brokers and filters requests</li>
+                            <li><strong class="text-gray-200">IDS / IPS:</strong> detect or block malicious traffic</li>
+                            <li><strong class="text-gray-200">Load balancer:</strong> spreads work across servers</li>
+                            <li><strong class="text-gray-200">Sensors:</strong> feed data to monitoring and SIEM</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-teal-400 mb-3">Firewalls &amp; Secure Connections</h3>
+                        <ul class="space-y-2 text-gray-400 list-disc list-inside">
+                            <li><strong class="text-gray-200">WAF:</strong> protects web applications</li>
+                            <li><strong class="text-gray-200">UTM / NGFW:</strong> many security functions in one device</li>
+                            <li><strong class="text-gray-200">VPN, TLS, IPSec:</strong> encrypted tunnels for remote access</li>
+                            <li><strong class="text-gray-200">SD-WAN:</strong> manages wide-area links in software</li>
+                            <li><strong class="text-gray-200">SASE:</strong> networking and security delivered from the cloud</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mt-8 bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 text-center">
+                    <p class="text-gray-300"><strong class="text-gray-100">Connect the chapters:</strong> You configured several of these in Module 12's firewall and RADIUS labs. Architecture is deciding <em>where</em> each one belongs.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Zero Trust -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-5xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 text-center text-gray-300">Zero Trust Architecture</h2>
+                <p class="text-xl text-center text-sky-400 font-semibold mb-8">"Never trust, always verify."</p>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-gradient-to-br from-zinc-900 to-zinc-800 border border-zinc-700 rounded-xl p-6 shadow-lg">
+                        <h3 class="text-2xl font-bold text-white mb-3">🧠 Control Plane</h3>
+                        <p class="text-gray-400 mb-3">Makes the access decisions.</p>
+                        <ul class="space-y-2 text-gray-300 list-disc list-inside">
+                            <li>Adaptive identity</li>
+                            <li>Threat scope reduction</li>
+                            <li>Policy-driven access control</li>
+                            <li>Policy engine &amp; policy administrator</li>
+                        </ul>
+                    </div>
+                    <div class="bg-gradient-to-br from-zinc-900 to-zinc-800 border border-zinc-700 rounded-xl p-6 shadow-lg">
+                        <h3 class="text-2xl font-bold text-white mb-3">📨 Data Plane</h3>
+                        <p class="text-gray-400 mb-3">Carries out the decisions.</p>
+                        <ul class="space-y-2 text-gray-300 list-disc list-inside">
+                            <li>Implicit trust zones</li>
+                            <li>Subject / system</li>
+                            <li>Policy enforcement point (PEP)</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mt-8 bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 text-center">
+                    <p class="text-gray-300">Being "inside the network" earns nothing. Each request is judged on identity, device health, and context, every time.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 10: Protecting Data -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-5xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center text-gray-300">Protecting Data by Design</h2>
+                <div class="grid md:grid-cols-3 gap-5 mb-6 text-center">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-sky-400 mb-2">💾 At Rest</h3>
+                        <p class="text-gray-400">Stored on disks, databases, backups. Use full-disk and database encryption.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-sky-400 mb-2">📡 In Transit</h3>
+                        <p class="text-gray-400">Moving across networks. Use TLS, IPSec, and VPNs.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-sky-400 mb-2">🧮 In Use</h3>
+                        <p class="text-gray-400">Loaded in memory and being processed. The hardest state to protect.</p>
+                    </div>
+                </div>
+                <div class="grid md:grid-cols-2 gap-5">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-lg font-semibold text-teal-400 mb-3">Protection Methods</h3>
+                        <ul class="space-y-2 text-gray-400 list-disc list-inside">
+                            <li>Encryption and hashing</li>
+                            <li>Masking and tokenization</li>
+                            <li>Obfuscation</li>
+                            <li>Segmentation and permission restrictions</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-lg font-semibold text-teal-400 mb-3">Design Questions</h3>
+                        <ul class="space-y-2 text-gray-400 list-disc list-inside">
+                            <li>How is the data classified?</li>
+                            <li>Where may it legally be stored (sovereignty, geolocation)?</li>
+                            <li>Who needs it, and in what form?</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Resilience -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-5xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center text-gray-300">Designing for Resilience</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-sky-400 mb-3">⚙️ High Availability</h3>
+                        <ul class="space-y-2 text-gray-400 list-disc list-inside">
+                            <li><strong class="text-gray-200">Load balancing:</strong> many servers share the work</li>
+                            <li><strong class="text-gray-200">Clustering:</strong> nodes take over for each other</li>
+                            <li><strong class="text-gray-200">Platform diversity &amp; multi-cloud:</strong> one flaw or provider can't take everything down</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-sky-400 mb-3">🌎 Site Considerations</h3>
+                        <ul class="space-y-2 text-gray-400 list-disc list-inside">
+                            <li><strong class="text-gray-200">Hot site:</strong> ready to run almost immediately</li>
+                            <li><strong class="text-gray-200">Warm site:</strong> hardware ready, data needs restoring</li>
+                            <li><strong class="text-gray-200">Cold site:</strong> space and power only</li>
+                            <li><strong class="text-gray-200">Geographic dispersion:</strong> one disaster can't hit every site</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-sky-400 mb-3">🗄️ Backups</h3>
+                        <ul class="space-y-2 text-gray-400 list-disc list-inside">
+                            <li>Onsite and offsite copies</li>
+                            <li>Frequency matched to acceptable data loss</li>
+                            <li>Encryption, snapshots, replication, journaling</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-sky-400 mb-3">🔋 Power &amp; Continuity</h3>
+                        <ul class="space-y-2 text-gray-400 list-disc list-inside">
+                            <li>UPS for short outages, generators for long ones</li>
+                            <li>Continuity of operations planning (COOP)</li>
+                            <li>Capacity planning for people, technology, and infrastructure</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Testing Resilience -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">A Plan You Haven't Tested Is a Guess</h2>
+                <p class="text-lg text-gray-400 mb-8 text-center">Resilience testing, from least to most disruptive:</p>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border-l-4 border-teal-500 rounded-r-lg p-5">
+                        <h3 class="text-xl font-semibold text-teal-400 mb-1">1. Tabletop Exercise</h3>
+                        <p class="text-gray-400">The team talks through a scenario around a table. No systems are touched.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border-l-4 border-sky-500 rounded-r-lg p-5">
+                        <h3 class="text-xl font-semibold text-sky-400 mb-1">2. Simulation</h3>
+                        <p class="text-gray-400">A realistic practice run of the response, without affecting production.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border-l-4 border-purple-500 rounded-r-lg p-5">
+                        <h3 class="text-xl font-semibold text-purple-400 mb-1">3. Parallel Processing</h3>
+                        <p class="text-gray-400">The backup systems run alongside production to confirm they produce the same results.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border-l-4 border-red-500 rounded-r-lg p-5">
+                        <h3 class="text-xl font-semibold text-red-400 mb-1">4. Failover</h3>
+                        <p class="text-gray-400">Production actually switches to the backup. The most realistic test, and the riskiest.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 13: Endpoints and Wireless -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-5xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center text-gray-300">Endpoints and Wireless in the Architecture</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-teal-400 mb-3">💻 Endpoints (Module 11)</h3>
+                        <ul class="space-y-2 text-gray-400 list-disc list-inside">
+                            <li>Hardening baselines and security templates</li>
+                            <li>EDR / XDR for detection and response</li>
+                            <li>Host firewalls and least-privilege permissions</li>
+                            <li>Asset inventory: you can't protect what you don't know about</li>
+                        </ul>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-xl font-semibold text-teal-400 mb-3">📶 Wireless &amp; Mobile (Module 13)</h3>
+                        <ul class="space-y-2 text-gray-400 list-disc list-inside">
+                            <li>WPA3 and 802.1X / RADIUS authentication</li>
+                            <li>Guest Wi-Fi in its own isolated zone</li>
+                            <li>Site surveys and heat maps for access point placement</li>
+                            <li>MDM with a clear deployment model (BYOD, COPE, CYOD)</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="mt-8 bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 text-center">
+                    <p class="text-gray-300"><strong class="text-gray-100">Architect's view:</strong> Endpoints and wireless clients are where users meet the network, which makes them the most common first foothold for attackers.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 14: Case Study -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-5xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Case Study: A Small Medical Clinic</h2>
+                <div class="bg-zinc-800 border border-zinc-700 rounded-lg p-5 mb-6">
+                    <p class="text-gray-300">A 30-person clinic stores patient records, takes card payments at the front desk, offers guest Wi-Fi in the waiting room, and lets doctors check schedules from their phones. Today everything shares one flat network.</p>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-gray-300 border border-zinc-700">
+                        <thead class="bg-zinc-800">
+                            <tr>
+                                <th class="p-3 border border-zinc-700 text-sky-400">Requirement</th>
+                                <th class="p-3 border border-zinc-700 text-sky-400">Design Decision</th>
+                                <th class="p-3 border border-zinc-700 text-sky-400">Principle</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="p-3 border border-zinc-700">Keep patient records confidential</td>
+                                <td class="p-3 border border-zinc-700">Restricted zone, encryption at rest, role-based access</td>
+                                <td class="p-3 border border-zinc-700">Least privilege</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 border border-zinc-700">Protect card payments</td>
+                                <td class="p-3 border border-zinc-700">Separate payment VLAN, firewall rules between zones</td>
+                                <td class="p-3 border border-zinc-700">Segmentation</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 border border-zinc-700">Guests need internet</td>
+                                <td class="p-3 border border-zinc-700">Isolated guest SSID with internet-only access</td>
+                                <td class="p-3 border border-zinc-700">Minimize attack surface</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 border border-zinc-700">Doctors use phones</td>
+                                <td class="p-3 border border-zinc-700">MDM enrollment, conditional access to the scheduling app</td>
+                                <td class="p-3 border border-zinc-700">Zero Trust</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 border border-zinc-700">Records must survive ransomware</td>
+                                <td class="p-3 border border-zinc-700">Encrypted offsite backups, regularly test-restored</td>
+                                <td class="p-3 border border-zinc-700">Resilience</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 15: Design Activity -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Activity: Design It Yourself</h2>
+                <div class="bg-gradient-to-br from-teal-900 to-cyan-900 border border-teal-500 rounded-xl p-6 mb-6">
+                    <h3 class="text-2xl font-bold text-white mb-3">🏫 Scenario: A High School District Office</h3>
+                    <p class="text-gray-200">The district office runs student information and grading systems, hosts a public website, gives teachers laptops they take home, and has just moved email and file storage to the cloud.</p>
+                </div>
+                <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                    <h3 class="text-xl font-semibold text-sky-400 mb-3">In your groups, sketch an architecture that answers:</h3>
+                    <ol class="space-y-2 text-gray-300 list-decimal list-inside">
+                        <li>What security zones do you need, and what goes in each?</li>
+                        <li>Where do firewalls, the WAF, and monitoring sensors sit?</li>
+                        <li>How do teachers reach district systems from home?</li>
+                        <li>Which responsibilities belong to the cloud provider, and which stay with the district?</li>
+                        <li>How would the district keep grading running during an outage?</li>
+                    </ol>
+                </div>
+                <div class="mt-6 bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 text-center">
+                    <p class="text-gray-300">Be ready to present your diagram and defend one design trade-off you made.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 16: Knowledge Check 1 -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-8 text-sky-400">Knowledge Check: Failure Modes</h2>
+                <p class="text-xl text-gray-300 mb-6">A hospital places an inline security appliance in front of the system that doctors use to look up patient allergies during emergencies. If the appliance fails, which design is most appropriate?</p>
+                <div class="question-container space-y-4 text-left max-w-2xl mx-auto">
+                    <div class="answer-option bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 text-lg">A) Fail-closed, so no unfiltered traffic ever reaches the system.</div>
+                    <div class="answer-option bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 text-lg" data-correct="true">B) Fail-open, so doctors can still reach the system, backed by other controls.</div>
+                    <div class="answer-option bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 text-lg">C) Replace it with a passive tap so it can never fail.</div>
+                    <div class="answer-option bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 text-lg">D) Remove the appliance entirely.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 17: Knowledge Check 2 -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-8 text-sky-400">Knowledge Check: Zero Trust</h2>
+                <p class="text-xl text-gray-300 mb-6">In a Zero Trust architecture, which component actually allows or blocks a user's connection to a resource?</p>
+                <div class="question-container space-y-4 text-left max-w-2xl mx-auto">
+                    <div class="answer-option bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 text-lg">A) Policy engine</div>
+                    <div class="answer-option bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 text-lg">B) Adaptive identity</div>
+                    <div class="answer-option bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 text-lg" data-correct="true">C) Policy enforcement point</div>
+                    <div class="answer-option bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 text-lg">D) Implicit trust zone</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 18: Knowledge Check 3 -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-8 text-sky-400">Knowledge Check: Resilience</h2>
+                <p class="text-xl text-gray-300 mb-6">A company wants a recovery site that can take over within minutes of a disaster, and it is willing to pay for it. Which option fits best?</p>
+                <div class="question-container space-y-4 text-left max-w-2xl mx-auto">
+                    <div class="answer-option bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 text-lg">A) Cold site</div>
+                    <div class="answer-option bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 text-lg">B) Warm site</div>
+                    <div class="answer-option bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 text-lg" data-correct="true">C) Hot site</div>
+                    <div class="answer-option bg-zinc-800/50 border border-zinc-700 rounded-lg p-4 text-lg">D) Offsite tape backups</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 19: Chapter Review Map -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-5xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-center text-gray-300">Review Map: Chapters 9–13</h2>
+                <p class="text-lg text-gray-400 mb-8 text-center">Use this week to review. Every chapter connects to an architecture decision.</p>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-lg font-semibold text-sky-400 mb-2">Ch. 9 · Resilience &amp; Physical</h3>
+                        <p class="text-gray-400">Redundancy, recovery sites, backups, power, physical controls</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-lg font-semibold text-sky-400 mb-2">Ch. 10 · Cloud &amp; Virtualization</h3>
+                        <p class="text-gray-400">Service models, shared responsibility, containers, VM risks</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-lg font-semibold text-sky-400 mb-2">Ch. 11 · Endpoint</h3>
+                        <p class="text-gray-400">Hardening, EDR, asset management, embedded systems</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-lg font-semibold text-sky-400 mb-2">Ch. 12 · Network</h3>
+                        <p class="text-gray-400">Zones, appliances, secure protocols, Zero Trust</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <h3 class="text-lg font-semibold text-sky-400 mb-2">Ch. 13 · Wireless &amp; Mobile</h3>
+                        <p class="text-gray-400">WPA3, 802.1X, MDM, deployment models</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-teal-500 rounded-lg p-5">
+                        <h3 class="text-lg font-semibold text-teal-400 mb-2">This Week · Architecture</h3>
+                        <p class="text-gray-400">How all of the above fit together into one design</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 20: Key Takeaways -->
+        <div class="slide p-6 md:p-12">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center text-gray-300">Key Takeaways</h2>
+                <div class="space-y-4">
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <p class="text-gray-300">🏛️ <strong class="text-gray-100">Architecture comes first.</strong> Good design makes every later control cheaper and more effective.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <p class="text-gray-300">⚖️ <strong class="text-gray-100">Every model is a trade-off.</strong> Cloud, on-prem, and hybrid each shift cost, control, and responsibility.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <p class="text-gray-300">🗺️ <strong class="text-gray-100">Zones and placement matter.</strong> Control the boundaries, and decide how devices should fail.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <p class="text-gray-300">🔐 <strong class="text-gray-100">Protect data in every state</strong> with the right mix of encryption, masking, tokenization, and access control.</p>
+                    </div>
+                    <div class="bg-zinc-800/50 border border-zinc-700 rounded-lg p-5">
+                        <p class="text-gray-300">🛟 <strong class="text-gray-100">Assume failure.</strong> Build redundancy, keep tested backups, and practice recovery before you need it.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Navigation -->
+    <div id="navigation" class="fixed bottom-0 left-0 right-0 h-20 bg-zinc-900/80 backdrop-blur-sm border-t border-zinc-700 flex items-center justify-center px-6">
+        <div class="w-full max-w-4xl flex items-center justify-between">
+            <button id="prevBtn" class="bg-zinc-700 text-white font-bold py-2 px-4 rounded-md hover:bg-zinc-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">Previous</button>
+            <div class="flex-grow mx-4">
+                 <div class="w-full bg-zinc-700 rounded-full h-2.5">
+                    <div id="progressBar" class="bg-gray-500 h-2.5 rounded-full" style="width: 0%"></div>
+                </div>
+            </div>
+            <button id="nextBtn" class="bg-gray-600 text-white font-bold py-2 px-4 rounded-md hover:bg-gray-500 transition-colors">Next</button>
+        </div>
+    </div>
+
+    <script>
+        // --- SCRIPT FOR PRESENTATION LOGIC ---
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const slides = document.querySelectorAll('.slide');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const progressBar = document.getElementById('progressBar');
+
+            let currentSlide = 0;
+            const totalSlides = slides.length;
+
+            function showSlide(index) {
+                // Hide current active slide
+                const activeSlide = document.querySelector('.slide.active');
+                if (activeSlide) {
+                    activeSlide.classList.remove('active');
+                }
+
+                // Show the new slide
+                slides[index].classList.add('active');
+
+                // Update progress bar
+                const progressPercentage = ((index + 1) / totalSlides) * 100;
+                progressBar.style.width = `${progressPercentage}%`;
+
+                // Update button states
+                prevBtn.disabled = index === 0;
+                nextBtn.disabled = index === totalSlides - 1;
+
+                // Change next button text on the last slide
+                if (index === totalSlides - 1) {
+                    nextBtn.textContent = 'Finish';
+                } else {
+                    nextBtn.textContent = 'Next';
+                }
+            }
+
+            // Interactive Knowledge Check Logic
+            document.querySelectorAll('.question-container').forEach(container => {
+                const options = container.querySelectorAll('.answer-option');
+                options.forEach(option => {
+                    option.addEventListener('click', (e) => {
+                        // Prevent clicking again
+                        options.forEach(opt => opt.classList.add('disabled'));
+
+                        const clickedOption = e.currentTarget;
+                        const isCorrect = clickedOption.dataset.correct === 'true';
+
+                        if (isCorrect) {
+                            clickedOption.classList.add('correct');
+                        } else {
+                            clickedOption.classList.add('incorrect');
+                            // Find and highlight the correct one
+                            const correctOption = container.querySelector('[data-correct="true"]');
+                            if (correctOption) {
+                                correctOption.classList.add('correct');
+                            }
+                        }
+                    });
+                });
+            });
+
+            // Event Listeners for buttons
+            nextBtn.addEventListener('click', () => {
+                if (currentSlide < totalSlides - 1) {
+                    currentSlide++;
+                    showSlide(currentSlide);
+                }
+            });
+
+            prevBtn.addEventListener('click', () => {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    showSlide(currentSlide);
+                }
+            });
+
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight' && currentSlide < totalSlides - 1) {
+                    nextBtn.click();
+                } else if (e.key === 'ArrowLeft' && currentSlide > 0) {
+                    prevBtn.click();
+                }
+            });
+
+            // Initialize the first slide
+            showSlide(currentSlide);
+        });
+    </script>
+</body>
+</html>
